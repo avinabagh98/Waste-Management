@@ -1,0 +1,9 @@
+:root {
+
+      --globalMargin: 10px;
+      --globalPadding: 10px;
+      --globalMargin-half: 5px;
+      --globalPadding-half: 5px;
+      --globalGap: 5px;
+      --footer-font: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
