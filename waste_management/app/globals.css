@@ -1,9 +1,31 @@
 :root {
-
+      --blue: #1C4D9C;
+      --yellow: #FBC90C;
+      --secondary-color: #B8C8E1;
+      --white: #ffffff;
+      --text-color: #000000;
       --globalMargin: 10px;
       --globalPadding: 10px;
       --globalMargin-half: 5px;
       --globalPadding-half: 5px;
       --globalGap: 5px;
       --footer-font: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+
+      /* ////////////////////////////////////////////////// */
+      --lightgreen: #9cffa4;
+      --darkgreen: #3c9143;
+      --red: #f2695a;
+      --darkestblue: #1a237e;
+      --darkblue: #00008b;
+      --buttonDarakblue: #1d3565;
+      --buttonLightblue: #2494ea;
+      --skyblue: #088DD2;
+      --white: #f5f5f5;
+      --green: #d9f3c4;
+      --text-color: #212529;
+      --text-color-skyblue: #03b4f9;
+      --border-color: #474545;
+      --text-color-green: #008000;
+      --formTextSize: 13px;
 }

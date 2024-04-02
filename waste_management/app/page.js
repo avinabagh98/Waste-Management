@@ -1,7 +1,27 @@
-"use client"
-import LanguageFetcher from "@/components/LanguageFetcher";
+"use client";
+
+import styles from "./page.module.css";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const translate = LanguageFetcher();
-  return <><p>this is the home page {translate.test}</p></>;
+  const router = useRouter();
+
+  useEffect(() => {
+    setTimeout(() => {
+      router.push("/home");
+    }, 3000);
+  });
+
+  return (
+    <>
+      <div className={styles.body}>
+        <img
+          className={styles.logoimage}
+          src="images/logo.png"
+          alt="waste_management"
+        />
+      </div>
+    </>
+  );
 }
