@@ -1,59 +1,15 @@
-.checkbuttonContainer form {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.radio {
-    display: none;
-}
-
-
-.btnSpan {
-    height: 55px;
-    width: auto;
-    border-radius: 5px;
-    background-color: var(--buttonLightblue);
-}
-
-.btnSpanLabel {
-    height: 50px;
-    width: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    color: whitesmoke;
-    background-color: var(--buttonDarakblue);
-    cursor: pointer;
-}
-
-.btnSpanLabelchecked {
-    height: 50px;
-    width: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    color: var(--text-color);
-    background-color: skyblue;
-    cursor: pointer;
-}
-
-.btnSpanchecked {
-    height: 55px;
-    width: auto;
-    border-radius: 5px;
-    background-color: var(--buttonDarakblue);
-}
-
-
 @media only screen and (max-width: 400px) {
 
-    .checkbuttonContainer form {
+    .checkbuttonContainer {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
+        overflow-x: auto;
+        /* Add horizontal scrolling */
+        white-space: nowrap;
+        /* Prevent wrapping of items */
+        width: 90vw;
+        /* Adjust the width as needed */
     }
 
     .radio {
@@ -61,44 +17,447 @@
     }
 
 
-    .btnSpan {
-        height: 50px;
-        width: auto;
+    .btnSpan_en {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
         border-radius: 5px;
-        background-color: var(--buttonLightblue);
-    }
-
-    .btnSpanchecked {
-        height: 50px;
-        width: auto;
-        border-radius: 5px;
-        background-color: var(--buttonDarakblue);
-    }
-
-
-    .btnSpanLabel {
-        height: 45px;
-        width: 60px;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        background-color: #FFA3A3;
+        gap: 5px;
+    }
+
+    .btnSpan_bn {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
         border-radius: 5px;
-        font-size: 11px;
-        color: whitesmoke;
-        background-color: var(--buttonDarakblue);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #77F8AA;
+        gap: 5px;
+    }
+
+
+    .btnSpan_hi {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #FF7C6A;
+        gap: 5px;
+    }
+
+
+
+    .btnSpanchecked_en {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #FFA3A3;
+        gap: 5px;
+    }
+
+    .btnSpanchecked_bn {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #77F8AA;
+        gap: 5px;
+    }
+
+    .btnSpanchecked_hi {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #FF7C6A;
+        gap: 5px;
+    }
+
+
+
+    .btnSpanLabel_en {
+        height: 0;
+        width: 0;
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #FF4869;
         cursor: pointer;
     }
 
-    .btnSpanLabelchecked {
-        height: 45px;
-        width: 60px;
+    .btnSpanLabel_bn {
+        height: 0;
+        width: 0;
+        padding-left: 10px;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
         border-radius: 5px;
-        font-size: 11px;
-        color: var(--text-color);
-        background-color: skyblue;
+        font-size: 12px;
+        font-weight: 600;
+        color: #0CC76D;
         cursor: pointer;
     }
+
+    .btnSpanLabel_hi {
+        height: 0;
+        width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #A71E0C;
+        cursor: pointer;
+    }
+
+
+    .btnSpanLabelchecked_en {
+        height: 0;
+        width: 0;
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #FF4869;
+        cursor: pointer;
+    }
+
+    .btnSpanLabelchecked_bn {
+        height: 0;
+        width: 0;
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #0CC76D;
+        cursor: pointer;
+    }
+
+    .btnSpanLabelchecked_hi {
+        height: 0;
+        width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #A71E0C;
+        cursor: pointer;
+    }
+
+    .checkedBar_en {
+        width: 60%;
+        position: relative;
+        top: 10px;
+        height: 4px;
+        border-radius: 5px;
+        background-color: #FF4869;
+    }
+
+    .checkedBar_bn {
+        width: 60%;
+        position: relative;
+        top: 10px;
+        height: 4px;
+        border-radius: 5px;
+        background-color: #0CC76D;
+    }
+
+    .checkedBar_hi {
+        width: 60%;
+        position: relative;
+        top: 10px;
+        height: 4px;
+        border-radius: 5px;
+        background-color: #A71E0C;
+    }
+
+
+
+    .languageImg {
+        height: 40px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+    }
+
+    .languageImg img {
+        height: 40px;
+        width: 40px;
+        object-fit: contain;
+        margin-top: 5px;
+        margin-right: 10px;
+    }
+
+
+
+}
+
+@media only screen and (max-width: 600px) and (min-width: 401px) {
+
+
+    .checkbuttonContainer form {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        overflow-x: auto;
+        /* Add horizontal scrolling */
+        white-space: nowrap;
+        /* Prevent wrapping of items */
+    }
+
+    .radio {
+        display: none;
+    }
+
+
+    .btnSpan_en {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #FFA3A3;
+        gap: 5px;
+    }
+
+    .btnSpan_bn {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #77F8AA;
+        gap: 5px;
+    }
+
+
+    .btnSpan_hi {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #FF7C6A;
+        gap: 5px;
+    }
+
+
+
+    .btnSpanchecked_en {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #FFA3A3;
+        gap: 5px;
+    }
+
+    .btnSpanchecked_bn {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #77F8AA;
+        gap: 5px;
+    }
+
+    .btnSpanchecked_hi {
+        height: 80px;
+        width: 120px;
+        padding: 2px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #FF7C6A;
+        gap: 5px;
+    }
+
+
+
+    .btnSpanLabel_en {
+        height: 0;
+        width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #FF4869;
+        cursor: pointer;
+    }
+
+    .btnSpanLabel_bn {
+        height: 0;
+        width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #0CC76D;
+        cursor: pointer;
+    }
+
+    .btnSpanLabel_hi {
+        height: 0;
+        width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #A71E0C;
+        cursor: pointer;
+    }
+
+
+    .btnSpanLabelchecked_en {
+        height: 0;
+        width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #FF4869;
+        cursor: pointer;
+    }
+
+    .btnSpanLabelchecked_bn {
+        height: 0;
+        width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #0CC76D;
+        cursor: pointer;
+    }
+
+    .btnSpanLabelchecked_hi {
+        height: 0;
+        width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #A71E0C;
+        cursor: pointer;
+    }
+
+    .checkedBar_en {
+        width: 60%;
+        position: relative;
+        top: 10px;
+        height: 4px;
+        border-radius: 5px;
+        background-color: #FF4869;
+    }
+
+    .checkedBar_bn {
+        width: 60%;
+        position: relative;
+        top: 10px;
+        height: 4px;
+        border-radius: 5px;
+        background-color: #0CC76D;
+    }
+
+    .checkedBar_hi {
+        width: 60%;
+        position: relative;
+        top: 10px;
+        height: 4px;
+        border-radius: 5px;
+        background-color: #A71E0C;
+    }
+
+
+
+    .languageImg {
+        height: 40px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+
+    }
+
+    .languageImg img {
+        height: 40px;
+        width: 40px;
+        object-fit: contain;
+        margin-top: 5px;
+        margin-right: 10px;
+    }
+
+
+
+
 }

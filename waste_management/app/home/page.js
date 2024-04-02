@@ -21,6 +21,7 @@ export default function page() {
     role_name: rolenName,
   };
   useEffect(() => {
+    localStorage.setItem("language", language);
     localStorage.setItem("role_name", rolenName);
     localStorage.setItem("role_id", roleValue);
     console.log("In home page role set to", roleValue);
