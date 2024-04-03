@@ -79,6 +79,7 @@ export default function page() {
         isOffCanvasVisible={true}
         loadingdata={loadingHeaderData}
       />
+      {/* //Body */}
       <div className={styles.bodyContainer}>
         {/* first row */}
         <div className={styles.firstRow}>
