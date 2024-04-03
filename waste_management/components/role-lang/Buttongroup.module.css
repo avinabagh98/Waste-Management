@@ -26,10 +26,12 @@
       }
 
       /* Card Styles */
-      .card {
+      .card_supervisor,
+      .card_fieldstaff,
+      .card_wastecollector {
             height: 150px;
             width: 100px;
-            border: 1px solid var(--blue);
+            /* border: 1px solid var(--blue); */
             border-radius: 5px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -39,7 +41,21 @@
 
       }
 
-      .card a {
+      .card_supervisor {
+            border: 1px solid #FF7C6A;
+      }
+
+      .card_fieldstaff {
+            border: 1px solid #1BAD04;
+      }
+
+      .card_wastecollector {
+            border: 1px solid #7B61FF;
+      }
+
+      .card_supervisor a,
+      .card_fieldstaff a,
+      .card_wastecollector a {
             text-decoration: none;
       }
 
@@ -50,20 +66,47 @@
 
       }
 
-      .cardContent {
+      .cardContent_supervisor {
             height: 32px;
             padding: 6px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: var(--blue);
+            background-color: #FF7C6A;
             position: relative;
             top: 16px;
             border-radius: 0 0 5px 5px;
 
       }
 
-      .cardContent p {
+      .cardContent_fieldstaff {
+            height: 32px;
+            padding: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1BAD04;
+            position: relative;
+            top: 16px;
+            border-radius: 0 0 5px 5px;
+      }
+
+      .cardContent_wastecollector {
+            height: 32px;
+            padding: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #7B61FF;
+            position: relative;
+            top: 16px;
+            border-radius: 0 0 5px 5px;
+      }
+
+
+      .cardContent_fieldstaff p,
+      .cardContent_supervisor p,
+      .cardContent_wastecollector p {
             margin: 0;
             font-size: 12px;
       }
