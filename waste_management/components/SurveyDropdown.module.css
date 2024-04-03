@@ -1,0 +1,20 @@
+.dropdowncontainer {
+      height: auto;
+      width: 100%;
+      margin-top: var(--globalMargin);
+      margin-bottom: var(--globalMargin);
+
+}
+
+.dropdowncontainer select {
+      width: 100%;
+      border: 1px solid var(--border-color);
+      background: none;
+      padding: 1px 2px;
+}
+
+.dropdowncontainer label {
+      color: var(--text-color);
+      font-size: var(--formTextSize);
+      margin-bottom: var(--globalMargin);
+}

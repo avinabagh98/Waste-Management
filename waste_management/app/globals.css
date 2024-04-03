@@ -5,9 +5,10 @@
 
 
 :root {
-      --blue: #1C4D9C;
-      --yellow: #FBC90C;
-      --secondary-color: #B8C8E1;
+      /* //lic color pallete and css styles */
+      --lic_blue: #1C4D9C;
+      --lic_yellow: #FBC90C;
+      --lic_secondary-color: #B8C8E1;
       --white: #ffffff;
       --text-color: #000000;
       --globalMargin: 10px;

@@ -4,26 +4,18 @@ import styles from "./login.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-
 import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 
 export default function Page() {
+  //Login state variables
   const [role_id, setRole_id] = useState();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [role_name, setRoleName] = useState();
 
-  const route = useRouter();
-  const translate = LanguageFetcher();
-
-  //First reload
-  useEffect(() => {
-    setRole_id(localStorage.getItem("role_id"));
-    setRoleName(localStorage.getItem("role_name"));
-  }, []);
-
+  //Other declations
   const loginData = {
     phone: username,
     password: password,
@@ -37,6 +29,16 @@ export default function Page() {
     ward_name: "",
   };
 
+  const route = useRouter();
+  const translate = LanguageFetcher();
+
+  //Localstorage fetching on page load
+  useEffect(() => {
+    setRole_id(localStorage.getItem("role_id"));
+    setRoleName(localStorage.getItem("role_name"));
+  }, [role_id, role_name]);
+
+  //Handler Functions
   const loginHandler = async (e) => {
     try {
       e.preventDefault();
