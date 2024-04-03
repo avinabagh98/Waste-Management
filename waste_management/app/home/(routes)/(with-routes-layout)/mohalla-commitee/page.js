@@ -8,7 +8,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 
-export default function page() {
+export default function Mohallapage() {
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");

@@ -10,7 +10,7 @@ import Header from "@/components/Header/Header";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Footer from "@/components/Footer";
 
-export default function page() {
+export default function Dashboardpage() {
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");

@@ -8,7 +8,7 @@ import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 
-export default function Page() {
+export default function LoginPage() {
   //Login state variables
   const [role_id, setRole_id] = useState();
   const [username, setUsername] = useState();
