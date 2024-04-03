@@ -1,8 +1,10 @@
 "use client";
+
 import styles from "./login.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
+
 import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
@@ -11,18 +13,28 @@ export default function Page() {
   const [role_id, setRole_id] = useState();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const [role_name, setRoleName] = useState();
 
   const route = useRouter();
   const translate = LanguageFetcher();
 
+  //First reload
   useEffect(() => {
     setRole_id(localStorage.getItem("role_id"));
+    setRoleName(localStorage.getItem("role_name"));
   }, []);
 
   const loginData = {
     phone: username,
     password: password,
     role_id: role_id,
+  };
+
+  const loadingHeaderData = {
+    name: role_name,
+    municipality_name: "",
+    team_num: "",
+    ward_name: "",
   };
 
   const loginHandler = async (e) => {
@@ -44,7 +56,7 @@ export default function Page() {
 
   return (
     <>
-      <Header isOffCanvasVisible={false} />
+      <Header isOffCanvasVisible={false} loadingdata={loadingHeaderData} />
       <div className={styles.loginContainer}>
         <h2>{translate?.user_login}</h2>
         <div className={styles.loginForm}>

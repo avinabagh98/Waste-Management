@@ -1,3 +1,9 @@
+* {
+      margin: 0;
+      padding: 0;
+}
+
+
 :root {
       --blue: #1C4D9C;
       --yellow: #FBC90C;

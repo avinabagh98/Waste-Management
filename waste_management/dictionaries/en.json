@@ -1,3 +1,6 @@
-{
-      "test": "test"
+{     
+      "user_login":"User Login",
+      "user_name":"Username",
+      "password":"Password",
+      "login":"Login"
 }

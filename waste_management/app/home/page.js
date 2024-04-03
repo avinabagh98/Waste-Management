@@ -32,14 +32,15 @@ export default function page() {
   };
 
   const handleUsertypeBtn = (event) => {
+    event.preventDefault();
     setRoleValue(event.target.id);
-    setRolenName(event.target.name);
+    setRolenName(event.currentTarget.getAttribute("name"));
     route.push("/home/login");
   };
   return (
     <>
       <div className={styles.pageContainer}>
-        <Header defaultHeader={true} />
+        <Header defaultHeader={true} userRole={rolenName} />
         <span className={styles.languageContainer}>
           <h2>SELECT LANGUAGE</h2>
           <Checkbutton

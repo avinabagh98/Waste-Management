@@ -1,7 +1,7 @@
 "use client";
 
 import { Offcanvas } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./Header.module.css";
 import { useRouter } from "next/navigation";
 import swal from "sweetalert";
@@ -11,24 +11,17 @@ export default function Header({
   defaultHeader,
   isOffCanvasVisible,
   userRole,
+  loadingdata,
 }) {
   const route = useRouter();
-  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [nameValue, setNameValue] = useState("");
-  const [municipality_name, setMunicipality_name] = useState("");
-  const [ward_name, setWard_name] = useState("");
-  const [team_num, setTeam_num] = useState("");
+  const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setNameValue(localStorage.getItem("name") || "");
-      setMunicipality_name(localStorage.getItem("municipality_name") || "");
-      setWard_name(localStorage.getItem("ward_name") || "");
-      setTeam_num(localStorage.getItem("team_number") || "");
-    }
-  }, []);
+  const name = loadingdata?.name || null;
+  const municipality_name = loadingdata?.municipality_name || null;
+  const ward_name = loadingdata?.ward_name || null;
+  const team_num = loadingdata?.team_num || null;
 
   const handleLogout = () => {
     swal({
@@ -39,7 +32,6 @@ export default function Header({
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        // localStorage.removeItem("token");
         localStorage.clear();
         route.push("/home");
         setShow(false);
@@ -54,7 +46,6 @@ export default function Header({
   const handleBack = () => {
     window.history.back();
   };
-
   return (
     <>
       <div className={styles.rowContainer}>
@@ -70,7 +61,8 @@ export default function Header({
           >
             {isOffCanvasVisible ? (
               <>
-                {userRole === "supervisor" || userRole === "vct-supervisor" ? (
+                {userRole === "hth-supervisor" ||
+                userRole === "vct-supervisor" ? (
                   <>
                     <div className={styles.headerOffcanvaBtn}>
                       <a onClick={handleShow}>
@@ -276,7 +268,7 @@ export default function Header({
               <>
                 <div className={styles.headerOffcanvaBtn}>
                   <a onClick={handleBack}>
-                    <img src="/svgs/Back Button.svg" alt="back-button"></img>
+                    <img src="/images/back_button.png" alt="back-button"></img>
                   </a>
                 </div>
               </>
@@ -289,7 +281,7 @@ export default function Header({
             >
               <img
                 src="/images/west_bengal_biswa_bangla_logo.png"
-                alt="logo1"
+                alt="back-button"
               ></img>
               <div className={styles.logoText}>
                 <p>VCM</p>
@@ -307,9 +299,21 @@ export default function Header({
             <div className={styles.container}>
               <div className={styles.namebar}>
                 <span>
-                  <Textparser text={`${nameValue}(${userRole})`} />
+                  {userRole ? (
+                    <Textparser text={`${name}(${userRole})`} />
+                  ) : (
+                    <span className={styles.userRoleSelected}>
+                      <Textparser text={` ${name} `} />
+                    </span>
+                  )}
                   <br />
-                  <Textparser text={`${municipality_name} Ward-${ward_name}`} />
+                  {municipality_name ? (
+                    <Textparser
+                      text={`${municipality_name} Ward-${ward_name}`}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </span>
                 {team_num ? <span>{`Team-${team_num}`}</span> : <></>}
               </div>
