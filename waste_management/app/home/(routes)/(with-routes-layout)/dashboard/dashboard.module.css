@@ -1,0 +1,70 @@
+@media screen and (max-width: 600px) {
+
+      .bodyContainer {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+      }
+
+      .firstRow,
+      .secondRow,
+      .thirdRow {
+            width: 90%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+            margin: 10px 0;
+
+      }
+
+      .card1,
+      .card2,
+      .card3,
+      .card4,
+      .card5,
+      .card6 {
+            width: 100px;
+            height: 100px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            background-color: var(--lic_blue);
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .card1 img,
+      .card2 img,
+      .card3 img,
+      .card4 img,
+      .card5 img,
+      .card6 img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+
+      }
+
+      .card1 p,
+      .card2 p,
+      .card3 p,
+      .card4 p,
+      .card5 p,
+      .card6 p {
+            margin: 0;
+            padding: 0;
+            color: white;
+            text-align: center;
+            font-size: 12px;
+      }
+
+
+}

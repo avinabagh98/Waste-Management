@@ -79,6 +79,50 @@ export default function page() {
         isOffCanvasVisible={true}
         loadingdata={loadingHeaderData}
       />
+      <div className={styles.bodyContainer}>
+        {/* first row */}
+        <div className={styles.firstRow}>
+          <div className={styles.card1}>
+            <img src="/images/waste_collector.png" alt="waste_collection"></img>
+            <p>Waste Collection</p>
+          </div>
+          <div className={styles.card2}>
+            <img src="/images/income.png" alt="income"></img>
+            <p>Income</p>
+          </div>
+        </div>
+
+        {/* second row */}
+        <div className={styles.secondRow}>
+          <div className={styles.card3}>
+            <img src="/images/HH_Survey.png" alt="HH_Survey"></img>
+            <p>HH Survey</p>
+          </div>
+          <div className={styles.card4}>
+            <img
+              src="/images/mohalla_commitee.png"
+              alt="mohalla_commitee"
+            ></img>
+            <p>Mohalla Commitee</p>
+          </div>
+        </div>
+
+        {/* third row */}
+        <div className={styles.thirdRow}>
+          <div className={styles.card5}>
+            <img src="/images/livestock_shed.png" alt="livestock_shed"></img>
+            <p>Livestock Shed</p>
+          </div>
+          <div className={styles.card6}>
+            <img
+              src="/images/community_toilet.png"
+              alt="community_toilet"
+            ></img>
+            <p>Community Toilet</p>
+          </div>
+        </div>
+      </div>
+
       <Footer />
     </>
   );
