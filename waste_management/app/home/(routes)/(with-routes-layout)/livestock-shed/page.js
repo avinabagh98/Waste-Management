@@ -7,11 +7,15 @@ import LanguageFetcher from "@/components/LanguageFetcher";
 import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer";
+import Surveyques from "@/components/Surveyques";
 
 export default function Livestockpage() {
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
+
+  const [test, setTest] = useState("");
 
   //Other declarations
   const loadingHeaderData = {
@@ -65,5 +69,32 @@ export default function Livestockpage() {
   // Function Declarations
 
   // Handler Functions
-  return <div>livestock-shed</div>;
+  const handleVal = (id, val) => {
+    setTest(val);
+    console.log(test);
+  };
+  return (
+    <>
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
+
+      <div className={styles.container}>
+        <div className={styles.formcontainer}>
+          <form>
+            <Surveyques
+              id={"test"}
+              labelText={"test survey ques "}
+              value={test}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
+          </form>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
 }
