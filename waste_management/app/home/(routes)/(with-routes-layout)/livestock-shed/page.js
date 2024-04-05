@@ -83,15 +83,13 @@ export default function Livestockpage() {
 
       <div className={styles.container}>
         <div className={styles.formcontainer}>
-          <form>
-            <Surveyques
-              id={"test"}
-              labelText={"test survey ques "}
-              value={test}
-              required={true}
-              handleVal={(id, val) => handleVal(id, val)}
-            />
-          </form>
+          <Surveyques
+            id={"test"}
+            labelText={"test survey ques "}
+            value={test}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
         </div>
       </div>
       <Footer />
