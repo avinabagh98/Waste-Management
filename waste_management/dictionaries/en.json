@@ -4,8 +4,8 @@
       "password":"Password",
       "login":"Login",
 
-      "Supervisor": "Supervisor",
-      "Field_staff": "Field staff",
+      "Supervisor_Livestock": "Supervisor",
+      "Field_staff_Livestock": "Field staff",
       "Date_of_Reporting_Livestock": "Date of Reporting",
       "Ward_No./GP_Livestock": "Ward No./GP",
       "Locality_Name/Village_Livestock": "Locality Name/Village",
@@ -72,7 +72,7 @@
       "No_of_HHs_taking_Home_Composting_mohalla": "No. of HHs taking Home Composting",
       "Balance_in_Rs_mohalla": "Balance (In Rs.)",
 
-      "Month_&_year_cleaning_toilets": "Month & year",
+      "Month_and_year_cleaning_toilets": "Month & year",
       "Supervisor_cleaning_toilets": "Supervisor",
       "Field_Staff_cleaning_toilets": "Field Staff",
       "Community_Toilet_cleaning_toilets": "Community Toilet",

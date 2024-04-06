@@ -7,11 +7,55 @@ import LanguageFetcher from "@/components/LanguageFetcher";
 import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
+import Surveyques from "@/components/Surveyques";
 
 export default function Householdpage() {
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
+
+  //form-data states
+  const [dateHHSurvey, setDateHHSurvey] = useState("");
+  const [supervisorHHSurvey, setSupervisorHHSurvey] = useState("");
+  const [fieldStaffHHSurvey, setFieldStaffHHSurvey] = useState("");
+  const [wardNoGPHHSurvey, setWardNoGPHHSurvey] = useState("");
+  const [localityNameMohallaHHSurvey, setLocalityNameMohallaHHSurvey] =
+    useState("");
+  const [houseNumberHHSurvey, setHouseNumberHHSurvey] = useState("");
+  const [nameOfResidentHHSurvey, setNameOfResidentHHSurvey] = useState("");
+  const [numberOfFamilyMembersHHSurvey, setNumberOfFamilyMembersHHSurvey] =
+    useState("");
+  const [
+    numberOfChildBelow18YearsHHSurvey,
+    setNumberOfChildBelow18YearsHHSurvey,
+  ] = useState("");
+  const [occupationHHSurvey, setOccupationHHSurvey] = useState("");
+  const [ownershipOfHouseHHSurvey, setOwnershipOfHouseHHSurvey] = useState("");
+  const [typeOfSegregationHHSurvey, setTypeOfSegregationHHSurvey] =
+    useState("");
+  const [
+    areYouDoingHomeCompostingHHSurvey,
+    setAreYouDoingHomeCompostingHHSurvey,
+  ] = useState("");
+  const [
+    doYouHaveToiletInYourHouseHHSurvey,
+    setDoYouHaveToiletInYourHouseHHSurvey,
+  ] = useState("");
+  const [selectToiletTypeHHSurvey, setSelectToiletTypeHHSurvey] = useState("");
+  const [doYouManagingGreyWaterHHSurvey, setDoYouManagingGreyWaterHHSurvey] =
+    useState("");
+  const [
+    areYouWillingToDoKitchenGardenInFutureHHSurvey,
+    setAreYouWillingToDoKitchenGardenInFutureHHSurvey,
+  ] = useState("");
+  const [
+    areYouWillingToConstructIndividualSoakPitInFutureHHSurvey,
+    setAreYouWillingToConstructIndividualSoakPitInFutureHHSurvey,
+  ] = useState("");
+  const [
+    userChargesInRupeesPerMonthHHSurvey,
+    setUserChargesInRupeesPerMonthHHSurvey,
+  ] = useState("");
 
   //Other declarations
   const loadingHeaderData = {
@@ -19,6 +63,28 @@ export default function Householdpage() {
     municipality_name: "",
     team_num: "",
     ward_name: "",
+  };
+
+  const formData = {
+    dateHHSurvey,
+    supervisorHHSurvey,
+    fieldStaffHHSurvey,
+    wardNoGPHHSurvey,
+    localityNameMohallaHHSurvey,
+    houseNumberHHSurvey,
+    nameOfResidentHHSurvey,
+    numberOfFamilyMembersHHSurvey,
+    numberOfChildBelow18YearsHHSurvey,
+    occupationHHSurvey,
+    ownershipOfHouseHHSurvey,
+    typeOfSegregationHHSurvey,
+    areYouDoingHomeCompostingHHSurvey,
+    doYouHaveToiletInYourHouseHHSurvey,
+    selectToiletTypeHHSurvey,
+    doYouManagingGreyWaterHHSurvey,
+    areYouWillingToDoKitchenGardenInFutureHHSurvey,
+    areYouWillingToConstructIndividualSoakPitInFutureHHSurvey,
+    userChargesInRupeesPerMonthHHSurvey,
   };
 
   const route = useRouter();
@@ -65,5 +131,30 @@ export default function Householdpage() {
   // Function Declarations
 
   // Handler Functions
-  return <div>household survey</div>;
+  const handleVal = (id, val) => {
+    setTest(val);
+    console.log(test);
+  };
+
+  return (
+    <>
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
+
+      <div className={styles.container}>
+        <div className={styles.formcontainer}>
+          <Surveyques
+            id={"dateHHSurvey"}
+            labelText={translate?.Date_HH_survey}
+            value={dateHHSurvey}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+        </div>
+      </div>
+    </>
+  );
 }

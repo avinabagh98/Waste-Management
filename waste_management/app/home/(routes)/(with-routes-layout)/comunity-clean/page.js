@@ -7,11 +7,98 @@ import LanguageFetcher from "@/components/LanguageFetcher";
 import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
+import Surveyques from "@/components/Surveyques";
 
 export default function ComunityCleanpage() {
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
+
+  //form-data states
+  const [monthAndYearCleaningToilets, setMonthAndYearCleaningToilets] =
+    useState("");
+  const [supervisorCleaningToilets, setSupervisorCleaningToilets] =
+    useState("");
+  const [fieldStaffCleaningToilets, setFieldStaffCleaningToilets] =
+    useState("");
+  const [communityToiletCleaningToilets, setCommunityToiletCleaningToilets] =
+    useState("");
+  const [mohallaCommiteeCleaningToilets, setMohallaCommiteeCleaningToilets] =
+    useState("");
+  const [cleaningToiletCleaningToilets, setCleaningToiletCleaningToilets] =
+    useState("");
+  const [electricityCleaningToilets, setElectricityCleaningToilets] =
+    useState("");
+  const [
+    cleaningMaterialsCleaningToilets,
+    setCleaningMaterialsCleaningToilets,
+  ] = useState("");
+  const [swiperChargesCleaningToilets, setSwiperChargesCleaningToilets] =
+    useState("");
+  const [minorRepairCleaningToilets, setMinorRepairCleaningToilets] =
+    useState("");
+  const [majorRepairCleaningToilets, setMajorRepairCleaningToilets] =
+    useState("");
+  const [oMCollectorCleaningToilets, setOMCollectorCleaningToilets] =
+    useState("");
+  const [
+    oMRegisterMaintainedCleaningToilets,
+    setOMRegisterMaintainedCleaningToilets,
+  ] = useState("");
+  const [
+    sanitaryWasteManagedCleaningToilets,
+    setSanitaryWasteManagedCleaningToilets,
+  ] = useState("");
+  const [
+    hygieneTrainingUndertakenCleaningToilets,
+    setHygieneTrainingUndertakenCleaningToilets,
+  ] = useState("");
+  const [
+    specialDayCelebratedCleaningToilets,
+    setSpecialDayCelebratedCleaningToilets,
+  ] = useState("");
+  const [allTapFunctionalCleaningToilets, setAllTapFunctionalCleaningToilets] =
+    useState("");
+  const [allDoorsClosingCleaningToilets, setAllDoorsClosingCleaningToilets] =
+    useState("");
+  const [conditionOfTilesCleaningToilets, setConditionOfTilesCleaningToilets] =
+    useState("");
+  const [conditionOfRoofCleaningToilets, setConditionOfRoofCleaningToilets] =
+    useState("");
+  const [
+    conditionOfWashbasinCleaningToilets,
+    setConditionOfWashbasinCleaningToilets,
+  ] = useState("");
+  const [
+    conditionOfBoundaryWallCleaningToilets,
+    setConditionOfBoundaryWallCleaningToilets,
+  ] = useState("");
+  const [
+    conditionOfOverheadTankCleaningToilets,
+    setConditionOfOverheadTankCleaningToilets,
+  ] = useState("");
+  const [
+    conditionOfElectricBulbCleaningToilets,
+    setConditionOfElectricBulbCleaningToilets,
+  ] = useState("");
+  const [
+    conditionOfSepticTankCleaningToilets,
+    setConditionOfSepticTankCleaningToilets,
+  ] = useState("");
+  const [conditionOfPimpCleaningToilets, setConditionOfPimpCleaningToilets] =
+    useState("");
+  const [
+    totalUserChargesCollectedCleaningToilets,
+    setTotalUserChargesCollectedCleaningToilets,
+  ] = useState("");
+  const [
+    totalNumberOfHouseholdsInMCCleaningToilets,
+    setTotalNumberOfHouseholdsInMCCleaningToilets,
+  ] = useState("");
+  const [
+    userChargesPerUserCleaningToilets,
+    setUserChargesPerUserCleaningToilets,
+  ] = useState("");
 
   //Other declarations
   const loadingHeaderData = {
@@ -19,6 +106,38 @@ export default function ComunityCleanpage() {
     municipality_name: "",
     team_num: "",
     ward_name: "",
+  };
+
+  const formData = {
+    monthAndYearCleaningToilets,
+    supervisorCleaningToilets,
+    fieldStaffCleaningToilets,
+    communityToiletCleaningToilets,
+    mohallaCommiteeCleaningToilets,
+    cleaningToiletCleaningToilets,
+    electricityCleaningToilets,
+    cleaningMaterialsCleaningToilets,
+    swiperChargesCleaningToilets,
+    minorRepairCleaningToilets,
+    majorRepairCleaningToilets,
+    oMCollectorCleaningToilets,
+    oMRegisterMaintainedCleaningToilets,
+    sanitaryWasteManagedCleaningToilets,
+    hygieneTrainingUndertakenCleaningToilets,
+    specialDayCelebratedCleaningToilets,
+    allTapFunctionalCleaningToilets,
+    allDoorsClosingCleaningToilets,
+    conditionOfTilesCleaningToilets,
+    conditionOfRoofCleaningToilets,
+    conditionOfWashbasinCleaningToilets,
+    conditionOfBoundaryWallCleaningToilets,
+    conditionOfOverheadTankCleaningToilets,
+    conditionOfElectricBulbCleaningToilets,
+    conditionOfSepticTankCleaningToilets,
+    conditionOfPimpCleaningToilets,
+    totalUserChargesCollectedCleaningToilets,
+    totalNumberOfHouseholdsInMCCleaningToilets,
+    userChargesPerUserCleaningToilets,
   };
 
   const route = useRouter();
@@ -65,5 +184,30 @@ export default function ComunityCleanpage() {
   // Function Declarations
 
   // Handler Functions
-  return <div>comunity cleaning</div>;
+  const handleVal = (id, val) => {
+    setTest(val);
+    console.log(test);
+  };
+
+  return (
+    <>
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
+
+      <div className={styles.container}>
+        <div className={styles.formcontainer}>
+          <Surveyques
+            id={"monthAndYearCleaningToilets"}
+            labelText={translate?.Month_and_year_cleaning_toilets}
+            value={monthAndYearCleaningToilets}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+        </div>
+      </div>
+    </>
+  );
 }

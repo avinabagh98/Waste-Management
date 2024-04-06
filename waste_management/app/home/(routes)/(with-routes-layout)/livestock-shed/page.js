@@ -14,10 +14,30 @@ export default function Livestockpage() {
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
-
-  const [test, setTest] = useState("");
+  //form-data states
+  const [supervisorLivestock, setSupervisorLivestock] = useState("");
+  const [fieldStaffLivestock, setFieldStaffLivestock] = useState("");
+  const [dateOfReportingLivestock, setDateOfReportingLivestock] = useState("");
+  const [wardNoGPLivestock, setWardNoGPLivestock] = useState("");
+  const [localityNameVillageLivestock, setLocalityNameVillageLivestock] =
+    useState("");
+  const [registorNumberLivestock, setRegistorNumberLivestock] = useState("");
+  const [nameOfLivestockShedLivestock, setNameOfLivestockShedLivestock] =
+    useState("");
+  const [nameOfOwnerLivestock, setNameOfOwnerLivestock] = useState("");
+  const [contactNumberLivestock, setContactNumberLivestock] = useState("");
+  const [numberOfLivestockLivestock, setNumberOfLivestockLivestock] =
+    useState("");
+  const [
+    compostableWasteTransferredLivestock,
+    setCompostableWasteTransferredLivestock,
+  ] = useState("");
 
   //Other declarations
+
+  const route = useRouter();
+  const translate = LanguageFetcher();
+
   const loadingHeaderData = {
     name: userRole,
     municipality_name: "",
@@ -25,8 +45,19 @@ export default function Livestockpage() {
     ward_name: "",
   };
 
-  const route = useRouter();
-  const translate = LanguageFetcher();
+  const formData = {
+    supervisorLivestock,
+    fieldStaffLivestock,
+    dateOfReportingLivestock,
+    wardNoGPLivestock,
+    localityNameVillageLivestock,
+    registorNumberLivestock,
+    nameOfLivestockShedLivestock,
+    nameOfOwnerLivestock,
+    contactNumberLivestock,
+    numberOfLivestockLivestock,
+    compostableWasteTransferredLivestock,
+  };
 
   // LocalStorage Fetching
   useEffect(() => {
@@ -84,15 +115,14 @@ export default function Livestockpage() {
       <div className={styles.container}>
         <div className={styles.formcontainer}>
           <Surveyques
-            id={"test"}
-            labelText={"test survey ques "}
-            value={test}
+            id={"supervisorLivestock"}
+            labelText={translate?.Supervisor_Livestock}
+            value={supervisorLivestock}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />
         </div>
       </div>
-      <Footer />
     </>
   );
 }
