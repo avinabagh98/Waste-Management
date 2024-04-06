@@ -8,11 +8,6 @@ export default function Surveyques({
   disabled,
   required,
 }) {
-  const handleInvalid = (e) => {
-    e.preventDefault();
-    const fieldLabel = e.target.labels[0]?.textContent || "";
-    alert(`${fieldLabel} is required.`);
-  };
   return (
     <>
       <div className={styles.container}>

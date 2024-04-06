@@ -6,16 +6,17 @@ export default function SurveyDropdown({
   labelText,
   options,
   handleVal,
-  value
+  required,
+  value,
 }) {
   return (
     <div className={styles.dropdowncontainer}>
       <label htmlFor={id}>{labelText}</label>
+      {required && <span style={{ color: "red" }}>*</span>}
       <select
         id={id}
         onChange={(e) => handleVal(id, e.target.value)}
         value={value}
-
       >
         {options.map((option, index) => (
           <option key={index} value={option}>

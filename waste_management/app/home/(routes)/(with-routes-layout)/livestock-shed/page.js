@@ -9,6 +9,7 @@ import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import Surveyques from "@/components/Surveyques";
+import SurveyDropdown from "@/components/SurveyDropdown";
 
 export default function Livestockpage() {
   //State variables
@@ -38,6 +39,9 @@ export default function Livestockpage() {
   const route = useRouter();
   const translate = LanguageFetcher();
 
+  const wardOptions = ["select", "1", "2"];
+  const localityOptions = ["select", "1", "2"];
+  const registorOptions = ["select", "1", "2"];
   const loadingHeaderData = {
     name: userRole,
     municipality_name: "",
@@ -104,6 +108,8 @@ export default function Livestockpage() {
     setTest(val);
     console.log(test);
   };
+
+  const handleValdropdown = (id, val) => {};
   return (
     <>
       <Header
@@ -121,6 +127,90 @@ export default function Livestockpage() {
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />
+
+          <Surveyques
+            id={"fieldStaffLivestock"}
+            labelText={translate?.Field_staff_Livestock}
+            value={fieldStaffLivestock}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+          <Surveyques
+            id={"dateOfReportingLivestock"}
+            labelText={translate?.Date_of_Reporting_Livestock}
+            value={dateOfReportingLivestock}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+          <SurveyDropdown
+            id={"wardNoGPLivestock"}
+            labelText={translate?.Ward_No_Livestock}
+            options={wardOptions}
+            value={wardNoGPLivestock}
+            required={true}
+            handleVal={handleValdropdown}
+          />
+
+          <SurveyDropdown
+            id={"localityNameVillageLivestock"}
+            labelText={translate?.Locality_Name_Village_Livestock}
+            value={localityNameVillageLivestock}
+            options={localityOptions}
+            required={true}
+            handleVal={handleValdropdown}
+          />
+
+          <SurveyDropdown
+            id={"registorNumberLivestock"}
+            labelText={translate?.Registor_Number_Livestock}
+            options={registorOptions}
+            value={registorNumberLivestock}
+            required={true}
+            handleVal={handleValdropdown}
+          />
+
+          <Surveyques
+            id={"nameOfLivestockShedLivestock"}
+            labelText={translate?.Name_of_Livestock_Shed_Livestock}
+            value={nameOfLivestockShedLivestock}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+          <Surveyques
+            id={"nameOfOwnerLivestock"}
+            labelText={translate?.Name_of_Owner_Livestock}
+            value={nameOfOwnerLivestock}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+          <Surveyques
+            id={"contactNumberLivestock"}
+            labelText={translate?.Contact_Number_Livestock}
+            value={contactNumberLivestock}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+          <Surveyques
+            id={"Number_of_Livestock_Livestock"}
+            labelText={translate?.Number_of_Livestock_Livestock}
+            value={numberOfLivestockLivestock}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+          <Surveyques
+            id={"compostableWasteTransferredLivestock"}
+            labelText={translate?.Compostable_Waste_Transfarred_Livestock}
+            value={compostableWasteTransferredLivestock}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+          <div className={styles.btnContainer}>
+            <button className={styles.submitbtn}>Submit</button>
+          </div>
         </div>
       </div>
     </>

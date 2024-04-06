@@ -9,8 +9,10 @@
 .dropdowncontainer select {
       width: 100%;
       border: 1px solid var(--border-color);
+      border-radius: 5px;
       background: none;
       padding: 1px 2px;
+
 }
 
 .dropdowncontainer label {
