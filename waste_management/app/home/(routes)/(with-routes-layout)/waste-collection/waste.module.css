@@ -8,4 +8,39 @@
             width: 100%;
             padding: var(--globalPadding);
       }
+
+      .container {
+            width: 100%;
+
+      }
+
+      .formcontainer {
+            width: 100%;
+            padding: var(--globalPadding);
+
+
+      }
+
+      .btnContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
+
+      .submitbtn {
+            width: 80%;
+            height: auto;
+            border-radius: 50px;
+            background-color: var(--green);
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            cursor: pointer;
+
+      }
+
+      .submitbtn:hover {
+            background-color: #0056b3;
+            /* Darker blue background color on hover */
+      }
 }
