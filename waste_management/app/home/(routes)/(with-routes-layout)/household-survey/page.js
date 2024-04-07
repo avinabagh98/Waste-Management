@@ -1,6 +1,6 @@
 "use client";
 
-import styles from ".//household.module.css";
+import styles from "./household.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
