@@ -49,7 +49,7 @@ export default function Livestockpage() {
     ward_name: "",
   };
 
-  const formData = {
+  const formDataLS = {
     supervisorLivestock,
     fieldStaffLivestock,
     dateOfReportingLivestock,

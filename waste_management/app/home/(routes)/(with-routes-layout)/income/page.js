@@ -41,7 +41,7 @@ export default function Incomepage() {
     ward_name: "",
   };
 
-  const formData = {
+  const formDataIncome = {
     dateIncome,
     supervisorIncome,
     fieldStaffIncome,

@@ -5,6 +5,7 @@ export default function Surveyques({
   labelText,
   handleVal,
   value,
+  type,
   disabled,
   required,
 }) {
@@ -17,7 +18,7 @@ export default function Surveyques({
         </label>
         <input
           id={id}
-          type="text"
+          type={type}
           value={value || ""}
           onChange={(e) => handleVal(id, e.target.value)}
           className={styles.surveyInput}

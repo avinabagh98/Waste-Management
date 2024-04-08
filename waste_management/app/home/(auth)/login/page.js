@@ -17,7 +17,7 @@ export default function LoginPage() {
 
   //Other declations
   const loginData = {
-    phone: username,
+    user_name: username,
     password: password,
     role_id: role_id,
   };

@@ -66,7 +66,7 @@ export default function Wastecollectionpage() {
     ward_name: "",
   };
 
-  const formData = {
+  const formDataWC = {
     dateWasteCollection,
     supervisorWasteCollection,
     fieldStaffWasteCollection,
@@ -138,7 +138,13 @@ export default function Wastecollectionpage() {
 
   // Handler Functions
 
-  const handleVal = (id, val) => {};
+  const handleVal = (id, val) => {
+    if (id === "dateWasteCollection") {
+      setDateWasteCollection(val);
+    }
+  };
+
+  const submitHandler = async () => {};
   return (
     <>
       <Header
@@ -151,6 +157,7 @@ export default function Wastecollectionpage() {
         <div className={styles.formcontainer}>
           <Surveyques
             id={"dateWasteCollection"}
+            type={"date"}
             labelText={translate?.Date_Waste_Collection}
             value={dateWasteCollection}
             required={true}
@@ -159,6 +166,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"supervisorWasteCollection"}
+            type={"text"}
             labelText={translate?.Supervisor_Waste_Collection}
             value={supervisorWasteCollection}
             required={true}

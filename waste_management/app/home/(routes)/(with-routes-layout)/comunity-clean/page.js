@@ -109,7 +109,7 @@ export default function ComunityCleanpage() {
     ward_name: "",
   };
 
-  const formData = {
+  const formDataCC = {
     monthAndYearCleaningToilets,
     supervisorCleaningToilets,
     fieldStaffCleaningToilets,

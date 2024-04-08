@@ -83,11 +83,17 @@ export default function Dashboardpage() {
       <div className={styles.bodyContainer}>
         {/* first row */}
         <div className={styles.firstRow}>
-          <div className={styles.card1}>
+          <div
+            className={styles.card1}
+            onClick={() => route.push("/home/waste-collection")}
+          >
             <img src="/images/waste_collector.png" alt="waste_collection"></img>
             <p>Waste Collection</p>
           </div>
-          <div className={styles.card2}>
+          <div
+            className={styles.card2}
+            onClick={() => route.push("/home/income")}
+          >
             <img src="/images/income.png" alt="income"></img>
             <p>Income</p>
           </div>
@@ -95,11 +101,17 @@ export default function Dashboardpage() {
 
         {/* second row */}
         <div className={styles.secondRow}>
-          <div className={styles.card3}>
+          <div
+            className={styles.card3}
+            onClick={() => route.push("/home/household-survey")}
+          >
             <img src="/images/HH_Survey.png" alt="HH_Survey"></img>
             <p>HH Survey</p>
           </div>
-          <div className={styles.card4}>
+          <div
+            className={styles.card4}
+            onClick={() => route.push("/home/mohalla-commitee")}
+          >
             <img
               src="/images/mohalla_commitee.png"
               alt="mohalla_commitee"
@@ -110,11 +122,17 @@ export default function Dashboardpage() {
 
         {/* third row */}
         <div className={styles.thirdRow}>
-          <div className={styles.card5}>
+          <div
+            className={styles.card5}
+            onClick={() => route.push("/home/livestock-shed")}
+          >
             <img src="/images/livestock_shed.png" alt="livestock_shed"></img>
             <p>Livestock Shed</p>
           </div>
-          <div className={styles.card6}>
+          <div
+            className={styles.card6}
+            onClick={() => route.push("/home/comunity-clean")}
+          >
             <img
               src="/images/community_toilet.png"
               alt="community_toilet"
