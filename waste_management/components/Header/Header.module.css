@@ -13,7 +13,7 @@
             width: 100%;
             height: 10vh;
             padding: 5px;
-            background-color: var(--lic_blue);
+            background-color: var(--lic-blue);
             z-index: 100;
             display: flex;
             justify-content: left;
@@ -42,7 +42,7 @@
             width: 100%;
             height: 10vh;
             padding: 5px;
-            background-color: var(--lic_blue);
+            background-color: var(--lic-blue);
             z-index: 100;
             display: flex;
             justify-content: center;
@@ -85,7 +85,7 @@
       .logoText p {
             margin: 0;
             padding: 10px 0 0 0;
-            color: azure;
+            color: var(--lic-yellow);
             font-size: 30px;
             font-family: verdana;
 
@@ -105,7 +105,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: var(--skyblue);
+            background-color: var(--lic-secondary-yellow);
       }
 
       .offCanvasHeaderLogo {
@@ -119,7 +119,7 @@
 
       .offCanvasBody {
             position: relative;
-            background-color: var(--darkblue);
+            background-color: var(--lic-blue);
       }
 
       .offCanvasBodyMenu {
@@ -127,7 +127,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            color: var(--white);
+            color: var(--lic-yellow);
       }
 
       .MenuLink,
@@ -146,11 +146,12 @@
             height: 32px;
             width: 32px;
             object-fit: contain;
+
       }
 
       .offCanvasBodyMenuFooter {
             padding: 16px;
-            height: 150px;
+            height: 160px;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -158,8 +159,8 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            color: var(--white);
-            background-color: var(--darkestblue);
+            color: var(--lic-yellow);
+            background-color: var(--lic-blue);
       }
 
       .offCanvasBodyMenuFooter a {
@@ -184,8 +185,8 @@
             height: 60px;
             width: 100vw;
             font-size: var(--formTextSize);
-            color: var(--white);
-            background-color: var(--darkblue);
+            color: var(--lic-yellow);
+            background-color: var(--lic-secondary-blue);
             display: flex;
             justify-content: space-between;
             align-items: center;

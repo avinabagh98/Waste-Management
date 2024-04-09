@@ -19,8 +19,8 @@ export default function Header({
   const [show, setShow] = useState(false);
 
   const name = loadingdata?.name || null;
-  const municipality_name = loadingdata?.municipality_name || null;
-  const ward_name = loadingdata?.ward_name || null;
+  const district_name = loadingdata?.district_name || null;
+  const block_name = loadingdata?.block_name || null;
   const team_num = loadingdata?.team_num || null;
 
   const handleLogout = () => {
@@ -92,7 +92,7 @@ export default function Header({
                       <Offcanvas.Body className={styles.offCanvasBody}>
                         <div className={styles.offCanvasBodyMenu}>
                           <div className={styles.MenuLink}>
-                            <img src="/images/dashbord_menu_icon.png"></img>
+                            <img src="/svg/dashboard.svg"></img>
                             DASH BOARD
                           </div>
                           <div
@@ -103,19 +103,8 @@ export default function Header({
                               setShow(false);
                             }}
                           >
-                            <img src="/images/schedule_menu_icon.png"></img>
+                            <img src="/svg/schedule.svg"></img>
                             SCHEDULE
-                          </div>
-                          <div
-                            className={styles.MenuLink}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              route.push("/home/dailysurveyreport");
-                              setShow(false);
-                            }}
-                          >
-                            <img src="/images/daily_survey_report_icon.png"></img>
-                            DAILY SURVEY REPORT
                           </div>
                         </div>
 
@@ -128,7 +117,7 @@ export default function Header({
                               setShow(false);
                             }}
                           >
-                            <img src="/images/settings_menu_icon.png"></img>
+                            <img src="/svg/knowledge_center.svg"></img>
                             KNOWLEDGE CENTER
                           </div>
                           <div
@@ -139,7 +128,7 @@ export default function Header({
                               setShow(false);
                             }}
                           >
-                            <img src="/images/settings_menu_icon.png"></img>
+                            <img src="/svg/settings.svg"></img>
                             SETTINGS
                           </div>
 
@@ -147,7 +136,7 @@ export default function Header({
                             className={styles.MenuLink}
                             onClick={handleLogout}
                           >
-                            <img src="/images/logout_menu_icon.png"></img>
+                            <img src="/svg/logout.svg"></img>
                             LOG OUT
                           </div>
                         </div>
@@ -306,10 +295,8 @@ export default function Header({
                     </span>
                   )}
                   <br />
-                  {municipality_name ? (
-                    <Textparser
-                      text={`${municipality_name} Ward-${ward_name}`}
-                    />
+                  {district_name ? (
+                    <Textparser text={`${district_name} Block-${block_name}`} />
                   ) : (
                     <></>
                   )}

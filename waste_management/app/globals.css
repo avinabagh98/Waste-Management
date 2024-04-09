@@ -6,12 +6,15 @@
 
 :root {
       /* //lic color pallete and css styles */
-      --lic_blue: #1C4D9C;
-      --lic_yellow: #FBC90C;
-      --lic_secondary-color: #B8C8E1;
+      --lic-blue: #1C4D9C;
+      --lic-yellow: #FBC90C;
+      --lic-secondary-blue: #8CA5CD;
+      --lic-secondary-white: #B8C8E1;
+      --lic-secondary-yellow: #9A934C;
       --white: #ffffff;
       --green: #32a700;
       --text-color: #000000;
+      --background-color: #DAE2EF;
       --globalMargin: 10px;
       --globalPadding: 10px;
       --globalMargin-half: 5px;

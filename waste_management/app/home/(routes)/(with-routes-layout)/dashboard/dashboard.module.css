@@ -36,7 +36,7 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
-            background-color: var(--lic_blue);
+            background-color: var(--lic-blue);
             border-radius: 6px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       }

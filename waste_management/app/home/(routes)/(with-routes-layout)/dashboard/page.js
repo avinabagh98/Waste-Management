@@ -9,21 +9,22 @@ import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Footer from "@/components/Footer";
+import { sendRequest } from "@/api/sendRequest";
 
 export default function Dashboardpage() {
   //State variables
-  const [userRole, setUserRole] = useState("");
+
   const [token, setToken] = useState("");
-  const [municipality_name, setMunicipality_name] = useState("");
-  const [team_num, setTeam_num] = useState("");
-  const [ward_name, setWard_name] = useState("");
+  const [name, setName] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const [block_name, setBlock_Name] = useState("");
+  const [district_name, setDistrict_Name] = useState("");
 
   //Other declarations
   const loadingHeaderData = {
-    name: userRole,
-    municipality_name: "",
-    team_num: "",
-    ward_name: "",
+    name: name,
+    district_name: district_name,
+    block_name: block_name,
   };
 
   const route = useRouter();
@@ -31,39 +32,23 @@ export default function Dashboardpage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-    setUserRole(localStorage.getItem("role_name"));
-    console.log(userRole);
-    // try {
-    //   async function fetchData() {
-    //     const token = await localStorage.getItem("token");
-    //     if (!token) {
-    //       route.push("/home/login");
-    //     } else {
-    //       setUserRole(localStorage.getItem("role_name"));
-    //       setToken(token);
-
-    //       //Fetching user details
-    //       const user_details_response = await sendRequest(
-    //         "get",
-    //         "/user-details",
-    //         null,
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${token}`,
-    //           },
-    //         }
-    //       );
-
-    //       if (user_details_response.status === 1) {
-    //         // console.log("User Details Response ::", user_details_response.data);
-    //         setAPI_Data_userDetails(user_details_response.data);
-    //       }
-    //     }
-    //   }
-    //   fetchData();
-    // } catch (error) {
-    //   swal("Error", error.message, "error");
-    // }
+    try {
+      async function fetchData() {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        } else {
+          // get local items
+          setName(localStorage.getItem("name"));
+          setUserRole(localStorage.getItem("role_name"));
+          setBlock_Name(localStorage.getItem("block"));
+          setDistrict_Name(localStorage.getItem("district"));
+        }
+      }
+      fetchData();
+    } catch (error) {
+      swal("Error", error.message, "error");
+    }
   }, [userRole]);
 
   // API Data Fetching

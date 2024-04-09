@@ -12,51 +12,53 @@ import SurveyDropdown from "@/components/SurveyDropdown";
 
 export default function Wastecollectionpage() {
   //State variables
-  const [userRole, setUserRole] = useState("");
-  const [token, setToken] = useState("");
+  const [userRole, setUserRole] = useState(null);
+  const [token, setToken] = useState(null);
 
   //form-data states
-  const [dateWasteCollection, setDateWasteCollection] = useState("");
+  const [dateWasteCollection, setDateWasteCollection] = useState(null);
   const [supervisorWasteCollection, setSupervisorWasteCollection] =
-    useState("");
+    useState(null);
   const [fieldStaffWasteCollection, setFieldStaffWasteCollection] =
-    useState("");
+    useState(null);
   const [houseNumberWasteCollection, setHouseNumberWasteCollection] =
-    useState("");
+    useState(null);
   const [mohallaCommiteeWasteCollection, setMohallaCommiteeWasteCollection] =
-    useState("");
+    useState("select");
   const [nameOfULBBlockWasteCollection, setNameOfULBBlockWasteCollection] =
-    useState("");
-  const [wardNoGPWasteCollection, setWardNoGPWasteCollection] = useState("");
+    useState(null);
+  const [wardNoGPWasteCollection, setWardNoGPWasteCollection] = useState(null);
   const [
     localityNameVillageWasteCollection,
     setLocalityNameVillageWasteCollection,
-  ] = useState("");
+  ] = useState(null);
   const [nameOfResidentWasteCollection, setNameOfResidentWasteCollection] =
-    useState("");
+    useState(null);
   const [
     compostableWasteCollectedWasteCollection,
     setCompostableWasteCollectedWasteCollection,
-  ] = useState("");
-  const [ironWasteCollection, setIronWasteCollection] = useState("");
-  const [aluminiumWasteCollection, setAluminiumWasteCollection] = useState("");
+  ] = useState(null);
+  const [ironWasteCollection, setIronWasteCollection] = useState(null);
+  const [aluminiumWasteCollection, setAluminiumWasteCollection] =
+    useState(null);
   const [otherMetalsWasteCollection, setOtherMetalsWasteCollection] =
-    useState("");
+    useState(null);
   const [petBottlesWasteCollection, setPetBottlesWasteCollection] =
-    useState("");
+    useState(null);
   const [otherPlasticWasteCollection, setOtherPlasticWasteCollection] =
-    useState("");
-  const [glassWasteCollection, setGlassWasteCollection] = useState("");
-  const [milkBagWasteCollection, setMilkBagWasteCollection] = useState("");
-  const [paperWasteCollection, setPaperWasteCollection] = useState("");
-  const [cardBoardWasteCollection, setCardBoardWasteCollection] = useState("");
-  const [othersWasteCollection, setOthersWasteCollection] = useState("");
+    useState(null);
+  const [glassWasteCollection, setGlassWasteCollection] = useState(null);
+  const [milkBagWasteCollection, setMilkBagWasteCollection] = useState(null);
+  const [paperWasteCollection, setPaperWasteCollection] = useState(null);
+  const [cardBoardWasteCollection, setCardBoardWasteCollection] =
+    useState(null);
+  const [othersWasteCollection, setOthersWasteCollection] = useState(null);
   const [inertWasteWasteCollection, setInertWasteWasteCollection] =
-    useState("");
+    useState(null);
   const [
     daysOfCollectionsInAWeekWasteCollection,
     setDaysOfCollectionsInAWeekWasteCollection,
-  ] = useState("");
+  ] = useState(null);
 
   //Other declarations
   const loadingHeaderData = {
@@ -67,31 +69,33 @@ export default function Wastecollectionpage() {
   };
 
   const formDataWC = {
-    dateWasteCollection,
-    supervisorWasteCollection,
-    fieldStaffWasteCollection,
-    houseNumberWasteCollection,
-    mohallaCommiteeWasteCollection,
-    nameOfULBBlockWasteCollection,
-    wardNoGPWasteCollection,
-    localityNameVillageWasteCollection,
-    nameOfResidentWasteCollection,
-    compostableWasteCollectedWasteCollection,
-    ironWasteCollection,
-    aluminiumWasteCollection,
-    otherMetalsWasteCollection,
-    petBottlesWasteCollection,
-    otherPlasticWasteCollection,
-    glassWasteCollection,
-    milkBagWasteCollection,
-    paperWasteCollection,
-    cardBoardWasteCollection,
-    othersWasteCollection,
-    inertWasteWasteCollection,
-    daysOfCollectionsInAWeekWasteCollection,
+    dateWasteCollection: dateWasteCollection,
+    supervisorWasteCollection: supervisorWasteCollection,
+    fieldStaffWasteCollection: fieldStaffWasteCollection,
+    houseNumberWasteCollection: houseNumberWasteCollection,
+    mohallaCommiteeWasteCollection: mohallaCommiteeWasteCollection,
+    nameOfULBBlockWasteCollection: nameOfULBBlockWasteCollection,
+    wardNoGPWasteCollection: wardNoGPWasteCollection,
+    localityNameVillageWasteCollection: localityNameVillageWasteCollection,
+    nameOfResidentWasteCollection: nameOfResidentWasteCollection,
+    compostableWasteCollectedWasteCollection:
+      compostableWasteCollectedWasteCollection,
+    ironWasteCollection: ironWasteCollection,
+    aluminiumWasteCollection: aluminiumWasteCollection,
+    otherMetalsWasteCollection: otherMetalsWasteCollection,
+    petBottlesWasteCollection: petBottlesWasteCollection,
+    otherPlasticWasteCollection: otherPlasticWasteCollection,
+    glassWasteCollection: glassWasteCollection,
+    milkBagWasteCollection: milkBagWasteCollection,
+    paperWasteCollection: paperWasteCollection,
+    cardBoardWasteCollection: cardBoardWasteCollection,
+    othersWasteCollection: othersWasteCollection,
+    inertWasteWasteCollection: inertWasteWasteCollection,
+    daysOfCollectionsInAWeekWasteCollection:
+      daysOfCollectionsInAWeekWasteCollection,
   };
 
-  const mohallaOptions = ["select"];
+  const mohallaOptions = ["select", "1"];
 
   const route = useRouter();
   const translate = LanguageFetcher();
@@ -142,9 +146,90 @@ export default function Wastecollectionpage() {
     if (id === "dateWasteCollection") {
       setDateWasteCollection(val);
     }
+    if (id === "supervisorWasteCollection") {
+      setSupervisorWasteCollection(val);
+    }
+    if (id === "fieldStaffWasteCollection") {
+      setFieldStaffWasteCollection(val);
+    }
+    if (id === "houseNumberWasteCollection") {
+      setHouseNumberWasteCollection(val);
+    }
+    if (id === "mohallaCommiteeWasteCollection") {
+      setMohallaCommiteeWasteCollection(val);
+    }
+    if (id === "nameOfULBBlockWasteCollection") {
+      setNameOfULBBlockWasteCollection(val);
+    }
+    if (id === "wardNoGPWasteCollection") {
+      setWardNoGPWasteCollection(val);
+    }
+    if (id === "localityNameVillageWasteCollection") {
+      setLocalityNameVillageWasteCollection(val);
+    }
+    if (id === "nameOfResidentWasteCollection") {
+      setNameOfResidentWasteCollection(val);
+    }
+
+    if (id === "compostableWasteCollectedWasteCollection") {
+      setCompostableWasteCollectedWasteCollection(val);
+    }
+
+    if (id === "ironWasteCollection") {
+      setIronWasteCollection(val);
+    }
+    if (id === "aluminiumWasteCollection") {
+      setAluminiumWasteCollection(val);
+    }
+    if (id === "otherMetalsWasteCollection") {
+      setOtherMetalsWasteCollection(val);
+    }
+    if (id === "petBottlesWasteCollection") {
+      setPetBottlesWasteCollection(val);
+    }
+    if (id === "otherPlasticWasteCollection") {
+      setOtherPlasticWasteCollection(val);
+    }
+    if (id === "glassWasteCollection") {
+      setGlassWasteCollection(val);
+    }
+    if (id === "milkBagWasteCollection") {
+      setMilkBagWasteCollection(val);
+    }
+    if (id === "paperWasteCollection") {
+      setPaperWasteCollection(val);
+    }
+    if (id === "cardBoardWasteCollection") {
+      setCardBoardWasteCollection(val);
+    }
+    if (id === "othersWasteCollection") {
+      setOthersWasteCollection(val);
+    }
+    if (id === "inertWasteWasteCollection") {
+      setInertWasteWasteCollection(val);
+    }
+    if (id === "daysOfCollectionsInAWeekWasteCollection") {
+      setDaysOfCollectionsInAWeekWasteCollection(val);
+    }
   };
 
-  const submitHandler = async () => {};
+  const submitHandler = (e) => {
+    let flag = false;
+    e.preventDefault();
+    for (const field in formDataWC) {
+      if (formDataWC[field] === null || formDataWC[field] === "") {
+        flag = true;
+        break;
+      }
+    }
+    if (flag) {
+      swal("Error", "Please fill all the fields", "error");
+    } else {
+      console.log(formDataWC);
+      route.push("/home/dashboard");
+    }
+  };
+
   return (
     <>
       <Header
@@ -175,6 +260,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"fieldStaffWasteCollection"}
+            type={"text"}
             labelText={translate?.Field_Staff_Waste_Collection}
             value={fieldStaffWasteCollection}
             required={true}
@@ -183,6 +269,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"houseNumberWasteCollection"}
+            type={"text"}
             labelText={translate?.House_number_Waste_Collection}
             value={houseNumberWasteCollection}
             required={true}
@@ -200,6 +287,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"nameOfULBBlockWasteCollection"}
+            type={"text"}
             labelText={translate?.Name_of_ULB_Block_Waste_Collection}
             value={nameOfULBBlockWasteCollection}
             required={true}
@@ -208,6 +296,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"wardNoGPWasteCollection"}
+            type={"text"}
             labelText={translate?.Ward_No_GP_Waste_Collection}
             value={wardNoGPWasteCollection}
             required={true}
@@ -215,6 +304,7 @@ export default function Wastecollectionpage() {
           />
           <Surveyques
             id={"localityNameVillageWasteCollection"}
+            type={"text"}
             labelText={translate?.Locality_Name_Village_Waste_Collection}
             value={localityNameVillageWasteCollection}
             required={true}
@@ -222,6 +312,7 @@ export default function Wastecollectionpage() {
           />
           <Surveyques
             id={"nameOfResidentWasteCollection"}
+            type={"text"}
             labelText={translate?.Name_of_Resident_Waste_Collection}
             value={nameOfResidentWasteCollection}
             required={true}
@@ -230,6 +321,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"compostableWasteCollectedWasteCollection"}
+            type={"text"}
             labelText={translate?.Compostable_Waste_Collected_Waste_Collection}
             value={compostableWasteCollectedWasteCollection}
             required={true}
@@ -238,6 +330,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"ironWasteCollection"}
+            type={"text"}
             labelText={translate?.Iron_Waste_Collection}
             value={ironWasteCollection}
             required={true}
@@ -246,6 +339,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"aluminiumWasteCollection"}
+            type={"text"}
             labelText={translate?.Aluminium_Waste_Collection}
             value={aluminiumWasteCollection}
             required={true}
@@ -254,6 +348,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"otherMetalsWasteCollection"}
+            type={"text"}
             labelText={translate?.Other_Metals_Waste_Collection}
             value={otherMetalsWasteCollection}
             required={true}
@@ -262,6 +357,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"petBottlesWasteCollection"}
+            type={"text"}
             labelText={translate?.Pet_Bottles_Waste_Collection}
             value={petBottlesWasteCollection}
             required={true}
@@ -270,6 +366,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"otherPlasticWasteCollection"}
+            type={"text"}
             labelText={translate?.Other_Plastic_Waste_Collection}
             value={otherPlasticWasteCollection}
             required={true}
@@ -278,6 +375,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"glassWasteCollection"}
+            type={"text"}
             labelText={translate?.Glass_Waste_Collection}
             value={glassWasteCollection}
             required={true}
@@ -286,6 +384,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"milkBagWasteCollection"}
+            type={"text"}
             labelText={translate?.Milk_Bag_Waste_Collection}
             value={milkBagWasteCollection}
             required={true}
@@ -294,6 +393,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"paperWasteCollection"}
+            type={"text"}
             labelText={translate?.Paper_Waste_Collection}
             value={paperWasteCollection}
             required={true}
@@ -302,6 +402,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"cardBoardWasteCollection"}
+            type={"text"}
             labelText={translate?.Card_Board_Waste_Collection}
             value={cardBoardWasteCollection}
             required={true}
@@ -310,6 +411,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"othersWasteCollection"}
+            type={"text"}
             labelText={translate?.Others_Waste_Collection}
             value={othersWasteCollection}
             required={true}
@@ -318,6 +420,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"inertWasteWasteCollection"}
+            type={"text"}
             labelText={translate?.Inert_Waste_Waste_Collection}
             value={inertWasteWasteCollection}
             required={true}
@@ -326,6 +429,7 @@ export default function Wastecollectionpage() {
 
           <Surveyques
             id={"daysOfCollectionsInAWeekWasteCollection"}
+            type={"text"}
             labelText={
               translate?.Days_of_Collections_in_a_week_Waste_Collection
             }
@@ -335,7 +439,9 @@ export default function Wastecollectionpage() {
           />
 
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtn}>Submit</button>
+            <button className={styles.submitbtn} onClick={submitHandler}>
+              Submit
+            </button>
           </div>
         </div>
       </div>

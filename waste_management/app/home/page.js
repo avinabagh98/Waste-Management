@@ -7,6 +7,7 @@ import Checkbutton from "@/components/role-lang/Checkbutton";
 import { useRouter } from "next/navigation";
 import Header from "@/components/Header/Header";
 import styles from "./home.module.css";
+import FooterDesign from "@/components/FooterDesign";
 
 export default function page() {
   const [language, setLanguage] = useState("en");
@@ -33,7 +34,7 @@ export default function page() {
 
   const handleUsertypeBtn = (event) => {
     event.preventDefault();
-    setRoleValue(event.target.id);
+    setRoleValue(event.currentTarget.getAttribute("id"));
     setRolenName(event.currentTarget.getAttribute("name"));
     route.push("/home/login");
   };
@@ -52,6 +53,8 @@ export default function page() {
           <h2>SELECT USER ROLE</h2>
           <Buttongroup handleUsertypeBtn={handleUsertypeBtn} />
         </span>
+
+        <FooterDesign />
       </div>
     </>
   );

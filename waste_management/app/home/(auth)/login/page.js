@@ -7,13 +7,15 @@ import LanguageFetcher from "@/components/LanguageFetcher";
 import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
+import FooterDesign from "@/components/FooterDesign";
 
 export default function LoginPage() {
   //Login state variables
-  const [role_id, setRole_id] = useState();
+
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [role_name, setRoleName] = useState();
+  const [role_id, setRole_id] = useState();
 
   //Other declations
   const loginData = {
@@ -46,13 +48,31 @@ export default function LoginPage() {
         `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
         loginData
       );
-      const token = res.data.access_token;
-      localStorage.setItem("token", token);
-      localStorage.setItem("phone", username);
-      swal("Successfully", "logged in", "success");
-      route.push("/home/dashboard");
+
+      if (res.data.status === "success") {
+        //Setting user details to localstorage
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("name", res.data.name);
+        localStorage.setItem("user_contact", res.data.user_contact);
+        // localStorage.setItem("user_type", res.data.user - type_name);
+        localStorage.setItem("block", res.data.block);
+        localStorage.setItem("block_id", res.data.block_id);
+        localStorage.setItem("gp", res.data.gp);
+        localStorage.setItem("gp_id", res.data.gp_id);
+        localStorage.setItem("district", res.data.district);
+        localStorage.setItem("district_id", res.data.district_id);
+        //message
+        swal("Successfully", "logged in", "success");
+        //redirecting
+        route.push("/home/dashboard");
+      }
     } catch (error) {
-      swal("Login Error", "Please enter valid credentials", "error");
+      if (error.name === "AxiosError") {
+        swal("Login Error", "Please enter valid credentials", "error");
+      }
+      if (error.name === "ReferenceError") {
+        swal("Error", "Something Wrong happend", "error");
+      }
     }
   };
 
@@ -83,6 +103,7 @@ export default function LoginPage() {
             <p>{translate?.forgot_your_password}</p>
           </a>
         </div>
+        <FooterDesign />
       </div>
     </>
   );
