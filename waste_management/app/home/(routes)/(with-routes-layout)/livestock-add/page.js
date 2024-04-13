@@ -14,7 +14,7 @@ import SurveyDropdown from "@/components/SurveyDropdown";
 export default function Livestockpage() {
   //State variables
   const [userRole, setUserRole] = useState("");
-  const [token, setToken] = useState("");
+
   //form-data states
   const [supervisorLivestock, setSupervisorLivestock] = useState("");
   const [fieldStaffLivestock, setFieldStaffLivestock] = useState("");
@@ -65,38 +65,20 @@ export default function Livestockpage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-    setUserRole(localStorage.getItem("role_name"));
-    //     try {
-    //       async function fetchData() {
-    //         const token = await localStorage.getItem("token");
-    //         if (!token) {
-    //           route.push("/home/login");
-    //         } else {
-    //           setUserRole(localStorage.getItem("role_name"));
-    //           setToken(token);
-
-    //           //Fetching user details
-    //           const user_details_response = await sendRequest(
-    //             "get",
-    //             "/user-details",
-    //             null,
-    //             {
-    //               headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //               },
-    //             }
-    //           );
-
-    //           if (user_details_response.status === 1) {
-    //             // console.log("User Details Response ::", user_details_response.data);
-    //             setAPI_Data_userDetails(user_details_response.data);
-    //           }
-    //         }
-    //       }
-    //       fetchData();
-    //     } catch (error) {
-    //       swal("Error", error.message, "error");
-    //     }
+    // setUserRole(localStorage.getItem("role_name"));
+    try {
+      async function fetchData() {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        } else {
+          setUserRole(localStorage.getItem("role_name"));
+        }
+      }
+      fetchData();
+    } catch (error) {
+      swal("Error", error.message, "error");
+    }
   }, []);
 
   // API Data Fetching

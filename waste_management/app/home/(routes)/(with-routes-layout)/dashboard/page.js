@@ -109,7 +109,7 @@ export default function Dashboardpage() {
         <div className={styles.thirdRow}>
           <div
             className={styles.card5}
-            onClick={() => route.push("/home/livestock-shed")}
+            onClick={() => route.push("/home/livestock-list")}
           >
             <img src="/images/livestock_shed.png" alt="livestock_shed"></img>
             <p>Livestock Shed</p>

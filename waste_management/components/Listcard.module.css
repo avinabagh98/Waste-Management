@@ -1,0 +1,99 @@
+/* Listcard.module.css */
+
+.container {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+}
+
+.container p {
+      margin: 0;
+      padding: 0;
+}
+
+.card {
+      width: 345px;
+      background-color: var(--lic-yellow);
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+}
+
+.top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+}
+
+.top_left {
+      flex: 1;
+}
+
+.top_left span {
+      margin-bottom: 10px;
+}
+
+.text {
+      font-size: 16px;
+      font-weight: 600;
+
+}
+
+.text2 {
+      font-size: 12px;
+      font-weight: 400;
+}
+
+.text_title {
+      padding: 10px 0;
+      font-size: 12px;
+}
+
+.top_right {
+      flex-shrink: 0;
+}
+
+.icon {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+}
+
+.icon_text {
+      margin-left: 5px;
+}
+
+.buttom {
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #3a5d97;
+}
+
+.buttom_left_text {
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+}
+
+.buttom_left_text span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 5px;
+}
+
+.buttom_right {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 12px;
+}
+
+.buttom_right img {
+      margin-right: 5px;
+}
