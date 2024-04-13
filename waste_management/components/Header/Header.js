@@ -80,12 +80,15 @@ export default function Header({
                       <Offcanvas.Header className={styles.offCanvasHeader}>
                         <div className={styles.offCanvasHeaderLogo}>
                           <img
-                            src="/images/west_bengal_biswa_bangla_logo.png"
-                            alt="logo1"
+                            className={styles.licLogo}
+                            src="/images/lic_logo.png"
+                            alt="lic_logo"
                           ></img>
-                          <div className={styles.offCanvasHeaderLogoText}>
-                            <p>VCM</p>
-                          </div>
+                          <img
+                            className={styles.licLogo}
+                            src="/images/bitan_logo.png"
+                            alt="bitan_logo"
+                          ></img>
                         </div>
                       </Offcanvas.Header>
 
@@ -268,12 +271,15 @@ export default function Header({
               className={defaultHeader ? styles.defaultHeaderLogo : styles.logo}
             >
               <img
-                src="/images/west_bengal_biswa_bangla_logo.png"
-                alt="back-button"
+                className={styles.licLogo}
+                src="/images/lic_logo.png"
+                alt="lic-logo"
               ></img>
-              <div className={styles.logoText}>
-                <p>VCM</p>
-              </div>
+              <img
+                className={styles.bitanLogo}
+                src="/images/bitan_logo.png"
+                alt="bitan-logo"
+              ></img>
             </div>
           </div>
         </div>

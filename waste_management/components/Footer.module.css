@@ -28,7 +28,7 @@
             justify-content: space-between;
             align-items: center;
             z-index: 0;
-            background-color: var(--lic_blue);
+            background-color: var(--lic-blue);
       }
 
       .iconcontainer {

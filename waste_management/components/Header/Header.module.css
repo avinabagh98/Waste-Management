@@ -21,19 +21,22 @@
 
       }
 
-      .headerContent {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-      }
-
+      .headerContent,
       .offcanvas_false_headerContent {
             display: flex;
             justify-content: center;
             align-items: center;
 
+
       }
+
+      /* 
+      .offcanvas_false_headerContent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+      } */
 
       .defaultHeader {
             margin: 0;
@@ -52,24 +55,27 @@
       .headerOffcanvaBtn {
             height: 50px;
             width: 100px;
-            padding-top: 5px;
+            /* padding-top: 5px; */
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
       }
 
-      .logo {
+      .logo,
+      .defaultHeaderLogo,
+      .offCanvasHeaderLogo {
 
             height: 50px;
-            width: 150px;
+            width: 200px;
             display: flex;
-            justify-content: center;
+            justify-content: space-evenly;
             align-items: center;
-            vertical-align: baseline;
+            /* vertical-align: baseline; */
 
       }
 
+      /* 
       .defaultHeaderLogo {
             height: 50px;
             width: 150px;
@@ -78,9 +84,9 @@
             align-items: center;
             vertical-align: baseline;
             margin-right: 35px;
-      }
+      } */
 
-      .defaultHeaderLogo p,
+      /* .defaultHeaderLogo p,
       .offCanvasHeaderLogoText p,
       .logoText p {
             margin: 0;
@@ -89,13 +95,28 @@
             font-size: 30px;
             font-family: verdana;
 
-      }
+      } */
 
-      .defaultHeaderLogo img,
+      /* .defaultHeaderLogo img,
       .offCanvasHeaderLogo img,
       .logo img {
-            height: 100%;
-            width: 100%;
+            padding-top: 6px;
+            height: 50px;
+            width: 80px;
+            object-fit: contain;
+      } */
+
+      .licLogo {
+            padding-top: 8px;
+            height: 50px;
+            width: 80px;
+            object-fit: contain;
+      }
+
+      .bitanLogo {
+
+            height: 40px;
+            width: 40px;
             object-fit: contain;
       }
 
@@ -108,14 +129,14 @@
             background-color: var(--lic-secondary-yellow);
       }
 
-      .offCanvasHeaderLogo {
+      /* .offCanvasHeaderLogo {
             margin-right: 50px;
             height: 50px;
             width: 150px;
             display: flex;
             justify-content: center;
             align-items: center;
-      }
+      } */
 
       .offCanvasBody {
             position: relative;
