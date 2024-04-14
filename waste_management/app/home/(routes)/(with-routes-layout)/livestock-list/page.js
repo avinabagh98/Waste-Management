@@ -145,28 +145,41 @@ export default function LivestockListPage() {
         isOffCanvasVisible={false}
       />
 
-      {api_livestockData ? (
-        api_livestockData.map((livestock) => {
-          return (
-            <Listcard
-              key={livestock.id}
-              name={livestock?.name_of_live_shed}
-              type={livestock?.livestock_type}
-              status={
-                livestock?.is_approve === "0" ? "Not approved" : "Approved"
-              }
-              owner_name={livestock.name_of_owner}
-              owner_contact={livestock.contact_number}
-              editHandler={editHandler}
-              ShowHandler={(e) => {
-                showHandler(livestock);
-              }}
-            />
-          );
-        })
-      ) : (
-        <></>
-      )}
+      <div className={styles.bodyContainer}>
+        <div className={styles.listContainer}>
+          {api_livestockData ? (
+            api_livestockData.map((livestock) => {
+              return (
+                <Listcard
+                  key={livestock.id}
+                  name={livestock?.name_of_live_shed}
+                  type={livestock?.livestock_type}
+                  status={
+                    livestock?.is_approve === "0" ? "Not approved" : "Approved"
+                  }
+                  owner_name={livestock.name_of_owner}
+                  owner_contact={livestock.contact_number}
+                  editHandler={editHandler}
+                  ShowHandler={(e) => {
+                    showHandler(livestock);
+                  }}
+                />
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className={styles.addNewContainer}>
+          <img
+            src="/svg/add_new.svg"
+            alt="add_new"
+            onClick={() => {
+              route.push("/home/livestock-add");
+            }}
+          ></img>
+        </div>
+      </div>
     </>
   );
 }

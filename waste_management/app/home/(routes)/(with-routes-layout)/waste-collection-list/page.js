@@ -1,5 +1,5 @@
 "use client";
-// import styles from "./wasteCollection.module.css";
+import styles from "@/app/home/(routes)/(with-routes-layout)/livestock-list/livestock.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
@@ -136,25 +136,38 @@ export default function WasteCollectionListPage() {
         isOffCanvasVisible={false}
       />
 
-      {api_wasteCollectionData ? (
-        api_wasteCollectionData.map((wasteCollection) => {
-          return (
-            <Listcard
-              key={wasteCollection.id}
-              name={wasteCollection.household_mc}
-              type={wasteCollection.livestock_type}
-              owner_name={wasteCollection.supervisor_id}
-              owner_contact={wasteCollection.contact_number}
-              editHandler={editHandler}
-              ShowHandler={(e) => {
-                showHandler(wasteCollection);
-              }}
-            />
-          );
-        })
-      ) : (
-        <></>
-      )}
+      <div className={styles.bodyContainer}>
+        <div className={styles.listContainer}>
+          {api_wasteCollectionData ? (
+            api_wasteCollectionData.map((wasteCollection) => {
+              return (
+                <Listcard
+                  key={wasteCollection.id}
+                  name={wasteCollection.household_mc}
+                  type={wasteCollection.livestock_type}
+                  owner_name={wasteCollection.supervisor_id}
+                  owner_contact={wasteCollection.contact_number}
+                  editHandler={editHandler}
+                  ShowHandler={(e) => {
+                    showHandler(wasteCollection);
+                  }}
+                />
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className={styles.addNewContainer}>
+          <img
+            src="/svg/add_new.svg"
+            alt="add_new"
+            onClick={() => {
+              route.push("/home/livestock-add");
+            }}
+          ></img>
+        </div>
+      </div>
     </>
   );
 }

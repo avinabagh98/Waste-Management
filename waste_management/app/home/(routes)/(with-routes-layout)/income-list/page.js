@@ -140,26 +140,41 @@ export default function IncomeListPage() {
         isOffCanvasVisible={false}
       />
 
-      {api_incomeData ? (
-        api_incomeData.map((income) => {
-          return (
-            <Listcard
-              key={income.id}
-              name={income?.name_of_live_shed}
-              type={income?.livestock_type}
-              status={income?.is_approve === "0" ? "Not approved" : "Approved"}
-              owner_name={income.name_of_owner}
-              owner_contact={income.contact_number}
-              editHandler={editHandler}
-              ShowHandler={() => {
-                showHandler(income);
-              }}
-            />
-          );
-        })
-      ) : (
-        <></>
-      )}
+      <div className={styles.bodyContainer}>
+        <div className={styles.listContainer}>
+          {api_incomeData ? (
+            api_incomeData.map((income) => {
+              return (
+                <Listcard
+                  key={income.id}
+                  name={income?.name_of_live_shed}
+                  type={income?.livestock_type}
+                  status={
+                    income?.is_approve === "0" ? "Not approved" : "Approved"
+                  }
+                  owner_name={income.name_of_owner}
+                  owner_contact={income.contact_number}
+                  editHandler={editHandler}
+                  ShowHandler={() => {
+                    showHandler(income);
+                  }}
+                />
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className={styles.addNewContainer}>
+          <img
+            src="/svg/add_new.svg"
+            alt="add_new"
+            onClick={() => {
+              route.push("/home/income-add");
+            }}
+          ></img>
+        </div>
+      </div>
     </>
   );
 }

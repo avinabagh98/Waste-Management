@@ -1,5 +1,5 @@
 "use client";
-// import styles from "./mohalla.module.css";
+import styles from "@/app/home/(routes)/(with-routes-layout)/livestock-list/livestock.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
@@ -130,25 +130,38 @@ export default function MohallaListPage() {
         isOffCanvasVisible={false}
       />
 
-      {api_mohallaData ? (
-        api_mohallaData.map((mohalla) => {
-          return (
-            <Listcard
-              key={mohalla.id}
-              name={mohalla.household_mc}
-              type={mohalla.livestock_type}
-              owner_name={mohalla.supervisor_id}
-              owner_contact={mohalla.contact_number}
-              editHandler={editHandler}
-              ShowHandler={(e) => {
-                showHandler(mohalla);
-              }}
-            />
-          );
-        })
-      ) : (
-        <></>
-      )}
+      <div className={styles.bodyContainer}>
+        <div className={styles.listContainer}>
+          {api_mohallaData ? (
+            api_mohallaData.map((mohalla) => {
+              return (
+                <Listcard
+                  key={mohalla.id}
+                  name={mohalla.household_mc}
+                  type={mohalla.livestock_type}
+                  owner_name={mohalla.supervisor_id}
+                  owner_contact={mohalla.contact_number}
+                  editHandler={editHandler}
+                  ShowHandler={(e) => {
+                    showHandler(mohalla);
+                  }}
+                />
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className={styles.addNewContainer}>
+          <img
+            src="/svg/add_new.svg"
+            alt="add_new"
+            onClick={() => {
+              route.push("/home/mohalla-add");
+            }}
+          ></img>
+        </div>
+      </div>
     </>
   );
 }

@@ -9,12 +9,12 @@ import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Listcard from "@/components/Listcard";
 
-export default function ComunityCleanListPage() {
+export default function HouseholdListPage() {
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
   const [ward_id, setWard_id] = useState("");
-  const [api_comunityCleanData, setApi_comunityCleanData] = useState([]);
+  const [api_householdData, setApi_householdData] = useState([]);
 
   //Common Other declarations///
   const loadingHeaderData = {
@@ -24,9 +24,9 @@ export default function ComunityCleanListPage() {
     ward_name: "",
   };
 
-  const comunityCleanBody = {
+  const householdlistBody = {
     token: token,
-    ward_id: ward_id,
+    wardId: ward_id,
   };
 
   const route = useRouter();
@@ -51,13 +51,13 @@ export default function ComunityCleanListPage() {
     }
   }, []);
 
-  //Livestock List Fetching
+  //household List Fetching
   useEffect(() => {
     async function fetchLists() {
-      const response_comunityClean = await sendRequest(
+      const response_householdlist = await sendRequest(
         "post",
-        `/cleaningcommunityToilet/list`,
-        comunityCleanBody,
+        `/household/list`,
+        householdlistBody,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,10 +65,10 @@ export default function ComunityCleanListPage() {
         }
       );
 
-      if (response_comunityClean.status === 1) {
-        console.log("API_list_ARRAY::", response_comunityClean.data.data);
-        //   setApi_comunityCleanData(
-        //     response_comunityClean.data.data.comunityCleanList
+      if (response_householdlist.status === 1) {
+        console.log("API_list_ARRAY::", response_householdlist.data.data);
+        //   setApi_householdData(
+        //     response_householdlist.data.data.householdShedlist
         //   );
       }
     }
@@ -80,18 +80,18 @@ export default function ComunityCleanListPage() {
 
   // Handler Functions
   const editHandler = () => {
-    route.push("/home/comunity-clean-edit");
+    route.push("/home/household-edit");
   };
 
   const showHandler = (arrayData) => {
     console.log("show");
     Swal.fire({
-      title: "comunityClean Details",
+      title: "household Details",
       html: `<swal-html>
-          <div id="livestockDetails">
+          <div id="householdDetails">
 
           <div style="display:flex; align-items:center; gap:10px">
-          <p style="text-align:left"><strong>Livestock Id:</strong> ${
+          <p style="text-align:left"><strong>household Id:</strong> ${
             arrayData?.id
           }</p>
           <p style="text-align:left"><strong>Registor No:</strong> ${
@@ -111,11 +111,11 @@ export default function ComunityCleanListPage() {
           <p style="text-align:left"><strong>Location:</strong> ${
             arrayData?.latitude
           }, ${arrayData?.longitude}</p>
-          <p style="text-align:left"><strong >Livestock Name:</strong> ${
+          <p style="text-align:left"><strong >household Name:</strong> ${
             arrayData?.name_of_live_shed
           }</p>
-          <p style="text-align:left"><strong>Livestock Type:</strong> ${
-            arrayData?.livestock_type
+          <p style="text-align:left"><strong>household Type:</strong> ${
+            arrayData?.household_type
           }</p>
           <p style="text-align:left"><strong>Name of Owner:</strong> ${
             arrayData?.name_of_owner
@@ -144,23 +144,21 @@ export default function ComunityCleanListPage() {
 
       <div className={styles.bodyContainer}>
         <div className={styles.listContainer}>
-          {api_comunityCleanData ? (
-            api_comunityCleanData.map((comunityClean) => {
+          {api_householdData ? (
+            api_householdData.map((household) => {
               return (
                 <Listcard
-                  key={comunityClean.id}
-                  name={comunityClean?.name_of_live_shed}
-                  type={comunityClean?.livestock_type}
+                  key={household.id}
+                  name={household?.name_of_live_shed}
+                  type={household?.household_type}
                   status={
-                    comunityClean?.is_approve === "0"
-                      ? "Not approved"
-                      : "Approved"
+                    household?.is_approve === "0" ? "Not approved" : "Approved"
                   }
-                  owner_name={comunityClean.name_of_owner}
-                  owner_contact={comunityClean.contact_number}
+                  owner_name={household.name_of_owner}
+                  owner_contact={household.contact_number}
                   editHandler={editHandler}
-                  ShowHandler={() => {
-                    showHandler(comunityClean);
+                  ShowHandler={(e) => {
+                    showHandler(household);
                   }}
                 />
               );
@@ -174,7 +172,7 @@ export default function ComunityCleanListPage() {
             src="/svg/add_new.svg"
             alt="add_new"
             onClick={() => {
-              route.push("/home/comunity-clean-add");
+              route.push("/home/household-add");
             }}
           ></img>
         </div>
