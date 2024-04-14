@@ -1,5 +1,5 @@
 "use client";
-import styles from "./livestock.module.css";
+// import styles from "./comunityClean.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
@@ -9,12 +9,12 @@ import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Listcard from "@/components/Listcard";
 
-export default function LivestockListPage() {
+export default function ComunityCleanListPage() {
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
   const [ward_id, setWard_id] = useState("");
-  const [api_livestockData, setApi_livestockData] = useState([]);
+  const [api_comunityCleanData, setApi_comunityCleanData] = useState([]);
 
   //Common Other declarations///
   const loadingHeaderData = {
@@ -24,9 +24,9 @@ export default function LivestockListPage() {
     ward_name: "",
   };
 
-  const livestocklistBody = {
+  const comunityCleanBody = {
     token: token,
-    wardId: ward_id,
+    ward_id: ward_id,
   };
 
   const route = useRouter();
@@ -54,10 +54,10 @@ export default function LivestockListPage() {
   //Livestock List Fetching
   useEffect(() => {
     async function fetchLists() {
-      const response_livestocklist = await sendRequest(
+      const response_comunityClean = await sendRequest(
         "post",
-        `/livestockShed/list`,
-        livestocklistBody,
+        `/cleaningcommunityToilet/list`,
+        comunityCleanBody,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,14 +65,11 @@ export default function LivestockListPage() {
         }
       );
 
-      if (response_livestocklist.status === 1) {
-        console.log(
-          "API_list_ARRAY::",
-          response_livestocklist.data.data.livestockShedlist
-        );
-        setApi_livestockData(
-          response_livestocklist.data.data.livestockShedlist
-        );
+      if (response_comunityClean.status === 1) {
+        console.log("API_list_ARRAY::", response_comunityClean.data.data);
+        //   setApi_comunityCleanData(
+        //     response_comunityClean.data.data.comunityCleanList
+        //   );
       }
     }
 
@@ -83,13 +80,13 @@ export default function LivestockListPage() {
 
   // Handler Functions
   const editHandler = () => {
-    route.push("/home/livestock-edit");
+    route.push("/home/comunity-clean-edit");
   };
 
   const showHandler = (arrayData) => {
     console.log("show");
     Swal.fire({
-      title: "Livestock Details",
+      title: "comunityClean Details",
       html: `<swal-html>
           <div id="livestockDetails">
 
@@ -145,21 +142,21 @@ export default function LivestockListPage() {
         isOffCanvasVisible={false}
       />
 
-      {api_livestockData ? (
-        api_livestockData.map((livestock) => {
+      {api_comunityCleanData ? (
+        api_comunityCleanData.map((comunityClean) => {
           return (
             <Listcard
-              key={livestock.id}
-              name={livestock?.name_of_live_shed}
-              type={livestock?.livestock_type}
+              key={comunityClean.id}
+              name={comunityClean?.name_of_live_shed}
+              type={comunityClean?.livestock_type}
               status={
-                livestock?.is_approve === "0" ? "Not approved" : "Approved"
+                comunityClean?.is_approve === "0" ? "Not approved" : "Approved"
               }
-              owner_name={livestock.name_of_owner}
-              owner_contact={livestock.contact_number}
+              owner_name={comunityClean.name_of_owner}
+              owner_contact={comunityClean.contact_number}
               editHandler={editHandler}
-              ShowHandler={(e) => {
-                showHandler(livestock);
+              ShowHandler={() => {
+                showHandler(comunityClean);
               }}
             />
           );

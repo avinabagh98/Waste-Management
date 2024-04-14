@@ -70,14 +70,14 @@ export default function Dashboardpage() {
         <div className={styles.firstRow}>
           <div
             className={styles.card1}
-            onClick={() => route.push("/home/waste-collection")}
+            onClick={() => route.push("/home/waste-collection-list")}
           >
             <img src="/images/waste_collector.png" alt="waste_collection"></img>
             <p>Waste Collection</p>
           </div>
           <div
             className={styles.card2}
-            onClick={() => route.push("/home/income")}
+            onClick={() => route.push("/home/income-list")}
           >
             <img src="/images/income.png" alt="income"></img>
             <p>Income</p>
@@ -88,14 +88,14 @@ export default function Dashboardpage() {
         <div className={styles.secondRow}>
           <div
             className={styles.card3}
-            onClick={() => route.push("/home/household-survey")}
+            onClick={() => route.push("/home/household-list")}
           >
             <img src="/images/HH_Survey.png" alt="HH_Survey"></img>
             <p>HH Survey</p>
           </div>
           <div
             className={styles.card4}
-            onClick={() => route.push("/home/mohalla-commitee")}
+            onClick={() => route.push("/home/mohalla-list")}
           >
             <img
               src="/images/mohalla_commitee.png"
@@ -116,7 +116,7 @@ export default function Dashboardpage() {
           </div>
           <div
             className={styles.card6}
-            onClick={() => route.push("/home/comunity-clean")}
+            onClick={() => route.push("/home/comunity-clean-list")}
           >
             <img
               src="/images/community_toilet.png"

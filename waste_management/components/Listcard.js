@@ -1,9 +1,9 @@
 import styles from "./Listcard.module.css";
 
 export default function Listcard({
-  livestock_name,
-  livestock_type,
-  livestock_status,
+  name,
+  type,
+  status,
   owner_name,
   owner_contact,
   editHandler,
@@ -17,14 +17,14 @@ export default function Listcard({
           <div className={styles.top}>
             <div className={styles.top_left}>
               <span>
-                <p className={styles.text_title}>Livestock Name</p>
-                <p className={styles.text}>{livestock_name}</p>
+                <p className={styles.text_title}>Name</p>
+                <p className={styles.text}>{name}</p>
               </span>
               <span>
-                <p className={styles.text_title}>Livestock Type</p>
-                <p className={styles.text}>{livestock_type}</p>
+                <p className={styles.text_title}>Type</p>
+                <p className={styles.text}>{type}</p>
               </span>
-              <p className={styles.text2}>{livestock_status}</p>
+              <p className={styles.text2}>{status}</p>
             </div>
             <div className={styles.top_right}>
               <div className={styles.icon} onClick={editHandler}>
