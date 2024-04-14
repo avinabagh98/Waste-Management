@@ -6,6 +6,8 @@ export default function Listcard({
   livestock_status,
   owner_name,
   owner_contact,
+  editHandler,
+  ShowHandler,
 }) {
   return (
     <>
@@ -25,7 +27,7 @@ export default function Listcard({
               <p className={styles.text2}>{livestock_status}</p>
             </div>
             <div className={styles.top_right}>
-              <div className={styles.icon}>
+              <div className={styles.icon} onClick={editHandler}>
                 <img src="/svg/edit.svg" alt="edit_icon"></img>
                 <p className={styles.icon_text}>Edit</p>
               </div>
@@ -46,7 +48,7 @@ export default function Listcard({
                 </span>
               </div>
             </div>
-            <div className={styles.buttom_right}>
+            <div className={styles.buttom_right} onClick={ShowHandler}>
               <img src="/svg/show_more.svg" alt="show_icon"></img>
               <p className={styles.icon_text}>Show more</p>
             </div>
