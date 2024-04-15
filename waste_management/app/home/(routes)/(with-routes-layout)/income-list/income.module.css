@@ -6,6 +6,12 @@
       }
 
 
+      .breadcrumb {
+            padding: 10px;
+            color: var(--lic-yellow);
+            background-color: var(--bitan-green);
+      }
+
       .addNewContainer {
             position: fixed;
             bottom: 20px;

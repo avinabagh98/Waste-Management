@@ -10,10 +10,15 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
+import Textparser from "@/components/Textparser";
 
 export default function Livestockpage() {
   //State variables
   const [userRole, setUserRole] = useState("");
+
+
+
+
 
   //form-data states
   const [supervisorLivestock, setSupervisorLivestock] = useState("");
@@ -33,34 +38,50 @@ export default function Livestockpage() {
     compostableWasteTransferredLivestock,
     setCompostableWasteTransferredLivestock,
   ] = useState("");
+  const [lat, setLat] = useState("");
+  const [long, setLong] = useState("");
+
+  //Loading Header Data States
+  const [name, setName] = useState("");
+  const [wardName, setWardName] = useState("");
+  const [district_name, setDistrictName] = useState("");
+  const [block_name, setBLockName] = useState("");
+  const [token, setToken] = useState("");
+
+
+
+
 
   //Other declarations
-
   const route = useRouter();
   const translate = LanguageFetcher();
 
   const wardOptions = ["select", "1", "2"];
   const localityOptions = ["select", "1", "2"];
   const registorOptions = ["select", "1", "2"];
+
   const loadingHeaderData = {
-    name: userRole,
-    municipality_name: "",
-    team_num: "",
-    ward_name: "",
+    name: name,
+    district_name: district_name,
+    ward_name: wardName,
+    block_name: block_name,
   };
 
   const formDataLS = {
-    supervisorLivestock,
-    fieldStaffLivestock,
-    dateOfReportingLivestock,
-    wardNoGPLivestock,
-    localityNameVillageLivestock,
-    registorNumberLivestock,
-    nameOfLivestockShedLivestock,
-    nameOfOwnerLivestock,
-    contactNumberLivestock,
-    numberOfLivestockLivestock,
-    compostableWasteTransferredLivestock,
+    token: token,
+    supervisor: supervisorLivestock,
+    fieldStaff: fieldStaffLivestock,
+    date_of_reporting: dateOfReportingLivestock,
+    wardId: wardNoGPLivestock,
+    localityId: localityNameVillageLivestock,
+    regNumber: registorNumberLivestock,
+    lat: lat,
+    long: long,
+    nameOfLivestock: nameOfLivestockShedLivestock,
+    ownerName: nameOfOwnerLivestock,
+    contactNumber: contactNumberLivestock,
+    noOflivestock: numberOfLivestockLivestock,
+    wtOfwaste: compostableWasteTransferredLivestock,
   };
 
   // LocalStorage Fetching
@@ -68,11 +89,20 @@ export default function Livestockpage() {
     // setUserRole(localStorage.getItem("role_name"));
     try {
       async function fetchData() {
-        const token = await localStorage.getItem("token");
-        if (!token) {
+        const tokeN = await localStorage.getItem("token");
+        if (!tokeN) {
           route.push("/home/login");
         } else {
+          setToken(tokeN);
           setUserRole(localStorage.getItem("role_name"));
+
+          //loadingHeaderData from local storage
+          setName(localStorage.getItem("name"));
+          setDistrictName(localStorage.getItem("district"));
+          setBLockName(localStorage.getItem("block"));
+          setWardName(localStorage.getItem("ward_id"));
+          // setSupervisorLivestock(localStorage.getItem("supervisorLivestock"));
+          setFieldStaffLivestock(localStorage.getItem("name"));
         }
       }
       fetchData();
@@ -81,17 +111,53 @@ export default function Livestockpage() {
     }
   }, []);
 
-  // API Data Fetching
+  // Location Fetching
+  useEffect(() => {
+    const geolocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setLat(position.coords.latitude);
+          setLong(position.coords.longitude);
 
-  // Function Declarations
+        });
+      } else {
+        // alert("Geolocation not available")
+        setLocation(null);
+      }
+    };
+
+    geolocation();
+  }, []);
 
   // Handler Functions
   const handleVal = (id, val) => {
-    setTest(val);
-    console.log(test);
+    if (id === "supervisorLivestock") { setSupervisorLivestock(val); }
+    if (id === "fieldStaffLivestock") { setFieldStaffLivestock(val); }
+    if (id === "dateOfReportingLivestock") { setDateOfReportingLivestock(val); }
+    if (id === "wardNoGPLivestock") { setWardNoGPLivestock(val); }
+    if (id === "localityNameVillageLivestock") { setLocalityNameVillageLivestock(val); }
+    if (id === "registorNumberLivestock") { setRegistorNumberLivestock(val); }
+    if (id === "nameOfLivestockShedLivestock") { setNameOfLivestockShedLivestock(val); }
+    if (id === "nameOfOwnerLivestock") { setNameOfOwnerLivestock(val); }
+    if (id === "contactNumberLivestock") { setContactNumberLivestock(val); }
+    if (id === "numberOfLivestockLivestock") { setNumberOfLivestockLivestock(val); }
+    if (id === "compostableWasteTransferredLivestock") { setCompostableWasteTransferredLivestock(val); }
+
   };
 
-  const handleValdropdown = (id, val) => {};
+  const handleValdropdown = (id, val) => {
+    if (id === "wardNoGPLivestock") {
+      setWardNoGPLivestock(val);
+    }
+    if (id === "localityNameVillageLivestock") {
+      setLocalityNameVillageLivestock(val);
+    }
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(formDataLS);
+  }
   return (
     <>
       <Header
@@ -101,6 +167,14 @@ export default function Livestockpage() {
       />
 
       <div className={styles.container}>
+
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Livestock List"} />
+        </div>
+
+        {/* //Form Container */}
+
         <div className={styles.formcontainer}>
           <Surveyques
             id={"supervisorLivestock"}
@@ -108,6 +182,7 @@ export default function Livestockpage() {
             value={supervisorLivestock}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+
           />
 
           <Surveyques
@@ -116,10 +191,12 @@ export default function Livestockpage() {
             value={fieldStaffLivestock}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            disabled={true}
           />
 
           <Surveyques
             id={"dateOfReportingLivestock"}
+            type={"date"}
             labelText={translate?.Date_of_Reporting_Livestock}
             value={dateOfReportingLivestock}
             required={true}
@@ -144,13 +221,14 @@ export default function Livestockpage() {
             handleVal={handleValdropdown}
           />
 
-          <SurveyDropdown
+
+          <Surveyques
             id={"registorNumberLivestock"}
+            type={"text"}
             labelText={translate?.Registor_Number_Livestock}
-            options={registorOptions}
-            value={registorNumberLivestock}
+            value={dateOfReportingLivestock}
             required={true}
-            handleVal={handleValdropdown}
+            handleVal={(id, val) => handleVal(id, val)}
           />
 
           <Surveyques
@@ -176,7 +254,7 @@ export default function Livestockpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
           <Surveyques
-            id={"Number_of_Livestock_Livestock"}
+            id={"numberOfLivestockLivestock"}
             labelText={translate?.Number_of_Livestock_Livestock}
             value={numberOfLivestockLivestock}
             required={true}
@@ -191,7 +269,7 @@ export default function Livestockpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtn}>Submit</button>
+            <button className={styles.submitbtn} onClick={submitHandler}>Submit</button>
           </div>
         </div>
       </div>

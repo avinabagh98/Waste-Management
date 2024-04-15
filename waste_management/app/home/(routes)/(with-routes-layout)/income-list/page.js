@@ -8,6 +8,7 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Listcard from "@/components/Listcard";
+import Textparser from "@/components/Textparser";
 
 export default function IncomeListPage() {
   //Common States///
@@ -16,13 +17,21 @@ export default function IncomeListPage() {
   const [ward_id, setWard_id] = useState("");
   const [api_incomeData, setApi_incomeData] = useState([]);
 
+  //Loading Header Data States
+  const [name, setName] = useState("");
+  const [wardName, setWardName] = useState("");
+  const [district_name, setDistrictName] = useState("");
+  const [block_name, setBLockName] = useState("");
+
+
   //Common Other declarations///
   const loadingHeaderData = {
-    name: userRole,
-    municipality_name: "",
-    team_num: "",
-    ward_name: "",
+    name: name,
+    district_name: district_name,
+    ward_name: wardName,
+    block_name: block_name,
   };
+
 
   const incomeBody = {
     token: token,
@@ -43,6 +52,12 @@ export default function IncomeListPage() {
           setToken(tokeN);
           setWard_id(localStorage.getItem("ward_id"));
           setUserRole(localStorage.getItem("role_name"));
+
+          //loadingHeaderData from local storage
+          setName(localStorage.getItem("name"));
+          setDistrictName(localStorage.getItem("district"));
+          setBLockName(localStorage.getItem("block"));
+          setWardName(localStorage.getItem("ward_id"));
         }
       }
       fetchData();
@@ -51,7 +66,7 @@ export default function IncomeListPage() {
     }
   }, []);
 
-  //Livestock List Fetching
+  //Income List Fetching
   useEffect(() => {
     async function fetchLists() {
       const response_income = await sendRequest(
@@ -86,47 +101,36 @@ export default function IncomeListPage() {
     Swal.fire({
       title: "Income Details",
       html: `<swal-html>
-          <div id="livestockDetails">
+          <div id="IncomeDetails">
 
           <div style="display:flex; align-items:center; gap:10px">
-          <p style="text-align:left"><strong>Livestock Id:</strong> ${
-            arrayData?.id
-          }</p>
-          <p style="text-align:left"><strong>Registor No:</strong> ${
-            arrayData?.regester_no
-          }</p>
+          <p style="text-align:left"><strong>Income Id:</strong> ${arrayData?.id
+        }</p>
+          <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
+        }</p>
           </div>
           
           <div style="display:flex; align-items:center;gap:10px">
-          <p style="text-align:left"><strong>Ward:</strong> ${
-            arrayData?.ward
-          }</p>
-          <p style="text-align:left"><strong>Municipality:</strong> ${
-            arrayData?.municipality_id
-          }</p>
+          <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
+        }</p>
+          <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
+        }</p>
           </div>
 
-          <p style="text-align:left"><strong>Location:</strong> ${
-            arrayData?.latitude
-          }, ${arrayData?.longitude}</p>
-          <p style="text-align:left"><strong >Livestock Name:</strong> ${
-            arrayData?.name_of_live_shed
-          }</p>
-          <p style="text-align:left"><strong>Livestock Type:</strong> ${
-            arrayData?.livestock_type
-          }</p>
-          <p style="text-align:left"><strong>Name of Owner:</strong> ${
-            arrayData?.name_of_owner
-          }</p>
-          <p style="text-align:left"><strong>Contact Number:</strong> ${
-            arrayData?.contact_number
-          }</p>
-          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${
-            arrayData?.compostable_waste
-          }</p>
-          <p style="text-align:left"><strong>Is Approved:</strong> ${
-            arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-          }</p>
+          <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
+        }, ${arrayData?.longitude}</p>
+          <p style="text-align:left"><strong >Income Name:</strong> ${arrayData?.name_of_live_shed
+        }</p>
+          <p style="text-align:left"><strong>Income Type:</strong> ${arrayData?.Income_type
+        }</p>
+          <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
+        }</p>
+          <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
+        }</p>
+          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
+        }</p>
+          <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
+        }</p>
           </div>
         </swal-html>`,
     });
@@ -141,6 +145,13 @@ export default function IncomeListPage() {
       />
 
       <div className={styles.bodyContainer}>
+
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Income List"} />
+        </div>
+
+        {/* //Lists */}
         <div className={styles.listContainer}>
           {api_incomeData ? (
             api_incomeData.map((income) => {
@@ -148,7 +159,7 @@ export default function IncomeListPage() {
                 <Listcard
                   key={income.id}
                   name={income?.name_of_live_shed}
-                  type={income?.livestock_type}
+                  type={income?.Income_type}
                   status={
                     income?.is_approve === "0" ? "Not approved" : "Approved"
                   }

@@ -59,12 +59,20 @@ export default function Householdpage() {
     setUserChargesInRupeesPerMonthHHSurvey,
   ] = useState("");
 
-  //Other declarations
+  //Loading Header Data States
+  const [name, setName] = useState("");
+  const [wardName, setWardName] = useState("");
+  const [district_name, setDistrictName] = useState("");
+  const [block_name, setBLockName] = useState("");
+
+
+
+  //Common Other declarations///
   const loadingHeaderData = {
-    name: userRole,
-    municipality_name: "",
-    team_num: "",
-    ward_name: "",
+    name: name,
+    district_name: district_name,
+    ward_name: wardName,
+    block_name: block_name,
   };
 
   const formDataHH = {
@@ -96,38 +104,27 @@ export default function Householdpage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-    setUserRole(localStorage.getItem("role_name"));
-    //     try {
-    //       async function fetchData() {
-    //         const token = await localStorage.getItem("token");
-    //         if (!token) {
-    //           route.push("/home/login");
-    //         } else {
-    //           setUserRole(localStorage.getItem("role_name"));
-    //           setToken(token);
+    try {
+      async function fetchData() {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        } else {
+          setToken(token);
+          setUserRole(localStorage.getItem("role_name"));
 
-    //           //Fetching user details
-    //           const user_details_response = await sendRequest(
-    //             "get",
-    //             "/user-details",
-    //             null,
-    //             {
-    //               headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //               },
-    //             }
-    //           );
+          //loadingHeaderData from local storage
+          setName(localStorage.getItem("name"));
+          setDistrictName(localStorage.getItem("district"));
+          setBLockName(localStorage.getItem("block"));
+          setWardName(localStorage.getItem("ward_id"));
 
-    //           if (user_details_response.status === 1) {
-    //             // console.log("User Details Response ::", user_details_response.data);
-    //             setAPI_Data_userDetails(user_details_response.data);
-    //           }
-    //         }
-    //       }
-    //       fetchData();
-    //     } catch (error) {
-    //       swal("Error", error.message, "error");
-    //     }
+        }
+      }
+      fetchData();
+    } catch (error) {
+      swal("Error", error.message, "error");
+    }
   }, []);
 
   // API Data Fetching
@@ -149,6 +146,12 @@ export default function Householdpage() {
       />
 
       <div className={styles.container}>
+
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Household Survey Add"} />
+        </div>
+
         <div className={styles.formcontainer}>
           <Surveyques
             id={"dateHHSurvey"}

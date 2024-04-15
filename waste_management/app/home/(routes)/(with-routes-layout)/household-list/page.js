@@ -8,6 +8,7 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Listcard from "@/components/Listcard";
+import Textparser from "@/components/Textparser";
 
 export default function HouseholdListPage() {
   //Common States///
@@ -91,44 +92,33 @@ export default function HouseholdListPage() {
           <div id="householdDetails">
 
           <div style="display:flex; align-items:center; gap:10px">
-          <p style="text-align:left"><strong>household Id:</strong> ${
-            arrayData?.id
-          }</p>
-          <p style="text-align:left"><strong>Registor No:</strong> ${
-            arrayData?.regester_no
-          }</p>
+          <p style="text-align:left"><strong>household Id:</strong> ${arrayData?.id
+        }</p>
+          <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
+        }</p>
           </div>
           
           <div style="display:flex; align-items:center;gap:10px">
-          <p style="text-align:left"><strong>Ward:</strong> ${
-            arrayData?.ward
-          }</p>
-          <p style="text-align:left"><strong>Municipality:</strong> ${
-            arrayData?.municipality_id
-          }</p>
+          <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
+        }</p>
+          <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
+        }</p>
           </div>
 
-          <p style="text-align:left"><strong>Location:</strong> ${
-            arrayData?.latitude
-          }, ${arrayData?.longitude}</p>
-          <p style="text-align:left"><strong >household Name:</strong> ${
-            arrayData?.name_of_live_shed
-          }</p>
-          <p style="text-align:left"><strong>household Type:</strong> ${
-            arrayData?.household_type
-          }</p>
-          <p style="text-align:left"><strong>Name of Owner:</strong> ${
-            arrayData?.name_of_owner
-          }</p>
-          <p style="text-align:left"><strong>Contact Number:</strong> ${
-            arrayData?.contact_number
-          }</p>
-          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${
-            arrayData?.compostable_waste
-          }</p>
-          <p style="text-align:left"><strong>Is Approved:</strong> ${
-            arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-          }</p>
+          <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
+        }, ${arrayData?.longitude}</p>
+          <p style="text-align:left"><strong >household Name:</strong> ${arrayData?.name_of_live_shed
+        }</p>
+          <p style="text-align:left"><strong>household Type:</strong> ${arrayData?.household_type
+        }</p>
+          <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
+        }</p>
+          <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
+        }</p>
+          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
+        }</p>
+          <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
+        }</p>
           </div>
         </swal-html>`,
     });
@@ -143,6 +133,13 @@ export default function HouseholdListPage() {
       />
 
       <div className={styles.bodyContainer}>
+
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Household survey List"} />
+        </div>
+
+        {/* //Lists */}
         <div className={styles.listContainer}>
           {api_householdData ? (
             api_householdData.map((household) => {

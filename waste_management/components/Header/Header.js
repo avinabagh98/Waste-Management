@@ -21,7 +21,7 @@ export default function Header({
   const name = loadingdata?.name || null;
   const district_name = loadingdata?.district_name || null;
   const block_name = loadingdata?.block_name || null;
-  const team_num = loadingdata?.team_num || null;
+  const ward_name = loadingdata?.ward_name || null;
 
   const handleLogout = () => {
     swal({
@@ -55,8 +55,8 @@ export default function Header({
               isOffCanvasVisible
                 ? styles.headerContent
                 : isOffCanvasVisible === false
-                ? styles.offcanvas_false_headerContent
-                : styles.defaultHeader
+                  ? styles.offcanvas_false_headerContent
+                  : styles.defaultHeader
             }
           >
             {isOffCanvasVisible ? (
@@ -307,7 +307,7 @@ export default function Header({
                     <></>
                   )}
                 </span>
-                {team_num ? <span>{`Team-${team_num}`}</span> : <></>}
+                {ward_name ? <span>{`Ward-${ward_name}`}</span> : <></>}
               </div>
             </div>
           ) : (
