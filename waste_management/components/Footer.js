@@ -13,14 +13,14 @@ export default function Footer() {
         <span className={styles.icon}>
           <img src="/svg/camera_icon.svg" alt="camera"></img>
         </span>
-        <p>Camera</p>
+        <p>Chronic Spot</p>
       </div>
 
       <div className={styles.iconcontainer}>
         <span className={styles.icon}>
           <img src="/svg/mobile_icon.svg" alt="mobile"></img>
         </span>
-        <p>Mobile</p>
+        <p>M-Pin</p>
       </div>
     </div>
   );
