@@ -8,6 +8,7 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Listcard from "@/components/Listcard";
+import Textparser from "@/components/Textparser";
 
 export default function WasteCollectionListPage() {
   //Common States///
@@ -16,14 +17,19 @@ export default function WasteCollectionListPage() {
   const [ward_id, setWard_id] = useState("");
   const [api_wasteCollectionData, setApi_wasteCollectionData] = useState([]);
 
+  //Loading Header Data States
+  const [name, setName] = useState("");
+  const [wardName, setWardName] = useState("");
+  const [district_name, setDistrictName] = useState("");
+  const [block_name, setBLockName] = useState("");
+
   //Common Other declarations///
   const loadingHeaderData = {
-    name: userRole,
-    municipality_name: "",
-    team_num: "",
-    ward_name: "",
+    name: name,
+    district_name: district_name,
+    ward_name: wardName,
+    block_name: block_name,
   };
-
   const wasteCollectionlistBody = {
     token: token,
     ward_id: ward_id,
@@ -43,6 +49,12 @@ export default function WasteCollectionListPage() {
           setToken(tokeN);
           setWard_id(localStorage.getItem("ward_id"));
           setUserRole(localStorage.getItem("role_name"));
+
+          //loadingHeaderData from local storage
+          setName(localStorage.getItem("name"));
+          setDistrictName(localStorage.getItem("district"));
+          setBLockName(localStorage.getItem("block"));
+          setWardName(localStorage.getItem("ward_id"));
         }
       }
       fetchData();
@@ -51,7 +63,7 @@ export default function WasteCollectionListPage() {
     }
   }, []);
 
-  //Livestock List Fetching
+  //Weekly waste collection List Fetching
   useEffect(() => {
     async function fetchLists() {
       const response_wasteCollectionlist = await sendRequest(
@@ -127,6 +139,13 @@ export default function WasteCollectionListPage() {
       />
 
       <div className={styles.bodyContainer}>
+
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Weekly Waste Collection List"} />
+        </div>
+
+        {/* //Form Container */}
         <div className={styles.listContainer}>
           {api_wasteCollectionData ? (
             api_wasteCollectionData.map((wasteCollection) => {
@@ -153,7 +172,7 @@ export default function WasteCollectionListPage() {
             src="/svg/add_new.svg"
             alt="add_new"
             onClick={() => {
-              route.push("/home/livestock-add");
+              route.push("/home/waste-collection-add");
             }}
           ></img>
         </div>

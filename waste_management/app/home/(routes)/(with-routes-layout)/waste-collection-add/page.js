@@ -9,6 +9,7 @@ import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
+import Textparser from "@/components/Textparser";
 
 export default function Wastecollectionpage() {
   //State variables
@@ -60,12 +61,18 @@ export default function Wastecollectionpage() {
     setDaysOfCollectionsInAWeekWasteCollection,
   ] = useState(null);
 
-  //Other declarations
+  //Loading Header Data States
+  const [name, setName] = useState("");
+  const [wardName, setWardName] = useState("");
+  const [district_name, setDistrictName] = useState("");
+  const [block_name, setBLockName] = useState("");
+
+  //Common Other declarations///
   const loadingHeaderData = {
-    name: userRole,
-    municipality_name: "",
-    team_num: "",
-    ward_name: "",
+    name: name,
+    district_name: district_name,
+    ward_name: wardName,
+    block_name: block_name,
   };
 
   const formDataWC = {
@@ -102,38 +109,30 @@ export default function Wastecollectionpage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-    setUserRole(localStorage.getItem("role_name"));
-    //     try {
-    //       async function fetchData() {
-    //         const token = await localStorage.getItem("token");
-    //         if (!token) {
-    //           route.push("/home/login");
-    //         } else {
-    //           setUserRole(localStorage.getItem("role_name"));
-    //           setToken(token);
 
-    //           //Fetching user details
-    //           const user_details_response = await sendRequest(
-    //             "get",
-    //             "/user-details",
-    //             null,
-    //             {
-    //               headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //               },
-    //             }
-    //           );
+    try {
+      async function fetchData() {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        } else {
+          setUserRole(localStorage.getItem("role_name"));
+          setToken(token);
 
-    //           if (user_details_response.status === 1) {
-    //             // console.log("User Details Response ::", user_details_response.data);
-    //             setAPI_Data_userDetails(user_details_response.data);
-    //           }
-    //         }
-    //       }
-    //       fetchData();
-    //     } catch (error) {
-    //       swal("Error", error.message, "error");
-    //     }
+
+          //loadingHeaderData from local storage
+          setName(localStorage.getItem("name"));
+          setDistrictName(localStorage.getItem("district"));
+          setBLockName(localStorage.getItem("block"));
+          setWardName(localStorage.getItem("ward_id"));
+
+
+        }
+      }
+      fetchData();
+    } catch (error) {
+      swal("Error", error.message, "error");
+    }
   }, []);
 
   // API Data Fetching
@@ -239,6 +238,13 @@ export default function Wastecollectionpage() {
       />
 
       <div className={styles.container}>
+
+
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Weekly Waste Collection List"} />
+        </div>
+
         <div className={styles.formcontainer}>
           <Surveyques
             id={"dateWasteCollection"}

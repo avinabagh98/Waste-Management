@@ -16,10 +16,6 @@ export default function Livestockpage() {
   //State variables
   const [userRole, setUserRole] = useState("");
 
-
-
-
-
   //form-data states
   const [supervisorLivestock, setSupervisorLivestock] = useState("");
   const [fieldStaffLivestock, setFieldStaffLivestock] = useState("");
