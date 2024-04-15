@@ -56,7 +56,7 @@ export default function WasteCollectionListPage() {
     async function fetchLists() {
       const response_wasteCollectionlist = await sendRequest(
         "post",
-        `/weeklywastecollection/list`,
+        `/weeklywastecollection/data`,
         wasteCollectionlistBody,
         {
           headers: {
@@ -93,36 +93,26 @@ export default function WasteCollectionListPage() {
       html: `<swal-html>
             <div id="livestockDetails">
             <p style="text-align:left"><strong>Id:</strong> ${arrayData?.id}</p>
-            <p style="text-align:left"><strong>Registor No:</strong> ${
-              arrayData?.regester_no
-            }</p>
-            <p style="text-align:left"><strong>Ward:</strong> ${
-              arrayData?.ward
-            }</p>
-            <p style="text-align:left"><strong>Municipality:</strong> ${
-              arrayData?.municipality_id
-            }</p>
-            <p style="text-align:left"><strong>Location:</strong> ${
-              arrayData?.latitude
-            }, ${arrayData?.longitude}</p>
-            <p style="text-align:left"><strong >Livestock Name:</strong> ${
-              arrayData?.name_of_live_shed
-            }</p>
-            <p style="text-align:left"><strong>Livestock Type:</strong> ${
-              arrayData?.livestock_type
-            }</p>
-            <p style="text-align:left"><strong>Name of Owner:</strong> ${
-              arrayData?.name_of_owner
-            }</p>
-            <p style="text-align:left"><strong>Contact Number:</strong> ${
-              arrayData?.contact_number
-            }</p>
-            <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${
-              arrayData?.compostable_waste
-            }</p>
-            <p style="text-align:left"><strong>Is Approved:</strong> ${
-              arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-            }</p>
+            <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
+        }</p>
+            <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
+        }</p>
+            <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
+        }</p>
+            <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
+        }, ${arrayData?.longitude}</p>
+            <p style="text-align:left"><strong >Livestock Name:</strong> ${arrayData?.name_of_live_shed
+        }</p>
+            <p style="text-align:left"><strong>Livestock Type:</strong> ${arrayData?.livestock_type
+        }</p>
+            <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
+        }</p>
+            <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
+        }</p>
+            <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
+        }</p>
+            <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
+        }</p>
             </div>
           </swal-html>`,
     });

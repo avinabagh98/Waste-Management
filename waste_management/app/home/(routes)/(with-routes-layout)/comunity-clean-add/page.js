@@ -9,6 +9,7 @@ import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
+import Textparser from "@/components/Textparser";
 
 export default function ComunityCleanpage() {
   //State variables
@@ -212,6 +213,13 @@ export default function ComunityCleanpage() {
       />
 
       <div className={styles.container}>
+
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Community Toilet Add"} />
+        </div>
+
+        {/* //Lists */}
         <div className={styles.formcontainer}>
           <Surveyques
             id={"monthAndYearCleaningToilets"}
