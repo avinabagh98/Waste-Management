@@ -26,9 +26,7 @@
 
       }
 
-      .iconcontainerHome {
-            color: var(--lic-yellow);
-      }
+
 
       .icon {
             display: flex;
@@ -45,7 +43,7 @@
 
       }
 
-      .iconcontainerHome p,
+
       .iconcontainerCamera p,
       .iconcontainerMobile p {
 
@@ -53,5 +51,12 @@
             padding: 0;
             font-size: 13px;
             color: aliceblue;
+      }
+
+      .iconcontainerHome p {
+            margin: 0;
+            padding: 0;
+            font-size: 13px;
+            color: var(--lic-yellow);
       }
 }

@@ -17,12 +17,20 @@ export default function HouseholdListPage() {
   const [ward_id, setWard_id] = useState("");
   const [api_householdData, setApi_householdData] = useState([]);
 
+  //Loading Header Data States
+  const [name, setName] = useState("");
+  const [wardName, setWardName] = useState("");
+  const [district_name, setDistrictName] = useState("");
+  const [block_name, setBLockName] = useState("");
+
+
+
   //Common Other declarations///
   const loadingHeaderData = {
-    name: userRole,
-    municipality_name: "",
-    team_num: "",
-    ward_name: "",
+    name: name,
+    district_name: district_name,
+    ward_name: wardName,
+    block_name: block_name,
   };
 
   const householdlistBody = {
@@ -44,6 +52,13 @@ export default function HouseholdListPage() {
           setToken(tokeN);
           setWard_id(localStorage.getItem("ward_id"));
           setUserRole(localStorage.getItem("role_name"));
+
+          //loadingHeaderData from local storage
+          setName(localStorage.getItem("name"));
+          setDistrictName(localStorage.getItem("district"));
+          setBLockName(localStorage.getItem("block"));
+          setWardName(localStorage.getItem("ward_id"));
+
         }
       }
       fetchData();

@@ -152,7 +152,7 @@ export default function IncomeListPage() {
         </div>
 
         {/* //Lists */}
-        <div className={styles.listContainer}>
+        {/* <div className={styles.listContainer}>
           {api_incomeData ? (
             api_incomeData.map((income) => {
               return (
@@ -175,7 +175,36 @@ export default function IncomeListPage() {
           ) : (
             <></>
           )}
+        </div> */}
+
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <thead>
+              <tr className={styles.thead}>
+                <th>SL</th>
+                <th>Recyclable Waste Sold (KG)</th>
+                <th>Plastic Sold (KG)</th>
+                <th>Recyclable Waste Sales (Rs)</th>
+                <th>Manure Sales(Rs)</th>
+                <th>Created On</th>
+              </tr>
+            </thead>
+            <tbody className={styles.table_body}>
+              {api_incomeData.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.id}</td>
+                  <td>{item.recylable_sold}</td>
+                  <td>{item.plastic_sold}</td>
+                  <td>{item.income_of_recylable}</td>
+                  <td>{item.sale_of_manure}</td>
+                  <td>{item.create_date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+
+
         <div className={styles.addNewContainer}>
           <img
             src="/svg/add_new.svg"

@@ -12,6 +12,51 @@
             background-color: var(--bitan-green);
       }
 
+      .tableContainer {
+            padding: 0 10px;
+            margin-top: 10px;
+      }
+
+      .table {
+            width: 100%;
+            border-collapse: collapse;
+
+      }
+
+      .thead {
+            background-color: var(--lic-blue);
+
+      }
+
+      .thead th {
+            padding: 3px;
+            text-align: left;
+            border-bottom: 1px solid var(--lic-blue);
+            font-size: 12px;
+            color: white;
+      }
+
+      .table_body {
+            width: 100%;
+            padding: 0 10px;
+      }
+
+      .table_body td {
+            padding: 2px 5px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 12px;
+      }
+
+      .table_body tr:nth-child(even) {
+            background-color: #f2f2f2;
+      }
+
+      .table_body tr:hover {
+            background-color: var(--lic-yellow);
+            color: var(--bitan-green);
+      }
+
       .addNewContainer {
             position: fixed;
             bottom: 20px;
