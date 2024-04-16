@@ -23,7 +23,6 @@ export default function IncomeListPage() {
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
-
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
@@ -31,7 +30,6 @@ export default function IncomeListPage() {
     ward_name: wardName,
     block_name: block_name,
   };
-
 
   const incomeBody = {
     token: token,
@@ -104,33 +102,44 @@ export default function IncomeListPage() {
           <div id="IncomeDetails">
 
           <div style="display:flex; align-items:center; gap:10px">
-          <p style="text-align:left"><strong>Income Id:</strong> ${arrayData?.id
-        }</p>
-          <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
-        }</p>
+          <p style="text-align:left"><strong>Income Id:</strong> ${
+            arrayData?.id
+          }</p>
+          <p style="text-align:left"><strong>Registor No:</strong> ${
+            arrayData?.regester_no
+          }</p>
           </div>
           
           <div style="display:flex; align-items:center;gap:10px">
-          <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
-        }</p>
-          <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
-        }</p>
+          <p style="text-align:left"><strong>Ward:</strong> ${
+            arrayData?.ward
+          }</p>
+          <p style="text-align:left"><strong>Municipality:</strong> ${
+            arrayData?.municipality_id
+          }</p>
           </div>
 
-          <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
-        }, ${arrayData?.longitude}</p>
-          <p style="text-align:left"><strong >Income Name:</strong> ${arrayData?.name_of_live_shed
-        }</p>
-          <p style="text-align:left"><strong>Income Type:</strong> ${arrayData?.Income_type
-        }</p>
-          <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
-        }</p>
-          <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
-        }</p>
-          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
-        }</p>
-          <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-        }</p>
+          <p style="text-align:left"><strong>Location:</strong> ${
+            arrayData?.latitude
+          }, ${arrayData?.longitude}</p>
+          <p style="text-align:left"><strong >Income Name:</strong> ${
+            arrayData?.name_of_live_shed
+          }</p>
+          <p style="text-align:left"><strong>Income Type:</strong> ${
+            arrayData?.Income_type
+          }</p>
+          <p style="text-align:left"><strong>Name of Owner:</strong> ${
+            arrayData?.name_of_owner
+          }</p>
+          <p style="text-align:left"><strong>Contact Number:</strong> ${
+            arrayData?.contact_number
+          }</p>
+          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${
+            arrayData?.compostable_waste
+          }</p>
+          <p style="text-align:left"><strong>Is Approved:</strong> ${
+            arrayData?.is_approve === 0 ? "Not approved" : "Approved"
+          }</p>
           </div>
         </swal-html>`,
     });
@@ -145,37 +154,12 @@ export default function IncomeListPage() {
       />
 
       <div className={styles.bodyContainer}>
-
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
           <Textparser text={"Income List"} />
         </div>
 
         {/* //Lists */}
-        {/* <div className={styles.listContainer}>
-          {api_incomeData ? (
-            api_incomeData.map((income) => {
-              return (
-                <Listcard
-                  key={income.id}
-                  name={income?.name_of_live_shed}
-                  type={income?.Income_type}
-                  status={
-                    income?.is_approve === "0" ? "Not approved" : "Approved"
-                  }
-                  owner_name={income.name_of_owner}
-                  owner_contact={income.contact_number}
-                  editHandler={editHandler}
-                  ShowHandler={() => {
-                    showHandler(income);
-                  }}
-                />
-              );
-            })
-          ) : (
-            <></>
-          )}
-        </div> */}
 
         <div className={styles.tableContainer}>
           <table className={styles.table}>
@@ -203,7 +187,6 @@ export default function IncomeListPage() {
             </tbody>
           </table>
         </div>
-
 
         <div className={styles.addNewContainer}>
           <img

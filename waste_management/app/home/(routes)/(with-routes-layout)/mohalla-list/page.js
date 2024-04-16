@@ -23,7 +23,6 @@ export default function MohallaListPage() {
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
-
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
@@ -31,8 +30,6 @@ export default function MohallaListPage() {
     ward_name: wardName,
     block_name: block_name,
   };
-
-
 
   const mohallalistBody = {
     token: token,
@@ -71,7 +68,7 @@ export default function MohallaListPage() {
     async function fetchLists() {
       const response_mohallalist = await sendRequest(
         "post",
-        '/mohollaCommitteemeeting/list',
+        "/mohollaCommitteemeeting/list",
         mohallalistBody,
         {
           headers: {
@@ -103,26 +100,36 @@ export default function MohallaListPage() {
       html: `<swal-html>
             <div id="MohallaDetails">
             <p style="text-align:left"><strong>Id:</strong> ${arrayData?.id}</p>
-            <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
-        }</p>
-            <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
-        }</p>
-            <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
-        }</p>
-            <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
-        }, ${arrayData?.longitude}</p>
-            <p style="text-align:left"><strong >Mohalla Name:</strong> ${arrayData?.name_of_live_shed
-        }</p>
-            <p style="text-align:left"><strong>Mohalla Type:</strong> ${arrayData?.Mohalla_type
-        }</p>
-            <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
-        }</p>
-            <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
-        }</p>
-            <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
-        }</p>
-            <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-        }</p>
+            <p style="text-align:left"><strong>Registor No:</strong> ${
+              arrayData?.regester_no
+            }</p>
+            <p style="text-align:left"><strong>Ward:</strong> ${
+              arrayData?.ward
+            }</p>
+            <p style="text-align:left"><strong>Municipality:</strong> ${
+              arrayData?.municipality_id
+            }</p>
+            <p style="text-align:left"><strong>Location:</strong> ${
+              arrayData?.latitude
+            }, ${arrayData?.longitude}</p>
+            <p style="text-align:left"><strong >Mohalla Name:</strong> ${
+              arrayData?.name_of_live_shed
+            }</p>
+            <p style="text-align:left"><strong>Mohalla Type:</strong> ${
+              arrayData?.Mohalla_type
+            }</p>
+            <p style="text-align:left"><strong>Name of Owner:</strong> ${
+              arrayData?.name_of_owner
+            }</p>
+            <p style="text-align:left"><strong>Contact Number:</strong> ${
+              arrayData?.contact_number
+            }</p>
+            <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${
+              arrayData?.compostable_waste
+            }</p>
+            <p style="text-align:left"><strong>Is Approved:</strong> ${
+              arrayData?.is_approve === 0 ? "Not approved" : "Approved"
+            }</p>
             </div>
           </swal-html>`,
     });
@@ -137,7 +144,6 @@ export default function MohallaListPage() {
       />
 
       <div className={styles.bodyContainer}>
-
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
           <Textparser text={"Mohalla Committee List"} />
