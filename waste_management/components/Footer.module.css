@@ -1,21 +1,3 @@
-@media screen and (max-width: 600px) {
-      .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            height: 20vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 0;
-            background-color: grey;
-      }
-}
-
-
-
 @media screen and (max-width: 400px) {
       .footer {
             position: fixed;
@@ -31,16 +13,21 @@
             background-color: var(--lic-blue);
       }
 
-      .iconcontainer {
+      .iconcontainerHome,
+      .iconcontainerCamera,
+      .iconcontainerMobile {
             height: 60px;
             width: 80px;
-            /* background-color: var(--lic_yellow); */
             display: flex;
             justify-content: center;
             flex-direction: column;
             align-items: center;
             margin: 0 5px;
 
+      }
+
+      .iconcontainerHome {
+            color: var(--lic-yellow);
       }
 
       .icon {
@@ -58,7 +45,10 @@
 
       }
 
-      .iconcontainer p {
+      .iconcontainerHome p,
+      .iconcontainerCamera p,
+      .iconcontainerMobile p {
+
             margin: 0;
             padding: 0;
             font-size: 13px;

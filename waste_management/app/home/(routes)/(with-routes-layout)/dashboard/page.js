@@ -73,6 +73,7 @@ export default function Dashboardpage() {
   function handleTakePhoto(dataUri) {
     setImage(dataUri);
     setCameraClicked(false);
+    console.log(dataUri);
   }
 
   return (
