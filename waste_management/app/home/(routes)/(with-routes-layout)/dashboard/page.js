@@ -10,6 +10,8 @@ import Header from "@/components/Header/Header";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Footer from "@/components/Footer";
 import { sendRequest } from "@/api/sendRequest";
+import Camera, { FACING_MODES } from "react-html5-camera-photo";
+import "react-html5-camera-photo/build/css/index.css";
 
 export default function Dashboardpage() {
   //State variables
@@ -19,6 +21,8 @@ export default function Dashboardpage() {
   const [userRole, setUserRole] = useState("");
   const [block_name, setBlock_Name] = useState("");
   const [district_name, setDistrict_Name] = useState("");
+  const [cameraClicked, setCameraClicked] = useState(false);
+  const [image, setImage] = useState("");
 
   //Other declarations
   const loadingHeaderData = {
@@ -55,79 +59,102 @@ export default function Dashboardpage() {
 
   // Function Declarations
 
+  const camera_button = () => {
+    try {
+      setCameraClicked(true);
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+
+
   // Handler Functions
+  function handleTakePhoto(dataUri) {
+    setImage(dataUri);
+    setCameraClicked(false);
+  }
 
   return (
-    <>
-      <Header
-        userRole={userRole}
-        isOffCanvasVisible={true}
-        loadingdata={loadingHeaderData}
-      />
-      {/* //Body */}
-      <div className={styles.bodyContainer}>
-        {/* first row */}
-        <div className={styles.firstRow}>
-          <div
-            className={styles.card1}
-            onClick={() => route.push("/home/waste-collection-list")}
-          >
-            <img src="/images/waste_collector.png" alt="waste_collection"></img>
-            <p>Waste Collection</p>
+    cameraClicked ? <Camera
+      sizeFactor={0.5}
+      imageCompression={0.5}
+      isFullscreen={true}
+      idealFacingMode={FACING_MODES.ENVIRONMENT}
+      onTakePhoto={(dataUri) => {
+        handleTakePhoto(dataUri);
+      }}
+    /> :
+      <>
+        <Header
+          userRole={userRole}
+          isOffCanvasVisible={true}
+          loadingdata={loadingHeaderData}
+        />
+        {/* //Body */}
+        <div className={styles.bodyContainer}>
+          {/* first row */}
+          <div className={styles.firstRow}>
+            <div
+              className={styles.card1}
+              onClick={() => route.push("/home/waste-collection-list")}
+            >
+              <img src="/images/waste_collector.png" alt="waste_collection"></img>
+              <p>Waste Collection</p>
+            </div>
+            <div
+              className={styles.card2}
+              onClick={() => route.push("/home/income-list")}
+            >
+              <img src="/images/income.png" alt="income"></img>
+              <p>Income</p>
+            </div>
           </div>
-          <div
-            className={styles.card2}
-            onClick={() => route.push("/home/income-list")}
-          >
-            <img src="/images/income.png" alt="income"></img>
-            <p>Income</p>
+
+          {/* second row */}
+          <div className={styles.secondRow}>
+            <div
+              className={styles.card3}
+              onClick={() => route.push("/home/household-list")}
+            >
+              <img src="/images/HH_Survey.png" alt="HH_Survey"></img>
+              <p>HH Survey</p>
+            </div>
+            <div
+              className={styles.card4}
+              onClick={() => route.push("/home/mohalla-list")}
+            >
+              <img
+                src="/images/mohalla_commitee.png"
+                alt="mohalla_commitee"
+              ></img>
+              <p>Mohalla Commitee</p>
+            </div>
+          </div>
+
+          {/* third row */}
+          <div className={styles.thirdRow}>
+            <div
+              className={styles.card5}
+              onClick={() => route.push("/home/livestock-list")}
+            >
+              <img src="/images/livestock_shed.png" alt="livestock_shed"></img>
+              <p>Livestock Shed</p>
+            </div>
+            <div
+              className={styles.card6}
+              onClick={() => route.push("/home/comunity-clean-list")}
+            >
+              <img
+                src="/images/community_toilet.png"
+                alt="community_toilet"
+              ></img>
+              <p>Community Toilet</p>
+            </div>
           </div>
         </div>
 
-        {/* second row */}
-        <div className={styles.secondRow}>
-          <div
-            className={styles.card3}
-            onClick={() => route.push("/home/household-list")}
-          >
-            <img src="/images/HH_Survey.png" alt="HH_Survey"></img>
-            <p>HH Survey</p>
-          </div>
-          <div
-            className={styles.card4}
-            onClick={() => route.push("/home/mohalla-list")}
-          >
-            <img
-              src="/images/mohalla_commitee.png"
-              alt="mohalla_commitee"
-            ></img>
-            <p>Mohalla Commitee</p>
-          </div>
-        </div>
-
-        {/* third row */}
-        <div className={styles.thirdRow}>
-          <div
-            className={styles.card5}
-            onClick={() => route.push("/home/livestock-list")}
-          >
-            <img src="/images/livestock_shed.png" alt="livestock_shed"></img>
-            <p>Livestock Shed</p>
-          </div>
-          <div
-            className={styles.card6}
-            onClick={() => route.push("/home/comunity-clean-list")}
-          >
-            <img
-              src="/images/community_toilet.png"
-              alt="community_toilet"
-            ></img>
-            <p>Community Toilet</p>
-          </div>
-        </div>
-      </div>
-
-      <Footer />
-    </>
+        <Footer camera_button={camera_button} />
+      </>
   );
 }
