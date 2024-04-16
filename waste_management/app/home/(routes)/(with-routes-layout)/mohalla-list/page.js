@@ -71,7 +71,7 @@ export default function MohallaListPage() {
     async function fetchLists() {
       const response_mohallalist = await sendRequest(
         "post",
-        `/mohollaCommitteemeeting/list`,
+        '/mohollaCommitteemeeting/list',
         mohallalistBody,
         {
           headers: {
@@ -81,13 +81,13 @@ export default function MohallaListPage() {
       );
 
       if (response_mohallalist.status === 1) {
-        console.log("API_list_ARRAY::", response_mohallalist.data.data.lists);
-        setApi_mohallaData(response_mohallalist.data.data.lists);
+        console.log("API_list_ARRAY::", response_mohallalist.data.data);
+        // setApi_mohallaData(response_mohallalist.data.data.lists);
       }
     }
 
     fetchLists();
-  }, [token, ward_id]);
+  }, [token]);
 
   // Function Declarations
 

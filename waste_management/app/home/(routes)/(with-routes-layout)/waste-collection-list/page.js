@@ -32,7 +32,7 @@ export default function WasteCollectionListPage() {
   };
   const wasteCollectionlistBody = {
     token: token,
-    ward_id: ward_id,
+    wardId: ward_id,
   };
 
   const route = useRouter();
@@ -80,10 +80,10 @@ export default function WasteCollectionListPage() {
       if (response_wasteCollectionlist.status === 1) {
         console.log(
           "API_list_ARRAY::",
-          response_wasteCollectionlist.data.data.lists
+          response_wasteCollectionlist.data.data.wastecollection_list
         );
         setApi_wasteCollectionData(
-          response_wasteCollectionlist.data.data.lists
+          response_wasteCollectionlist.data.data.wastecollection_list
         );
       }
     }
@@ -161,6 +161,8 @@ export default function WasteCollectionListPage() {
                     showHandler(wasteCollection);
                   }}
                 />
+
+
               );
             })
           ) : (
