@@ -33,7 +33,7 @@ export default function ComunityCleanListPage() {
 
   const comunityCleanBody = {
     token: token,
-    ward_id: ward_id,
+    wardId: ward_id,
   };
 
   const route = useRouter();
@@ -63,12 +63,12 @@ export default function ComunityCleanListPage() {
     }
   }, []);
 
-  //Livestock List Fetching
+  //Comunity Clean List Fetching
   useEffect(() => {
     async function fetchLists() {
       const response_comunityClean = await sendRequest(
         "post",
-        `/cleaningcommunityToilet/list`,
+        `/cleaningcommunityToilettype/list`,
         comunityCleanBody,
         {
           headers: {
@@ -78,7 +78,7 @@ export default function ComunityCleanListPage() {
       );
 
       if (response_comunityClean.status === 1) {
-        console.log("API_list_ARRAY::", response_comunityClean.data.data);
+        console.log("API_list_ARRAY::", response_comunityClean.data.data.ctoilet_list);
         //   setApi_comunityCleanData(
         //     response_comunityClean.data.data.comunityCleanList
         //   );

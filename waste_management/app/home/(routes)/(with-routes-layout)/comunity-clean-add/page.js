@@ -118,34 +118,36 @@ export default function ComunityCleanpage() {
   };
 
   const formDataCC = {
-    monthAndYearCleaningToilets,
-    supervisorCleaningToilets,
-    fieldStaffCleaningToilets,
-    communityToiletCleaningToilets,
-    mohallaCommiteeCleaningToilets,
-    cleaningToiletCleaningToilets,
-    electricityCleaningToilets,
-    cleaningMaterialsCleaningToilets,
-    swiperChargesCleaningToilets,
-    minorRepairCleaningToilets,
-    majorRepairCleaningToilets,
-    oMCollectorCleaningToilets,
-    oMRegisterMaintainedCleaningToilets,
-    sanitaryWasteManagedCleaningToilets,
-    hygieneTrainingUndertakenCleaningToilets,
-    specialDayCelebratedCleaningToilets,
-    allTapFunctionalCleaningToilets,
-    allDoorsClosingCleaningToilets,
-    conditionOfTilesCleaningToilets,
-    conditionOfRoofCleaningToilets,
-    conditionOfWashbasinCleaningToilets,
-    conditionOfBoundaryWallCleaningToilets,
-    conditionOfOverheadTankCleaningToilets,
-    conditionOfElectricBulbCleaningToilets,
-    conditionOfSepticTankCleaningToilets,
-    conditionOfPumpCleaningToilets,
-    totalUserChargesCollectedCleaningToilets,
-    totalNumberOfHouseholdsInMCCleaningToilets,
+    token: token,
+    wardId: wardName,
+    monthYear: monthAndYearCleaningToilets,
+    supervisorId: supervisorCleaningToilets,
+    fieldStaff: fieldStaffCleaningToilets,
+    communityToiletId: communityToiletCleaningToilets,
+    mohollaCommittee: mohallaCommiteeCleaningToilets,
+    cleaningStatus: cleaningToiletCleaningToilets,
+    electricity: electricityCleaningToilets,
+    cleaningMaterials: cleaningMaterialsCleaningToilets,
+    swiperCharge: swiperChargesCleaningToilets,
+    minorRepair: minorRepairCleaningToilets,
+    majorRepair: majorRepairCleaningToilets,
+    omCollector: oMCollectorCleaningToilets,
+    omRegisterMaintained: oMRegisterMaintainedCleaningToilets,
+    sanitaryWasteManaged: sanitaryWasteManagedCleaningToilets,
+    htgentrainUndertaken: hygieneTrainingUndertakenCleaningToilets,
+    specialDayCelebrated: specialDayCelebratedCleaningToilets,
+    allTapFunctional: allTapFunctionalCleaningToilets,
+    allDoorsClose: allDoorsClosingCleaningToilets,
+    conditionOfTiles: conditionOfTilesCleaningToilets,
+    conditionOfRoof: conditionOfRoofCleaningToilets,
+    conditionOfWashbasin: conditionOfWashbasinCleaningToilets,
+    conditionOfBoundarywall: conditionOfBoundaryWallCleaningToilets,
+    conditionOfOverheadtank: conditionOfOverheadTankCleaningToilets,
+    conditionOfBulb: conditionOfElectricBulbCleaningToilets,
+    conditionOfSeptictank: conditionOfSepticTankCleaningToilets,
+    conditionOfPump: conditionOfPumpCleaningToilets,
+    totalUserchargeCollect: totalUserChargesCollectedCleaningToilets,
+    totalHouseMcNo: totalNumberOfHouseholdsInMCCleaningToilets,
     userChargesPerUserCleaningToilets,
   };
 
@@ -199,10 +201,116 @@ export default function ComunityCleanpage() {
   // Function Declarations
 
   // Handler Functions
+
   const handleVal = (id, val) => {
-    setTest(val);
-    console.log(test);
-  };
+    if (id === "monthAndYearCleaningToilets") {
+      setMonthAndYearCleaningToilets(val);
+    }
+    if (id === "supervisorCleaningToilets") {
+      setSupervisorCleaningToilets(val);
+    }
+    if (id === "communityToiletCleaningToilets") {
+      setCommunityToiletCleaningToilets(val);
+    }
+    if (id === 'cleaningToiletCleaningToilets') {
+      setCleaningToiletCleaningToilets(val);
+    }
+    if (id === "electricityCleaningToilets") {
+      setElectricityCleaningToilets(val);
+    }
+    if (id === "cleaningMaterialsCleaningToilets") {
+      setCleaningMaterialsCleaningToilets(val);
+    }
+    if (id === "swiperChargesCleaningToilets") {
+      setSwiperChargesCleaningToilets(val);
+    }
+    if (id === "minorRepairCleaningToilets") {
+      setMinorRepairCleaningToilets(val);
+    }
+    if (id === "majorRepairCleaningToilets") {
+      setMajorRepairCleaningToilets(val);
+    }
+    if (id === "mohallaCommiteeCleaningToilets") {
+      setMohallaCommiteeCleaningToilets(val);
+    }
+    if (id === "oMCollectorCleaningToilets") {
+      setOMCollectorCleaningToilets(val);
+    }
+    if (id === "totalUserChargesCollectedCleaningToilets") {
+      setTotalUserChargesCollectedCleaningToilets(val);
+    }
+    if (id === "totalNumberOfHouseholdsInMCCleaningToilets") {
+      setTotalNumberOfHouseholdsInMCCleaningToilets(val);
+    }
+
+    if (id === "userChargesPerUserCleaningToilets") {
+      setUserChargesPerUserCleaningToilets(val);
+    }
+
+
+  }
+
+
+  const handleValdropdown = (id, val) => {
+    if (id === "fieldStaffCleaningToilets") {
+      setFieldStaffCleaningToilets(val);
+    }
+    if (id === "mohallaCommiteeCleaningToilets") {
+      setMohallaCommiteeCleaningToilets(val);
+    }
+    if (id === "oMRegisterMaintainedCleaningToilets") {
+      setOMRegisterMaintainedCleaningToilets(val);
+    }
+    if (id === "sanitaryWasteManagedCleaningToilets") {
+      setSanitaryWasteManagedCleaningToilets(val);
+    }
+    if (id === "hygineWasteManagedCleaningToilets") {
+      setHygieneTrainingUndertakenCleaningToilets(val);
+    }
+    if (id === "specialDayCleaningToilets") {
+      setSpecialDayCleaningToilets(val);
+    }
+    if (id === "allTapFunctionalCleaningToilets") {
+      setAllTapFunctionalCleaningToilets(val);
+    }
+    if (id === "allDoorsClosingCleaningToilets") {
+      setAllDoorsClosingCleaningToilets(val);
+    }
+    if (id === "conditionOfTilesCleaningToilets") {
+      setConditionOfTilesCleaningToilets(val);
+    }
+    if (id === "conditionOfRoofCleaningToilets") {
+      setConditionOfRoofCleaningToilets(val);
+    }
+    if (id === "conditionOfWashbasinCleaningToilets") {
+      setConditionOfWashbasinCleaningToilets(val);
+    }
+    if (id === "conditionOfBoundaryWallCleaningToilets") {
+      setConditionOfBoundaryWallCleaningToilets(val);
+    }
+    if (id === "conditionOfOverheadTankCleaningToilets") {
+      setConditionOfOverheadTankCleaningToilets(val);
+
+    };
+    if (id === "conditionOfElectricBulbCleaningToilets") {
+      setConditionOfElectricBulbCleaningToilets(val);
+    }
+
+    if (id === "conditionOfSepticTankCleaningToilets") {
+      setConditionOfSepticTankCleaningToilets(val);
+    }
+
+    if (id === "conditionOfPumpCleaningToilets") {
+      setConditionOfPumpCleaningToilets(val);
+    }
+
+  }
+
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(formDataCC);
+  }
 
   return (
     <>
@@ -223,6 +331,7 @@ export default function ComunityCleanpage() {
         <div className={styles.formcontainer}>
           <Surveyques
             id={"monthAndYearCleaningToilets"}
+            type={"date"}
             labelText={translate?.Month_and_year_cleaning_toilets}
             value={monthAndYearCleaningToilets}
             required={true}
@@ -242,7 +351,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Field_Staff_cleaning_toilets}
             value={fieldStaffCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={comunitytoileteOptions}
           />
 
@@ -259,7 +368,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Mohalla_Commitee_cleaning_toilets}
             value={mohallaCommiteeCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={cleaningstatusOptions}
           />
           <Surveyques
@@ -319,7 +428,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.OM_Register_Maintained_cleaning_toilets}
             value={oMRegisterMaintainedCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={oMOptions}
           />
 
@@ -328,7 +437,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Sanitary_Waste_Managed_cleaning_toilets}
             value={sanitaryWasteManagedCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={sanitaryOptions}
           />
 
@@ -337,7 +446,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Hygiene_Training_Undertaken_cleaning_toilets}
             value={hygieneTrainingUndertakenCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={hygineOptions}
           />
 
@@ -346,7 +455,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Special_Day_Celebrated_cleaning_toilets}
             value={specialDayCelebratedCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={specialdayOptions}
           />
 
@@ -355,7 +464,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.All_Tap_Functional_cleaning_toilets}
             value={allTapFunctionalCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={alltapOptions}
           />
 
@@ -364,7 +473,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.All_Doors_Closing_cleaning_toilets}
             value={allDoorsClosingCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={alldoorOptions}
           />
 
@@ -373,7 +482,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Tiles_cleaning_toilets}
             value={conditionOfTilesCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={tileconditionOptions}
           />
 
@@ -382,7 +491,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Roof_cleaning_toilets}
             value={conditionOfRoofCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={roofconditionOptions}
           />
 
@@ -391,7 +500,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Washbasin_cleaning_toilets}
             value={conditionOfWashbasinCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={washBasinconditionOptions}
           />
 
@@ -400,7 +509,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Boundary_Wall_cleaning_toilets}
             value={conditionOfBoundaryWallCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={boundarywallconditionOptions}
           />
 
@@ -409,7 +518,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Overhead_Tank_cleaning_toilets}
             value={conditionOfOverheadTankCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={overheadtankOptions}
           />
 
@@ -418,7 +527,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Electric_Bulb_cleaning_toilets}
             value={conditionOfElectricBulbCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={bulbOptions}
           />
 
@@ -427,7 +536,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Septic_Tank_cleaning_toilets}
             value={conditionOfSepticTankCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={septictankOptions}
           />
 
@@ -436,7 +545,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Pump_cleaning_toilets}
             value={conditionOfPumpCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            handleVal={(id, val) => handleValdropdown(id, val)}
             options={pumpOptions}
           />
 
@@ -466,7 +575,7 @@ export default function ComunityCleanpage() {
           />
 
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtn}>Submit</button>
+            <button className={styles.submitbtn} onClick={submitHandler}>Submit</button>
           </div>
         </div>
       </div>
