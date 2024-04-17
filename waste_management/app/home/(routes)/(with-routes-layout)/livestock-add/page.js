@@ -11,6 +11,8 @@ import Footer from "@/components/Footer";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
+import { sendRequest } from "@/api/sendRequest";
+
 
 export default function Livestockpage() {
   //State variables
@@ -30,12 +32,14 @@ export default function Livestockpage() {
   const [contactNumberLivestock, setContactNumberLivestock] = useState("");
   const [numberOfLivestockLivestock, setNumberOfLivestockLivestock] =
     useState("");
+  const [typeOfLivestock, setTypeOfLivestock] = useState("");
   const [
     compostableWasteTransferredLivestock,
     setCompostableWasteTransferredLivestock,
   ] = useState("");
   const [lat, setLat] = useState("");
   const [long, setLong] = useState("");
+
 
   //Loading Header Data States
   const [name, setName] = useState("");
@@ -48,11 +52,12 @@ export default function Livestockpage() {
 
 
 
+
   //Other declarations
   const route = useRouter();
   const translate = LanguageFetcher();
 
-  const wardOptions = ["select", "1", "2"];
+  const wardOptions = ["select", "1", "2", "14"];
   const localityOptions = ["select", "1", "2"];
   const registorOptions = ["select", "1", "2"];
 
@@ -74,6 +79,7 @@ export default function Livestockpage() {
     lat: lat,
     long: long,
     nameOfLivestock: nameOfLivestockShedLivestock,
+    typeOflivestock: typeOfLivestock,
     ownerName: nameOfOwnerLivestock,
     contactNumber: contactNumberLivestock,
     noOflivestock: numberOfLivestockLivestock,
@@ -138,6 +144,7 @@ export default function Livestockpage() {
     if (id === "contactNumberLivestock") { setContactNumberLivestock(val); }
     if (id === "numberOfLivestockLivestock") { setNumberOfLivestockLivestock(val); }
     if (id === "compostableWasteTransferredLivestock") { setCompostableWasteTransferredLivestock(val); }
+    if (id === "typeOfLivestock") { setTypeOfLivestock(val); }
 
   };
 
@@ -150,9 +157,29 @@ export default function Livestockpage() {
     }
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(formDataLS);
+
+    try {
+
+      console.log("LiveStock Submitted :: ", formDataLS);
+      const res = await sendRequest(
+        "post",
+        "/livestockShed/add",
+        formDataLS,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      );
+      if (res.status === 1) {
+
+        swal("Successfully", "Livestock Added", "success");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <>
@@ -222,15 +249,24 @@ export default function Livestockpage() {
             id={"registorNumberLivestock"}
             type={"text"}
             labelText={translate?.Registor_Number_Livestock}
-            value={dateOfReportingLivestock}
+            value={registorNumberLivestock}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+
           />
 
           <Surveyques
             id={"nameOfLivestockShedLivestock"}
             labelText={translate?.Name_of_Livestock_Shed_Livestock}
             value={nameOfLivestockShedLivestock}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+          <Surveyques
+            id={"typeOfLivestock"}
+            labelText={translate?.LiveStockType_Livestock}
+            value={typeOfLivestock}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />

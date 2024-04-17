@@ -82,10 +82,10 @@ export default function HouseholdListPage() {
       );
 
       if (response_householdlist.status === 1) {
-        console.log("API_list_ARRAY::", response_householdlist.data.data);
-        //   setApi_householdData(
-        //     response_householdlist.data.data.householdShedlist
-        //   );
+        console.log("API_list_ARRAY::", response_householdlist.data.data.house_holds);
+        setApi_householdData(
+          response_householdlist.data.data.house_holds
+        );
       }
     }
 
@@ -100,40 +100,37 @@ export default function HouseholdListPage() {
   };
 
   const showHandler = (arrayData) => {
-    console.log("show");
     Swal.fire({
-      title: "household Details",
+      title: "Household Survey Details",
       html: `<swal-html>
-          <div id="householdDetails">
+          <div id="livestockDetails">
 
-          <div style="display:flex; align-items:center; gap:10px">
-          <p style="text-align:left"><strong>household Id:</strong> ${arrayData?.id
-        }</p>
-          <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
-        }</p>
-          </div>
+          <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${arrayData?.date}</p>
+          <p style="text-align:left; color:var(--lic-blue)"><strong>Location:</strong> ${arrayData?.lat}, ${arrayData?.longi}</p>
+          <p style="text-align:left"><strong>Household Id:</strong> ${arrayData?.id}</p>
+          <p style="text-align:left"><strong>Supervisor:</strong> ${arrayData?.supervisor}</p>
+          <p style="text-align:left"><strong>Entry By:</strong> ${arrayData?.entry_by}</p>
+          <p style="text-align:left"><strong>Entry Date:</strong> ${arrayData?.entry_date}</p>
+          <p style="text-align:left"><strong>Number of Family Members:</strong> ${arrayData?.family_members}</p>
+          <p style="text-align:left"><strong>Holding Number:</strong> ${arrayData?.holding_number}</p>
+          <p style="text-align:left"><strong>Household Name:</strong> ${arrayData?.house_hold_name}</p>
+          <p style="text-align:left"><strong>Home Base Manage Rate:</strong> ${arrayData?.home_base_manage_rat}</p>
           
-          <div style="display:flex; align-items:center;gap:10px">
-          <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
-        }</p>
-          <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
-        }</p>
-          </div>
-
-          <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
-        }, ${arrayData?.longitude}</p>
-          <p style="text-align:left"><strong >household Name:</strong> ${arrayData?.name_of_live_shed
-        }</p>
-          <p style="text-align:left"><strong>household Type:</strong> ${arrayData?.household_type
-        }</p>
-          <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
-        }</p>
-          <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
-        }</p>
-          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
-        }</p>
-          <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-        }</p>
+          <p style="text-align:left"><strong>Doing Home Composting:</strong> ${arrayData?.is_composed}</p>
+          <p style="text-align:left"><strong>Willing to construct individual soak pit:</strong> ${arrayData?.is_construct_individual}</p>
+          <p style="text-align:left"><strong>Doing Kitchen Garden:</strong> ${arrayData?.is_kitchen_garden}</p>
+          <p style="text-align:left"><strong>Is Grey water managed:</strong> ${arrayData?.is_manage_gray_water}</p>
+          <p style="text-align:left"><strong>Mobile Number:</strong> ${arrayData?.mobile_no}</p>
+          <p style="text-align:left"><strong>Below 18 years child count:</strong> ${arrayData?.number_of_child_below_18_years}</p>
+          <p style="text-align:left"><strong>Occupation:</strong> ${arrayData?.ocupation}</p>
+          <p style="text-align:left"><strong>House Ownership Type:</strong> ${arrayData?.owner_type}</p>
+          <p style="text-align:left"><strong>Patients:</strong> ${arrayData?.patients}</p>
+          <p style="text-align:left"><strong>Pets:</strong> ${arrayData?.pets}</p>
+          <p style="text-align:left"><strong>Road:</strong> ${arrayData?.road}</p>
+          <p style="text-align:left"><strong>Has Toilet Inside House:</strong> ${arrayData?.toilet_in_house}</p>
+          <p style="text-align:left"><strong>Segregation Type:</strong> ${arrayData?.type_of_segragation}</p>
+          <p style="text-align:left"><strong>User Charge Per Month (Rs.):</strong> ${arrayData?.user_charge_par_month}</p>
+          
           </div>
         </swal-html>`,
     });
@@ -155,30 +152,50 @@ export default function HouseholdListPage() {
         </div>
 
         {/* //Lists */}
-        <div className={styles.listContainer}>
-          {api_householdData ? (
-            api_householdData.map((household) => {
-              return (
-                <Listcard
-                  key={household.id}
-                  name={household?.name_of_live_shed}
-                  type={household?.household_type}
-                  status={
-                    household?.is_approve === "0" ? "Not approved" : "Approved"
-                  }
-                  owner_name={household.name_of_owner}
-                  owner_contact={household.contact_number}
-                  editHandler={editHandler}
-                  ShowHandler={(e) => {
-                    showHandler(household);
-                  }}
-                />
-              );
-            })
-          ) : (
-            <></>
-          )}
+
+        <div className={styles.tableContainer}>
+
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Date</th>
+                <th>Household Id</th>
+                <th>Household Name</th>
+                <th>Mohalla Committee</th>
+
+                <th>Action</th>
+
+              </tr>
+            </thead>
+            <tbody className={styles.table_body}>
+              {api_householdData.map((household, index) => {
+
+                //Date Formatter
+                const formatDate = (dateString) => {
+                  const [year, month, day] = dateString.split('-');
+                  return `${day}/${month}/${year}`;
+                };
+
+                const formattedDate = formatDate(household.date);
+                console.log("inside map function");
+
+                return (
+
+                  <tr key={household.id}>
+                    <td>{index + 1}</td>
+                    <td>{formattedDate}</td>
+                    <td>{household.id}</td>
+                    <td>{household.house_hold_name}</td>
+                    <td>{household.mohalla_committe}</td>
+                    <td onClick={() => { showHandler(household) }}><img src="/svg/eye.svg" alt="eye_show"></img></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
+
         <div className={styles.addNewContainer}>
           <img
             src="/svg/add_new.svg"

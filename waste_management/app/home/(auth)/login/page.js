@@ -63,6 +63,7 @@ export default function LoginPage() {
         localStorage.setItem("district_id", res.data.district_id);
         localStorage.setItem("ward_id", res.data.ward_id);
         localStorage.setItem("ward", res.data.ward_name);
+        localStorage.setItem("supervisor", res.data.supervisor);
         //message
         swal("Successfully", "logged in", "success");
         //redirecting

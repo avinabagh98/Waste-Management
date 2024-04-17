@@ -10,6 +10,8 @@ import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
+import { sendRequest } from "@/api/sendRequest";
+
 
 export default function Wastecollectionpage() {
   //State variables
@@ -76,29 +78,30 @@ export default function Wastecollectionpage() {
   };
 
   const formDataWC = {
-    dateWasteCollection: dateWasteCollection,
-    supervisorWasteCollection: supervisorWasteCollection,
-    fieldStaffWasteCollection: fieldStaffWasteCollection,
-    houseNumberWasteCollection: houseNumberWasteCollection,
-    mohallaCommiteeWasteCollection: mohallaCommiteeWasteCollection,
-    nameOfULBBlockWasteCollection: nameOfULBBlockWasteCollection,
-    wardNoGPWasteCollection: wardNoGPWasteCollection,
-    localityNameVillageWasteCollection: localityNameVillageWasteCollection,
-    nameOfResidentWasteCollection: nameOfResidentWasteCollection,
-    compostableWasteCollectedWasteCollection:
+
+    Date: dateWasteCollection,
+    supervisorId: supervisorWasteCollection,
+    fieldStaffId: fieldStaffWasteCollection,
+    houseNumber: houseNumberWasteCollection,
+    // mohallaCommiteeWasteCollection: mohallaCommiteeWasteCollection,
+    Block: nameOfULBBlockWasteCollection,
+    wardId: wardNoGPWasteCollection,
+    localityId: localityNameVillageWasteCollection,
+    residentName: nameOfResidentWasteCollection,
+    compostableWasteCollected:
       compostableWasteCollectedWasteCollection,
-    ironWasteCollection: ironWasteCollection,
-    aluminiumWasteCollection: aluminiumWasteCollection,
-    otherMetalsWasteCollection: otherMetalsWasteCollection,
-    petBottlesWasteCollection: petBottlesWasteCollection,
-    otherPlasticWasteCollection: otherPlasticWasteCollection,
-    glassWasteCollection: glassWasteCollection,
-    milkBagWasteCollection: milkBagWasteCollection,
-    paperWasteCollection: paperWasteCollection,
-    cardBoardWasteCollection: cardBoardWasteCollection,
-    othersWasteCollection: othersWasteCollection,
-    inertWasteWasteCollection: inertWasteWasteCollection,
-    daysOfCollectionsInAWeekWasteCollection:
+    Iron: ironWasteCollection,
+    Aluminium: aluminiumWasteCollection,
+    otherMetals: otherMetalsWasteCollection,
+    petBottles: petBottlesWasteCollection,
+    otherPlastic: otherPlasticWasteCollection,
+    Glass: glassWasteCollection,
+    milkbag: milkBagWasteCollection,
+    Paper: paperWasteCollection,
+    cardBoard: cardBoardWasteCollection,
+    Others: othersWasteCollection,
+    inertWaste: inertWasteWasteCollection,
+    daysCollectionInWeek:
       daysOfCollectionsInAWeekWasteCollection,
   };
 
@@ -212,7 +215,7 @@ export default function Wastecollectionpage() {
     }
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     let flag = false;
     e.preventDefault();
     for (const field in formDataWC) {
@@ -224,9 +227,21 @@ export default function Wastecollectionpage() {
     if (flag) {
       swal("Error", "Please fill all the fields", "error");
     } else {
-      console.log(formDataWC);
-      route.push("/home/dashboard");
+      console.log("Waste Collection Submitted::", formDataWC);
+      const res = await sendRequest(
+        "post",
+        "/weeklywastecollection/add",
+        formDataWC,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      );
+
+      console.log(res);
     }
+
   };
 
   return (
@@ -282,14 +297,14 @@ export default function Wastecollectionpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          <SurveyDropdown
+          {/* <SurveyDropdown
             id={"mohallaCommiteeWasteCollection"}
             labelText={translate?.Mohalla_Commitee_Waste_Collection}
             value={mohallaCommiteeWasteCollection}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
             options={mohallaOptions}
-          />
+          /> */}
 
           <Surveyques
             id={"nameOfULBBlockWasteCollection"}

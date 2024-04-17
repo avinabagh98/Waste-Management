@@ -1,9 +1,8 @@
-{     
-      "user_login":"User Login",
-      "user_name":"Username",
-      "password":"Password",
-      "login":"Login",
-
+{
+      "user_login": "User Login",
+      "user_name": "Username",
+      "password": "Password",
+      "login": "Login",
       "Supervisor_Livestock": "Supervisor",
       "Field_staff_Livestock": "Field staff",
       "Date_of_Reporting_Livestock": "Date of Reporting",
@@ -11,11 +10,11 @@
       "Locality_Name_Village_Livestock": "Locality Name/Village",
       "Registor_Number_Livestock": "Registor Number",
       "Name_of_Livestock_Shed_Livestock": "Name of Livestock Shed",
+      "LiveStockType_Livestock": "Livestock Type",
       "Name_of_Owner_Livestock": "Name of Owner",
       "Contact_Number_Livestock": "Contact Number",
       "Number_of_Livestock_Livestock": "Number of Livestock",
       "Compostable_Waste_Transfarred_Livestock": "Compostable Waste Transferred (in kg)",
-     
       "Date_income": "Date",
       "Supervisor_income": "Supervisor",
       "Field_Staff_income": "Field_Staff",
@@ -27,7 +26,6 @@
       "Plastic_Recyclable_Sold_income": "Plastic Recyclable Sold (in kg)",
       "Income_from_sale_of_recyclable_income": "Income from sale of recyclable ( in Rupees)",
       "Sale_of_Manure_income": "Sale of Manure ( In Rupees)",
-
       "Date_Waste_Collection": "Date",
       "Supervisor_Waste_Collection": "Supervisor",
       "Field_Staff_Waste_Collection": "Field Staff",
@@ -50,7 +48,6 @@
       "Others_Waste_Collection": "Others(Kg)",
       "Inert_Waste_Waste_Collection": "Inert Waste(Kg)",
       "Days_of_Collections_in_a_week_Waste_Collection": "Days of Collections in a week",
-       
       "Date_of_Meeting_mohalla": "Date of Meeting",
       "Supervisor_mohalla": "Supervisor",
       "Field_Staff_mohalla": "Field Staff",
@@ -71,7 +68,6 @@
       "Income_from_Manure_Sold_in_Rs_mohalla": "Income from Manure Sold(In Rs)",
       "No_of_HHs_taking_Home_Composting_mohalla": "No. of HHs taking Home Composting",
       "Balance_in_Rs_mohalla": "Balance (In Rs.)",
-
       "Month_and_year_cleaning_toilets": "Month & year",
       "Supervisor_cleaning_toilets": "Supervisor",
       "Field_Staff_cleaning_toilets": "Field Staff",
@@ -101,13 +97,12 @@
       "Total_User_Charges_Collected_cleaning_toilets": "Total User Charges Collected",
       "Total_number_of_Households_in_MC_cleaning_toilets": "Total number of Households in MC",
       "User_Charges_Per_User_cleaning_toilets": "User Charges Per User",
-
       "Date_HH_survey": "Date",
       "Supervisor_HH_survey": "Supervisor",
       "Field_Staff_HH_survey": "Field Staff",
       "Ward_no_GP_HH_survey": "Ward no./GP",
       "Locality_Name_Mohalla_HH_survey": "Locality Name/ Mohalla",
-      "House_Number_HH_survey": "House Number",
+      "House_Number_HH_survey": "Holding Number",
       "Name_of_Resident_HH_survey": "Name of Resident",
       "Number_of_Family_Members_HH_survey": "Number of Family Members",
       "No_of_Child_below_18_years_HH_survey": "No of Child below 18 years",

@@ -117,7 +117,7 @@ export default function ComunityCleanListPage() {
       html: `<swal-html>
           <div id="livestockDetails">
 
-          <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${arrayData?.all_doors_close}</p>
+          <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${arrayData?.entry_date}</p>
           <p style="text-align:left"><strong>Community Toilet :</strong> ${arrayData?.id}</p>
           <p style="text-align:left"><strong>Supervisor:</strong> ${arrayData?.id}</p>
           <p style="text-align:left"><strong>Field Staff:</strong> ${arrayData?.id}</p>
@@ -209,7 +209,7 @@ export default function ComunityCleanListPage() {
                       <td>{comunityToilet.community_toilet_id}</td>
                       <td>{comunityToilet.moholla_committee}</td>
                       <td>{comunityToilet.cleaning_status}</td>
-                      <td onClick={() => { showHandler(comunityToilet) }}>Action</td>
+                      <td onClick={() => { showHandler(comunityToilet) }}><img src="/svg/eye.svg" alt="eye_show"></img></td>
                     </tr>
                   );
                 })}

@@ -4,12 +4,15 @@ import styles from "./household.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
+import { sendRequest } from "@/api/sendRequest";
+import axios from "axios";
+
+
 
 export default function Householdpage() {
   //State variables
@@ -59,11 +62,22 @@ export default function Householdpage() {
     setUserChargesInRupeesPerMonthHHSurvey,
   ] = useState("");
 
+  const [mobileNo, setMobileNo] = useState("");
+  const [aadhaar, setAadhaar] = useState("");
+  const [roadLane, setRoadLane] = useState("");
+  const [homeBaseManageRat, setHomeBaseManageRat] = useState("");
+  const [WGUtype, setWGUtype] = useState("");
+  const [pets, setPets] = useState("");
+  const [patients, setPatients] = useState("");
+  const [mohallaCommitte, setMohallaCommitte] = useState("");
+
   //Loading Header Data States
   const [name, setName] = useState("");
   const [wardName, setWardName] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
+  const [lat, setLat] = useState("");
+  const [long, setLong] = useState("");
 
 
 
@@ -75,49 +89,43 @@ export default function Householdpage() {
     block_name: block_name,
   };
 
-
   const formDataHH = {
+    "token": token,
+    "lat": "lati",
+    "longi": "longi",
     "date": dateHHSurvey,
     "supervisor": supervisorHHSurvey,
     "numberOfChildBelow18Years": numberOfChildBelow18YearsHHSurvey,
     "ownershipOfHouse": ownershipOfHouseHHSurvey,
     "typeOfToilet": selectToiletTypeHHSurvey,
     "userChargeParMonth": userChargesInRupeesPerMonthHHSurvey,
-    "wordNo": wardNoGPHHSurvey,
+    "wardNo": wardNoGPHHSurvey,
     "locality": localityNameMohallaHHSurvey,
-    "addaharNo": "",
+    "addaharNo": aadhaar,
     "familyMembers": numberOfFamilyMembersHHSurvey,
-    "houseHoldName": houseNumberHHSurvey,
-    "mobileNo": "",
+    "houseHoldName": nameOfResidentHHSurvey,
+    "mobileNo": mobileNo,
     "ocupation": occupationHHSurvey,
-    "ownerType": "",
-    "holdingNumber": "",
-    "roadLane": "",
-    "homeBaseManageRat": "",
-    "road": "",
-    "typeOfWGU": "",
-    "pets": "",
-    "patients": "",
+    "ownerType": ownershipOfHouseHHSurvey,
+    "holdingNumber": houseNumberHHSurvey,
+    "roadLane": roadLane,
+    "homeBaseManageRat": homeBaseManageRat,
+    "road": roadLane,
+    "typeOfWGU": WGUtype,
+    "pets": pets,
+    "patients": patients,
     "toiletInHouse": doYouHaveToiletInYourHouseHHSurvey,
     "typeOfSegragation": typeOfSegregationHHSurvey,
     "fieldStaff": fieldStaffHHSurvey,
-    "mohallaCommitte": "",
+    "mohallaCommitte": mohallaCommitte,
     "nameOfResident": nameOfResidentHHSurvey,
     "isComposed": areYouDoingHomeCompostingHHSurvey,
     "isManageGrayWater": doYouManagingGreyWaterHHSurvey,
     "isKitchenGarden": areYouWillingToDoKitchenGardenInFutureHHSurvey,
     "isConstructIndividual": areYouWillingToConstructIndividualSoakPitInFutureHHSurvey,
-    "token": token
   }
 
-  //Handler Functions
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    console.log(formDataHH);
-  }
-
-
-  const demoOptions = ["select", "demo1", "demo2"];
+  const demoOptions = ["select", "demo1", "demo2", "14", "1"];
 
   const route = useRouter();
   const translate = LanguageFetcher();
@@ -147,9 +155,26 @@ export default function Householdpage() {
     }
   }, []);
 
-  // API Data Fetching
 
-  // Function Declarations
+  // Location Fetching
+  useEffect(() => {
+    const geolocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setLat(String(position.coords.latitude));
+          setLong(String(position.coords.longitude));
+
+        });
+      } else {
+        alert("Geolocation not available")
+
+      }
+    };
+
+    geolocation();
+  }, []);
+
+
 
   // Handler Functions
   const handleVal = (id, val) => {
@@ -201,10 +226,41 @@ export default function Householdpage() {
       setUserChargesInRupeesPerMonthHHSurvey(val);
     }
 
+    if (id === "mobileNumberHHSurvey") {
+      setMobileNo(val);
+    }
 
+    if (id === "aadhaarNumberHHSurvey") {
+      setAadhaar(val);
+    }
 
+    if (id === "roadLane") {
+      setRoadLane(val);
+    }
 
-  };
+    if (id === "homebasemanageRat") {
+      setHomeBaseManageRat(val);
+
+    };
+
+    if (id === "wgutype") {
+      setWGUtype(val);
+    }
+
+    if (id === "pets") {
+      setPets(val);
+    }
+
+    if (id === "patients") {
+      setPatients(val);
+    }
+
+    if (id === "mohallaCommitte") {
+      setMohallaCommitte(val);
+    }
+
+  }
+
 
   const handleRadioChange = (name, value) => {
     if (name === "ownershipOfHouseHHSurvey") {
@@ -229,6 +285,39 @@ export default function Householdpage() {
       setAreYouWillingToConstructIndividualSoakPitInFutureHHSurvey(value);
     }
 
+  }
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    console.log("HoouseHold Survey Form Submitted :: ", formDataHH);
+
+    try {
+      let flag = false;
+      e.preventDefault();
+      for (const field in formDataHH) {
+        if (formDataHH[field] === null || formDataHH[field] === "") {
+          flag = true;
+          break;
+        }
+      }
+      if (flag) {
+        swal("Error", "Please fill all the fields", "error");
+      } else {
+
+        const household_add_res = await axios.post("https://waste.ebluesys.com/api/household/Insert", formDataHH)
+
+        // if (household_add_res.status === 1) {
+        //   console.log("Household Insert Response", household_add_res);
+        //   // route.push("/home/dashboard");
+        // }
+        console.log(household_add_res);
+
+      }
+
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -273,6 +362,27 @@ export default function Householdpage() {
             options={demoOptions}
           />
 
+
+          <Surveyques
+            id={"mobileNumberHHSurvey"}
+            labelText={"Mobile Number"}
+            value={mobileNo}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+
+
+          <Surveyques
+            id={"aadhaarNumberHHSurvey"}
+            labelText={"Aadhaar Number"}
+            value={aadhaar}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+
+
           <SurveyDropdown
             id={"wardNoGPHHSurvey"}
             labelText={translate?.Ward_no_GP_HH_survey}
@@ -281,6 +391,8 @@ export default function Householdpage() {
             handleVal={(id, val) => handleVal(id, val)}
             options={demoOptions}
           />
+
+
 
           <SurveyDropdown
             id={"localityNameMohallaHHSurvey"}
@@ -323,6 +435,65 @@ export default function Householdpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
 
+          <Surveyques
+            id={"roadLane"}
+            labelText={"Road Lane"}
+            value={roadLane}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+
+          <Surveyques
+            id={"roadLane"}
+            labelText={"Road"}
+            value={roadLane}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+          <Surveyques
+            id={"homebasemanageRat"}
+            labelText={"Home Base Manage Rate"}
+            value={homeBaseManageRat}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+          <Surveyques
+            id={"wgutype"}
+            labelText={"Wgu Type"}
+            value={WGUtype}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+          <Surveyques
+            id={"pets"}
+            labelText={"Pets"}
+            value={pets}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+          <Surveyques
+            id={"patients"}
+            labelText={"patients"}
+            value={patients}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+
+          <Surveyques
+            id={"mohallaCommitte"}
+            labelText={"mohallaCommitte"}
+            value={mohallaCommitte}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+
+
           <SurveyDropdown
             id={"occupationHHSurvey"}
             labelText={translate?.Occupation_HH_survey}
@@ -343,7 +514,7 @@ export default function Householdpage() {
                   value="1"
                   checked={ownershipOfHouseHHSurvey === "1"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="ownershipOfHouseHHSurvey_own">Own</label>
@@ -356,7 +527,7 @@ export default function Householdpage() {
                   value="0"
                   checked={ownershipOfHouseHHSurvey === "0"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="ownershipOfHouseHHSurvey_rent">Rent</label>
@@ -375,7 +546,7 @@ export default function Householdpage() {
                   value="2"
                   checked={typeOfSegregationHHSurvey === "2"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="typeOfSegregationHHSurvey_fully">Fully</label>
@@ -388,7 +559,7 @@ export default function Householdpage() {
                   value="1"
                   checked={typeOfSegregationHHSurvey === "1"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="typeOfSegregationHHSurvey_partial">
@@ -404,7 +575,7 @@ export default function Householdpage() {
                   value="0"
                   checked={typeOfSegregationHHSurvey === "0"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="typeOfSegregationHHSurvey_no">No</label>
@@ -425,7 +596,7 @@ export default function Householdpage() {
                   value="1"
                   checked={areYouDoingHomeCompostingHHSurvey === "1"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="areYouDoingHomeCompostingHHSurvey_yes">
@@ -440,7 +611,7 @@ export default function Householdpage() {
                   value="0"
                   checked={areYouDoingHomeCompostingHHSurvey === "0"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="areYouDoingHomeCompostingHHSurvey_no">No</label>
@@ -461,7 +632,7 @@ export default function Householdpage() {
                   value="1"
                   checked={doYouHaveToiletInYourHouseHHSurvey === "1"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="doYouHaveToiletInYourHouseHHSurvey_yes">
@@ -476,7 +647,7 @@ export default function Householdpage() {
                   value="0"
                   checked={doYouHaveToiletInYourHouseHHSurvey === "0"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="doYouHaveToiletInYourHouseHHSurvey_no">
@@ -508,7 +679,7 @@ export default function Householdpage() {
                   value="1"
                   checked={doYouManagingGreyWaterHHSurvey === "1"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="doYouManagingGreyWaterHHSurvey_yes">Yes</label>
@@ -521,7 +692,7 @@ export default function Householdpage() {
                   value="0"
                   checked={doYouManagingGreyWaterHHSurvey === "0"}
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="doYouManagingGreyWaterHHSurvey_no">No</label>
@@ -546,7 +717,7 @@ export default function Householdpage() {
                     areYouWillingToDoKitchenGardenInFutureHHSurvey === "1"
                   }
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="areYouWillingToDoKitchenGardenInFutureHHSurvey_yes">
@@ -563,7 +734,7 @@ export default function Householdpage() {
                     areYouWillingToDoKitchenGardenInFutureHHSurvey === "0"
                   }
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="areYouWillingToDoKitchenGardenInFutureHHSurvey_no">
@@ -591,7 +762,7 @@ export default function Householdpage() {
                     "1"
                   }
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey_yes">
@@ -609,7 +780,7 @@ export default function Householdpage() {
                     "0"
                   }
                   onChange={(e) => {
-                    handleRadioChange(e, e.target.name, e.target.value);
+                    handleRadioChange(e.target.name, e.target.value);
                   }}
                 />
                 <label htmlFor="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey_no">

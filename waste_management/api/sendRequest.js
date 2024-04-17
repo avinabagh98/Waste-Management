@@ -22,7 +22,3 @@ export const sendRequest = async (
     return { status: 0, msg: error };
   }
 };
-
-// export const addPost = async (data) => {
-//     return sendRequest('post', 'api/shops', data);
-// };
