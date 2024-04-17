@@ -103,44 +103,33 @@ export default function ComunityCleanListPage() {
           <div id="livestockDetails">
 
           <div style="display:flex; align-items:center; gap:10px">
-          <p style="text-align:left"><strong>Livestock Id:</strong> ${
-            arrayData?.id
-          }</p>
-          <p style="text-align:left"><strong>Registor No:</strong> ${
-            arrayData?.regester_no
-          }</p>
+          <p style="text-align:left"><strong>Livestock Id:</strong> ${arrayData?.id
+        }</p>
+          <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
+        }</p>
           </div>
           
           <div style="display:flex; align-items:center;gap:10px">
-          <p style="text-align:left"><strong>Ward:</strong> ${
-            arrayData?.ward
-          }</p>
-          <p style="text-align:left"><strong>Municipality:</strong> ${
-            arrayData?.municipality_id
-          }</p>
+          <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
+        }</p>
+          <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
+        }</p>
           </div>
 
-          <p style="text-align:left"><strong>Location:</strong> ${
-            arrayData?.latitude
-          }, ${arrayData?.longitude}</p>
-          <p style="text-align:left"><strong >Livestock Name:</strong> ${
-            arrayData?.name_of_live_shed
-          }</p>
-          <p style="text-align:left"><strong>Livestock Type:</strong> ${
-            arrayData?.livestock_type
-          }</p>
-          <p style="text-align:left"><strong>Name of Owner:</strong> ${
-            arrayData?.name_of_owner
-          }</p>
-          <p style="text-align:left"><strong>Contact Number:</strong> ${
-            arrayData?.contact_number
-          }</p>
-          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${
-            arrayData?.compostable_waste
-          }</p>
-          <p style="text-align:left"><strong>Is Approved:</strong> ${
-            arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-          }</p>
+          <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
+        }, ${arrayData?.longitude}</p>
+          <p style="text-align:left"><strong >Livestock Name:</strong> ${arrayData?.name_of_live_shed
+        }</p>
+          <p style="text-align:left"><strong>Livestock Type:</strong> ${arrayData?.livestock_type
+        }</p>
+          <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
+        }</p>
+          <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
+        }</p>
+          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
+        }</p>
+          <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
+        }</p>
           </div>
         </swal-html>`,
     });
@@ -196,10 +185,10 @@ export default function ComunityCleanListPage() {
                 </tr>
               </thead>
               <tbody className={styles.table_body}>
-                {api_comunityCleanData.map((comunityToilet) => {
+                {api_comunityCleanData.map((comunityToilet, index) => {
                   return (
                     <tr key={comunityToilet.id}>
-                      <td>{comunityToilet.id}</td>
+                      <td>{index + 1}</td>
                       <td>{comunityToilet.entry_date}</td>
                       <td>{comunityToilet.all_doors_close}</td>
                       <td>{comunityToilet.all_tap_functional}</td>

@@ -102,44 +102,33 @@ export default function IncomeListPage() {
           <div id="IncomeDetails">
 
           <div style="display:flex; align-items:center; gap:10px">
-          <p style="text-align:left"><strong>Income Id:</strong> ${
-            arrayData?.id
-          }</p>
-          <p style="text-align:left"><strong>Registor No:</strong> ${
-            arrayData?.regester_no
-          }</p>
+          <p style="text-align:left"><strong>Income Id:</strong> ${arrayData?.id
+        }</p>
+          <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
+        }</p>
           </div>
           
           <div style="display:flex; align-items:center;gap:10px">
-          <p style="text-align:left"><strong>Ward:</strong> ${
-            arrayData?.ward
-          }</p>
-          <p style="text-align:left"><strong>Municipality:</strong> ${
-            arrayData?.municipality_id
-          }</p>
+          <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
+        }</p>
+          <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
+        }</p>
           </div>
 
-          <p style="text-align:left"><strong>Location:</strong> ${
-            arrayData?.latitude
-          }, ${arrayData?.longitude}</p>
-          <p style="text-align:left"><strong >Income Name:</strong> ${
-            arrayData?.name_of_live_shed
-          }</p>
-          <p style="text-align:left"><strong>Income Type:</strong> ${
-            arrayData?.Income_type
-          }</p>
-          <p style="text-align:left"><strong>Name of Owner:</strong> ${
-            arrayData?.name_of_owner
-          }</p>
-          <p style="text-align:left"><strong>Contact Number:</strong> ${
-            arrayData?.contact_number
-          }</p>
-          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${
-            arrayData?.compostable_waste
-          }</p>
-          <p style="text-align:left"><strong>Is Approved:</strong> ${
-            arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-          }</p>
+          <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
+        }, ${arrayData?.longitude}</p>
+          <p style="text-align:left"><strong >Income Name:</strong> ${arrayData?.name_of_live_shed
+        }</p>
+          <p style="text-align:left"><strong>Income Type:</strong> ${arrayData?.Income_type
+        }</p>
+          <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
+        }</p>
+          <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
+        }</p>
+          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
+        }</p>
+          <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
+        }</p>
           </div>
         </swal-html>`,
     });
@@ -176,7 +165,7 @@ export default function IncomeListPage() {
             <tbody className={styles.table_body}>
               {api_incomeData.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.id}</td>
+                  <td>{index + 1}</td>
                   <td>{item.recylable_sold}</td>
                   <td>{item.plastic_sold}</td>
                   <td>{item.income_of_recylable}</td>
