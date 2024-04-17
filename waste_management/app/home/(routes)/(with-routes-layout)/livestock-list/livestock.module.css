@@ -38,10 +38,43 @@
       /* // comunity clean toilet -list table css */
 
       .tableContainer {
-            width: 360px;
+            width: 100%;
             padding: 0 10px;
             margin-top: 10px;
             overflow-x: auto;
+      }
+
+      .table_filter {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+      }
+
+      .table_filter_all,
+      .table_filter_pending {
+            width: 80px;
+            height: auto;
+            margin: 10px 10px 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            font-size: 12px;
+
+
+      }
+
+      .table_filter_all {
+            color: white;
+            background-color: var(--lic-blue);
+      }
+
+
+      .table_filter_pending {
+            color: var(--bitan-green);
+            background-color: var(--lic-yellow);
       }
 
       .table {
