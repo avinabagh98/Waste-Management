@@ -120,3 +120,22 @@
       }
 
 }
+
+
+/* // Weekly waste collection CSS */
+
+.ListContainerWasteCollection {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+}
+
+.ListContainerWasteCollection .textParser {
+      margin-top: 10px;
+      padding: 0 10px;
+
+      color: var(--bitan-green);
+      background-color: var(--lic-yellow);
+
+}

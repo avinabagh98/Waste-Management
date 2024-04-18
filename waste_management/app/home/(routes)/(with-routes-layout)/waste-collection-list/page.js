@@ -145,30 +145,55 @@ export default function WasteCollectionListPage() {
           <Textparser text={"Weekly Waste Collection List"} />
         </div>
 
-        {/* //Form Container */}
-        <div className={styles.listContainer}>
-          {api_wasteCollectionData ? (
-            api_wasteCollectionData.map((wasteCollection) => {
-              return (
-                <Listcard
-                  key={wasteCollection.id}
-                  name={wasteCollection.household_mc}
-                  type={wasteCollection.livestock_type}
-                  owner_name={wasteCollection.supervisor_id}
-                  owner_contact={wasteCollection.contact_number}
-                  editHandler={editHandler}
-                  ShowHandler={(e) => {
-                    showHandler(wasteCollection);
-                  }}
-                />
 
+        <div className={styles.ListContainerWasteCollection}>
 
-              );
-            })
-          ) : (
-            <></>
-          )}
+          <div className={styles.textParser}><Textparser text={`Supervisor: ${localStorage.getItem("supervisor")}`} /> </div>
+
+          {/* //Table Container */}
+          <div className={styles.tableContainer}>
+
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Date</th>
+                  <th>House Number</th>
+                  <th>Resident Name</th>
+                  <th>Mohalla Committee</th>
+                  <th>Action</th>
+
+                </tr>
+              </thead>
+              <tbody className={styles.table_body}>
+                {api_wasteCollectionData.map((item, index) => {
+
+                  //Date Formatter
+                  const formatDate = (dateString) => {
+                    const [year, month, day] = dateString.split('-');
+                    return `${day}/${month}/${year}`;
+                  };
+
+                  const formattedDate = formatDate(item.date);
+                  console.log("inside map function");
+
+                  return (
+
+                    <tr key={item.id}>
+                      <td>{index + 1}</td>
+                      <td>{formattedDate}</td>
+                      <td>{item.house_number}</td>
+                      <td>{item.resident_name}</td>
+                      <td>{item.moholla_committee_id}</td>
+                      <td onClick={() => { showHandler(item) }}><img src="/svg/eye.svg" alt="eye_show"></img></td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
+
         <div className={styles.addNewContainer}>
           <img
             src="/svg/add_new.svg"
