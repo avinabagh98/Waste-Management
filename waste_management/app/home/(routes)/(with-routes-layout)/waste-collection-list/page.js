@@ -27,7 +27,7 @@ export default function WasteCollectionListPage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_name: wardName,
+    ward_id: ward_id,
     block_name: block_name,
   };
   const wasteCollectionlistBody = {
@@ -46,15 +46,16 @@ export default function WasteCollectionListPage() {
         if (!tokeN) {
           route.push("/home/login");
         } else {
+          localStorage.removeItem("id")
           setToken(tokeN);
-          setWard_id(localStorage.getItem("ward_id"));
           setUserRole(localStorage.getItem("role_name"));
+
 
           //loadingHeaderData from local storage
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
-          setWardName(localStorage.getItem("ward_id"));
+          setWard_id(localStorage.getItem("ward_id"));
         }
       }
       fetchData();
@@ -91,42 +92,44 @@ export default function WasteCollectionListPage() {
     fetchLists();
   }, [token, ward_id]);
 
-  // Function Declarations
 
   // Handler Functions
-  const editHandler = () => {
-    route.push("/home/wasteCollection-edit");
+  const editHandler = (item) => {
+    localStorage.setItem("id", item?.id);
+    route.push("/home/waste-collection-update");
   };
 
   const showHandler = (arrayData) => {
-    console.log("show");
     Swal.fire({
-      title: "wasteCollection Details",
+      title: "Weekly Waste Collection Details",
       html: `<swal-html>
-            <div id="livestockDetails">
-            <p style="text-align:left"><strong>Id:</strong> ${arrayData?.id}</p>
-            <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
-        }</p>
-            <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
-        }</p>
-            <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
-        }</p>
-            <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
-        }, ${arrayData?.longitude}</p>
-            <p style="text-align:left"><strong >Livestock Name:</strong> ${arrayData?.name_of_live_shed
-        }</p>
-            <p style="text-align:left"><strong>Livestock Type:</strong> ${arrayData?.livestock_type
-        }</p>
-            <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
-        }</p>
-            <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
-        }</p>
-            <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
-        }</p>
-            <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-        }</p>
-            </div>
-          </swal-html>`,
+          <div id="livestockDetails">
+
+          <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${arrayData?.date}</p>
+          <p style="text-align:left"><strong>Aluminium:</strong> ${arrayData?.aluminium}</p>
+          <p style="text-align:left"><strong>Cardboard:</strong> ${arrayData?.card_board}</p>
+          <p style="text-align:left"><strong>Compostable Waste Collected:</strong> ${arrayData?.compostable_waste_collected}</p>
+          <p style="text-align:left"><strong>Days of Collection in a Week :</strong> ${arrayData?.days_collection_in_week}</p>
+          <p style="text-align:left"><strong>Glasss:</strong> ${arrayData?.glass}</p>
+          <p style="text-align:left"><strong>House Id:</strong> ${arrayData?.id}</p>
+          <p style="text-align:left"><strong>House Number:</strong> ${arrayData?.house_number}</p>
+          <p style="text-align:left"><strong>House Name:</strong> ${arrayData?.resident_name}</p>
+          <p style="text-align:left"><strong>Inert Waste:</strong> ${arrayData?.inert_waste}</p>
+          <p style="text-align:left"><strong>Iron:</strong> ${arrayData?.iron}</p>
+          <p style="text-align:left"><strong>Locality:</strong> ${arrayData?.locality_id}</p>
+          <p style="text-align:left"><strong>Milkbag:</strong> ${arrayData?.milkbag}</p>
+          <p style="text-align:left"><strong>Mohalla Committee:</strong> ${arrayData?.moholla_committee_id}</p>
+          <p style="text-align:left"><strong>Other Metals:</strong> ${arrayData?.other_metals}</p>
+          <p style="text-align:left"><strong>Other Plastic:</strong> ${arrayData?.other_plastic}</p>
+          <p style="text-align:left"><strong>Others:</strong> ${arrayData?.others}</p>
+          <p style="text-align:left"><strong>Paper:</strong> ${arrayData?.paper}</p>
+          <p style="text-align:left"><strong>Pet Bottles :</strong> ${arrayData?.pet_bottles}</p>
+          <p style="text-align:left"><strong>Field Staff:</strong> ${arrayData?.field_staff_id}</p>
+          <p style="text-align:left"><strong>Supervisor:</strong> ${arrayData?.user_id}</p>
+          <p style="text-align:left"><strong>User:</strong> ${arrayData?.ward_id}</p>
+          <p style="text-align:left"><strong>Ward Number:</strong> ${arrayData?.ward_no}</p>
+          </div>
+        </swal-html>`,
     });
   };
 
@@ -161,7 +164,7 @@ export default function WasteCollectionListPage() {
                   <th>House Number</th>
                   <th>Resident Name</th>
                   <th>Mohalla Committee</th>
-                  <th>Action</th>
+                  <th style={{ textAlign: "center" }}>Action</th>
 
                 </tr>
               </thead>
@@ -180,12 +183,15 @@ export default function WasteCollectionListPage() {
                   return (
 
                     <tr key={item.id}>
-                      <td>{index + 1}</td>
-                      <td>{formattedDate}</td>
-                      <td>{item.house_number}</td>
-                      <td>{item.resident_name}</td>
-                      <td>{item.moholla_committee_id}</td>
-                      <td onClick={() => { showHandler(item) }}><img src="/svg/eye.svg" alt="eye_show"></img></td>
+                      <td className={styles.td}>{index + 1}</td>
+                      <td className={styles.td}>{formattedDate}</td>
+                      <td className={styles.td}>{item.house_number}</td>
+                      <td className={styles.td}>{item.resident_name}</td>
+                      <td className={styles.td}>{item.moholla_committee_id}</td>
+                      <td className={styles.actionWaste}>
+                        <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
+                        <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
+                      </td>
                     </tr>
                   );
                 })}

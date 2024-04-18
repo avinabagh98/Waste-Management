@@ -32,30 +32,40 @@ export default function Incomepage() {
     setIncomeFromSaleOfRecyclableIncome,
   ] = useState("");
   const [saleOfManureIncome, setSaleOfManureIncome] = useState("");
+  const [user_id, setUser_id] = useState("");
+  const [supervisorId, setSupervisorId] = useState("");
 
-  //Other declarations
+
+  //Loading Header Data States
+  const [name, setName] = useState("");
+  const [ward_id, setWard_id] = useState("");
+  const [district_name, setDistrictName] = useState("");
+  const [block_name, setBLockName] = useState("");
+
+  //Common Other declarations///
   const loadingHeaderData = {
-    name: userRole,
-    municipality_name: "",
-    team_num: "",
-    ward_name: "",
+    name: name,
+    district_name: district_name,
+    ward_id: ward_id,
+    block_name: block_name,
   };
 
   const formDataIncome = {
-    dateIncome,
-    supervisorIncome,
-    fieldStaffIncome,
-    mohallaCommiteeIncome,
-    wardNoGpIncome,
-    localityNameVillageIncome,
-    wasteCollectorNameIncome,
-    recyclableSoldIncome,
-    plasticRecyclableSoldIncome,
-    incomeFromSaleOfRecyclableIncome,
-    saleOfManureIncome,
+    token: token,
+    create_date: dateIncome,
+    user_id: user_id,
+    wardId: ward_id,
+    localityId: localityNameVillageIncome,
+    supervisorId: supervisorId,
+    mohallaId: mohallaCommiteeIncome,
+    wasteCollector: wasteCollectorNameIncome,
+    recylableSold: recyclableSoldIncome,
+    plasticSold: plasticRecyclableSoldIncome,
+    incomeofRecylable: incomeFromSaleOfRecyclableIncome,
+    saleOfManure: saleOfManureIncome,
   };
 
-  const mohallaOptions = ["Select"];
+  const mohallaOptions = ["Select", "1"];
   const collectorNameOptions = ["Select"];
 
   const route = useRouter();
@@ -63,38 +73,34 @@ export default function Incomepage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-    setUserRole(localStorage.getItem("role_name"));
-    //     try {
-    //       async function fetchData() {
-    //         const token = await localStorage.getItem("token");
-    //         if (!token) {
-    //           route.push("/home/login");
-    //         } else {
-    //           setUserRole(localStorage.getItem("role_name"));
-    //           setToken(token);
 
-    //           //Fetching user details
-    //           const user_details_response = await sendRequest(
-    //             "get",
-    //             "/user-details",
-    //             null,
-    //             {
-    //               headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //               },
-    //             }
-    //           );
+    try {
+      async function fetchData() {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        } else {
+          setUserRole(localStorage.getItem("role_name"));
+          setUser_id(localStorage.getItem("user_id"));
+          setToken(token);
 
-    //           if (user_details_response.status === 1) {
-    //             // console.log("User Details Response ::", user_details_response.data);
-    //             setAPI_Data_userDetails(user_details_response.data);
-    //           }
-    //         }
-    //       }
-    //       fetchData();
-    //     } catch (error) {
-    //       swal("Error", error.message, "error");
-    //     }
+          //loadingHeaderData from local storage
+          setName(localStorage.getItem("name"));
+          setDistrictName(localStorage.getItem("district"));
+          setBLockName(localStorage.getItem("block"));
+          setWard_id(localStorage.getItem("ward_id"));
+
+          setFieldStaffIncome(localStorage.getItem("name"));
+          setSupervisorIncome(localStorage.getItem("supervisor"));
+          setWardNoGpIncome(localStorage.getItem("ward_id"));
+
+
+        }
+      }
+      fetchData();
+    } catch (error) {
+      swal("Error", error.message, "error");
+    }
   }, []);
 
   // API Data Fetching
@@ -102,11 +108,46 @@ export default function Incomepage() {
   // Function Declarations
 
   // Handler Functions
-
   const handleVal = (id, val) => {
-    setTest(val);
-    console.log(test);
+    if (id === "supervisorIncome") { setSupervisorIncome(val); }
+    if (id === "fieldStaffIncome") { setFieldStaffIncome(val); }
+    if (id === "dateIncome") { setDateIncome(val); }
+    if (id === "wardNoGpIncome") { setWardNoGpIncome(val); }
+    if (id === "localityNameVillageIncome") { setLocalityNameVillageIncome(val); }
+    if (id === "mohallaCommiteeIncome") { setMohallaCommiteeIncome(val); }
+    if (id === "wasteCollectorNameIncome") { setWasteCollectorNameIncome(val); }
+    if (id === "recyclableSoldIncome") { setRecyclableSoldIncome(val); }
+    if (id === "plasticRecyclableSoldIncome") { setPlasticRecyclableSoldIncome(val); }
+    if (id === "incomeFromSaleOfRecyclableIncome") { setIncomeFromSaleOfRecyclableIncome(val); }
+    if (id === "saleOfManureIncome") { setSaleOfManureIncome(val); }
+
   };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    console.log("Income Submitted :: ", formDataIncome);
+
+    // try {
+
+    //   console.log("LiveStock Submitted :: ", formDataLS);
+    //   const res = await sendRequest(
+    //     "post",
+    //     "/livestockShed/add",
+    //     formDataLS,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       }
+    //     }
+    //   );
+    //   if (res.status === 1) {
+
+    //     swal("Successfully", "Livestock Added", "success");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  }
 
   return (
     <>
@@ -120,6 +161,7 @@ export default function Incomepage() {
         <div className={styles.formcontainer}>
           <Surveyques
             id={"dateIncome"}
+            type={"date"}
             labelText={translate?.Date_income}
             value={dateIncome}
             required={true}
@@ -206,7 +248,7 @@ export default function Incomepage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtn}>Submit</button>
+            <button className={styles.submitbtn} onClick={submitHandler}>Submit</button>
           </div>
         </div>
       </div>

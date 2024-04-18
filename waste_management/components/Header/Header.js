@@ -21,7 +21,7 @@ export default function Header({
   const name = loadingdata?.name || null;
   const district_name = loadingdata?.district_name || null;
   const block_name = loadingdata?.block_name || null;
-  const ward_name = loadingdata?.ward_name || null;
+  const ward_id = loadingdata?.ward_id || null;
 
   const handleLogout = () => {
     swal({
@@ -307,7 +307,7 @@ export default function Header({
                     <></>
                   )}
                 </span>
-                {ward_name ? <span>{`Ward-${ward_name}`}</span> : <></>}
+                {ward_id ? <span>{`Ward-${ward_id}`}</span> : <></>}
               </div>
             </div>
           ) : (

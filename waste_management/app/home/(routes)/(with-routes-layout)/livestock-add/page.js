@@ -64,7 +64,7 @@ export default function Livestockpage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_name: wardName,
+    ward_id: wardName,
     block_name: block_name,
   };
 

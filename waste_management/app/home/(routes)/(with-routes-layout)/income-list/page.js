@@ -160,17 +160,22 @@ export default function IncomeListPage() {
                 <th>Recyclable Waste Sales (Rs)</th>
                 <th>Manure Sales(Rs)</th>
                 <th>Created On</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody className={styles.table_body}>
               {api_incomeData.map((item, index) => (
                 <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.recylable_sold}</td>
-                  <td>{item.plastic_sold}</td>
-                  <td>{item.income_of_recylable}</td>
-                  <td>{item.sale_of_manure}</td>
-                  <td>{item.create_date}</td>
+                  <td className={styles.td}>{index + 1}</td>
+                  <td className={styles.td}>{item.recylable_sold}</td>
+                  <td className={styles.td}>{item.plastic_sold}</td>
+                  <td className={styles.td}>{item.income_of_recylable}</td>
+                  <td className={styles.td}>{item.sale_of_manure}</td>
+                  <td className={styles.td}>{item.create_date}</td>
+                  <td className={styles.actionWaste}>
+                    <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
+                    <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
+                  </td>
                 </tr>
               ))}
             </tbody>

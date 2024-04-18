@@ -53,8 +53,9 @@ export default function LoginPage() {
         //Setting user details to localstorage
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("name", res.data.name);
+        localStorage.setItem("user_id", res.data.user_id)
         localStorage.setItem("user_contact", res.data.user_contact);
-        // localStorage.setItem("user_type", res.data.user - type_name);
+        localStorage.setItem("user_type", res.data.user_type_name);
         localStorage.setItem("block", res.data.block);
         localStorage.setItem("block_id", res.data.block_id);
         localStorage.setItem("gp", res.data.gp);
@@ -64,6 +65,8 @@ export default function LoginPage() {
         localStorage.setItem("ward_id", res.data.ward_id);
         localStorage.setItem("ward", res.data.ward_name);
         localStorage.setItem("supervisor", res.data.supervisor);
+        localStorage.setItem("supervisor_id", res.data.supervisor_id);
+
         //message
         swal("Successfully", "logged in", "success");
         //redirecting

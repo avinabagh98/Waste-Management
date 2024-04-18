@@ -13,7 +13,7 @@ import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 
 
-export default function Wastecollectionpage() {
+export default function WastecollectionAddPage() {
   //State variables
   const [userRole, setUserRole] = useState(null);
   const [token, setToken] = useState(null);
@@ -62,10 +62,15 @@ export default function Wastecollectionpage() {
     daysOfCollectionsInAWeekWasteCollection,
     setDaysOfCollectionsInAWeekWasteCollection,
   ] = useState(null);
+  const [mohallas, setMohallas] = useState([]);
+  const [mohallaName, setMohallaName] = useState([]);
+  const [mohallaId, setMohallaId] = useState("");
+  const [userId, setUserId] = useState("");
+  const [supervisorId, setSupervisorId] = useState("");
 
   //Loading Header Data States
   const [name, setName] = useState("");
-  const [wardName, setWardName] = useState("");
+  const [wardId, setWardId] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
@@ -73,17 +78,17 @@ export default function Wastecollectionpage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_name: wardName,
+    ward_id: wardId,
     block_name: block_name,
   };
 
   const formDataWC = {
-
+    token: token,
     Date: dateWasteCollection,
-    supervisorId: supervisorWasteCollection,
-    fieldStaffId: fieldStaffWasteCollection,
+    supervisorId: supervisorId,
+    fieldStaffId: userId,
     houseNumber: houseNumberWasteCollection,
-    // mohallaCommiteeWasteCollection: mohallaCommiteeWasteCollection,
+    mohallaId: mohallaCommiteeWasteCollection,
     Block: nameOfULBBlockWasteCollection,
     wardId: wardNoGPWasteCollection,
     localityId: localityNameVillageWasteCollection,
@@ -105,7 +110,11 @@ export default function Wastecollectionpage() {
       daysOfCollectionsInAWeekWasteCollection,
   };
 
-  const mohallaOptions = ["select", "1"];
+  const dropDownBody = {
+    token: token,
+    wardId: wardId,
+  }
+
 
   const route = useRouter();
   const translate = LanguageFetcher();
@@ -127,7 +136,14 @@ export default function Wastecollectionpage() {
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
-          setWardName(localStorage.getItem("ward_id"));
+          setWardId(localStorage.getItem("ward_id"));
+
+          setFieldStaffWasteCollection(localStorage.getItem("name"));
+          setNameOfULBBlockWasteCollection(localStorage.getItem("block"));
+          setWardNoGPWasteCollection(localStorage.getItem("ward_id"));
+          setSupervisorWasteCollection(localStorage.getItem("supervisor"));
+          setSupervisorId(localStorage.getItem("supervisor_id"));
+          setUserId(localStorage.getItem("user_id"));
 
 
         }
@@ -138,9 +154,37 @@ export default function Wastecollectionpage() {
     }
   }, []);
 
-  // API Data Fetching
 
-  // Function Declarations
+  // Mohalla Committee List Dropdown Fetching
+  useEffect(() => {
+    try {
+
+      async function fetchDropdown() {
+        const response = await sendRequest("post", `/mohollacommittee/List`, dropDownBody, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.status === 1) {
+          console.log(response.data.data.lists);
+
+          setMohallas(response.data.data.lists);
+          const mohallas_name = response.data.data.lists.map((item) => item.committee_name);
+          setMohallaName(mohallas_name);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+
+  useEffect(() => {
+    console.log(mohallaId, mohallaCommiteeWasteCollection);
+
+  }, [mohallaId, mohallaCommiteeWasteCollection])
 
   // Handler Functions
 
@@ -159,6 +203,10 @@ export default function Wastecollectionpage() {
     }
     if (id === "mohallaCommiteeWasteCollection") {
       setMohallaCommiteeWasteCollection(val);
+      const foundMohalla = mohallas.find(item => item.value === val);
+      console.log(foundMohalla);
+
+
     }
     if (id === "nameOfULBBlockWasteCollection") {
       setNameOfULBBlockWasteCollection(val);
@@ -257,7 +305,7 @@ export default function Wastecollectionpage() {
 
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
-          <Textparser text={"Weekly Waste Collection List"} />
+          <Textparser text={"Weekly Waste Collection Add"} />
         </div>
 
         <div className={styles.formcontainer}>
@@ -297,14 +345,14 @@ export default function Wastecollectionpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          {/* <SurveyDropdown
+          <SurveyDropdown
             id={"mohallaCommiteeWasteCollection"}
             labelText={translate?.Mohalla_Commitee_Waste_Collection}
             value={mohallaCommiteeWasteCollection}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-            options={mohallaOptions}
-          /> */}
+            options={mohallaName}
+          />
 
           <Surveyques
             id={"nameOfULBBlockWasteCollection"}

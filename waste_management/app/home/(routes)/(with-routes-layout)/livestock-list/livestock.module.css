@@ -102,7 +102,7 @@
             padding: 0 10px;
       }
 
-      .table_body td {
+      .td {
 
             padding: 2px 5px;
             text-align: center;
@@ -138,4 +138,14 @@
       color: var(--bitan-green);
       background-color: var(--lic-yellow);
 
+}
+
+.actionWaste {
+      width: 80px;
+      border-bottom: 1px solid #ddd;
+}
+
+.actionWaste img {
+      margin: 0 4px;
+      cursor: pointer;
 }
