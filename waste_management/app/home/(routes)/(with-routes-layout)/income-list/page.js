@@ -90,8 +90,9 @@ export default function IncomeListPage() {
   // Function Declarations
 
   // Handler Functions
-  const editHandler = () => {
-    route.push("/home/income-edit");
+  const editHandler = (id) => {
+    localStorage.setItem("id", id);
+    route.push("/home/income-update");
   };
 
   const showHandler = (arrayData) => {
@@ -174,7 +175,7 @@ export default function IncomeListPage() {
                   <td className={styles.td}>{item.create_date}</td>
                   <td className={styles.actionWaste}>
                     <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
-                    <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
+                    <img onClick={() => { editHandler(item.id) }} src="/svg/edit.svg" alt="update"></img>
                   </td>
                 </tr>
               ))}
