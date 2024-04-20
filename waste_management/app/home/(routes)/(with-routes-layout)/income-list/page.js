@@ -14,12 +14,18 @@ export default function IncomeListPage() {
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
-  const [ward_id, setWard_id] = useState("");
   const [api_incomeData, setApi_incomeData] = useState([]);
+
+  const [mohalla, setMohalla] = useState([]);
+  const [mohallaName, setMohallaName] = useState([]);
+  const [locality, setLocality] = useState([]);
+  const [localName, setLocalName] = useState([]);
+  const [wasteCollectors, setWasteCollectors] = useState([]);
+  const [wasteCollectorName, setWasteCollectorName] = useState([]);
 
   //Loading Header Data States
   const [name, setName] = useState("");
-  const [wardName, setWardName] = useState("");
+  const [ward_id, setWard_id] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
@@ -27,7 +33,7 @@ export default function IncomeListPage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_name: wardName,
+    ward_name: ward_id,
     block_name: block_name,
   };
 
@@ -36,10 +42,15 @@ export default function IncomeListPage() {
     ward_id: ward_id,
   };
 
+  const dropDownBody = {
+    token: token,
+    wardId: ward_id,
+  };
+
   const route = useRouter();
   const translate = LanguageFetcher();
 
-  // Common LocalStorage Fetching
+  // Common LocalStorage Fetching -----------------------------
   useEffect(() => {
     try {
       async function fetchData() {
@@ -55,7 +66,6 @@ export default function IncomeListPage() {
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
-          setWardName(localStorage.getItem("ward_id"));
         }
       }
       fetchData();
@@ -87,49 +97,152 @@ export default function IncomeListPage() {
     fetchLists();
   }, [token, ward_id]);
 
-  // Function Declarations
+  // Mohalla Committee By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/mohollacommittee/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Mohalla lists in ward ${ward_id} from API ::`,
+            response.data.data.lists
+          );
+          setMohalla(response.data.data.lists);
+        }
+      }
 
-  // Handler Functions
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Waste Collector By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/westecollector/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Waste Collectors in ward ${ward_id} from API ::`,
+            response.data.data.incomeList
+          );
+          setWasteCollectors(response.data.data.incomeList);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Locality By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `localitylist/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Locality lists in ward ${ward_id} from API ::`,
+            response.data.data.incomeList
+          );
+          setLocality(response.data.data.incomeList);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Function Declarations -----------------------------------
+  //Date Formatter
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  };
+
+  const getMohallaName = (array, id) => {
+    if (array.length > 0) {
+      let mohalla = array.filter((item) => item.id == id);
+      return mohalla[0].committee_name;
+    }
+  };
+
+  const getLocalityName = (array, id) => {
+    if (array.length > 0) {
+      let locality = array.filter((item) => item.id == id);
+      return locality[0].village_name;
+    }
+  };
+
+  const getWasteCollectorName = (array, id) => {
+    if (array.length > 0) {
+      let Collector = array.filter((item) => item.id == id);
+      return Collector[0].user_name;
+    }
+  };
+
+  // Handler Functions ----------------------
   const editHandler = (id) => {
     localStorage.setItem("id", id);
     route.push("/home/income-update");
   };
 
   const showHandler = (arrayData) => {
+    const mohalla_name = getMohallaName(mohalla, arrayData.mohalla_id);
+    const locality_name = getLocalityName(locality, arrayData.locality_id);
+    const collector_name = getWasteCollectorName(
+      wasteCollectors,
+      arrayData.waste_collector
+    );
+    const formattedDate = formatDate(arrayData.create_date);
     console.log("show");
     Swal.fire({
       title: "Income Details",
       html: `<swal-html>
           <div id="IncomeDetails">
 
-          <div style="display:flex; align-items:center; gap:10px">
-          <p style="text-align:left"><strong>Income Id:</strong> ${arrayData?.id
-        }</p>
-          <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
-        }</p>
-          </div>
-          
-          <div style="display:flex; align-items:center;gap:10px">
-          <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
-        }</p>
-          <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
-        }</p>
-          </div>
-
-          <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
-        }, ${arrayData?.longitude}</p>
-          <p style="text-align:left"><strong >Income Name:</strong> ${arrayData?.name_of_live_shed
-        }</p>
-          <p style="text-align:left"><strong>Income Type:</strong> ${arrayData?.Income_type
-        }</p>
-          <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
-        }</p>
-          <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
-        }</p>
-          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
-        }</p>
-          <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-        }</p>
+          <p style="text-align:left"><strong>Income Id:</strong> ${arrayData?.id}</p>
+          <p style="text-align:left"><strong>Created Date:</strong> ${formattedDate}</p>
+          <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward_id}</p>
+          <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id}</p>
+          <p style="text-align:left"><strong >Mohalla:</strong> ${mohalla_name}</p>
+          <p style="text-align:left"><strong>Locality:</strong> ${locality_name}</p>
+          <p style="text-align:left"><strong>Waste Collector:</strong> ${collector_name}</p>
+          <p style="text-align:left"><strong>Income From Recycled Waste:</strong> ${arrayData?.income_of_recylable}</p>
+          <p style="text-align:left"><strong>Plastic Sold(Kg):</strong> ${arrayData?.plastic_sold}</p>
+          <p style="text-align:left"><strong>Recyclable Waste Sold (Kg):</strong> ${arrayData?.recylable_sold}</p>
+          <p style="text-align:left"><strong>Manure Sold(Kg):</strong> ${arrayData?.sale_of_manure}</p>
           </div>
         </swal-html>`,
     });
@@ -174,8 +287,20 @@ export default function IncomeListPage() {
                   <td className={styles.td}>{item.sale_of_manure}</td>
                   <td className={styles.td}>{item.create_date}</td>
                   <td className={styles.actionWaste}>
-                    <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
-                    <img onClick={() => { editHandler(item.id) }} src="/svg/edit.svg" alt="update"></img>
+                    <img
+                      onClick={() => {
+                        showHandler(item);
+                      }}
+                      src="/svg/eye.svg"
+                      alt="Show_details"
+                    ></img>
+                    <img
+                      onClick={() => {
+                        editHandler(item.id);
+                      }}
+                      src="/svg/edit.svg"
+                      alt="update"
+                    ></img>
                   </td>
                 </tr>
               ))}

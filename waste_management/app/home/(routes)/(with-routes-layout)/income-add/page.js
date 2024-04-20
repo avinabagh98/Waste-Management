@@ -44,7 +44,6 @@ export default function IncomeAddpage() {
   const [wasteCollectorName, setWasteCollectorName] = useState([]);
   const [wasteCollectorId, setWasteCollectorId] = useState("");
 
-
   //Loading Header Data States
   const [name, setName] = useState("");
   const [ward_id, setWard_id] = useState("");
@@ -74,19 +73,16 @@ export default function IncomeAddpage() {
     saleOfManure: saleOfManureIncome,
   };
 
-
   const dropDownBody = {
     token: token,
     wardId: ward_id,
-  }
+  };
 
   const route = useRouter();
   const translate = LanguageFetcher();
 
-
   // LocalStorage Fetching
   useEffect(() => {
-
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
@@ -107,9 +103,6 @@ export default function IncomeAddpage() {
           setSupervisorIncome(localStorage.getItem("supervisor"));
           setSupervisorId(localStorage.getItem("supervisor_id"));
           setWardNoGpIncome(localStorage.getItem("ward_id"));
-
-
-
         }
       }
       fetchData();
@@ -118,22 +111,26 @@ export default function IncomeAddpage() {
     }
   }, []);
 
-
   // Mohalla Committee By Ward API Calling
   useEffect(() => {
     try {
-
       async function fetchDropdown() {
-        const response = await sendRequest("post", `/mohollacommittee/List`, dropDownBody, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await sendRequest(
+          "post",
+          `/mohollacommittee/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (response.status === 1) {
-          console.log(`Mohalla lists in ward ${ward_id} from API ::`, response.data.data.lists);
+          console.log(
+            `Mohalla lists in ward ${ward_id} from API ::`,
+            response.data.data.lists
+          );
           setMohalla(response.data.data.lists);
-
-
         }
       }
 
@@ -141,31 +138,36 @@ export default function IncomeAddpage() {
     } catch (error) {
       console.log(error);
     }
-  }, [token])
+  }, [token]);
 
   // Mohalla Committee List Dropdown State Update
   useEffect(() => {
-
     if (mohalla.length > 0) {
       const mohallaNames = mohalla.map((mohalla) => mohalla.committee_name);
       setMohallaName(mohallaNames);
-
+      setMohallaId(mohalla[0].id);
     }
-
-  }, [mohalla])
+  }, [mohalla]);
 
   // Waste Collector By Ward API Calling
   useEffect(() => {
     try {
-
       async function fetchDropdown() {
-        const response = await sendRequest("post", `/westecollector/List`, dropDownBody, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await sendRequest(
+          "post",
+          `/westecollector/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (response.status === 1) {
-          console.log(`Waste Collectors in ward ${ward_id} from API ::`, response.data.data.incomeList);
+          console.log(
+            `Waste Collectors in ward ${ward_id} from API ::`,
+            response.data.data.incomeList
+          );
           setWasteCollectors(response.data.data.incomeList);
         }
       }
@@ -174,42 +176,58 @@ export default function IncomeAddpage() {
     } catch (error) {
       console.log(error);
     }
-  }, [token])
+  }, [token]);
 
   // Waste Collector List Dropdown State Update
   useEffect(() => {
     if (wasteCollectors.length > 0) {
       const waste_collectors = wasteCollectors.map((item) => item.user_name);
       setWasteCollectorName(waste_collectors);
+      setWasteCollectorId(wasteCollectors[0].id);
     }
-  }, [wasteCollectors])
-
-
+  }, [wasteCollectors]);
 
   // Handler Functions
   const handleVal = (id, val) => {
-    if (id === "supervisorIncome") { setSupervisorIncome(val); }
-    if (id === "fieldStaffIncome") { setFieldStaffIncome(val); }
-    if (id === "dateIncome") { setDateIncome(val); }
-    if (id === "wardNoGpIncome") { setWardNoGpIncome(val); }
-    if (id === "localityNameVillageIncome") { setLocalityNameVillageIncome(val); }
+    if (id === "supervisorIncome") {
+      setSupervisorIncome(val);
+    }
+    if (id === "fieldStaffIncome") {
+      setFieldStaffIncome(val);
+    }
+    if (id === "dateIncome") {
+      setDateIncome(val);
+    }
+    if (id === "wardNoGpIncome") {
+      setWardNoGpIncome(val);
+    }
+    if (id === "localityNameVillageIncome") {
+      setLocalityNameVillageIncome(val);
+    }
     if (id === "mohallaCommiteeIncome") {
-      let mhVal = mohalla.filter(item => item.committee_name === val)
+      let mhVal = mohalla.filter((item) => item.committee_name === val);
       let mohallaId_Selected = mhVal[0].id;
       setMohallaId(mohallaId_Selected);
       setMohallaCommiteeIncome(val);
     }
     if (id === "wasteCollectorNameIncome") {
-      let wVal = wasteCollectors.filter(item => item.user_name === val)
+      let wVal = wasteCollectors.filter((item) => item.user_name === val);
       let waste_collector_Selected = wVal[0].id;
       setWasteCollectorId(waste_collector_Selected);
       setWasteCollectorNameIncome(val);
     }
-    if (id === "recyclableSoldIncome") { setRecyclableSoldIncome(val); }
-    if (id === "plasticRecyclableSoldIncome") { setPlasticRecyclableSoldIncome(val); }
-    if (id === "incomeFromSaleOfRecyclableIncome") { setIncomeFromSaleOfRecyclableIncome(val); }
-    if (id === "saleOfManureIncome") { setSaleOfManureIncome(val); }
-
+    if (id === "recyclableSoldIncome") {
+      setRecyclableSoldIncome(val);
+    }
+    if (id === "plasticRecyclableSoldIncome") {
+      setPlasticRecyclableSoldIncome(val);
+    }
+    if (id === "incomeFromSaleOfRecyclableIncome") {
+      setIncomeFromSaleOfRecyclableIncome(val);
+    }
+    if (id === "saleOfManureIncome") {
+      setSaleOfManureIncome(val);
+    }
   };
 
   const submitHandler = async (e) => {
@@ -217,25 +235,19 @@ export default function IncomeAddpage() {
     console.log("Income Submitted :: ", formDataIncome);
 
     try {
-      const res = await sendRequest(
-        "post",
-        "/income/add",
-        formDataIncome,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        }
-      );
+      const res = await sendRequest("post", "/income/add", formDataIncome, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (res.status === 1) {
-
         swal("Successfully", "Income Added", "success");
         route.push("/home/income-list");
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <>
@@ -246,7 +258,6 @@ export default function IncomeAddpage() {
       />
 
       <div className={styles.container}>
-
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
           <Textparser text={"Income Add"} />
@@ -342,7 +353,9 @@ export default function IncomeAddpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtn} onClick={submitHandler}>Submit</button>
+            <button className={styles.submitbtn} onClick={submitHandler}>
+              Submit
+            </button>
           </div>
         </div>
       </div>

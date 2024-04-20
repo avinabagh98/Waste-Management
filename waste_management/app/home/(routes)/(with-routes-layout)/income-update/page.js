@@ -12,415 +12,430 @@ import SurveyDropdown from "@/components/SurveyDropdown";
 import { sendRequest } from "@/api/sendRequest";
 
 export default function IncomeUpdatepage() {
-    //State variables
-    const [id, setId] = useState("");
-    const [userRole, setUserRole] = useState("");
-    const [token, setToken] = useState("");
+  //State variables
+  const [id, setId] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const [token, setToken] = useState("");
 
-    //form-data states
-    const [dateIncome, setDateIncome] = useState("");
-    const [supervisorIncome, setSupervisorIncome] = useState("");
-    const [fieldStaffIncome, setFieldStaffIncome] = useState("");
-    const [mohallaCommiteeIncome, setMohallaCommiteeIncome] = useState("");
-    const [wardNoGpIncome, setWardNoGpIncome] = useState("");
-    const [localityNameVillageIncome, setLocalityNameVillageIncome] =
-        useState("");
-    const [wasteCollectorNameIncome, setWasteCollectorNameIncome] = useState("");
-    const [recyclableSoldIncome, setRecyclableSoldIncome] = useState("");
-    const [plasticRecyclableSoldIncome, setPlasticRecyclableSoldIncome] =
-        useState("");
-    const [
-        incomeFromSaleOfRecyclableIncome,
-        setIncomeFromSaleOfRecyclableIncome,
-    ] = useState("");
-    const [saleOfManureIncome, setSaleOfManureIncome] = useState("");
-    const [user_id, setUser_id] = useState("");
-    const [supervisorId, setSupervisorId] = useState("");
-    const [district, setDistrict] = useState("");
+  //form-data states
+  const [dateIncome, setDateIncome] = useState("");
+  const [supervisorIncome, setSupervisorIncome] = useState("");
+  const [fieldStaffIncome, setFieldStaffIncome] = useState("");
+  const [mohallaCommiteeIncome, setMohallaCommiteeIncome] = useState("");
+  const [wardNoGpIncome, setWardNoGpIncome] = useState("");
+  const [localityNameVillageIncome, setLocalityNameVillageIncome] =
+    useState("");
+  const [wasteCollectorNameIncome, setWasteCollectorNameIncome] = useState("");
+  const [recyclableSoldIncome, setRecyclableSoldIncome] = useState("");
+  const [plasticRecyclableSoldIncome, setPlasticRecyclableSoldIncome] =
+    useState("");
+  const [
+    incomeFromSaleOfRecyclableIncome,
+    setIncomeFromSaleOfRecyclableIncome,
+  ] = useState("");
+  const [saleOfManureIncome, setSaleOfManureIncome] = useState("");
+  const [user_id, setUser_id] = useState("");
+  const [supervisorId, setSupervisorId] = useState("");
+  const [district, setDistrict] = useState("");
 
+  const [mohalla, setMohalla] = useState("");
+  const [mohallaId, setMohallaId] = useState("");
+  const [mohallaName, setMohallaName] = useState([]);
+  const [wasteCollectors, setWasteCollectors] = useState([]);
+  const [wasteCollectorName, setWasteCollectorName] = useState([]);
+  const [wasteCollectorId, setWasteCollectorId] = useState("");
 
-    const [mohalla, setMohalla] = useState("");
-    const [mohallaId, setMohallaId] = useState("");
-    const [mohallaName, setMohallaName] = useState([]);
-    const [wasteCollectors, setWasteCollectors] = useState([]);
-    const [wasteCollectorName, setWasteCollectorName] = useState([]);
-    const [wasteCollectorId, setWasteCollectorId] = useState("");
+  //Loading Header Data States
+  const [name, setName] = useState("");
+  const [ward_id, setWard_id] = useState("");
+  const [district_name, setDistrictName] = useState("");
+  const [block_name, setBLockName] = useState("");
 
+  //Common Other declarations///
+  const loadingHeaderData = {
+    name: name,
+    district_name: district_name,
+    ward_id: ward_id,
+    block_name: block_name,
+  };
 
+  const formDataIncomeUpdate = {
+    id: id,
+    token: token,
+    create_date: dateIncome,
+    fieldstaffId: user_id,
+    wardId: ward_id,
+    localityId: localityNameVillageIncome,
+    supervisorId: supervisorId,
+    mohallaId: mohallaId,
+    wasteCollector: wasteCollectorId,
+    recylableSold: recyclableSoldIncome,
+    plasticSold: plasticRecyclableSoldIncome,
+    incomeofRecylable: incomeFromSaleOfRecyclableIncome,
+    saleOfManure: saleOfManureIncome,
+  };
 
-    //Loading Header Data States
-    const [name, setName] = useState("");
-    const [ward_id, setWard_id] = useState("");
-    const [district_name, setDistrictName] = useState("");
-    const [block_name, setBLockName] = useState("");
+  const dropDownBody = {
+    token: token,
+    wardId: ward_id,
+  };
 
-    //Common Other declarations///
-    const loadingHeaderData = {
-        name: name,
-        district_name: district_name,
-        ward_id: ward_id,
-        block_name: block_name,
-    };
+  const route = useRouter();
+  const translate = LanguageFetcher();
 
-    const formDataIncomeUpdate = {
-        id: id,
-        token: token,
-        create_date: dateIncome,
-        fieldstaffId: user_id,
-        wardId: ward_id,
-        localityId: localityNameVillageIncome,
-        supervisorId: supervisorId,
-        mohallaId: mohallaId,
-        wasteCollector: wasteCollectorId,
-        recylableSold: recyclableSoldIncome,
-        plasticSold: plasticRecyclableSoldIncome,
-        incomeofRecylable: incomeFromSaleOfRecyclableIncome,
-        saleOfManure: saleOfManureIncome,
-    };
+  // LocalStorage Fetching
+  useEffect(() => {
+    try {
+      async function fetchData() {
+        const token = await localStorage.getItem("token");
+        if (!token) {
+          route.push("/home/login");
+        } else {
+          setUserRole(localStorage.getItem("role_name"));
+          setUser_id(localStorage.getItem("user_id"));
+          setToken(token);
 
+          //loadingHeaderData from local storage
+          setName(localStorage.getItem("name"));
+          setDistrictName(localStorage.getItem("district"));
+          setBLockName(localStorage.getItem("block"));
+          setWard_id(localStorage.getItem("ward_id"));
 
+          setFieldStaffIncome(localStorage.getItem("name"));
+          setSupervisorIncome(localStorage.getItem("supervisor"));
+          setWardNoGpIncome(localStorage.getItem("ward_id"));
+          setSupervisorId(localStorage.getItem("supervisor_id"));
+          setDistrict(localStorage.getItem("district"));
+          setId(localStorage.getItem("id"));
+        }
+      }
+      fetchData();
+    } catch (error) {
+      swal("Error", error.message, "error");
+    }
+  }, []);
 
+  // Getting Income BY id
+  useEffect(() => {
+    async function showData() {
+      try {
+        // Weekly waste collection By Id
 
-    const dropDownBody = {
-        token: token,
-        wardId: ward_id,
+        const res = await sendRequest(
+          "post",
+          "/income/id",
+          { token, id },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (res.status === 1) {
+          console.log("Response income id", res.data.data.list);
+
+          //inserting data to the respected fields
+          const api_response = res.data.data.list;
+
+          setDateIncome(api_response.create_date);
+          setFieldStaffIncome(api_response.user_id);
+          setWardNoGpIncome(api_response.ward_id);
+          setLocalityNameVillageIncome(api_response.locality_id);
+          setSupervisorId(api_response.supervisor_id);
+          setMohallaId(api_response.mohalla_id); //Updating mohalla id
+          setWasteCollectorId(api_response.waste_collector); //Updating waste collector id
+          setRecyclableSoldIncome(api_response.recylable_sold);
+          setPlasticRecyclableSoldIncome(api_response.plastic_sold);
+          setIncomeFromSaleOfRecyclableIncome(api_response.income_of_recylable);
+          setSaleOfManureIncome(api_response.sale_of_manure);
+        }
+      } catch (error) {
+        console.log("Error at weekly waste collection by id::", error);
+      }
+    }
+    showData();
+  }, [token]);
+
+  // Mohalla Committee By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/mohollacommittee/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Mohalla lists in ward ${ward_id} from API ::`,
+            response.data.data.lists
+          );
+          setMohalla(response.data.data.lists);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Mohalla Committee List Dropdown State Update
+  useEffect(() => {
+    if (mohalla.length > 0) {
+      const mohallaNames = mohalla.map((mohalla) => mohalla.committee_name);
+      setMohallaName(mohallaNames);
+      //   from ID to Name Update in dropdown
+      const mohallaname = mohalla.filter((item) => item.id === mohallaId);
+      setMohallaCommiteeIncome(mohallaname[0].committee_name);
+    }
+  }, [mohalla]);
+
+  // Waste Collector By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/westecollector/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Waste Collectors in ward ${ward_id} from API ::`,
+            response.data.data.incomeList
+          );
+          setWasteCollectors(response.data.data.incomeList);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Waste Collector List Dropdown State Update
+  useEffect(() => {
+    if (wasteCollectors.length > 0) {
+      const waste_collectors = wasteCollectors.map((item) => item.user_name);
+      setWasteCollectorName(waste_collectors);
+      //   from ID to Name Update in dropdown
+      let collector = wasteCollectors.filter(
+        (item) => item.id === wasteCollectorId
+      );
+      setWasteCollectorNameIncome(collector[0].user_name);
+    }
+  }, [wasteCollectors]);
+
+  // Handler Functions
+  const handleVal = (id, val) => {
+    if (id === "supervisorIncome") {
+      setSupervisorIncome(val);
+    }
+    if (id === "fieldStaffIncome") {
+      setFieldStaffIncome(val);
+    }
+    if (id === "dateIncome") {
+      setDateIncome(val);
+    }
+    if (id === "wardNoGpIncome") {
+      setWardNoGpIncome(val);
+    }
+    if (id === "localityNameVillageIncome") {
+      setLocalityNameVillageIncome(val);
+    }
+    if (id === "mohallaCommiteeIncome") {
+      let mhVal = mohalla.filter((item) => item.committee_name === val);
+      let mohallaId_Selected = mhVal[0].id;
+      setMohallaId(mohallaId_Selected);
+      setMohallaCommiteeIncome(val);
+    }
+    if (id === "wasteCollectorNameIncome") {
+      let wVal = wasteCollectors.filter((item) => item.user_name === val);
+      let waste_collector_Selected = wVal[0].id;
+      setWasteCollectorId(waste_collector_Selected);
+      setWasteCollectorNameIncome(val);
+    }
+    if (id === "recyclableSoldIncome") {
+      setRecyclableSoldIncome(val);
+    }
+    if (id === "plasticRecyclableSoldIncome") {
+      setPlasticRecyclableSoldIncome(val);
+    }
+    if (id === "incomeFromSaleOfRecyclableIncome") {
+      setIncomeFromSaleOfRecyclableIncome(val);
+    }
+    if (id === "saleOfManureIncome") {
+      setSaleOfManureIncome(val);
+    }
+  };
+
+  const UpdateHandler = async (e) => {
+    console.log("Income Form Submitted::", formDataIncomeUpdate);
+    //UPDATE API CALLING
+    const res = await sendRequest(
+      "post",
+      "/income/update",
+      formDataIncomeUpdate,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (res.status === 1) {
+      swal("Success", "Updated Successfully", "success");
+      route.push("/home/income-list");
     }
 
+    // let flag = false;
+    // e.preventDefault();
+    // for (const field in formDataIncomeUpdate) {
+    //     if (formDataIncomeUpdate[field] === null || formDataIncomeUpdate[field] === "") {
+    //         flag = true;
+    //         break;
+    //     }
+    // }
+    // if (flag) {
+    //     swal("Error", "Please fill all the fields", "error");
+    // } else {
+    //     console.log("Income Form Submitted::", formDataIncomeUpdate);
+    //     //UPDATE API CALLING
+    //     const res = await sendRequest(
+    //         "post",
+    //         "/income/update",
+    //         formDataIncomeUpdate,
+    //         {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         }
+    //     );
 
-    const route = useRouter();
-    const translate = LanguageFetcher();
+    //     if (res.status === 1) {
+    //         swal("Success", "Updated Successfully", "success");
+    //         route.push("/home/income-list");
+    //     }
+    // }
+  };
 
-    // LocalStorage Fetching
-    useEffect(() => {
+  return (
+    <>
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
 
-        try {
-            async function fetchData() {
-                const token = await localStorage.getItem("token");
-                if (!token) {
-                    route.push("/home/login");
-                } else {
-                    setUserRole(localStorage.getItem("role_name"));
-                    setUser_id(localStorage.getItem("user_id"));
-                    setToken(token);
+      <div className={styles.container}>
+        <div className={styles.formcontainer}>
+          <Surveyques
+            id={"dateIncome"}
+            type={"date"}
+            labelText={translate?.Date_income}
+            value={dateIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
 
-                    //loadingHeaderData from local storage
-                    setName(localStorage.getItem("name"));
-                    setDistrictName(localStorage.getItem("district"));
-                    setBLockName(localStorage.getItem("block"));
-                    setWard_id(localStorage.getItem("ward_id"));
+          <Surveyques
+            id={"supervisorIncome"}
+            labelText={translate?.Supervisor_income}
+            value={supervisorIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
 
-                    setFieldStaffIncome(localStorage.getItem("name"));
-                    setSupervisorIncome(localStorage.getItem("supervisor"));
-                    setWardNoGpIncome(localStorage.getItem("ward_id"));
-                    setSupervisorId(localStorage.getItem("supervisor_id"));
-                    setDistrict(localStorage.getItem("district"));
-                    setId(localStorage.getItem("id"));
+          <Surveyques
+            id={"fieldStaffIncome"}
+            labelText={translate?.Field_Staff_income}
+            value={fieldStaffIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
 
+          <SurveyDropdown
+            id={"mohallaCommiteeIncome"}
+            labelText={translate?.Mohalla_Commitee_income}
+            value={mohallaCommiteeIncome}
+            options={mohallaName}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
 
+          <Surveyques
+            id={"wardNoGpIncome"}
+            labelText={translate?.Ward_No_GP_income}
+            value={wardNoGpIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
 
-                }
-            }
-            fetchData();
-        } catch (error) {
-            swal("Error", error.message, "error");
-        }
-    }, []);
+          <Surveyques
+            id={"localityNameVillageIncome"}
+            labelText={translate?.Locality_Name_Village_income}
+            value={localityNameVillageIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+          <SurveyDropdown
+            id={"wasteCollectorNameIncome"}
+            labelText={translate?.Waste_Collector_Name_income}
+            value={wasteCollectorNameIncome}
+            options={wasteCollectorName}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+          <Surveyques
+            id={"recyclableSoldIncome"}
+            labelText={translate?.Recyclable_Sold_income}
+            value={recyclableSoldIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
 
+          <Surveyques
+            id={"plasticRecyclableSoldIncome"}
+            labelText={translate?.Plastic_Recyclable_Sold_income}
+            value={plasticRecyclableSoldIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
 
+          <Surveyques
+            id={"incomeFromSaleOfRecyclableIncome"}
+            labelText={translate?.Income_from_sale_of_recyclable_income}
+            value={incomeFromSaleOfRecyclableIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
 
-    // API Data Fetching
-
-
-    // Mohalla Committee By Ward API Calling
-    useEffect(() => {
-        try {
-
-            async function fetchDropdown() {
-                const response = await sendRequest("post", `/mohollacommittee/List`, dropDownBody, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                if (response.status === 1) {
-                    console.log(`Mohalla lists in ward ${ward_id} from API ::`, response.data.data.lists);
-                    setMohalla(response.data.data.lists);
-
-
-                }
-            }
-
-            fetchDropdown();
-        } catch (error) {
-            console.log(error);
-        }
-    }, [token])
-
-    // Mohalla Committee List Dropdown State Update
-    useEffect(() => {
-
-        if (mohalla.length > 0) {
-            const mohallaNames = mohalla.map((mohalla) => mohalla.committee_name);
-            setMohallaName(mohallaNames);
-
-        }
-
-    }, [mohalla])
-
-    // Waste Collector By Ward API Calling
-    useEffect(() => {
-        try {
-
-            async function fetchDropdown() {
-                const response = await sendRequest("post", `/westecollector/List`, dropDownBody, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                if (response.status === 1) {
-                    console.log(`Waste Collectors in ward ${ward_id} from API ::`, response.data.data.incomeList);
-                    setWasteCollectors(response.data.data.incomeList);
-                }
-            }
-
-            fetchDropdown();
-        } catch (error) {
-            console.log(error);
-        }
-    }, [token])
-
-    // Waste Collector List Dropdown State Update
-    useEffect(() => {
-        if (wasteCollectors.length > 0) {
-            const waste_collectors = wasteCollectors.map((item) => item.user_name);
-            setWasteCollectorName(waste_collectors);
-        }
-    }, [wasteCollectors])
-
-    // Getting Income BY id
-    useEffect(() => {
-        async function showData() {
-            try {
-                // Weekly waste collection By Id
-
-                const res = await sendRequest(
-                    "post",
-                    "/income/id",
-                    { token, id },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-                if (res.status === 1) {
-                    console.log("Response income id", res.data.data.list);
-
-                    //inserting data to the respected fields
-                    const api_response = res.data.data.list;
-
-                    setDateIncome(api_response.create_date);
-                    setFieldStaffIncome(api_response.user_id);
-                    setWardNoGpIncome(api_response.ward_id);
-                    setLocalityNameVillageIncome(api_response.locality_id);
-                    setSupervisorId(api_response.supervisor_id);
-                    setMohallaCommiteeIncome(api_response.mohalla_id);
-                    setWasteCollectorNameIncome(api_response.waste_collector);
-                    setRecyclableSoldIncome(api_response.recylable_sold);
-                    setPlasticRecyclableSoldIncome(api_response.plastic_sold);
-                    setIncomeFromSaleOfRecyclableIncome(api_response.income_of_recylable);
-                    setSaleOfManureIncome(api_response.sale_of_manure);
-
-                }
-
-            } catch (error) {
-                console.log("Error at weekly waste collection by id::", error);
-            }
-        }
-        showData();
-    }, [token]);
-
-    // Function Declarations
-
-    // Handler Functions
-    const handleVal = (id, val) => {
-        if (id === "supervisorIncome") { setSupervisorIncome(val); }
-        if (id === "fieldStaffIncome") { setFieldStaffIncome(val); }
-        if (id === "dateIncome") { setDateIncome(val); }
-        if (id === "wardNoGpIncome") { setWardNoGpIncome(val); }
-        if (id === "localityNameVillageIncome") { setLocalityNameVillageIncome(val); }
-        if (id === "mohallaCommiteeIncome") {
-            let mhVal = mohalla.filter(item => item.committee_name === val)
-            let mohallaId_Selected = mhVal[0].id;
-            setMohallaId(mohallaId_Selected);
-            setMohallaCommiteeIncome(val);
-        }
-        if (id === "wasteCollectorNameIncome") {
-            let wVal = wasteCollectors.filter(item => item.user_name === val)
-            let waste_collector_Selected = wVal[0].id;
-            setWasteCollectorId(waste_collector_Selected);
-            setWasteCollectorNameIncome(val);
-        }
-        if (id === "recyclableSoldIncome") { setRecyclableSoldIncome(val); }
-        if (id === "plasticRecyclableSoldIncome") { setPlasticRecyclableSoldIncome(val); }
-        if (id === "incomeFromSaleOfRecyclableIncome") { setIncomeFromSaleOfRecyclableIncome(val); }
-        if (id === "saleOfManureIncome") { setSaleOfManureIncome(val); }
-
-    };
-
-    const UpdateHandler = async (e) => {
-        console.log("Income Form Submitted::", formDataIncomeUpdate);
-        //UPDATE API CALLING
-        const res = await sendRequest(
-            "post",
-            "/income/update",
-            formDataIncomeUpdate,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-
-        if (res.status === 1) {
-            swal("Success", "Updated Successfully", "success");
-            route.push("/home/income-list");
-        }
-
-        // let flag = false;
-        // e.preventDefault();
-        // for (const field in formDataIncomeUpdate) {
-        //     if (formDataIncomeUpdate[field] === null || formDataIncomeUpdate[field] === "") {
-        //         flag = true;
-        //         break;
-        //     }
-        // }
-        // if (flag) {
-        //     swal("Error", "Please fill all the fields", "error");
-        // } else {
-        //     console.log("Income Form Submitted::", formDataIncomeUpdate);
-        //     //UPDATE API CALLING
-        //     const res = await sendRequest(
-        //         "post",
-        //         "/income/update",
-        //         formDataIncomeUpdate,
-        //         {
-        //             headers: {
-        //                 Authorization: `Bearer ${token}`,
-        //             },
-        //         }
-        //     );
-
-        //     if (res.status === 1) {
-        //         swal("Success", "Updated Successfully", "success");
-        //         route.push("/home/income-list");
-        //     }
-        // }
-
-    };
-
-    return (
-        <>
-            <Header
-                userRole={userRole}
-                isOffCanvasVisible={false}
-                loadingdata={loadingHeaderData}
-            />
-
-            <div className={styles.container}>
-                <div className={styles.formcontainer}>
-                    <Surveyques
-                        id={"dateIncome"}
-                        type={"date"}
-                        labelText={translate?.Date_income}
-                        value={dateIncome}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"supervisorIncome"}
-                        labelText={translate?.Supervisor_income}
-                        value={supervisorIncome}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"fieldStaffIncome"}
-                        labelText={translate?.Field_Staff_income}
-                        value={fieldStaffIncome}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <SurveyDropdown
-                        id={"mohallaCommiteeIncome"}
-                        labelText={translate?.Mohalla_Commitee_income}
-                        value={mohallaCommiteeIncome}
-                        options={mohallaName}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"wardNoGpIncome"}
-                        labelText={translate?.Ward_No_GP_income}
-                        value={wardNoGpIncome}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"localityNameVillageIncome"}
-                        labelText={translate?.Locality_Name_Village_income}
-                        value={localityNameVillageIncome}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-                    <SurveyDropdown
-                        id={"wasteCollectorNameIncome"}
-                        labelText={translate?.Waste_Collector_Name_income}
-                        value={wasteCollectorNameIncome}
-                        options={wasteCollectorName}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-                    <Surveyques
-                        id={"recyclableSoldIncome"}
-                        labelText={translate?.Recyclable_Sold_income}
-                        value={recyclableSoldIncome}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"plasticRecyclableSoldIncome"}
-                        labelText={translate?.Plastic_Recyclable_Sold_income}
-                        value={plasticRecyclableSoldIncome}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"incomeFromSaleOfRecyclableIncome"}
-                        labelText={translate?.Income_from_sale_of_recyclable_income}
-                        value={incomeFromSaleOfRecyclableIncome}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"saleOfManureIncome"}
-                        labelText={translate?.Sale_of_Manure_income}
-                        value={saleOfManureIncome}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-                    <div className={styles.btnContainer}>
-                        <button className={styles.submitbtn} onClick={UpdateHandler}>Update</button>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
+          <Surveyques
+            id={"saleOfManureIncome"}
+            labelText={translate?.Sale_of_Manure_income}
+            value={saleOfManureIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+          <div className={styles.btnContainer}>
+            <button className={styles.submitbtn} onClick={UpdateHandler}>
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
