@@ -581,53 +581,35 @@ export default function HouseholdUpdatepage() {
   };
 
   const UpdateHandler = async (e) => {
-    console.log("HH Survey Form Submitted::", formDataHHUpdate);
-    //UPDATE API CALLING
-    const res = await sendRequest(
-      "post",
-      "/household/Update",
-      formDataHHUpdate,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    let flag = false;
+    e.preventDefault();
+    for (const field in formDataHHUpdate) {
+      if (formDataHHUpdate[field] === null || formDataHHUpdate[field] === "") {
+        flag = true;
+        break;
       }
-    );
-
-    if (res.status === 1) {
-      swal("Success", "Updated Successfully", "success");
-      route.push("/home/household-list");
     }
+    if (flag) {
+      swal("Error", "Please fill all the fields", "error");
+    } else {
+      console.log("HH Survey Update-form Submitted::", formDataHHUpdate);
+      //UPDATE API CALLING
+      const res = await sendRequest(
+        "post",
+        "/household/Update",
+        formDataHHUpdate,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    // let flag = false;
-    // e.preventDefault();
-    // for (const field in formDataIncomeUpdate) {
-    //     if (formDataIncomeUpdate[field] === null || formDataIncomeUpdate[field] === "") {
-    //         flag = true;
-    //         break;
-    //     }
-    // }
-    // if (flag) {
-    //     swal("Error", "Please fill all the fields", "error");
-    // } else {
-    //     console.log("Income Form Submitted::", formDataIncomeUpdate);
-    //     //UPDATE API CALLING
-    //     const res = await sendRequest(
-    //         "post",
-    //         "/income/update",
-    //         formDataIncomeUpdate,
-    //         {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //         }
-    //     );
-
-    //     if (res.status === 1) {
-    //         swal("Success", "Updated Successfully", "success");
-    //         route.push("/home/income-list");
-    //     }
-    // }
+      if (res.status === 1) {
+        swal("Success", "Updated Successfully", "success");
+        route.push("/home/household-list");
+      }
+    }
   };
 
   return (
