@@ -185,7 +185,7 @@ export default function IncomeUpdatepage() {
     }
   }, [token]);
 
-  // Mohalla Committee List Dropdown State Update
+  // Mohalla Committee List Dropdown State Update -- for UpdateAPI
   useEffect(() => {
     if (mohalla.length > 0) {
       const mohallaNames = mohalla.map((mohalla) => mohalla.committee_name);
@@ -225,7 +225,7 @@ export default function IncomeUpdatepage() {
     }
   }, [token]);
 
-  // Waste Collector List Dropdown State Update
+  // Waste Collector List Dropdown State Update -- for UpdateAPI
   useEffect(() => {
     if (wasteCollectors.length > 0) {
       const waste_collectors = wasteCollectors.map((item) => item.user_name);
@@ -284,51 +284,38 @@ export default function IncomeUpdatepage() {
   const UpdateHandler = async (e) => {
     console.log("Income Form Submitted::", formDataIncomeUpdate);
     //UPDATE API CALLING
-    const res = await sendRequest(
-      "post",
-      "/income/update",
-      formDataIncomeUpdate,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    let flag = false;
+    e.preventDefault();
+    for (const field in formDataIncomeUpdate) {
+      if (
+        formDataIncomeUpdate[field] === null ||
+        formDataIncomeUpdate[field] === ""
+      ) {
+        flag = true;
+        break;
       }
-    );
-
-    if (res.status === 1) {
-      swal("Success", "Updated Successfully", "success");
-      route.push("/home/income-list");
     }
+    if (flag) {
+      swal("Error", "Please fill all the fields", "error");
+    } else {
+      console.log("Income Form Submitted::", formDataIncomeUpdate);
+      //UPDATE API CALLING
+      const res = await sendRequest(
+        "post",
+        "/income/update",
+        formDataIncomeUpdate,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    // let flag = false;
-    // e.preventDefault();
-    // for (const field in formDataIncomeUpdate) {
-    //     if (formDataIncomeUpdate[field] === null || formDataIncomeUpdate[field] === "") {
-    //         flag = true;
-    //         break;
-    //     }
-    // }
-    // if (flag) {
-    //     swal("Error", "Please fill all the fields", "error");
-    // } else {
-    //     console.log("Income Form Submitted::", formDataIncomeUpdate);
-    //     //UPDATE API CALLING
-    //     const res = await sendRequest(
-    //         "post",
-    //         "/income/update",
-    //         formDataIncomeUpdate,
-    //         {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //         }
-    //     );
-
-    //     if (res.status === 1) {
-    //         swal("Success", "Updated Successfully", "success");
-    //         route.push("/home/income-list");
-    //     }
-    // }
+      if (res.status === 1) {
+        swal("Success", "Updated Successfully", "success");
+        route.push("/home/income-list");
+      }
+    }
   };
 
   return (

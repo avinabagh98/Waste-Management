@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./household.module.css";
+import styles from "@/app/home/(routes)/(with-routes-layout)/household-add/household.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
@@ -12,7 +12,7 @@ import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 import axios from "axios";
 
-export default function HouseholdAddpage() {
+export default function HouseholdUpdatepage() {
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -92,6 +92,7 @@ export default function HouseholdAddpage() {
   const [toilets, setToilets] = useState([]);
   const [toiletName, setToiletName] = useState([]);
   const [toiletId, setToiletId] = useState([]);
+  const [id, setId] = useState("");
 
   //Common Other declarations///
   const loadingHeaderData = {
@@ -110,7 +111,8 @@ export default function HouseholdAddpage() {
     token: token,
   };
 
-  const formDataHH = {
+  const formDataHHUpdate = {
+    id: id,
     token: token,
     lat: lat,
     longi: long,
@@ -162,13 +164,14 @@ export default function HouseholdAddpage() {
           setUserRole(localStorage.getItem("role_name"));
 
           //loadingHeaderData from local storage
+          setId(localStorage.getItem("id"));
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setWardName(localStorage.getItem("ward_id"));
-          setSupervisorHHSurvey(localStorage.getItem("supervisor"));
+          //     setSupervisorHHSurvey(localStorage.getItem("supervisor"));
           setSupervisor_id(localStorage.getItem("supervisor_id"));
-          setFieldStaffHHSurvey(localStorage.getItem("name"));
+          //     setFieldStaffHHSurvey(localStorage.getItem("name"));
           setUser_id(localStorage.getItem("user_id"));
           setWardNoGPHHSurvey(localStorage.getItem("ward"));
           setWard_id(localStorage.getItem("ward_id"));
@@ -179,6 +182,75 @@ export default function HouseholdAddpage() {
       swal("Error", error.message, "error");
     }
   }, []);
+
+  // Getting HH Survey By Id
+  useEffect(() => {
+    async function showData() {
+      try {
+        // Weekly waste collection By Id
+
+        const res = await sendRequest(
+          "post",
+          "/houseHold/id",
+          { token, id },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Household by id response::", res);
+        if (res.status === 1) {
+          console.log("Household by id response::", res.data.data.list);
+
+          //inserting data to the respected fields
+          const api_response = res.data.data.list;
+
+          setDateHHSurvey(api_response.date);
+          setSupervisor_id(api_response.supervisor);
+          setSupervisorHHSurvey(api_response.supervisor);
+          //     setSupervisorHHSurvey(localStorage.getItem("supervisor")); //supervisor
+          setFieldStaffHHSurvey(api_response.user_id);
+          setMobileNo(api_response.mobile_no);
+          setAadhaar(api_response.addahar_no);
+          setWardNoGPHHSurvey(api_response.which_word);
+          setLocalityId(api_response.locality); //locality id
+          setHouseNumberHHSurvey(api_response.holding_number);
+          setNameOfResidentHHSurvey(api_response.house_hold_name);
+          setNumberOfFamilyMembersHHSurvey(api_response.family_members);
+          setNumberOfChildBelow18YearsHHSurvey(
+            api_response.number_of_child_below_18_years
+          );
+          setRoadLane(api_response.road_lane);
+          setHomeBaseManageRat(api_response.home_base_manage_rat);
+          setWGUtype(api_response.type_of_wgu);
+          setPets(api_response.pets);
+          setPatients(api_response.patients);
+          setMohallaId(api_response.mohalla_committe); //mohalla id
+          setOccupationId(api_response.ocupation); //occupation id
+          setOwnershipOfHouseHHSurvey(api_response.owner_type);
+          setTypeOfSegregationHHSurvey(api_response.type_of_segragation);
+          setAreYouDoingHomeCompostingHHSurvey(api_response.is_composed);
+          setDoYouHaveToiletInYourHouseHHSurvey(api_response.toilet_in_house);
+          setToiletId(api_response.type_of_toilet); //toilet id
+          setDoYouManagingGreyWaterHHSurvey(api_response.is_manage_gray_water);
+          setAreYouWillingToDoKitchenGardenInFutureHHSurvey(
+            api_response.is_kitchen_garden
+          );
+          setAreYouWillingToConstructIndividualSoakPitInFutureHHSurvey(
+            api_response.is_construct_individual
+          );
+          setUserChargesInRupeesPerMonthHHSurvey(
+            api_response.user_charge_par_month
+          );
+        }
+      } catch (error) {
+        console.log("Error at HH Survey by id::", error);
+      }
+    }
+    showData();
+  }, [token]);
 
   // Location Fetching
   useEffect(() => {
@@ -225,12 +297,15 @@ export default function HouseholdAddpage() {
     }
   }, [token]);
 
-  // Mohalla Committee List Dropdown State Update
+  // Mohalla Committee List Dropdown State Update --for Update API
   useEffect(() => {
     if (mohalla.length > 0) {
       const mohallaNames = mohalla.map((mohalla) => mohalla.committee_name);
       setMohallaName(mohallaNames);
-      setMohallaId(mohalla[0].id);
+
+      //from ID to Name Update in dropdown
+      const mohallaname = mohalla.filter((item) => item.id === mohallaId);
+      setMohallaCommitte(mohallaname[0].committee_name);
     }
   }, [mohalla]);
 
@@ -263,12 +338,15 @@ export default function HouseholdAddpage() {
     }
   }, [token]);
 
-  // Locality List Dropdown State Update
+  // Locality List Dropdown State Update --for Update API
   useEffect(() => {
     if (locality.length > 0) {
       const localityaNames = locality.map((locality) => locality.village_name);
       setLocalName(localityaNames);
-      setLocalityId(locality[0].id);
+
+      //from ID to Name Update in dropdown
+      const local = locality.filter((item) => item.id === localityId);
+      setLocalityNameMohallaHHSurvey(local[0].village_name);
     }
   }, [locality]);
 
@@ -287,10 +365,7 @@ export default function HouseholdAddpage() {
           }
         );
         if (response.status === 1) {
-          console.log(
-            "Occpation API Response::",
-            response.data.data.occupations
-          );
+          console.log("Occpation API Response::", response.data.data.ocupation);
           setOccupations(response.data.data.ocupation);
         }
       }
@@ -301,14 +376,16 @@ export default function HouseholdAddpage() {
     }
   }, [token]);
 
-  // Occupations Dropdown State Update
+  // Occupations Dropdown State Update --for Update API
   useEffect(() => {
     if (occupations.length > 0) {
       const occupation_name = occupations.map(
         (occupation) => occupation.ocupationname
       );
       setOccupationName(occupation_name);
-      setOccupationId(occupations[0].id);
+      //from ID to Name Update in dropdown
+      const job = occupations.filter((item) => item.id === occupationId);
+      setOccupationHHSurvey(job[0].ocupationname);
     }
   }, [occupations]);
 
@@ -346,7 +423,10 @@ export default function HouseholdAddpage() {
     if (toilets.length > 0) {
       const toilet_name = toilets.map((toilet) => toilet.toiletTypename);
       setToiletName(toilet_name);
-      setToiletId(toilets[0].id);
+
+      //from ID to Name Update in dropdown
+      const toilet = toilets.filter((item) => item.id === toiletId);
+      setSelectToiletTypeHHSurvey(toilet[0].toiletTypename);
     }
   }, [toilets]);
 
@@ -498,6 +578,56 @@ export default function HouseholdAddpage() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const UpdateHandler = async (e) => {
+    console.log("HH Survey Form Submitted::", formDataHHUpdate);
+    //UPDATE API CALLING
+    const res = await sendRequest(
+      "post",
+      "/household/Update",
+      formDataHHUpdate,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (res.status === 1) {
+      swal("Success", "Updated Successfully", "success");
+      route.push("/home/household-list");
+    }
+
+    // let flag = false;
+    // e.preventDefault();
+    // for (const field in formDataIncomeUpdate) {
+    //     if (formDataIncomeUpdate[field] === null || formDataIncomeUpdate[field] === "") {
+    //         flag = true;
+    //         break;
+    //     }
+    // }
+    // if (flag) {
+    //     swal("Error", "Please fill all the fields", "error");
+    // } else {
+    //     console.log("Income Form Submitted::", formDataIncomeUpdate);
+    //     //UPDATE API CALLING
+    //     const res = await sendRequest(
+    //         "post",
+    //         "/income/update",
+    //         formDataIncomeUpdate,
+    //         {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         }
+    //     );
+
+    //     if (res.status === 1) {
+    //         swal("Success", "Updated Successfully", "success");
+    //         route.push("/home/income-list");
+    //     }
+    // }
   };
 
   return (
@@ -985,8 +1115,8 @@ export default function HouseholdAddpage() {
           />
 
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtn} onClick={submitHandler}>
-              Submit
+            <button className={styles.submitbtn} onClick={UpdateHandler}>
+              Update
             </button>
           </div>
         </div>
