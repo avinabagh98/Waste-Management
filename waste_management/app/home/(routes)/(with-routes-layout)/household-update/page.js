@@ -548,38 +548,6 @@ export default function HouseholdUpdatepage() {
     }
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    console.log("HoouseHold Survey Form Submitted :: ", formDataHH);
-
-    try {
-      let flag = false;
-      e.preventDefault();
-      for (const field in formDataHH) {
-        if (formDataHH[field] === null || formDataHH[field] === "") {
-          flag = true;
-          break;
-        }
-      }
-      if (flag) {
-        swal("Error", "Please fill all the fields", "error");
-      } else {
-        const household_add_res = await axios.post(
-          "https://waste.ebluesys.com/api/household/Insert",
-          formDataHH
-        );
-
-        // if (household_add_res.status === 1) {
-        //   console.log("Household Insert Response", household_add_res);
-        //   // route.push("/home/dashboard");
-        // }
-        console.log(household_add_res);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const UpdateHandler = async (e) => {
     let flag = false;
     e.preventDefault();

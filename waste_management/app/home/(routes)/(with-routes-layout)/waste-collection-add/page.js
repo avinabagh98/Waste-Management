@@ -12,7 +12,6 @@ import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 
-
 export default function WastecollectionAddPage() {
   //State variables
   const [userRole, setUserRole] = useState(null);
@@ -67,6 +66,9 @@ export default function WastecollectionAddPage() {
   const [mohallaId, setMohallaId] = useState("");
   const [userId, setUserId] = useState("");
   const [supervisorId, setSupervisorId] = useState("");
+  const [locality, setLocality] = useState([]);
+  const [localName, setLocalName] = useState([]);
+  const [localityId, setLocalityId] = useState([]);
 
   //Loading Header Data States
   const [name, setName] = useState("");
@@ -88,13 +90,12 @@ export default function WastecollectionAddPage() {
     supervisorId: supervisorId,
     fieldStaffId: userId,
     houseNumber: houseNumberWasteCollection,
-    mohallaId: mohallaCommiteeWasteCollection,
+    mohallaId: mohallaId,
     Block: nameOfULBBlockWasteCollection,
     wardId: wardNoGPWasteCollection,
-    localityId: localityNameVillageWasteCollection,
+    localityId: localityId,
     residentName: nameOfResidentWasteCollection,
-    compostableWasteCollected:
-      compostableWasteCollectedWasteCollection,
+    compostableWasteCollected: compostableWasteCollectedWasteCollection,
     Iron: ironWasteCollection,
     Aluminium: aluminiumWasteCollection,
     otherMetals: otherMetalsWasteCollection,
@@ -106,22 +107,19 @@ export default function WastecollectionAddPage() {
     cardBoard: cardBoardWasteCollection,
     Others: othersWasteCollection,
     inertWaste: inertWasteWasteCollection,
-    daysCollectionInWeek:
-      daysOfCollectionsInAWeekWasteCollection,
+    daysCollectionInWeek: daysOfCollectionsInAWeekWasteCollection,
   };
 
   const dropDownBody = {
     token: token,
     wardId: wardId,
-  }
-
+  };
 
   const route = useRouter();
   const translate = LanguageFetcher();
 
   // LocalStorage Fetching
   useEffect(() => {
-
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
@@ -130,7 +128,6 @@ export default function WastecollectionAddPage() {
         } else {
           setUserRole(localStorage.getItem("role_name"));
           setToken(token);
-
 
           //loadingHeaderData from local storage
           setName(localStorage.getItem("name"));
@@ -144,8 +141,6 @@ export default function WastecollectionAddPage() {
           setSupervisorWasteCollection(localStorage.getItem("supervisor"));
           setSupervisorId(localStorage.getItem("supervisor_id"));
           setUserId(localStorage.getItem("user_id"));
-
-
         }
       }
       fetchData();
@@ -154,22 +149,27 @@ export default function WastecollectionAddPage() {
     }
   }, []);
 
-
   // Mohalla Committee List Dropdown Fetching
   useEffect(() => {
     try {
-
       async function fetchDropdown() {
-        const response = await sendRequest("post", `/mohollacommittee/List`, dropDownBody, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await sendRequest(
+          "post",
+          `/mohollacommittee/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (response.status === 1) {
           console.log(response.data.data.lists);
 
           setMohallas(response.data.data.lists);
-          const mohallas_name = response.data.data.lists.map((item) => item.committee_name);
+          const mohallas_name = response.data.data.lists.map(
+            (item) => item.committee_name
+          );
           setMohallaName(mohallas_name);
         }
       }
@@ -180,11 +180,52 @@ export default function WastecollectionAddPage() {
     }
   }, [token]);
 
-
+  // Mohalla Committee List Dropdown State Update
   useEffect(() => {
-    console.log(mohallaId, mohallaCommiteeWasteCollection);
+    if (mohallas.length > 0) {
+      const mohallaNames = mohallas.map((mohalla) => mohalla.committee_name);
+      setMohallaName(mohallaNames);
+      setMohallaId(mohallas[0].id);
+    }
+  }, [mohallas]);
 
-  }, [mohallaId, mohallaCommiteeWasteCollection])
+  // Locality By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/localitylist/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Locality lists in ward ${wardId} from API ::`,
+            response.data.data.incomeList
+          );
+          setLocality(response.data.data.incomeList);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Locality List Dropdown State Update
+  useEffect(() => {
+    if (locality.length > 0) {
+      const localityaNames = locality.map((locality) => locality.village_name);
+      setLocalName(localityaNames);
+      setLocalityId(locality[0].id);
+    }
+  }, [locality]);
 
   // Handler Functions
 
@@ -202,11 +243,10 @@ export default function WastecollectionAddPage() {
       setHouseNumberWasteCollection(val);
     }
     if (id === "mohallaCommiteeWasteCollection") {
+      let mhVal = mohallas.filter((item) => item.committee_name === val);
+      let mohallaId_Selected = mhVal[0].id;
+      setMohallaId(mohallaId_Selected);
       setMohallaCommiteeWasteCollection(val);
-      const foundMohalla = mohallas.find(item => item.value === val);
-      console.log(foundMohalla);
-
-
     }
     if (id === "nameOfULBBlockWasteCollection") {
       setNameOfULBBlockWasteCollection(val);
@@ -215,6 +255,9 @@ export default function WastecollectionAddPage() {
       setWardNoGPWasteCollection(val);
     }
     if (id === "localityNameVillageWasteCollection") {
+      let LVal = locality.filter((item) => item.village_name === val);
+      let local_Selected = LVal[0].id;
+      setLocalityId(local_Selected);
       setLocalityNameVillageWasteCollection(val);
     }
     if (id === "nameOfResidentWasteCollection") {
@@ -283,13 +326,15 @@ export default function WastecollectionAddPage() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-          }
+          },
         }
       );
 
-      console.log(res);
+      if (res.status === 1) {
+        swal("Success", "Waste Collection Added", "success");
+        route.push("/home/waste-collection-list");
+      }
     }
-
   };
 
   return (
@@ -301,8 +346,6 @@ export default function WastecollectionAddPage() {
       />
 
       <div className={styles.container}>
-
-
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
           <Textparser text={"Weekly Waste Collection Add"} />
@@ -371,13 +414,14 @@ export default function WastecollectionAddPage() {
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />
-          <Surveyques
+          <SurveyDropdown
             id={"localityNameVillageWasteCollection"}
             type={"text"}
             labelText={translate?.Locality_Name_Village_Waste_Collection}
             value={localityNameVillageWasteCollection}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            options={localName}
           />
           <Surveyques
             id={"nameOfResidentWasteCollection"}
