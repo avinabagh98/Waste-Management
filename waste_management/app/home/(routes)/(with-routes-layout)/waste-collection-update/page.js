@@ -33,7 +33,7 @@ export default function WastecollectionUpdatePage() {
   const [
     localityNameVillageWasteCollection,
     setLocalityNameVillageWasteCollection,
-  ] = useState(null);
+  ] = useState("");
   const [nameOfResidentWasteCollection, setNameOfResidentWasteCollection] =
     useState(null);
   const [
