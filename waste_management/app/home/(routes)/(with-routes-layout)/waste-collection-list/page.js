@@ -178,7 +178,6 @@ export default function WasteCollectionListPage() {
                   };
 
                   const formattedDate = formatDate(item.date);
-                  console.log("inside map function");
 
                   return (
 
