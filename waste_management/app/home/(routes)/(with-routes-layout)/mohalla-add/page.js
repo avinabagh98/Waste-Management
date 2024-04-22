@@ -10,6 +10,7 @@ import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
+import { sendRequest } from "@/api/sendRequest";
 
 export default function Mohallapage() {
   //State variables
@@ -61,10 +62,19 @@ export default function Mohallapage() {
   ] = useState("");
   const [balanceInRsMohalla, setBalanceInRsMohalla] = useState("");
 
+  const [mohallas, setMohallas] = useState([]);
+  const [mohallaName, setMohallaName] = useState([]);
+  const [mohallaId, setMohallaId] = useState("");
+  const [userId, setUserId] = useState("");
+  const [supervisorId, setSupervisorId] = useState("");
+  const [locality, setLocality] = useState([]);
+  const [localName, setLocalName] = useState([]);
+  const [localityId, setLocalityId] = useState([]);
+
 
   //Loading Header Data States
   const [name, setName] = useState("");
-  const [wardName, setWardName] = useState("");
+  const [wardId, setWardId] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
@@ -73,33 +83,40 @@ export default function Mohallapage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_name: wardName,
+    ward_id: wardId,
     block_name: block_name,
+  };
+
+
+  const dropDownBody = {
+    token: token,
+    wardId: wardId,
   };
 
 
 
   const formDatamohalla = {
-    dateOfMeetingMohalla,
-    supervisorMohalla,
-    fieldStaffMohalla,
-    wardNoGPMohalla,
-    localityNameVillageMohalla,
-    mohallaCommiteeMohalla,
-    householdsUnderMCMohalla,
-    householdDoingSegregationMohalla,
-    hhPayingUserChargesMohalla,
-    userChargesCollectedRsPerMonthMohalla,
-    salaryPaidToWastePickerMohalla,
-    otherExpensesInRsMohalla,
-    isTheWasteCollectorRegularMohalla,
-    isTheWasteComingToComposter1Mohalla,
-    isTheWasteComingToComposter2Mohalla,
-    manureGeneratedInKgMohalla,
-    manureSoldInKgMohalla,
-    incomeFromManureSoldInRsMohalla,
-    noOfHhsTakingHomeCompostingMohalla,
-    balanceInRsMohalla,
+    token: token,
+    dateOfMeeting: dateOfMeetingMohalla,
+    supervisorId: supervisorId,
+    fieldStaffId: userId,
+    wardId: wardNoGPMohalla,
+    localityId: localityId,
+    mohollaCommitteeId: mohallaId,
+    householdMc: householdsUnderMCMohalla,
+    householdSegregation: householdDoingSegregationMohalla,
+    hhUserPayCharge: hhPayingUserChargesMohalla,
+    userChargeCollection: userChargesCollectedRsPerMonthMohalla,
+    salaryPaidWastePicker: salaryPaidToWastePickerMohalla,
+    otherExpense: otherExpensesInRsMohalla,
+    isWastecollectorRegular: isTheWasteCollectorRegularMohalla,
+    isWastecomingComposter1: isTheWasteComingToComposter1Mohalla,
+    isWastecomingComposter2: isTheWasteComingToComposter2Mohalla,
+    manureGenerated: manureGeneratedInKgMohalla,
+    manureSold: manureSoldInKgMohalla,
+    incomeFromManureSold: incomeFromManureSoldInRsMohalla,
+    noOfUndertakenHomeComposting: noOfHhsTakingHomeCompostingMohalla,
+    balance: balanceInRsMohalla,
   };
 
   const wardOptions = ["select", "1", "2"];
@@ -125,7 +142,14 @@ export default function Mohallapage() {
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
-          setWardName(localStorage.getItem("ward_id"));
+          setWardId(localStorage.getItem("ward_id"));
+          setUserId(localStorage.getItem("user_id"));
+
+          // add data to the form
+          setWardNoGPMohalla(localStorage.getItem("ward_id"));
+          setFieldStaffMohalla(localStorage.getItem("name"));
+          setSupervisorMohalla(localStorage.getItem("supervisor"));
+          setSupervisorId(localStorage.getItem("supervisor_id"));
 
 
         }
@@ -136,13 +160,157 @@ export default function Mohallapage() {
     }
   }, []);
 
-  // API Data Fetching
 
-  // Function Declarations
+
+
+
+  // Mohalla Committee List Dropdown Fetching
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/mohollacommittee/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(response.data.data.lists);
+
+          setMohallas(response.data.data.lists);
+          const mohallas_name = response.data.data.lists.map(
+            (item) => item.committee_name
+          );
+          setMohallaName(mohallas_name);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Mohalla Committee List Dropdown State Update
+  useEffect(() => {
+    if (mohallas.length > 0) {
+      const mohallaNames = mohallas.map((mohalla) => mohalla.committee_name);
+      setMohallaName(mohallaNames);
+      setMohallaId(mohallas[0].id);
+    }
+  }, [mohallas]);
+
+  // Locality By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/localitylist/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Locality lists in ward ${wardId} from API ::`,
+            response.data.data.incomeList
+          );
+          setLocality(response.data.data.incomeList);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Locality List Dropdown State Update
+  useEffect(() => {
+    if (locality.length > 0) {
+      const localityaNames = locality.map((locality) => locality.village_name);
+      setLocalName(localityaNames);
+      setLocalityId(locality[0].id);
+    }
+  }, [locality]);
 
   // Handler Functions
 
-  const handleVal = (id, val) => { };
+  const handleVal = (id, val) => {
+    if (id === "dateOfMeetingMohalla") {
+      setDateOfMeetingMohalla(val);
+    }
+    if (id === "supervisorMohalla") {
+      setSupervisorMohalla(val);
+    }
+    if (id === "fieldStaffMohalla") {
+      setFieldStaffMohalla(val);
+    }
+
+    if (id === "wardNoGPMohalla") {
+      setWardNoGPMohalla(val);
+    }
+    if (id === "localityNameVillageMohalla") {
+      setLocalityNameVillageMohalla(val);
+    }
+    if (id === "mohallaCommiteeMohalla") {
+      let mhVal = mohallas.filter((item) => item.committee_name === val);
+      let mohallaId_Selected = mhVal[0].id;
+      setMohallaId(mohallaId_Selected);
+      setMohallaCommiteeMohalla(val);
+    }
+
+    if (id === "householdsUnderMCMohalla") {
+      setHouseholdsUnderMCMohalla(val);
+    }
+    if (id === "householdDoingSegregationMohalla") {
+      setHouseholdDoingSegregationMohalla(val);
+    }
+    if (id === "hhPayingUserChargesMohalla") {
+      setHhPayingUserChargesMohalla(val);
+    }
+    if (id === "userChargesCollectedRsPerMonthMohalla") {
+      setUserChargesCollectedRsPerMonthMohalla(val);
+    }
+
+    if (id === "salaryPaidToWastePickerMohalla") {
+      setSalaryPaidToWastePickerMohalla(val);
+    }
+
+    if (id === "otherExpensesInRsMohalla") {
+      setOtherExpensesInRsMohalla(val);
+    }
+
+    if (id === "manureGeneratedInKgMohalla") {
+      setManureGeneratedInKgMohalla(val);
+    }
+
+    if (id === "manureSoldInKgMohalla") {
+      setManureSoldInKgMohalla(val);
+    }
+
+    if (id === "incomeFromManureSoldInRsMohalla") {
+      setIncomeFromManureSoldInRsMohalla(val);
+    }
+
+    if (id === "noOfHhsTakingHomeCompostingMohalla") {
+      setNoOfHhsTakingHomeCompostingMohalla(val);
+    }
+
+    if (id === "balanceInRsMohalla") {
+      setBalanceInRsMohalla(val);
+    }
+
+
+  };
 
   const handleRadioChange = (e, name) => {
     if (name === "isTheWasteCollectorRegularMohalla") {
@@ -155,6 +323,28 @@ export default function Mohallapage() {
       setIsTheWasteComingToComposter2Mohalla(e.target.value);
     }
   };
+
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    console.log("Mohalla Committee Submitted :: ", formDatamohalla);
+
+    try {
+      const res = await sendRequest("post", "/mohollaCommitteemeeting/add", formDatamohalla, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.status === 1) {
+        swal("Successfully", "Mohalla Committee Added", "success");
+        route.push("/home/mohalla-list");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   return (
     <>
@@ -175,6 +365,7 @@ export default function Mohallapage() {
         <div className={styles.formcontainer}>
           <Surveyques
             id={"dateOfMeetingMohalla"}
+            type={"date"}
             labelText={translate?.Date_of_Meeting_mohalla}
             value={dateOfMeetingMohalla}
             required={true}
@@ -195,13 +386,13 @@ export default function Mohallapage() {
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />
-          <SurveyDropdown
+          <Surveyques
             id={"wardNoGPMohalla"}
             labelText={translate?.Ward_No_GP_mohalla}
             value={wardNoGPMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-            options={wardOptions}
+
           />
           <SurveyDropdown
             id={"localityNameVillageMohalla"}
@@ -209,7 +400,7 @@ export default function Mohallapage() {
             value={localityNameVillageMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-            options={localityOptions}
+            options={localName}
           />
           <SurveyDropdown
             id={"mohallaCommiteeMohalla"}
@@ -217,7 +408,7 @@ export default function Mohallapage() {
             value={mohallaCommiteeMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-            options={mohallaOptions}
+            options={mohallaName}
           />
 
           <Surveyques
@@ -419,8 +610,8 @@ export default function Mohallapage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          <div className={styles.btnContainer}>
-            <button className={styles.submitbtn}>Submit</button>
+          <div className={styles.btnContainer} >
+            <button className={styles.submitbtn} onClick={submitHandler}>Submit</button>
           </div>
         </div>
       </div>

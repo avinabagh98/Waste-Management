@@ -60,6 +60,7 @@ export default function MohallaListPage() {
         if (!tokeN) {
           route.push("/home/login");
         } else {
+          localStorage.removeItem("id");
           setToken(tokeN);
           setWard_id(localStorage.getItem("ward_id"));
           setUserRole(localStorage.getItem("role_name"));
@@ -183,8 +184,10 @@ export default function MohallaListPage() {
 
 
   // Handler Functions
-  const editHandler = () => {
-    route.push("/home/mohalla-edit");
+
+  const editHandler = (id) => {
+    localStorage.setItem("id", id);
+    route.push("/home/mohalla-update");
   };
 
   const showHandler = (arrayData) => {
@@ -193,27 +196,29 @@ export default function MohallaListPage() {
       title: "Mohalla Details",
       html: `<swal-html>
             <div id="Mohalla Committee Details">
-            <p style="text-align:left"><strong>Id:</strong> ${arrayData?.id}</p>
-            <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
-        }</p>
-            <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
-        }</p>
-            <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
-        }</p>
-            <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
-        }, ${arrayData?.longitude}</p>
-            <p style="text-align:left"><strong >Mohalla Name:</strong> ${arrayData?.name_of_live_shed
-        }</p>
-            <p style="text-align:left"><strong>Mohalla Type:</strong> ${arrayData?.Mohalla_type
-        }</p>
-            <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
-        }</p>
-            <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
-        }</p>
-            <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
-        }</p>
-            <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
-        }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Id:</strong> ${arrayData?.id}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Date of Meeting:</strong> ${arrayData?.date_of_meeting}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Field Staff:</strong> ${arrayData?.field_staff_id}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Supervisor:</strong> ${arrayData?.supervisor_id}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Locality:</strong> ${arrayData?.locality_id}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Ward:</strong> ${arrayData?.ward_id}</p>
+            <p style="text-align:left ; font-size:15px"><strong >Mohalla Name:</strong> ${arrayData?.moholla_committee_id}</p>
+
+            <p style="text-align:left ; font-size:15px"><strong>Households under Mohalla Committee:</strong> ${arrayData?.household_mc}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Is Household doing Segregation:</strong> ${arrayData?.household_segregation === "0" ? "No" : arrayData?.household_segregation === "1" ? "Yes" : ""}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Is Waste Collector Regular:</strong> ${arrayData?.is_wastecollector_regular === "0" ? "No" : arrayData?.is_wastecollector_regular === "1" ? "Yes" : ""}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Is Waste Coming to Composter 1:</strong> ${arrayData?.is_wastecoming_composter1 === "0" ? "No" : arrayData?.is_wastecoming_composter1 === "1" ? "Yes" : ""}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Is Waste Coming to Composter 2:</strong> ${arrayData?.is_wastecoming_composter2 === "0" ? "No" : arrayData?.household_segregation === "1" ? "Yes" : ""}</p>
+           
+            <p style="text-align:left ; font-size:15px"><strong>HH paying user charges:</strong> ${arrayData?.hh_user_pay_charge}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Manure Generated (Kg):</strong> ${arrayData?.manure_generated}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Manure Sold (Kg):</strong> ${arrayData?.manure_sold}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Income from Manure Sold (Rs.):</strong> ${arrayData?.incomefrom_manuresold}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Number of HH taking home composting:</strong> ${arrayData?.no_of_undertaken_homecomposting}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Other Expenses (Rs):</strong> ${arrayData?.other_expense}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Salary of Waste Picker (Rs):</strong> ${arrayData?.salarypicker_wastepicker}</p>
+            <p style="text-align:left ; font-size:15px"><strong>User Charges Collection (Rs):</strong> ${arrayData?.user_charge_collection}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Balance(Rs):</strong> ${arrayData?.balance}</p>
             </div>
           </swal-html>`,
     });
