@@ -18,7 +18,6 @@ export default function LivestockListPage() {
   const [api_livestockData, setApi_livestockData] = useState([]);
   //Loading Header Data States
   const [name, setName] = useState("");
-  const [wardName, setWardName] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
@@ -27,7 +26,7 @@ export default function LivestockListPage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_name: wardName,
+    ward_id: ward_id,
     block_name: block_name,
   };
 
@@ -47,6 +46,7 @@ export default function LivestockListPage() {
         if (!tokeN) {
           route.push("/home/login");
         } else {
+          localStorage.removeItem("id");
           setToken(tokeN);
           setWard_id(localStorage.getItem("ward_id"));
           setUserRole(localStorage.getItem("role_name"));
@@ -55,7 +55,7 @@ export default function LivestockListPage() {
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
-          setWardName(localStorage.getItem("ward_id"));
+
         }
       }
       fetchData();
@@ -95,8 +95,9 @@ export default function LivestockListPage() {
   // Function Declarations
 
   // Handler Functions
-  const editHandler = () => {
-    route.push("/home/livestock-edit");
+  const editHandler = (id) => {
+    localStorage.setItem("id", id)
+    route.push("/home/livestock-update");
   };
 
   const showHandler = (arrayData) => {
@@ -168,7 +169,7 @@ export default function LivestockListPage() {
                   }
                   owner_name={livestock.name_of_owner}
                   owner_contact={livestock.contact_number}
-                  editHandler={editHandler}
+                  editHandler={() => { editHandler(livestock.id) }}
                   ShowHandler={(e) => {
                     showHandler(livestock);
                   }}

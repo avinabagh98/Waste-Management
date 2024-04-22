@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./livestock.module.css";
+import styles from "@/app/home/(routes)/(with-routes-layout)/livestock-list/livestock.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
@@ -39,6 +39,7 @@ export default function Livestockpage() {
   ] = useState("");
   const [lat, setLat] = useState("");
   const [long, setLong] = useState("");
+  const [supervisor_id, setSupervisorId] = useState("");
 
 
   //Loading Header Data States
@@ -70,7 +71,7 @@ export default function Livestockpage() {
 
   const formDataLS = {
     token: token,
-    supervisor: supervisorLivestock,
+    supervisor: supervisor_id,
     fieldStaff: fieldStaffLivestock,
     date_of_reporting: dateOfReportingLivestock,
     wardId: wardNoGPLivestock,
@@ -103,8 +104,10 @@ export default function Livestockpage() {
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setWardName(localStorage.getItem("ward_id"));
-          // setSupervisorLivestock(localStorage.getItem("supervisorLivestock"));
+          setSupervisorLivestock(localStorage.getItem("supervisor"));
+          setSupervisorId(localStorage.getItem("supervisor_id"));
           setFieldStaffLivestock(localStorage.getItem("name"));
+          setWardNoGPLivestock(localStorage.getItem("ward_id"));
         }
       }
       fetchData();
@@ -193,7 +196,7 @@ export default function Livestockpage() {
 
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
-          <Textparser text={"Livestock List"} />
+          <Textparser text={"Livestock Add"} />
         </div>
 
         {/* //Form Container */}
@@ -226,10 +229,9 @@ export default function Livestockpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          <SurveyDropdown
+          <Surveyques
             id={"wardNoGPLivestock"}
             labelText={translate?.Ward_No_Livestock}
-            options={wardOptions}
             value={wardNoGPLivestock}
             required={true}
             handleVal={handleValdropdown}
