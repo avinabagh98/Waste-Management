@@ -4,29 +4,28 @@ import styles from "./dashboard.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
-import SurveyDropdown from "@/components/SurveyDropdown";
 import Footer from "@/components/Footer";
-import { sendRequest } from "@/api/sendRequest";
 import Camera, { FACING_MODES } from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
 
 export default function Dashboardpage() {
   //State variables
 
-  const [token, setToken] = useState("");
+
   const [name, setName] = useState("");
   const [userRole, setUserRole] = useState("");
   const [block_name, setBlock_Name] = useState("");
   const [district_name, setDistrict_Name] = useState("");
   const [cameraClicked, setCameraClicked] = useState(false);
   const [image, setImage] = useState("");
+  const [ward_id, setWard_id] = useState("");
 
   //Other declarations
   const loadingHeaderData = {
     name: name,
+    ward_id: ward_id,
     district_name: district_name,
     block_name: block_name,
   };
@@ -47,6 +46,7 @@ export default function Dashboardpage() {
           setUserRole(localStorage.getItem("role_name"));
           setBlock_Name(localStorage.getItem("block"));
           setDistrict_Name(localStorage.getItem("district"));
+          setWard_id(localStorage.getItem("ward_id"));
         }
       }
       fetchData();

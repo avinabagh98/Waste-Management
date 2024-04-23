@@ -246,7 +246,7 @@ export default function WastecollectionUpdatePage() {
       setMohallaName(mohallaNames);
       //from ID to Name Update in dropdown
       const mohallaname = mohallas.filter((item) => item.id === mohallaId);
-      setMohallaCommiteeWasteCollection(mohallaname[0].committee_name);
+      setMohallaCommiteeWasteCollection(mohallaname[0]?.committee_name);
     }
   }, [mohallas]);
 
@@ -286,7 +286,7 @@ export default function WastecollectionUpdatePage() {
       setLocalName(localityaNames);
       //from ID to Name Update in dropdown
       const local = locality.filter((item) => item.id === localityId);
-      setLocalityNameVillageWasteCollection(local[0].village_name);
+      setLocalityNameVillageWasteCollection(local[0]?.village_name);
     }
   }, [locality]);
 

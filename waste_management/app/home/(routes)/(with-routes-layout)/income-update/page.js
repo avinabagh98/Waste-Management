@@ -192,7 +192,7 @@ export default function IncomeUpdatepage() {
       setMohallaName(mohallaNames);
       //   from ID to Name Update in dropdown
       const mohallaname = mohalla.filter((item) => item.id === mohallaId);
-      setMohallaCommiteeIncome(mohallaname[0].committee_name);
+      setMohallaCommiteeIncome(mohallaname[0]?.committee_name);
     }
   }, [mohalla]);
 

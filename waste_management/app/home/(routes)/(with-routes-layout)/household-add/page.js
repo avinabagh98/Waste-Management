@@ -71,7 +71,6 @@ export default function HouseholdAddpage() {
 
   //Loading Header Data States
   const [name, setName] = useState("");
-  const [wardName, setWardName] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
   const [lat, setLat] = useState("");
@@ -97,7 +96,7 @@ export default function HouseholdAddpage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_name: wardName,
+    ward_id: ward_id,
     block_name: block_name,
   };
 
@@ -165,7 +164,6 @@ export default function HouseholdAddpage() {
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
-          setWardName(localStorage.getItem("ward_id"));
           setSupervisorHHSurvey(localStorage.getItem("supervisor"));
           setSupervisor_id(localStorage.getItem("supervisor_id"));
           setFieldStaffHHSurvey(localStorage.getItem("name"));
@@ -308,7 +306,7 @@ export default function HouseholdAddpage() {
         (occupation) => occupation.ocupationname
       );
       setOccupationName(occupation_name);
-      setOccupationId(occupations[0].id);
+      setOccupationId(occupations[0]?.id);
     }
   }, [occupations]);
 
@@ -470,7 +468,7 @@ export default function HouseholdAddpage() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("HoouseHold Survey Form Submitted :: ", formDataHH);
+    console.log("HouseHold Survey Form Submitted :: ", formDataHH);
 
     try {
       let flag = false;
@@ -489,11 +487,12 @@ export default function HouseholdAddpage() {
           formDataHH
         );
 
-        // if (household_add_res.status === 1) {
-        //   console.log("Household Insert Response", household_add_res);
-        //   // route.push("/home/dashboard");
-        // }
-        console.log(household_add_res);
+        if (household_add_res.status === 1) {
+          swal("Success", "Submitted Successfully", "success");
+          console.log("Household Survey Response", household_add_res);
+          route.push("/home/household-list");
+        }
+
       }
     } catch (error) {
       console.log(error);
@@ -530,6 +529,7 @@ export default function HouseholdAddpage() {
             value={supervisorHHSurvey}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            disabled={true}
           />
           {/* 
           <SurveyDropdown
@@ -547,6 +547,7 @@ export default function HouseholdAddpage() {
             value={fieldStaffHHSurvey}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            disabled={true}
           />
 
           <Surveyques

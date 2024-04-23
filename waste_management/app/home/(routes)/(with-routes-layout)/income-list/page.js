@@ -33,7 +33,7 @@ export default function IncomeListPage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_name: ward_id,
+    ward_id: ward_id,
     block_name: block_name,
   };
 
