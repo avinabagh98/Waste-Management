@@ -4,10 +4,8 @@ import styles from "@/app/home/(routes)/(with-routes-layout)/livestock-list/live
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
@@ -40,11 +38,14 @@ export default function Livestockpage() {
   const [lat, setLat] = useState("");
   const [long, setLong] = useState("");
   const [supervisor_id, setSupervisorId] = useState("");
-
+  const [locality, setLocality] = useState([]);
+  const [localName, setLocalName] = useState([]);
+  const [localityId, setLocalityId] = useState([]);
+  const [user_id, setUserId] = useState("");
 
   //Loading Header Data States
   const [name, setName] = useState("");
-  const [wardName, setWardName] = useState("");
+  const [wardId, setWardId] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
   const [token, setToken] = useState("");
@@ -58,24 +59,29 @@ export default function Livestockpage() {
   const route = useRouter();
   const translate = LanguageFetcher();
 
-  const wardOptions = ["select", "1", "2", "14"];
-  const localityOptions = ["select", "1", "2"];
-  const registorOptions = ["select", "1", "2"];
+
 
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: wardName,
+    ward_id: wardId,
     block_name: block_name,
   };
 
+
+  const dropDownBody = {
+    token: token,
+    wardId: wardId,
+  };
+
+
   const formDataLS = {
     token: token,
-    supervisor: supervisor_id,
-    fieldStaff: fieldStaffLivestock,
-    date_of_reporting: dateOfReportingLivestock,
-    wardId: wardNoGPLivestock,
-    localityId: localityNameVillageLivestock,
+    supervisorName: supervisor_id,
+    userid: user_id,
+    dateofReporting: dateOfReportingLivestock,
+    wardId: wardId,
+    localityId: localityId,
     regNumber: registorNumberLivestock,
     lat: lat,
     long: long,
@@ -101,9 +107,10 @@ export default function Livestockpage() {
 
           //loadingHeaderData from local storage
           setName(localStorage.getItem("name"));
+          setUserId(localStorage.getItem("user_id"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
-          setWardName(localStorage.getItem("ward_id"));
+          setWardId(localStorage.getItem("ward_id"));
           setSupervisorLivestock(localStorage.getItem("supervisor"));
           setSupervisorId(localStorage.getItem("supervisor_id"));
           setFieldStaffLivestock(localStorage.getItem("name"));
@@ -134,13 +141,61 @@ export default function Livestockpage() {
     geolocation();
   }, []);
 
+
+
+  // Locality By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/localitylist/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Locality lists in ward ${wardId} from API ::`,
+            response.data.data.incomeList
+          );
+          setLocality(response.data.data.incomeList);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Locality List Dropdown State Update
+  useEffect(() => {
+    if (locality.length > 0) {
+      const localityaNames = locality.map((locality) => locality.village_name);
+      setLocalName(localityaNames);
+      setLocalityId(locality[0].id);
+    }
+  }, [locality]);
+
+
   // Handler Functions
   const handleVal = (id, val) => {
     if (id === "supervisorLivestock") { setSupervisorLivestock(val); }
     if (id === "fieldStaffLivestock") { setFieldStaffLivestock(val); }
     if (id === "dateOfReportingLivestock") { setDateOfReportingLivestock(val); }
     if (id === "wardNoGPLivestock") { setWardNoGPLivestock(val); }
-    if (id === "localityNameVillageLivestock") { setLocalityNameVillageLivestock(val); }
+    if (id === "localityNameVillageLivestock") {
+      let LVal = locality.filter((item) => item.village_name === val);
+      let local_Selected = LVal[0].id;
+      setLocalityId(local_Selected);
+
+      setLocalityNameVillageLivestock(val);
+    }
+
     if (id === "registorNumberLivestock") { setRegistorNumberLivestock(val); }
     if (id === "nameOfLivestockShedLivestock") { setNameOfLivestockShedLivestock(val); }
     if (id === "nameOfOwnerLivestock") { setNameOfOwnerLivestock(val); }
@@ -161,29 +216,43 @@ export default function Livestockpage() {
   };
 
   const submitHandler = async (e) => {
+
+    let flag = false;
     e.preventDefault();
-
-    try {
-
-      console.log("LiveStock Submitted :: ", formDataLS);
-      const res = await sendRequest(
-        "post",
-        "/livestockShed/add",
-        formDataLS,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        }
-      );
-      if (res.status === 1) {
-
-        swal("Successfully", "Livestock Added", "success");
+    for (const field in formDataLS) {
+      if (formDataLS[field] === null || formDataLS[field] === "") {
+        flag = true;
+        break;
       }
-    } catch (error) {
-      console.log(error);
+    }
+    if (flag) {
+      swal("Error", "Please fill all the fields", "error");
+    } else {
+
+      try {
+
+        console.log("LiveStock Submitted :: ", formDataLS);
+        const res = await sendRequest(
+          "post",
+          "/livestockShed/add",
+          formDataLS,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          }
+        );
+        if (res.status === 1) {
+
+          swal("Successfully", "Livestock Added", "success");
+          route.push("/home/livestock-list");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
+
   return (
     <>
       <Header
@@ -241,7 +310,7 @@ export default function Livestockpage() {
             id={"localityNameVillageLivestock"}
             labelText={translate?.Locality_Name_Village_Livestock}
             value={localityNameVillageLivestock}
-            options={localityOptions}
+            options={localName}
             required={true}
             handleVal={handleValdropdown}
           />

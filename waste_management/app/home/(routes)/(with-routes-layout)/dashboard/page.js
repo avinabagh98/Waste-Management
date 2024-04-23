@@ -144,7 +144,7 @@ export default function Dashboardpage() {
             </div>
             <div
               className={styles.card6}
-              onClick={() => route.push("/home/comunity-clean-list")}
+              onClick={() => route.push("/home/community-clean-list")}
             >
               <img
                 src="/images/community_toilet.png"

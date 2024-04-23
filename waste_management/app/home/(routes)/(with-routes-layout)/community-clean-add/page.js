@@ -4,7 +4,7 @@ import styles from "./comunity.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import axios from "axios";
+import { sendRequest } from "@/api/sendRequest";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
@@ -101,10 +101,17 @@ export default function ComunityCleanpage() {
     userChargesPerUserCleaningToilets,
     setUserChargesPerUserCleaningToilets,
   ] = useState("");
+  const [supervisor_id, setSupervisorId] = useState("");
+  const [Supervisor, setSupervisor] = useState("");
+  const [user_id, setUserId] = useState("");
+  const [mohalla, setMohalla] = useState("");
+  const [mohallaId, setMohallaId] = useState("");
+  const [mohallaName, setMohallaName] = useState([]);
+
 
   //Loading Header Data States
   const [name, setName] = useState("");
-  const [wardName, setWardName] = useState("");
+  const [wardId, setWardId] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
@@ -113,18 +120,19 @@ export default function ComunityCleanpage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_name: wardName,
+    ward_id: wardId,
     block_name: block_name,
   };
 
   const formDataCC = {
     token: token,
-    wardId: wardName,
+    wardId: wardId,
     monthYear: monthAndYearCleaningToilets,
-    supervisorId: supervisorCleaningToilets,
-    fieldStaff: fieldStaffCleaningToilets,
+    entry_date: monthAndYearCleaningToilets,
+    supervisorId: supervisor_id,
+    fieldStaff: user_id,
     communityToiletId: communityToiletCleaningToilets,
-    mohollaCommittee: mohallaCommiteeCleaningToilets,
+    mohollaCommittee: mohallaId,
     cleaningStatus: cleaningToiletCleaningToilets,
     electricity: electricityCleaningToilets,
     cleaningMaterials: cleaningMaterialsCleaningToilets,
@@ -147,26 +155,31 @@ export default function ComunityCleanpage() {
     conditionOfSeptictank: conditionOfSepticTankCleaningToilets,
     conditionOfPump: conditionOfPumpCleaningToilets,
     totalUserchargeCollect: totalUserChargesCollectedCleaningToilets,
-    totalHouseMcNo: totalNumberOfHouseholdsInMCCleaningToilets,
-    userChargesPerUserCleaningToilets,
+    user_charges_per_user: userChargesPerUserCleaningToilets,
+    totalHouseMcNo: totalNumberOfHouseholdsInMCCleaningToilets
   };
 
-  const comunitytoileteOptions = ["select"];
-  const cleaningstatusOptions = ["select"];
-  const oMOptions = ["select"];
-  const sanitaryOptions = ["select"];
-  const hygineOptions = ["select"];
-  const specialdayOptions = ["select"];
-  const alltapOptions = ["select"];
-  const alldoorOptions = ["select"];
-  const tileconditionOptions = ["select"];
-  const roofconditionOptions = ["select"];
-  const washBasinconditionOptions = ["select"];
-  const boundarywallconditionOptions = ["select"];
-  const overheadtankOptions = ["select"];
-  const bulbOptions = ["select"];
-  const septictankOptions = ["select"];
-  const pumpOptions = ["select"];
+
+  const oMOptions = ["select", "yes", "no"];
+  const sanitaryOptions = ["select", "yes", "no"];
+  const hygineOptions = ["select", "yes", "no"];
+  const specialdayOptions = ["select", "yes", "no"];
+  const alltapOptions = ["select", "yes", "no"];
+  const alldoorOptions = ["select", "yes", "no"];
+  const tileconditionOptions = ["select", "good", "poor"];
+  const roofconditionOptions = ["select", "good", "poor"];
+  const washBasinconditionOptions = ["select", "good", "poor"];
+  const boundarywallconditionOptions = ["select", "good", "poor"];
+  const overheadtankOptions = ["select", "good", "poor"];
+  const bulbOptions = ["select", "good", "poor"];
+  const septictankOptions = ["select", "good", "poor"];
+  const pumpOptions = ["select", "good", "poor"];
+
+  const dropDownBody = {
+    token: token,
+    wardId: wardId,
+  };
+
 
   const route = useRouter();
   const translate = LanguageFetcher();
@@ -187,7 +200,10 @@ export default function ComunityCleanpage() {
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
-          setWardName(localStorage.getItem("ward_id"));
+          setWardId(localStorage.getItem("ward_id"));
+          setSupervisor(localStorage.getItem("supervisor"));
+          setSupervisorId(localStorage.getItem("supervisor_id"));
+          setUserId(localStorage.getItem("user_id"));
         }
       }
       fetchData();
@@ -196,19 +212,55 @@ export default function ComunityCleanpage() {
     }
   }, []);
 
-  // API Data Fetching
+  // Mohalla Committee List Dropdown Fetching
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/mohollacommittee/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(response.data.data.lists);
 
-  // Function Declarations
+          setMohalla(response.data.data.lists);
+          const mohallas_name = response.data.data.lists.map(
+            (item) => item.committee_name
+          );
+          setMohallaName(mohallas_name);
+        }
+      }
 
-  // Handler Functions
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Mohalla Committee List Dropdown State Update
+  useEffect(() => {
+    if (mohalla.length > 0) {
+      const mohallaNames = mohalla.map((mohalla) => mohalla.committee_name);
+      setMohallaName(mohallaNames);
+      setMohallaId(mohalla[0].id);
+    }
+  }, [mohalla]);
+
 
   const handleVal = (id, val) => {
     if (id === "monthAndYearCleaningToilets") {
       setMonthAndYearCleaningToilets(val);
+      // setEnterDateCleaningToilets(val);
     }
-    if (id === "supervisorCleaningToilets") {
-      setSupervisorCleaningToilets(val);
-    }
+    // if (id === "supervisorCleaningToilets") {
+    //   setSupervisorCleaningToilets(val);
+    // }
     if (id === "communityToiletCleaningToilets") {
       setCommunityToiletCleaningToilets(val);
     }
@@ -231,6 +283,9 @@ export default function ComunityCleanpage() {
       setMajorRepairCleaningToilets(val);
     }
     if (id === "mohallaCommiteeCleaningToilets") {
+      let mhVal = mohalla.filter((item) => item.committee_name === val);
+      let mohallaId_Selected = mhVal[0].id;
+      setMohallaId(mohallaId_Selected);
       setMohallaCommiteeCleaningToilets(val);
     }
     if (id === "oMCollectorCleaningToilets") {
@@ -247,29 +302,25 @@ export default function ComunityCleanpage() {
       setUserChargesPerUserCleaningToilets(val);
     }
 
-
-  }
-
-
-  const handleValdropdown = (id, val) => {
-    if (id === "fieldStaffCleaningToilets") {
-      setFieldStaffCleaningToilets(val);
+    if (id === "hygieneTrainingUndertakenCleaningToilets") {
+      setHygieneTrainingUndertakenCleaningToilets(val)
     }
-    if (id === "mohallaCommiteeCleaningToilets") {
-      setMohallaCommiteeCleaningToilets(val);
+
+    if (id === "specialDayCelebratedCleaningToilets") {
+      setSpecialDayCelebratedCleaningToilets(val)
     }
+
+    // if (id === "fieldStaffCleaningToilets") {
+    //   setFieldStaffCleaningToilets(val);
+    // }
+
     if (id === "oMRegisterMaintainedCleaningToilets") {
       setOMRegisterMaintainedCleaningToilets(val);
     }
     if (id === "sanitaryWasteManagedCleaningToilets") {
       setSanitaryWasteManagedCleaningToilets(val);
     }
-    if (id === "hygineWasteManagedCleaningToilets") {
-      setHygieneTrainingUndertakenCleaningToilets(val);
-    }
-    if (id === "specialDayCleaningToilets") {
-      setSpecialDayCleaningToilets(val);
-    }
+
     if (id === "allTapFunctionalCleaningToilets") {
       setAllTapFunctionalCleaningToilets(val);
     }
@@ -307,9 +358,38 @@ export default function ComunityCleanpage() {
   }
 
 
-  const submitHandler = (e) => {
+
+
+  const submitHandler = async (e) => {
+    let flag = false;
     e.preventDefault();
-    console.log(formDataCC);
+    for (const field in formDataCC) {
+      if (formDataCC[field] === null || formDataCC[field] === "") {
+        flag = true;
+        break;
+      }
+    }
+    if (flag) {
+      swal("Error", "Please fill all the fields", "error");
+    } else {
+      console.log("Community Clean Submitted::", formDataCC);
+      const res = await sendRequest(
+        "post",
+        "/cleaningcommunityToilet/add",
+        formDataCC,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res);
+
+      // if (res.status === 1) {
+      //   swal("Success", "Community Clean Added", "success");
+      //   route.push("/home/community-clean-list");
+      // }
+    }
   }
 
   return (
@@ -332,7 +412,7 @@ export default function ComunityCleanpage() {
           <Surveyques
             id={"monthAndYearCleaningToilets"}
             type={"date"}
-            labelText={translate?.Month_and_year_cleaning_toilets}
+            labelText={translate?.Entry_Date_cleaning_toilets}
             value={monthAndYearCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
@@ -341,18 +421,20 @@ export default function ComunityCleanpage() {
           <Surveyques
             id={"supervisorCleaningToilets"}
             labelText={translate?.Supervisor_cleaning_toilets}
-            value={supervisorCleaningToilets}
+            value={Supervisor}
             required={true}
-            handleVal={(id, val) => handleVal(id, val)}
+            disabled={true}
+          // handleVal={(id, val) => handleVal(id, val)}
           />
 
-          <SurveyDropdown
+          <Surveyques
             id={"fieldStaffCleaningToilets"}
             labelText={translate?.Field_Staff_cleaning_toilets}
-            value={fieldStaffCleaningToilets}
+            value={name}
+            disabled={true}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
-            options={comunitytoileteOptions}
+          // handleVal={(id, val) => handleVal(id, val)}
+
           />
 
           <Surveyques
@@ -368,8 +450,8 @@ export default function ComunityCleanpage() {
             labelText={translate?.Mohalla_Commitee_cleaning_toilets}
             value={mohallaCommiteeCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
-            options={cleaningstatusOptions}
+            handleVal={(id, val) => handleVal(id, val)}
+            options={mohallaName}
           />
           <Surveyques
             id={"cleaningToiletCleaningToilets"}
@@ -428,7 +510,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.OM_Register_Maintained_cleaning_toilets}
             value={oMRegisterMaintainedCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={oMOptions}
           />
 
@@ -437,7 +519,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Sanitary_Waste_Managed_cleaning_toilets}
             value={sanitaryWasteManagedCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={sanitaryOptions}
           />
 
@@ -446,7 +528,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Hygiene_Training_Undertaken_cleaning_toilets}
             value={hygieneTrainingUndertakenCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={hygineOptions}
           />
 
@@ -455,7 +537,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Special_Day_Celebrated_cleaning_toilets}
             value={specialDayCelebratedCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={specialdayOptions}
           />
 
@@ -464,7 +546,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.All_Tap_Functional_cleaning_toilets}
             value={allTapFunctionalCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={alltapOptions}
           />
 
@@ -473,7 +555,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.All_Doors_Closing_cleaning_toilets}
             value={allDoorsClosingCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={alldoorOptions}
           />
 
@@ -482,7 +564,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Tiles_cleaning_toilets}
             value={conditionOfTilesCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={tileconditionOptions}
           />
 
@@ -491,7 +573,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Roof_cleaning_toilets}
             value={conditionOfRoofCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={roofconditionOptions}
           />
 
@@ -500,7 +582,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Washbasin_cleaning_toilets}
             value={conditionOfWashbasinCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={washBasinconditionOptions}
           />
 
@@ -509,7 +591,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Boundary_Wall_cleaning_toilets}
             value={conditionOfBoundaryWallCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={boundarywallconditionOptions}
           />
 
@@ -518,7 +600,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Overhead_Tank_cleaning_toilets}
             value={conditionOfOverheadTankCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={overheadtankOptions}
           />
 
@@ -527,7 +609,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Electric_Bulb_cleaning_toilets}
             value={conditionOfElectricBulbCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={bulbOptions}
           />
 
@@ -536,7 +618,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Septic_Tank_cleaning_toilets}
             value={conditionOfSepticTankCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={septictankOptions}
           />
 
@@ -545,7 +627,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Condition_of_Pump_cleaning_toilets}
             value={conditionOfPumpCleaningToilets}
             required={true}
-            handleVal={(id, val) => handleValdropdown(id, val)}
+            handleVal={(id, val) => handleVal(id, val)}
             options={pumpOptions}
           />
 

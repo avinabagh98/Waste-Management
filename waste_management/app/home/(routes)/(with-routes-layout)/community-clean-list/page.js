@@ -49,6 +49,7 @@ export default function ComunityCleanListPage() {
         if (!tokeN) {
           route.push("/home/login");
         } else {
+          localStorage.removeItem("id");
           setToken(tokeN);
           setWard_id(localStorage.getItem("ward_id"));
           setUserRole(localStorage.getItem("role_name"));
@@ -107,8 +108,9 @@ export default function ComunityCleanListPage() {
 
 
   // Handler Functions
-  const editHandler = () => {
-    route.push("/home/comunity-clean-edit");
+  const editHandler = (item) => {
+    localStorage.setItem("id", item.id);
+    route.push("/home/community-clean-update");
   };
 
   const showHandler = (arrayData) => {
@@ -119,31 +121,31 @@ export default function ComunityCleanListPage() {
 
           <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${arrayData?.entry_date}</p>
           <p style="text-align:left"><strong>Community Toilet :</strong> ${arrayData?.id}</p>
-          <p style="text-align:left"><strong>Supervisor:</strong> ${arrayData?.id}</p>
-          <p style="text-align:left"><strong>Field Staff:</strong> ${arrayData?.id}</p>
-          <p style="text-align:left"><strong>Mohalla Committee:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Cleaning Status:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Cleaning Material:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Sweeper Charge(Rs.):</strong> ${arrayData?.all_doors_close}</p>
-          <p style="text-align:left"><strong>All Doors Close:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Electricity:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Is Hygine Training Taken:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Is Major Repair Done:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Is Minor Repair Done:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>O&M Collector:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Is O&M Register Maintained:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Is Sanatary Waste Managed:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Is Special Day Celebrated:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Condition of Boundary Wall:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Condition of Bulb:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Condition of Overheadtank:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Condition of Pump:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Condition of Roof:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Condition of Septictank:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Condition of Tiles:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Condition of Washbasin:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>Total Number of House:</strong> ${arrayData?.ward_id}</p>
-          <p style="text-align:left"><strong>User Charges per user (Rs.):</strong> ${arrayData?.ward_id}</p>
+          <p style="text-align:left"><strong>Supervisor:</strong> ${arrayData?.supervisor_id}</p>
+          <p style="text-align:left"><strong>Field Staff:</strong> ${arrayData?.field_staff}</p>
+          <p style="text-align:left"><strong>Mohalla Committee:</strong> ${arrayData?.moholla_committee}</p>
+          <p style="text-align:left"><strong>Cleaning Status:</strong> ${arrayData?.cleaning_status}</p>
+          <p style="text-align:left"><strong>Cleaning Material:</strong> ${arrayData?.cleaning_materials}</p>
+          <p style="text-align:left"><strong>Sweeper Charge(Rs.):</strong> ${arrayData?.swiper_charge}</p>
+          <p style="text-align:left"><strong>All Doors Close:</strong> ${arrayData?.all_doors_close}</p>
+          <p style="text-align:left"><strong>Electricity:</strong> ${arrayData?.electricity}</p>
+          <p style="text-align:left"><strong>Is Hygine Training Taken:</strong> ${arrayData?.htgentrain_undertaken}</p>
+          <p style="text-align:left"><strong>Is Major Repair Done:</strong> ${arrayData?.major_repair}</p>
+          <p style="text-align:left"><strong>Is Minor Repair Done:</strong> ${arrayData?.minor_repair}</p>
+          <p style="text-align:left"><strong>O&M Collector:</strong> ${arrayData?.om_collector}</p>
+          <p style="text-align:left"><strong>Is O&M Register Maintained:</strong> ${arrayData?.om_register_maintained}</p>
+          <p style="text-align:left"><strong>Is Sanatary Waste Managed:</strong> ${arrayData?.sanitary_waste_managed}</p>
+          <p style="text-align:left"><strong>Is Special Day Celebrated:</strong> ${arrayData?.special_day_celebrated}</p>
+          <p style="text-align:left"><strong>Condition of Boundary Wall:</strong> ${arrayData?.condition_of_boundarywall}</p>
+          <p style="text-align:left"><strong>Condition of Bulb:</strong> ${arrayData?.condition_of_bulb}</p>
+          <p style="text-align:left"><strong>Condition of Overheadtank:</strong> ${arrayData?.condition_of_overheadtank}</p>
+          <p style="text-align:left"><strong>Condition of Pump:</strong> ${arrayData?.condition_of_pump}</p>
+          <p style="text-align:left"><strong>Condition of Roof:</strong> ${arrayData?.condition_of_roof}</p>
+          <p style="text-align:left"><strong>Condition of Septictank:</strong> ${arrayData?.condition_of_septictank}</p>
+          <p style="text-align:left"><strong>Condition of Tiles:</strong> ${arrayData?.condition_of_tiles}</p>
+          <p style="text-align:left"><strong>Condition of Washbasin:</strong> ${arrayData?.condition_of_washbasin}</p>
+          <p style="text-align:left"><strong>Total Number of House:</strong> ${arrayData?.total_house_mc_no}</p>
+          <p style="text-align:left"><strong>User Charges per user (Rs.):</strong> ${arrayData?.total_usercharge_collect}</p>
           </div>
         </swal-html>`,
     });
@@ -204,12 +206,14 @@ export default function ComunityCleanListPage() {
                   return (
 
                     <tr key={comunityToilet.id}>
-                      <td>{index + 1}</td>
-                      <td>{formattedDate}</td>
-                      <td>{comunityToilet.community_toilet_id}</td>
-                      <td>{comunityToilet.moholla_committee}</td>
-                      <td>{comunityToilet.cleaning_status}</td>
-                      <td onClick={() => { showHandler(comunityToilet) }}><img src="/svg/eye.svg" alt="eye_show"></img></td>
+                      <td className={styles.td}>{index + 1}</td>
+                      <td className={styles.td}>{formattedDate}</td>
+                      <td className={styles.td}>{comunityToilet.community_toilet_id}</td>
+                      <td className={styles.td}>{comunityToilet.moholla_committee}</td>
+                      <td className={styles.td}>{comunityToilet.cleaning_status}</td>
+                      <td className={styles.actionWaste} >
+                        <img onClick={() => { showHandler(comunityToilet) }} src="/svg/eye.svg" alt="Show_details"></img>
+                        <img onClick={() => { editHandler(comunityToilet) }} src="/svg/edit.svg" alt="update"></img></td>
                     </tr>
                   );
                 })}
@@ -222,7 +226,7 @@ export default function ComunityCleanListPage() {
             src="/svg/add_new.svg"
             alt="add_new"
             onClick={() => {
-              route.push("/home/comunity-clean-add");
+              route.push("/home/community-clean-add");
             }}
           ></img>
         </div>
