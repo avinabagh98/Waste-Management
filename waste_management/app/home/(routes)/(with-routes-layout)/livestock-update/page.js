@@ -236,7 +236,7 @@ export default function Livestockpage() {
             setLocalName(localityaNames);
 
             //from ID to Name Update in dropdown
-            const local = locality.filter((item) => item.id === localityId);
+            const local = locality?.filter((item) => item.id === localityId);
             setLocalityNameVillageLivestock(local[0].village_name);
         }
     }, [locality]);
@@ -327,16 +327,17 @@ export default function Livestockpage() {
                     <Surveyques
                         id={"supervisorLivestock"}
                         labelText={translate?.Supervisor_Livestock}
-                        value={supervisorLivestock}
+                        value={supervisor}
                         required={true}
                         handleVal={(id, val) => handleVal(id, val)}
+                        disabled={true}
 
                     />
 
                     <Surveyques
                         id={"fieldStaffLivestock"}
                         labelText={translate?.Field_staff_Livestock}
-                        value={fieldStaffLivestock}
+                        value={name}
                         required={true}
                         handleVal={(id, val) => handleVal(id, val)}
                         disabled={true}
@@ -357,6 +358,7 @@ export default function Livestockpage() {
                         value={wardNoGPLivestock}
                         required={true}
                         handleVal={handleValdropdown}
+                        disabled={true}
                     />
                     <SurveyDropdown
                         id={"localityNameVillageLivestock"}

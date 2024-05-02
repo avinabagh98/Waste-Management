@@ -29,7 +29,7 @@ export default function Mohallapage() {
   const [
     householdDoingSegregationMohalla,
     setHouseholdDoingSegregationMohalla,
-  ] = useState("");
+  ] = useState("0");
   const [hhPayingUserChargesMohalla, setHhPayingUserChargesMohalla] =
     useState("");
   const [
@@ -42,7 +42,7 @@ export default function Mohallapage() {
   const [
     isTheWasteCollectorRegularMohalla,
     setIsTheWasteCollectorRegularMohalla,
-  ] = useState("0");
+  ] = useState("");
   const [
     isTheWasteComingToComposter1Mohalla,
     setIsTheWasteComingToComposter1Mohalla,
@@ -119,9 +119,7 @@ export default function Mohallapage() {
     balance: balanceInRsMohalla,
   };
 
-  const wardOptions = ["select", "1", "2"];
-  const localityOptions = ["select", "1", "2"];
-  const mohallaOptions = ["select", "1", "2"];
+  const booleanOption = ["no", "yes"];
 
   const route = useRouter();
   const translate = LanguageFetcher();
@@ -374,6 +372,7 @@ export default function Mohallapage() {
 
           <Surveyques
             id={"supervisorMohalla"}
+            disabled={true}
             labelText={translate?.Supervisor_mohalla}
             value={supervisorMohalla}
             required={true}
@@ -381,6 +380,7 @@ export default function Mohallapage() {
           />
           <Surveyques
             id={"fieldStaffMohalla"}
+            disabled={true}
             labelText={translate?.Field_Staff_mohalla}
             value={fieldStaffMohalla}
             required={true}
@@ -419,12 +419,13 @@ export default function Mohallapage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          <Surveyques
+          <SurveyDropdown
             id={"householdDoingSegregationMohalla"}
             labelText={translate?.Household_Doing_Segregation_mohalla}
             value={householdDoingSegregationMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            options={booleanOption}
           />
 
           <Surveyques

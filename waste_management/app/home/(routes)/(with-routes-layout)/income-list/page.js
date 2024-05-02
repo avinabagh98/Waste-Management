@@ -161,7 +161,7 @@ export default function IncomeListPage() {
       async function fetchDropdown() {
         const response = await sendRequest(
           "post",
-          `localitylist/List`,
+          `/localitylist/List`,
           dropDownBody,
           {
             headers: {
@@ -207,6 +207,7 @@ export default function IncomeListPage() {
 
   const getWasteCollectorName = (array, id) => {
     if (array.length > 0) {
+      console.log("array_testing", array);//testing
       let Collector = array.filter((item) => item.id == id);
       return Collector[0].user_name;
     }

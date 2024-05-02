@@ -77,6 +77,7 @@ export default function HouseholdUpdatepage() {
   const [lat, setLat] = useState("");
   const [long, setLong] = useState("");
   const [supervisor_id, setSupervisor_id] = useState("");
+  const [supervisor, setSupervisor] = useState("");
   const [user_id, setUser_id] = useState("");
   const [ward_id, setWard_id] = useState("");
 
@@ -154,15 +155,18 @@ export default function HouseholdUpdatepage() {
 
   // LocalStorage Fetching
   useEffect(() => {
+
     try {
       async function fetchData() {
+
         const token = await localStorage.getItem("token");
         if (!token) {
           route.push("/home/login");
         } else {
+
           setToken(token);
           setUserRole(localStorage.getItem("role_name"));
-
+          setSupervisor(localStorage.getItem("supervisor"));
           //loadingHeaderData from local storage
           setId(localStorage.getItem("id"));
           setName(localStorage.getItem("name"));
@@ -178,6 +182,7 @@ export default function HouseholdUpdatepage() {
         }
       }
       fetchData();
+
     } catch (error) {
       swal("Error", error.message, "error");
     }
@@ -607,8 +612,9 @@ export default function HouseholdUpdatepage() {
           <Surveyques
             id={"supervisorHHSurvey"}
             labelText={translate?.Supervisor_HH_survey}
-            value={supervisorHHSurvey}
+            value={supervisor}
             required={true}
+            disabled={true}
             handleVal={(id, val) => handleVal(id, val)}
           />
           {/* 
@@ -623,8 +629,9 @@ export default function HouseholdUpdatepage() {
 
           <Surveyques
             id={"fieldStaffHHSurvey"}
+            disabled={true}
             labelText={translate?.Field_Staff_HH_survey}
-            value={fieldStaffHHSurvey}
+            value={name}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />

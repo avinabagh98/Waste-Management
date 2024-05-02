@@ -155,7 +155,7 @@ export default function ComunityCleanpage() {
     conditionOfSeptictank: conditionOfSepticTankCleaningToilets,
     conditionOfPump: conditionOfPumpCleaningToilets,
     totalUserchargeCollect: totalUserChargesCollectedCleaningToilets,
-    user_charges_per_user: userChargesPerUserCleaningToilets,
+    userChargesPerUser: userChargesPerUserCleaningToilets,
     totalHouseMcNo: totalNumberOfHouseholdsInMCCleaningToilets
   };
 
@@ -208,7 +208,7 @@ export default function ComunityCleanpage() {
       }
       fetchData();
     } catch (error) {
-      swal("Error", error.message, "error");
+      swal("Error", error, "error");
     }
   }, []);
 
@@ -383,12 +383,12 @@ export default function ComunityCleanpage() {
           },
         }
       );
-      console.log(res);
 
-      // if (res.status === 1) {
-      //   swal("Success", "Community Clean Added", "success");
-      //   route.push("/home/community-clean-list");
-      // }
+
+      if (res.status === 1) {
+        swal("Success", "Community Clean Added", "success");
+        route.push("/home/community-clean-list");
+      }
     }
   }
 

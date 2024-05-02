@@ -222,7 +222,7 @@ export default function ComunityCleanpage() {
         conditionOfPump: conditionOfPumpCleaningToilets,
         totalUserchargeCollect
             : totalUserChargesCollectedCleaningToilets,
-        user_charges_per_user: userChargesPerUserCleaningToilets,
+        userChargesPerUser: userChargesPerUserCleaningToilets,
         totalHouseMcNo: totalNumberOfHouseholdsInMCCleaningToilets
     };
 
@@ -442,7 +442,7 @@ export default function ComunityCleanpage() {
         if (flag) {
             swal("Error", "Please fill all the fields", "error");
         } else {
-            console.log("HH Survey Update-form Submitted::", formDataCCUpdate);
+            console.log("CC Update-form Submitted::", formDataCCUpdate);
             //UPDATE API CALLING
             const res = await sendRequest(
                 "post",

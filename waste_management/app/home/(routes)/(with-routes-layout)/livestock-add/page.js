@@ -273,6 +273,7 @@ export default function Livestockpage() {
         <div className={styles.formcontainer}>
           <Surveyques
             id={"supervisorLivestock"}
+            disabled={true}
             labelText={translate?.Supervisor_Livestock}
             value={supervisorLivestock}
             required={true}
@@ -304,6 +305,7 @@ export default function Livestockpage() {
             value={wardNoGPLivestock}
             required={true}
             handleVal={handleValdropdown}
+            disabled={true}
           />
 
           <SurveyDropdown

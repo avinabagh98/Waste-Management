@@ -13,6 +13,7 @@ import { sendRequest } from "@/api/sendRequest";
 import axios from "axios";
 
 export default function HouseholdAddpage() {
+
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -487,8 +488,14 @@ export default function HouseholdAddpage() {
           formDataHH
         );
 
-        if (household_add_res.status === 1) {
-          swal("Success", "Submitted Successfully", "success");
+        // if (household_add_res.status === 1) {
+        //   swal("Success", "Submitted Successfully", "success");
+        //   console.log("Household Survey Response", household_add_res);
+        //   route.push("/home/household-list");
+        // }
+
+        if (household_add_res.data.data.status === "success") {
+          swal("Success", "Household Added Successfully", "success");
           console.log("Household Survey Response", household_add_res);
           route.push("/home/household-list");
         }
@@ -496,6 +503,9 @@ export default function HouseholdAddpage() {
       }
     } catch (error) {
       console.log(error);
+      if (error.name === "AxiosError") {
+        swal("Error", error.response.data.data.msg, "error")
+      }
     }
   };
 

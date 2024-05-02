@@ -43,7 +43,7 @@ export default function Mohallapage() {
     const [
         isTheWasteCollectorRegularMohalla,
         setIsTheWasteCollectorRegularMohalla,
-    ] = useState("0");
+    ] = useState("");
     const [
         isTheWasteComingToComposter1Mohalla,
         setIsTheWasteComingToComposter1Mohalla,
@@ -94,6 +94,7 @@ export default function Mohallapage() {
         wardId: wardId,
     };
 
+    const booleanOption = ["no", "yes"];
 
 
     const formDatamohallaUpdate = {
@@ -253,7 +254,7 @@ export default function Mohallapage() {
             const mohallaNames = mohallas.map((mohalla) => mohalla.committee_name);
             setMohallaName(mohallaNames);
             //   from ID to Name Update in dropdown
-            const mohallaname = mohallas.filter((item) => item.id === mohallaId);
+            const mohallaname = mohallas?.filter((item) => item.id === mohallaId);
             setMohallaCommiteeMohalla(mohallaname[0].committee_name);
 
         }
@@ -294,7 +295,7 @@ export default function Mohallapage() {
             const localityaNames = locality.map((locality) => locality.village_name);
             setLocalName(localityaNames);
             //from ID to Name Update in dropdown
-            const local = locality.filter((item) => item.id === localityId);
+            const local = locality?.filter((item) => item.id === localityId);
             setLocalityNameVillageMohalla(local[0].village_name);
 
         }
@@ -330,7 +331,12 @@ export default function Mohallapage() {
             setHouseholdsUnderMCMohalla(val);
         }
         if (id === "householdDoingSegregationMohalla") {
-            setHouseholdDoingSegregationMohalla(val);
+            if (val === "yes") {
+                setHouseholdDoingSegregationMohalla("1");
+            }
+            if (val === "no") {
+                setHouseholdDoingSegregationMohalla("0");
+            }
         }
         if (id === "hhPayingUserChargesMohalla") {
             setHhPayingUserChargesMohalla(val);
@@ -494,12 +500,13 @@ export default function Mohallapage() {
                         handleVal={(id, val) => handleVal(id, val)}
                     />
 
-                    <Surveyques
+                    <SurveyDropdown
                         id={"householdDoingSegregationMohalla"}
                         labelText={translate?.Household_Doing_Segregation_mohalla}
                         value={householdDoingSegregationMohalla}
                         required={true}
                         handleVal={(id, val) => handleVal(id, val)}
+                        options={booleanOption}
                     />
 
                     <Surveyques

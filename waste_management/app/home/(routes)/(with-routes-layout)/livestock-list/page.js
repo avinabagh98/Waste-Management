@@ -133,7 +133,7 @@ export default function LivestockListPage() {
         }</p>
           <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
         }</p>
-          <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === 0 ? "Not approved" : "Approved"
+          <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === "0" ? "Not approved" : "Approved"
         }</p>
           </div>
         </swal-html>`,
