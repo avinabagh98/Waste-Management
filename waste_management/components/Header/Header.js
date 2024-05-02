@@ -43,8 +43,12 @@ export default function Header({
     });
   };
 
+
   const handleBack = () => {
-    window.history.back();
+
+    const prevPath = localStorage.getItem("previousPath");
+    route.push(prevPath);
+    console.log(prevPath);
   };
   return (
     <>
@@ -94,7 +98,13 @@ export default function Header({
 
                       <Offcanvas.Body className={styles.offCanvasBody}>
                         <div className={styles.offCanvasBodyMenu}>
-                          <div className={styles.MenuLink}>
+                          <div className={styles.MenuLink}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              route.push("/home/dashboard");
+                              setShow(false);
+                            }}>
+
                             <img src="/svg/dashboard.svg"></img>
                             DASH BOARD
                           </div>
@@ -102,7 +112,7 @@ export default function Header({
                             className={styles.MenuLink}
                             onClick={(e) => {
                               e.preventDefault();
-                              route.push("/home/schedule");
+                              // route.push("/home/schedule");
                               setShow(false);
                             }}
                           >
@@ -127,7 +137,7 @@ export default function Header({
                             className={styles.MenuLink}
                             onClick={(e) => {
                               e.preventDefault();
-                              route.push("/home/settings");
+                              // route.push("/home/settings");
                               setShow(false);
                             }}
                           >
@@ -184,7 +194,7 @@ export default function Header({
                             className={styles.MenuLink}
                             onClick={(e) => {
                               e.preventDefault();
-                              route.push("/home/schedule");
+                              // route.push("/home/schedule");
                               setShow(false);
                             }}
                           >
@@ -207,7 +217,7 @@ export default function Header({
                             className={styles.MenuLink}
                             onClick={(e) => {
                               e.preventDefault();
-                              route.push("/home/dailysurveyreport");
+                              // route.push("/home/dailysurveyreport");
                               setShow(false);
                             }}
                           >
@@ -232,7 +242,7 @@ export default function Header({
                             className={styles.MenuLink}
                             onClick={(e) => {
                               e.preventDefault();
-                              route.push("/home/settings");
+                              // route.push("/home/settings");
                               setShow(false);
                             }}
                           >

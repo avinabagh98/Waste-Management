@@ -123,6 +123,7 @@ export default function WastecollectionUpdatePage() {
 
   // LocalStorage Fetching
   useEffect(() => {
+    localStorage.setItem("previousPath", "/home/waste-collection-list");
     try {
       async function fetchData() {
         const tokeN = await localStorage.getItem("token");

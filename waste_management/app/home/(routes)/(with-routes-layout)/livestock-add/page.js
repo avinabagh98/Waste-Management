@@ -13,6 +13,7 @@ import { sendRequest } from "@/api/sendRequest";
 
 
 export default function Livestockpage() {
+
   //State variables
   const [userRole, setUserRole] = useState("");
 
@@ -95,6 +96,8 @@ export default function Livestockpage() {
 
   // LocalStorage Fetching
   useEffect(() => {
+
+    localStorage.setItem("previousPath", "/home/livestock-list");
     // setUserRole(localStorage.getItem("role_name"));
     try {
       async function fetchData() {

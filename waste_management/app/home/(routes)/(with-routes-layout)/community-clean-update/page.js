@@ -253,7 +253,7 @@ export default function ComunityCleanpage() {
 
     // LocalStorage Fetching
     useEffect(() => {
-
+        localStorage.setItem("previousPath", "/home/community-clean-update");
         try {
             async function fetchData() {
                 const token = await localStorage.getItem("token");

@@ -11,6 +11,8 @@ import Textparser from "@/components/Textparser";
 
 export default function WasteCollectionListPage() {
   //Common States///
+
+
   const [userRole, setUserRole] = useState("");
   const [supervisor, setSupervisor] = useState("");
   const [token, setToken] = useState("");
@@ -51,6 +53,7 @@ export default function WasteCollectionListPage() {
   // Common LocalStorage Fetching
   useEffect(() => {
     try {
+      localStorage.setItem("previousPath", "/home/dashboard");
       async function fetchData() {
         const tokeN = await localStorage.getItem("token");
         if (!tokeN) {

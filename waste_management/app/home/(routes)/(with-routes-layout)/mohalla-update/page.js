@@ -14,6 +14,7 @@ import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 
 export default function Mohallapage() {
+
     //State variables
     const [userRole, setUserRole] = useState("");
     const [token, setToken] = useState("");
@@ -129,7 +130,7 @@ export default function Mohallapage() {
 
     // LocalStorage Fetching
     useEffect(() => {
-
+        localStorage.setItem("previousPath", "/home/mohalla-list");
         try {
             async function fetchData() {
                 const token = await localStorage.getItem("token");

@@ -152,6 +152,7 @@ export default function HouseholdAddpage() {
 
   // LocalStorage Fetching
   useEffect(() => {
+    localStorage.setItem("previousPath", "/home/household-list");
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");

@@ -84,6 +84,7 @@ export default function IncomeAddpage() {
   // LocalStorage Fetching
   useEffect(() => {
     try {
+      localStorage.setItem("previousPath", "/home/income-list");
       async function fetchData() {
         const token = await localStorage.getItem("token");
         if (!token) {

@@ -126,7 +126,7 @@ export default function Mohallapage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-
+    localStorage.setItem("previousPath", "/home/mohalla-list");
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");

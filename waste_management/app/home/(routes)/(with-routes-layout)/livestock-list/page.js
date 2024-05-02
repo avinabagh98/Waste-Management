@@ -11,6 +11,7 @@ import Listcard from "@/components/Listcard";
 import Textparser from "@/components/Textparser";
 
 export default function LivestockListPage() {
+
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -40,6 +41,7 @@ export default function LivestockListPage() {
 
   // Common LocalStorage Fetching
   useEffect(() => {
+    localStorage.setItem("previousPath", "/home/dashboard");
     try {
       async function fetchData() {
         const tokeN = await localStorage.getItem("token");

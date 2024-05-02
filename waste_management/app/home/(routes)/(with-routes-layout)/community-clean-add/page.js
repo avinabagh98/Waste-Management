@@ -12,6 +12,7 @@ import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
 
 export default function ComunityCleanpage() {
+
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -186,7 +187,7 @@ export default function ComunityCleanpage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-
+    localStorage.setItem("previousPath", "/home/community-clean-list");
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
