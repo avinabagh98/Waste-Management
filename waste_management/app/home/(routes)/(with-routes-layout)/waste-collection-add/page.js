@@ -364,6 +364,7 @@ export default function WastecollectionAddPage() {
           <Surveyques
             id={"supervisorWasteCollection"}
             type={"text"}
+            disabled={true}
             labelText={translate?.Supervisor_Waste_Collection}
             value={supervisorWasteCollection}
             required={true}
@@ -373,6 +374,7 @@ export default function WastecollectionAddPage() {
           <Surveyques
             id={"fieldStaffWasteCollection"}
             type={"text"}
+            disabled={true}
             labelText={translate?.Field_Staff_Waste_Collection}
             value={fieldStaffWasteCollection}
             required={true}

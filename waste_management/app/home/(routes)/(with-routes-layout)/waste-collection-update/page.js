@@ -13,6 +13,7 @@ import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 
 export default function WastecollectionUpdatePage() {
+
   //State variables
   const [userRole, setUserRole] = useState(null);
   const [token, setToken] = useState(null);
@@ -68,7 +69,7 @@ export default function WastecollectionUpdatePage() {
   const [locality, setLocality] = useState([]);
   const [localName, setLocalName] = useState([]);
   const [localityId, setLocalityId] = useState([]);
-
+  const [supervisor, setSupervisor] = useState("");
   const [wardId, setWardId] = useState(null);
   const [id, setId] = useState("");
 
@@ -136,7 +137,7 @@ export default function WastecollectionUpdatePage() {
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setWardId(localStorage.getItem("ward_id"));
-
+          setSupervisor(localStorage.getItem("supervisor"));
           setFieldStaffWasteCollection(localStorage.getItem("name"));
           setNameOfULBBlockWasteCollection(localStorage.getItem("block"));
           setWardNoGPWasteCollection(localStorage.getItem("ward_id"));
@@ -154,7 +155,6 @@ export default function WastecollectionUpdatePage() {
     async function showData() {
       try {
         // Weekly waste collection By Id
-        console.log("inside try");
         const res = await sendRequest(
           "post",
           `/weeklywastecollection/id`,
@@ -434,9 +434,10 @@ export default function WastecollectionUpdatePage() {
 
             <Surveyques
               id={"supervisorWasteCollection"}
+              disabled={true}
               type={"text"}
               labelText={translate?.Supervisor_Waste_Collection}
-              value={supervisorWasteCollection}
+              value={supervisor}
               required={true}
               handleVal={(id, val) => handleVal(id, val)}
             />
@@ -444,8 +445,9 @@ export default function WastecollectionUpdatePage() {
             <Surveyques
               id={"fieldStaffWasteCollection"}
               type={"text"}
+              disabled={true}
               labelText={translate?.Field_Staff_Waste_Collection}
-              value={fieldStaffWasteCollection}
+              value={name}
               required={true}
               handleVal={(id, val) => handleVal(id, val)}
             />

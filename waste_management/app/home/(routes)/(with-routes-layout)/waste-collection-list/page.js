@@ -7,21 +7,26 @@ import { sendRequest } from "@/api/sendRequest";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
-import Listcard from "@/components/Listcard";
 import Textparser from "@/components/Textparser";
 
 export default function WasteCollectionListPage() {
   //Common States///
   const [userRole, setUserRole] = useState("");
+  const [supervisor, setSupervisor] = useState("");
   const [token, setToken] = useState("");
   const [ward_id, setWard_id] = useState("");
   const [api_wasteCollectionData, setApi_wasteCollectionData] = useState([]);
 
   //Loading Header Data States
   const [name, setName] = useState("");
-  const [wardName, setWardName] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
+
+
+  const [mohallas, setMohallas] = useState([]);
+  const [mohallaName, setMohallaName] = useState([]);
+
+
 
   //Common Other declarations///
   const loadingHeaderData = {
@@ -31,6 +36,11 @@ export default function WasteCollectionListPage() {
     block_name: block_name,
   };
   const wasteCollectionlistBody = {
+    token: token,
+    wardId: ward_id,
+  };
+
+  const dropDownBody = {
     token: token,
     wardId: ward_id,
   };
@@ -49,7 +59,7 @@ export default function WasteCollectionListPage() {
           localStorage.removeItem("id")
           setToken(tokeN);
           setUserRole(localStorage.getItem("role_name"));
-
+          setSupervisor(localStorage.getItem("supervisor"));
 
           //loadingHeaderData from local storage
           setName(localStorage.getItem("name"));
@@ -99,7 +109,49 @@ export default function WasteCollectionListPage() {
     route.push("/home/waste-collection-update");
   };
 
+
+
+  // Mohalla Committee List Dropdown Fetching
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/mohollacommittee/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(response.data.data.lists);
+
+          setMohallas(response.data.data.lists);
+          // const mohallas_name = response.data.data.lists.map(
+          //   (item) => item.committee_name
+          // );
+          // setMohallaName(mohallas_name);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+
   const showHandler = (arrayData) => {
+    const mohalla_ID = arrayData?.moholla_committee_id;
+    if (mohallas.length > 0) {
+
+      //from ID to Name
+      const mohalla = mohallas.filter((item) => item.id === mohalla_ID);
+      setMohallaName(mohalla[0]?.committee_name);
+      console.log(mohallaName);
+    }
     Swal.fire({
       title: "Weekly Waste Collection Details",
       html: `<swal-html>
@@ -118,15 +170,15 @@ export default function WasteCollectionListPage() {
           <p style="text-align:left"><strong>Iron:</strong> ${arrayData?.iron}</p>
           <p style="text-align:left"><strong>Locality:</strong> ${arrayData?.locality_id}</p>
           <p style="text-align:left"><strong>Milkbag:</strong> ${arrayData?.milkbag}</p>
-          <p style="text-align:left"><strong>Mohalla Committee:</strong> ${arrayData?.moholla_committee_id}</p>
+          <p style="text-align:left"><strong>Mohalla Committee:</strong> ${mohallaName}</p>
           <p style="text-align:left"><strong>Other Metals:</strong> ${arrayData?.other_metals}</p>
           <p style="text-align:left"><strong>Other Plastic:</strong> ${arrayData?.other_plastic}</p>
           <p style="text-align:left"><strong>Others:</strong> ${arrayData?.others}</p>
           <p style="text-align:left"><strong>Paper:</strong> ${arrayData?.paper}</p>
           <p style="text-align:left"><strong>Pet Bottles :</strong> ${arrayData?.pet_bottles}</p>
           <p style="text-align:left"><strong>Field Staff:</strong> ${arrayData?.field_staff_id}</p>
-          <p style="text-align:left"><strong>Supervisor:</strong> ${arrayData?.user_id}</p>
-          <p style="text-align:left"><strong>User:</strong> ${arrayData?.ward_id}</p>
+          <p style="text-align:left"><strong>Supervisor:</strong> ${supervisor}</p>
+          <p style="text-align:left"><strong>User:</strong> ${name}</p>
           <p style="text-align:left"><strong>Ward Number:</strong> ${arrayData?.ward_no}</p>
           </div>
         </swal-html>`,
@@ -161,9 +213,9 @@ export default function WasteCollectionListPage() {
                 <tr>
                   <th>SL</th>
                   <th>Date</th>
-                  <th>House Number</th>
+                  {/* <th>House Number</th> */}
                   <th>Resident Name</th>
-                  <th>Mohalla Committee</th>
+                  {/* <th>Mohalla Committee</th> */}
                   <th style={{ textAlign: "center" }}>Action</th>
 
                 </tr>
@@ -184,9 +236,9 @@ export default function WasteCollectionListPage() {
                     <tr key={item.id}>
                       <td className={styles.td}>{index + 1}</td>
                       <td className={styles.td}>{formattedDate}</td>
-                      <td className={styles.td}>{item.house_number}</td>
+                      {/* <td className={styles.td}>{item.house_number}</td> */}
                       <td className={styles.td}>{item.resident_name}</td>
-                      <td className={styles.td}>{item.moholla_committee_id}</td>
+                      {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
                       <td className={styles.actionWaste}>
                         <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
                         <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
