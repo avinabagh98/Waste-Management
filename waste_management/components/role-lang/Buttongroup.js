@@ -13,7 +13,7 @@ export default function Buttongroup({ handleUsertypeBtn }) {
             <span
               className={styles.card_supervisor}
               name="supervisor"
-              id="4"
+              id="7"
               onClick={(e) => handleUsertypeBtn(e)}
             >
               <a href="#">
@@ -49,7 +49,7 @@ export default function Buttongroup({ handleUsertypeBtn }) {
             <span
               className={styles.card_wastecollector}
               name="waste-collector"
-              id="3"
+              id="8"
               onClick={(e) => handleUsertypeBtn(e)}
             >
               <a href="#">

@@ -10,6 +10,7 @@ import Header from "@/components/Header/Header";
 import FooterDesign from "@/components/FooterDesign";
 
 export default function LoginPage() {
+
   //Login state variables
 
   const [username, setUsername] = useState();
@@ -36,6 +37,7 @@ export default function LoginPage() {
 
   //Localstorage fetching on page load
   useEffect(() => {
+    localStorage.setItem("previousPath", "/home")
     setRole_id(localStorage.getItem("role_id"));
     setRoleName(localStorage.getItem("role_name"));
   }, [role_id, role_name]);

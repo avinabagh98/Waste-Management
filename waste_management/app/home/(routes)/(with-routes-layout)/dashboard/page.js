@@ -9,11 +9,13 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer";
 import Camera, { FACING_MODES } from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
+import QRCodeScanner from "@/components/QrScanner";
 
 export default function Dashboardpage() {
+
+
+
   //State variables
-
-
   const [name, setName] = useState("");
   const [userRole, setUserRole] = useState("");
   const [block_name, setBlock_Name] = useState("");
@@ -21,6 +23,8 @@ export default function Dashboardpage() {
   const [cameraClicked, setCameraClicked] = useState(false);
   const [image, setImage] = useState("");
   const [ward_id, setWard_id] = useState("");
+  const [scanResutlt, setScanResult] = useState("");
+  const [showScanner, setShowScanner] = useState(false);
 
   //Other declarations
   const loadingHeaderData = {
@@ -35,7 +39,9 @@ export default function Dashboardpage() {
 
   // LocalStorage Fetching
   useEffect(() => {
+    console.log(showScanner);
     try {
+      localStorage.setItem("today", getDate());
       async function fetchData() {
         const token = await localStorage.getItem("token");
         if (!token) {
@@ -76,8 +82,24 @@ export default function Dashboardpage() {
     console.log(dataUri);
   }
 
-  return (
-    cameraClicked ? <Camera
+  const handleScan = (data) => {
+    setScanResult(data);
+    setShowScanner(false);
+  }
+
+  //Functions 
+  // Date Function
+  const getDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Pad with leading zero if less than 10
+    const day = date.getDate().toString().padStart(2, '0'); // Pad with leading zero if less than 10
+    return `${year}-${month}-${day}`;
+  };
+
+
+  return (userRole === "field-staff" ?
+    (cameraClicked ? <Camera
       sizeFactor={0.5}
       imageCompression={0.5}
       isFullscreen={true}
@@ -101,7 +123,7 @@ export default function Dashboardpage() {
               onClick={() => route.push("/home/waste-collection-list")}
             >
               <img src="/images/waste_collector.png" alt="waste_collection"></img>
-              <p>Waste Collection</p>
+              <p> Weekly Waste Collection</p>
             </div>
             <div
               className={styles.card2}
@@ -156,6 +178,63 @@ export default function Dashboardpage() {
         </div>
 
         <Footer camera_button={camera_button} />
-      </>
-  );
+      </>)
+    :
+    userRole === "waste-collector" ?
+      (cameraClicked ? <Camera
+        sizeFactor={0.5}
+        imageCompression={0.5}
+        isFullscreen={true}
+        idealFacingMode={FACING_MODES.ENVIRONMENT}
+        onTakePhoto={(dataUri) => {
+          handleTakePhoto(dataUri);
+        }}
+      /> :
+        <>
+          <Header
+            userRole={userRole}
+            isOffCanvasVisible={true}
+            loadingdata={loadingHeaderData}
+          />
+          {/* //Body */}
+          <div className={styles.bodyContainer}>
+            {/* first row */}
+            <div className={styles.firstRow}>
+              <div
+                className={styles.card1}
+                onClick={() => {
+                  setShowScanner(true);
+                }}
+              >
+                <img src="/images/waste_collector.png" alt="waste_collection"></img>
+                <p>Scanner</p>
+              </div>
+
+              {showScanner ?
+                <div id="scannerArea">
+                  <QRCodeScanner handleScan={handleScan} />
+                  <button onClick={() => {
+                    setShowScanner(false);
+                  }}>Close Scanner
+                  </button>
+                </div> : <></>}
+
+              {scanResutlt ?
+                <div id="scanResult">
+                  <p>`Scan QR Code ${scanResutlt}`</p>
+                  <button onClick={() => {
+                    document.getElementById("scanResult").style.display = "none";
+                  }}>Back</button>
+                </div> : <></>}
+
+            </div>
+          </div>
+
+
+
+          <Footer camera_button={camera_button} />
+        </>) :
+      <></>
+
+  )
 }

@@ -110,10 +110,23 @@
       }
 
 
-      .table_filter_pending {
+      .table_filter_all:hover {
             color: var(--bitan-green);
             background-color: var(--lic-yellow);
       }
+
+
+      .table_filter_pending {
+            color: white;
+            background-color: var(--lic-blue);
+      }
+
+      .table_filter_pending:hover {
+            color: var(--bitan-green);
+            background-color: var(--lic-yellow);
+      }
+
+
 
       .table {
             width: 100%;

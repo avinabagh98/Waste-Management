@@ -16,6 +16,7 @@
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.2",
     "cors": "^2.8.5",
+    "html5-qrcode": "^2.1.5",
     "jsonwebtoken": "^9.0.2",
     "next": "14.1.4",
     "react": "^18",

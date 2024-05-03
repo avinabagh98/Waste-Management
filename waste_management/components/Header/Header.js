@@ -65,7 +65,7 @@ export default function Header({
           >
             {isOffCanvasVisible ? (
               <>
-                {userRole === "supervisor" || userRole === "field-staff" ? (
+                {userRole === "supervisor" || userRole === "field-staff" || userRole === "waste-collector" ? (
                   <>
                     <div className={styles.headerOffcanvaBtn}>
                       <a onClick={handleShow}>
