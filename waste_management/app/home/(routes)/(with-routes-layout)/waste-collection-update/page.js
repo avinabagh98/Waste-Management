@@ -4,7 +4,6 @@ import styles from "@/app/home/(routes)/(with-routes-layout)/waste-collection-ad
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
@@ -13,7 +12,6 @@ import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 
 export default function WastecollectionUpdatePage() {
-
   //State variables
   const [userRole, setUserRole] = useState(null);
   const [token, setToken] = useState(null);
@@ -123,31 +121,33 @@ export default function WastecollectionUpdatePage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-    localStorage.setItem("previousPath", "/home/waste-collection-list");
-    try {
-      async function fetchData() {
-        const tokeN = await localStorage.getItem("token");
-        if (!tokeN) {
-          route.push("/home/login");
-        } else {
-          setUserRole(localStorage.getItem("role_name"));
-          setToken(tokeN);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("previousPath", "/home/waste-collection-list");
+      try {
+        async function fetchData() {
+          const tokeN = localStorage.getItem("token");
+          if (!tokeN) {
+            route.push("/home/login");
+          } else {
+            setUserRole(localStorage.getItem("role_name"));
+            setToken(tokeN);
 
-          //loadingHeaderData from local storage
-          setName(localStorage.getItem("name"));
-          setDistrictName(localStorage.getItem("district"));
-          setBLockName(localStorage.getItem("block"));
-          setWardId(localStorage.getItem("ward_id"));
-          setSupervisor(localStorage.getItem("supervisor"));
-          setFieldStaffWasteCollection(localStorage.getItem("name"));
-          setNameOfULBBlockWasteCollection(localStorage.getItem("block"));
-          setWardNoGPWasteCollection(localStorage.getItem("ward_id"));
-          setId(localStorage.getItem("id"));
+            //loadingHeaderData from local storage
+            setName(localStorage.getItem("name"));
+            setDistrictName(localStorage.getItem("district"));
+            setBLockName(localStorage.getItem("block"));
+            setWardId(localStorage.getItem("ward_id"));
+            setSupervisor(localStorage.getItem("supervisor"));
+            setFieldStaffWasteCollection(localStorage.getItem("name"));
+            setNameOfULBBlockWasteCollection(localStorage.getItem("block"));
+            setWardNoGPWasteCollection(localStorage.getItem("ward_id"));
+            setId(localStorage.getItem("id"));
+          }
         }
+        fetchData();
+      } catch (error) {
+        swal("Error", error.message, "error");
       }
-      fetchData();
-    } catch (error) {
-      swal("Error", error.message, "error");
     }
   }, []);
 

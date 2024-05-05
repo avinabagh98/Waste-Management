@@ -11,8 +11,6 @@ import Textparser from "@/components/Textparser";
 
 export default function WasteCollectionListPage() {
   //Common States///
-
-
   const [userRole, setUserRole] = useState("");
   const [supervisor, setSupervisor] = useState("");
   const [token, setToken] = useState("");
@@ -24,11 +22,8 @@ export default function WasteCollectionListPage() {
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
-
   const [mohallas, setMohallas] = useState([]);
   const [mohallaName, setMohallaName] = useState([]);
-
-
 
   //Common Other declarations///
   const loadingHeaderData = {
@@ -52,28 +47,30 @@ export default function WasteCollectionListPage() {
 
   // Common LocalStorage Fetching
   useEffect(() => {
-    try {
-      localStorage.setItem("previousPath", "/home/dashboard");
-      async function fetchData() {
-        const tokeN = await localStorage.getItem("token");
-        if (!tokeN) {
-          route.push("/home/login");
-        } else {
-          localStorage.removeItem("id")
-          setToken(tokeN);
-          setUserRole(localStorage.getItem("role_name"));
-          setSupervisor(localStorage.getItem("supervisor"));
+    if (typeof window !== "undefined" && localStorage !== null) {
+      try {
+        localStorage.setItem("previousPath", "/home/dashboard");
+        async function fetchData() {
+          const tokeN = localStorage.getItem("token");
+          if (!tokeN) {
+            route.push("/home/login");
+          } else {
+            localStorage.removeItem("id");
+            setToken(tokeN);
+            setUserRole(localStorage.getItem("role_name"));
+            setSupervisor(localStorage.getItem("supervisor"));
 
-          //loadingHeaderData from local storage
-          setName(localStorage.getItem("name"));
-          setDistrictName(localStorage.getItem("district"));
-          setBLockName(localStorage.getItem("block"));
-          setWard_id(localStorage.getItem("ward_id"));
+            //loadingHeaderData from local storage
+            setName(localStorage.getItem("name"));
+            setDistrictName(localStorage.getItem("district"));
+            setBLockName(localStorage.getItem("block"));
+            setWard_id(localStorage.getItem("ward_id"));
+          }
         }
+        fetchData();
+      } catch (error) {
+        swal("Error", error.message, "error");
       }
-      fetchData();
-    } catch (error) {
-      swal("Error", error.message, "error");
     }
   }, []);
 
@@ -105,51 +102,48 @@ export default function WasteCollectionListPage() {
     fetchLists();
   }, [token, ward_id]);
 
-
   // Handler Functions
   const editHandler = (item) => {
     localStorage.setItem("id", item?.id);
     route.push("/home/waste-collection-update");
   };
 
-
-
   // Mohalla Committee List Dropdown Fetching
   useEffect(() => {
-    try {
-      async function fetchDropdown() {
-        const response = await sendRequest(
-          "post",
-          `/mohollacommittee/List`,
-          dropDownBody,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+    if (typeof window !== "undefined") {
+      try {
+        async function fetchDropdown() {
+          const response = await sendRequest(
+            "post",
+            `/mohollacommittee/List`,
+            dropDownBody,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (response.status === 1) {
+            console.log(response.data.data.lists);
+
+            setMohallas(response.data.data.lists);
+            // const mohallas_name = response.data.data.lists.map(
+            //   (item) => item.committee_name
+            // );
+            // setMohallaName(mohallas_name);
           }
-        );
-        if (response.status === 1) {
-          console.log(response.data.data.lists);
-
-          setMohallas(response.data.data.lists);
-          // const mohallas_name = response.data.data.lists.map(
-          //   (item) => item.committee_name
-          // );
-          // setMohallaName(mohallas_name);
         }
-      }
 
-      fetchDropdown();
-    } catch (error) {
-      console.log(error);
+        fetchDropdown();
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [token]);
-
 
   const showHandler = (arrayData) => {
     const mohalla_ID = arrayData?.moholla_committee_id;
     if (mohallas.length > 0) {
-
       //from ID to Name
       const mohalla = mohallas.filter((item) => item.id === mohalla_ID);
       setMohallaName(mohalla[0]?.committee_name);
@@ -197,20 +191,20 @@ export default function WasteCollectionListPage() {
       />
 
       <div className={styles.bodyContainer}>
-
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
           <Textparser text={"Weekly Waste Collection List"} />
         </div>
 
-
         <div className={styles.ListContainerWasteCollection}>
-
-          <div className={styles.textParser}><Textparser text={`Supervisor: ${localStorage.getItem("supervisor")}`} /> </div>
+          <div className={styles.textParser}>
+            <Textparser
+              text={`Supervisor: ${localStorage.getItem("supervisor")}`}
+            />{" "}
+          </div>
 
           {/* //Table Container */}
           <div className={styles.tableContainer}>
-
             <table className={styles.table}>
               <thead>
                 <tr>
@@ -220,22 +214,19 @@ export default function WasteCollectionListPage() {
                   <th>Resident Name</th>
                   {/* <th>Mohalla Committee</th> */}
                   <th style={{ textAlign: "center" }}>Action</th>
-
                 </tr>
               </thead>
               <tbody className={styles.table_body}>
                 {api_wasteCollectionData.map((item, index) => {
-
                   //Date Formatter
                   const formatDate = (dateString) => {
-                    const [year, month, day] = dateString.split('-');
+                    const [year, month, day] = dateString.split("-");
                     return `${day}/${month}/${year}`;
                   };
 
                   const formattedDate = formatDate(item.date);
 
                   return (
-
                     <tr key={item.id}>
                       <td className={styles.td}>{index + 1}</td>
                       <td className={styles.td}>{formattedDate}</td>
@@ -243,8 +234,20 @@ export default function WasteCollectionListPage() {
                       <td className={styles.td}>{item.resident_name}</td>
                       {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
                       <td className={styles.actionWaste}>
-                        <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
-                        <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
+                        <img
+                          onClick={() => {
+                            showHandler(item);
+                          }}
+                          src="/svg/eye.svg"
+                          alt="Show_details"
+                        ></img>
+                        <img
+                          onClick={() => {
+                            editHandler(item);
+                          }}
+                          src="/svg/edit.svg"
+                          alt="update"
+                        ></img>
                       </td>
                     </tr>
                   );
