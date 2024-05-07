@@ -65,4 +65,72 @@
             background-color: var(--lic-yellow);
 
       }
+
+      .spinner {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
+}
+
+@media only screen and (min-width: 401px) and (max-width: 600px) {
+      .container {
+            width: 100%;
+      }
+
+      .breadcrumb {
+            padding: 10px;
+            color: var(--lic-yellow);
+            background-color: var(--bitan-green);
+      }
+
+      .formcontainer {
+            width: 100%;
+            padding: var(--globalPadding);
+      }
+
+      .btnContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
+
+      .submitbtn {
+            width: 80%;
+            height: auto;
+            border-radius: 50px;
+            background-color: var(--green);
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            cursor: pointer;
+      }
+
+      .submitbtn:hover {
+            background-color: #0056b3;
+            /* Darker blue background color on hover */
+      }
+
+      .ListContainerWasteCollection {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+      }
+
+      .ListContainerWasteCollection .textParser {
+            margin-top: 10px;
+            padding: 0 10px;
+            color: var(--bitan-green);
+            background-color: var(--lic-yellow);
+      }
+
+      .spinner {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
 }

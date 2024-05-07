@@ -8,8 +8,11 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Textparser from "@/components/Textparser";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function WasteCollectionListPage() {
+
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [supervisor, setSupervisor] = useState("");
@@ -25,6 +28,16 @@ export default function WasteCollectionListPage() {
   const [mohallas, setMohallas] = useState([]);
   const [mohallaName, setMohallaName] = useState([]);
 
+<<<<<<< HEAD
+  //loader states
+  const [loaderVar1, setLoaderVar1] = useState(false);
+  const [loaderVar2, setLoaderVar2] = useState(false);
+  const [spinner, setSpinner] = useState(false);
+
+
+
+=======
+>>>>>>> 6fb682acf8e4510bb0e5d89e1114e5a1baa58505
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
@@ -71,6 +84,12 @@ export default function WasteCollectionListPage() {
       } catch (error) {
         swal("Error", error.message, "error");
       }
+<<<<<<< HEAD
+      fetchData();
+    } catch (error) {
+      swal("Error", error, "error");
+=======
+>>>>>>> 6fb682acf8e4510bb0e5d89e1114e5a1baa58505
     }
   }, []);
 
@@ -89,6 +108,7 @@ export default function WasteCollectionListPage() {
       );
 
       if (response_wasteCollectionlist.status === 1) {
+        setLoaderVar1(true);
         console.log(
           "API_list_ARRAY::",
           response_wasteCollectionlist.data.data.wastecollection_list
@@ -132,141 +152,243 @@ export default function WasteCollectionListPage() {
             // );
             // setMohallaName(mohallas_name);
           }
-        }
+<<<<<<< HEAD
+        );
+  if (response.status === 1) {
+    setLoaderVar2(true);
+    console.log(response.data.data.lists);
+    setMohallas(response.data.data.lists);
 
-        fetchDropdown();
-      } catch (error) {
-        console.log(error);
-      }
+    // const mohallas_name = response.data.data.lists.map(
+    //   (item) => item.committee_name
+    // );
+    // setMohallaName(mohallas_name);
+=======
+>>>>>>> 6fb682acf8e4510bb0e5d89e1114e5a1baa58505
+  }
+
+  fetchDropdown();
+} catch (error) {
+  console.log(error);
+}
     }
   }, [token]);
 
-  const showHandler = (arrayData) => {
-    const mohalla_ID = arrayData?.moholla_committee_id;
-    if (mohallas.length > 0) {
-      //from ID to Name
-      const mohalla = mohallas.filter((item) => item.id === mohalla_ID);
-      setMohallaName(mohalla[0]?.committee_name);
-      console.log(mohallaName);
-    }
-    Swal.fire({
-      title: "Weekly Waste Collection Details",
-      html: `<swal-html>
+const showHandler = (arrayData) => {
+
+  //Date Formatter
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split('-');
+    return `${day}/${month}/${year}`;
+  };
+
+  const formattedDate = formatDate(arrayData?.date);
+  const mohalla_ID = arrayData?.moholla_committee_id;
+
+  if (mohallas.length > 0) {
+    //from ID to Name
+    const mohalla = mohallas.filter((item) => item.id === mohalla_ID);
+    setMohallaName(mohalla[0]?.committee_name);
+    console.log(mohallaName);
+  }
+  Swal.fire({
+    title: "Weekly Waste Collection Details",
+    html: `<swal-html>
           <div id="livestockDetails">
 
-          <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${arrayData?.date}</p>
-          <p style="text-align:left"><strong>Aluminium:</strong> ${arrayData?.aluminium}</p>
-          <p style="text-align:left"><strong>Cardboard:</strong> ${arrayData?.card_board}</p>
-          <p style="text-align:left"><strong>Compostable Waste Collected:</strong> ${arrayData?.compostable_waste_collected}</p>
-          <p style="text-align:left"><strong>Days of Collection in a Week :</strong> ${arrayData?.days_collection_in_week}</p>
-          <p style="text-align:left"><strong>Glasss:</strong> ${arrayData?.glass}</p>
-          <p style="text-align:left"><strong>House Id:</strong> ${arrayData?.id}</p>
-          <p style="text-align:left"><strong>House Number:</strong> ${arrayData?.house_number}</p>
-          <p style="text-align:left"><strong>House Name:</strong> ${arrayData?.resident_name}</p>
-          <p style="text-align:left"><strong>Inert Waste:</strong> ${arrayData?.inert_waste}</p>
-          <p style="text-align:left"><strong>Iron:</strong> ${arrayData?.iron}</p>
-          <p style="text-align:left"><strong>Locality:</strong> ${arrayData?.locality_id}</p>
-          <p style="text-align:left"><strong>Milkbag:</strong> ${arrayData?.milkbag}</p>
-          <p style="text-align:left"><strong>Mohalla Committee:</strong> ${mohallaName}</p>
-          <p style="text-align:left"><strong>Other Metals:</strong> ${arrayData?.other_metals}</p>
-          <p style="text-align:left"><strong>Other Plastic:</strong> ${arrayData?.other_plastic}</p>
-          <p style="text-align:left"><strong>Others:</strong> ${arrayData?.others}</p>
-          <p style="text-align:left"><strong>Paper:</strong> ${arrayData?.paper}</p>
-          <p style="text-align:left"><strong>Pet Bottles :</strong> ${arrayData?.pet_bottles}</p>
-          <p style="text-align:left"><strong>Field Staff:</strong> ${arrayData?.field_staff_id}</p>
+          <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${formattedDate}</p>
+          <p style="text-align:left"><strong>Field Staff:</strong> ${name}</p>
           <p style="text-align:left"><strong>Supervisor:</strong> ${supervisor}</p>
           <p style="text-align:left"><strong>User:</strong> ${name}</p>
           <p style="text-align:left"><strong>Ward Number:</strong> ${arrayData?.ward_no}</p>
+          <p style="text-align:left"><strong>House Id:</strong> ${arrayData?.id}</p>
+          <p style="text-align:left"><strong>House Number:</strong> ${arrayData?.house_number}</p>
+          <p style="text-align:left"><strong>House Name:</strong> ${arrayData?.resident_name}</p>
+          <p style="text-align:left"><strong>Locality:</strong> ${arrayData?.locality_id}</p>
+          <p style="text-align:left"><strong>Mohalla Committee:</strong> ${mohallaName}</p>
+          <p style="text-align:left"><strong>Aluminium (Kg):</strong> ${arrayData?.aluminium}</p>
+          <p style="text-align:left"><strong>Cardboard (Kg):</strong> ${arrayData?.card_board}</p>
+          <p style="text-align:left"><strong>Compostable Waste Collected (Kg):</strong> ${arrayData?.compostable_waste_collected}</p>
+          <p style="text-align:left"><strong>Days of Collection in a Week (days):</strong> ${arrayData?.days_collection_in_week}</p>
+          <p style="text-align:left"><strong>Glasss (Kg):</strong> ${arrayData?.glass}</p>
+          <p style="text-align:left"><strong>Inert Waste (Kg):</strong> ${arrayData?.inert_waste}</p>
+          <p style="text-align:left"><strong>Iron (Kg):</strong> ${arrayData?.iron}</p>         
+          <p style="text-align:left"><strong>Milkbag (Kg):</strong> ${arrayData?.milkbag}</p>
+          <p style="text-align:left"><strong>Other Metals (Kg):</strong> ${arrayData?.other_metals}</p>
+          <p style="text-align:left"><strong>Other Plastic (Kg):</strong> ${arrayData?.other_plastic}</p>
+          <p style="text-align:left"><strong>Others (Kg):</strong> ${arrayData?.others}</p>
+          <p style="text-align:left"><strong>Paper (Kg):</strong> ${arrayData?.paper}</p>
+          <p style="text-align:left"><strong>Pet Bottles (Kg):</strong> ${arrayData?.pet_bottles}</p>
+         
           </div>
         </swal-html>`,
-    });
-  };
+  });
+};
 
-  return (
-    <>
+return (
+  loaderVar1 && loaderVar2 ?
+    !spinner ?
+      <>
+        <Header
+          loadingdata={loadingHeaderData}
+          userRole={userRole}
+          isOffCanvasVisible={false}
+        />
+
+        <div className={styles.bodyContainer}>
+
+          {/* //breadcrumb */}
+          <div className={styles.breadcrumb}>
+            <Textparser text={"Weekly Waste Collection List"} />
+          </div>
+
+
+          <div className={styles.ListContainerWasteCollection}>
+
+            <div className={styles.textParser}><Textparser text={`Supervisor: ${supervisor}`} /> </div>
+
+            {/* //Table Container */}
+            <div className={styles.tableContainer}>
+
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Date</th>
+                    {/* <th>House Number</th> */}
+                    <th>Resident Name</th>
+                    {/* <th>Mohalla Committee</th> */}
+                    <th style={{ textAlign: "center" }}>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody className={styles.table_body}>
+                  {api_wasteCollectionData.map((item, index) => {
+
+                    //Date Formatter
+                    const formatDate = (dateString) => {
+                      const [year, month, day] = dateString.split('-');
+                      return `${day}/${month}/${year}`;
+                    };
+
+                    const formattedDate = formatDate(item.date);
+
+<<<<<<< HEAD
+                    return (
+
+                      <tr key={item.id}>
+                        <td className={styles.td}>{index + 1}</td>
+                        <td className={styles.td}>{formattedDate}</td>
+                        {/* <td className={styles.td}>{item.house_number}</td> */}
+                        <td className={styles.td}>{item.resident_name}</td>
+                        {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
+                        <td className={styles.actionWaste}>
+                          <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
+                          <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className={styles.addNewContainer}>
+            <img
+              src="/svg/add_new.svg"
+              alt="add_new"
+              onClick={() => {
+                setSpinner(true);
+                route.push("/home/waste-collection-add");
+              }}
+            ></img>
+          </div>
+        </div>
+      </> :
+      <>
+        <div className={styles.spinner}>
+          <img src="/svg/loader.svg" alt="spinner"></img>
+        </div>
+      </>
+    :
+      <>
       <Header
         loadingdata={loadingHeaderData}
         userRole={userRole}
         isOffCanvasVisible={false}
       />
 
+
       <div className={styles.bodyContainer}>
-        {/* //breadcrumb */}
+        {/* Breadcrumb */}
         <div className={styles.breadcrumb}>
-          <Textparser text={"Weekly Waste Collection List"} />
+          <Skeleton width={200} height={15} baseColor="#6fd199" borderRadius={20} />
         </div>
 
+        {/* List Container */}
         <div className={styles.ListContainerWasteCollection}>
           <div className={styles.textParser}>
-            <Textparser
-              text={`Supervisor: ${localStorage.getItem("supervisor")}`}
-            />{" "}
+            <Skeleton width={300} height={10} baseColor="#f2d98d" borderRadius={50} />
           </div>
 
-          {/* //Table Container */}
+          {/* Table Container */}
           <div className={styles.tableContainer}>
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>SL</th>
-                  <th>Date</th>
-                  {/* <th>House Number</th> */}
-                  <th>Resident Name</th>
-                  {/* <th>Mohalla Committee</th> */}
-                  <th style={{ textAlign: "center" }}>Action</th>
+                  <th><Skeleton width={25} baseColor="#6b96db" /></th>
+                  <th><Skeleton width={50} baseColor="#6b96db" /></th>
+                  <th><Skeleton width={100} baseColor="#6b96db" /></th>
+                  <th style={{ textAlign: "center" }}><Skeleton width={50} /></th>
                 </tr>
               </thead>
               <tbody className={styles.table_body}>
-                {api_wasteCollectionData.map((item, index) => {
-                  //Date Formatter
-                  const formatDate = (dateString) => {
-                    const [year, month, day] = dateString.split("-");
-                    return `${day}/${month}/${year}`;
-                  };
-
-                  const formattedDate = formatDate(item.date);
-
+                {[...Array(5)].map((_, index) => (
+                  <tr key={index}>
+                    <td className={styles.td}><Skeleton width={25} /></td>
+                    <td className={styles.td}><Skeleton width={50} /></td>
+                    <td className={styles.td}><Skeleton width={100} /></td>
+                    <td className="text-center">
+                      <Skeleton circle={true} height={30} width={30} />
+                      <Skeleton circle={true} height={30} width={30} />
+=======
                   return (
                     <tr key={item.id}>
-                      <td className={styles.td}>{index + 1}</td>
-                      <td className={styles.td}>{formattedDate}</td>
-                      {/* <td className={styles.td}>{item.house_number}</td> */}
-                      <td className={styles.td}>{item.resident_name}</td>
-                      {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
-                      <td className={styles.actionWaste}>
-                        <img
-                          onClick={() => {
-                            showHandler(item);
-                          }}
-                          src="/svg/eye.svg"
-                          alt="Show_details"
-                        ></img>
-                        <img
-                          onClick={() => {
-                            editHandler(item);
-                          }}
-                          src="/svg/edit.svg"
-                          alt="update"
-                        ></img>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                        <td className={styles.td}>{index + 1}</td>
+                        <td className={styles.td}>{formattedDate}</td>
+                        {/* <td className={styles.td}>{item.house_number}</td> */}
+                        <td className={styles.td}>{item.resident_name}</td>
+                        {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
+                        <td className={styles.actionWaste}>
+                          <img
+                            onClick={() => {
+                              showHandler(item);
+                            }}
+                            src="/svg/eye.svg"
+                            alt="Show_details"
+                          ></img>
+                          <img
+                            onClick={() => {
+                              editHandler(item);
+                            }}
+                            src="/svg/edit.svg"
+                            alt="update"
+                          ></img>
+>>>>>>> 6fb682acf8e4510bb0e5d89e1114e5a1baa58505
+                        </td>
+                      </tr>
+                  ))}
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+
+          {/* Add New Container */}
+          <div className={styles.addNewContainer}>
+            <Skeleton circle={true} height={50} width={50} baseColor="#6fd199" />
           </div>
         </div>
-
-        <div className={styles.addNewContainer}>
-          <img
-            src="/svg/add_new.svg"
-            alt="add_new"
-            onClick={() => {
-              route.push("/home/waste-collection-add");
-            }}
-          ></img>
-        </div>
-      </div>
-    </>
-  );
+      </>
+      );
 }

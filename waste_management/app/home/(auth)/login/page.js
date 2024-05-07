@@ -79,7 +79,10 @@ export default function LoginPage() {
         swal("Login Error", "Please enter valid credentials", "error");
       }
       if (error.name === "ReferenceError") {
-        swal("Error", "Something Wrong happend", "error");
+        swal("Error", "Something wrong happend", "error");
+      }
+      if (error.name === "ERR_CONNECTION_TIMED_OUT") {
+        swal("Error", "Server down", "error");
       }
     }
   };
@@ -89,13 +92,14 @@ export default function LoginPage() {
       <Header isOffCanvasVisible={false} loadingdata={loadingHeaderData} />
       <div className={styles.loginContainer}>
         <h2>{translate?.user_login}</h2>
-        <div className={styles.loginForm}>
+        <form className={styles.loginForm}>
           <span>
             <label htmlFor="username">{translate?.user_name}</label>
             <input
               onChange={(e) => setUsername(e.target.value)}
               type="text"
               id="username"
+              autoComplete="username"
             ></input>
           </span>
           <span>
@@ -104,13 +108,14 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               id="password"
+              autoComplete="current-password"
             ></input>
           </span>
           <button onClick={loginHandler}>{translate?.login}</button>
           <a href="#">
             <p>{translate?.forgot_your_password}</p>
           </a>
-        </div>
+        </form>
         <FooterDesign />
       </div>
     </>

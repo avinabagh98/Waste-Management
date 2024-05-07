@@ -1,6 +1,7 @@
 /* Adjustments for smaller screens */
 @media only screen and (max-width: 400px) {
 
+
     .pageContainer {
         padding: 0;
         width: 100%;
@@ -34,5 +35,43 @@
         flex-direction: column;
         gap: 10px;
     }
+
+}
+
+@media only screen and (min-width: 401px) and (max-width: 600px) {
+    .pageContainer {
+        padding: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10vh;
+        gap: 20px;
+    }
+
+    .languageContainer,
+    .roleContainer {
+        margin: var(--globalMargin);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+
+    .languageContainer h2,
+    .roleContainer h2 {
+        font-size: 20px;
+        text-align: left;
+        padding: 4px 8px;
+        color: var(--lic-yellow);
+        margin: 0;
+        background-color: #8CA5CD;
+    }
+
+    .roleContainer h2 {
+        gap: 0;
+    }
+
 
 }

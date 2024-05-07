@@ -1,8 +1,6 @@
 @media only screen and (max-width:400px) {
       /* livestock.module.css */
 
-
-
       .container {
             width: 100%;
 
@@ -170,32 +168,232 @@
             color: var(--bitan-green);
       }
 
+
+
+      /* // Weekly waste collection CSS */
+
+      .ListContainerWasteCollection {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+      }
+
+      .ListContainerWasteCollection .textParser {
+            margin-top: 10px;
+            padding: 0 10px;
+
+            color: var(--bitan-green);
+            background-color: var(--lic-yellow);
+
+      }
+
+      .actionWaste {
+            width: 80px;
+            border-bottom: 1px solid #ddd;
+      }
+
+      .actionWaste img {
+            margin: 0 4px;
+            cursor: pointer;
+      }
+
+      .spinner {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
+
+
 }
 
-/* // Weekly waste collection CSS */
 
-.ListContainerWasteCollection {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: left;
-}
+@media only screen and (min-width: 401px) and (max-width: 600px) {
+      /* livestock.module.css */
 
-.ListContainerWasteCollection .textParser {
-      margin-top: 10px;
-      padding: 0 10px;
+      .container {
+            width: 100%;
+      }
 
-      color: var(--bitan-green);
-      background-color: var(--lic-yellow);
+      .formcontainer {
+            width: 100%;
+            padding: 15px;
+      }
 
-}
+      .btnContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
 
-.actionWaste {
-      width: 80px;
-      border-bottom: 1px solid #ddd;
-}
+      .submitbtn {
+            width: 80%;
+            height: auto;
+            border-radius: 50px;
+            background-color: var(--green);
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            cursor: pointer;
+      }
 
-.actionWaste img {
-      margin: 0 4px;
-      cursor: pointer;
+      .submitbtn:hover {
+            background-color: #0056b3;
+            /* Darker blue background color on hover */
+      }
+
+      .bodyContainer {
+            position: relative;
+      }
+
+      .breadcrumb {
+            padding: 10px;
+            color: var(--lic-yellow);
+            background-color: var(--bitan-green);
+      }
+
+      .addNewContainer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+      }
+
+      .addNewContainer img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+      }
+
+      .addNewContainer img:hover {
+            transform: scale(1.1);
+            /* Scale up the icon on hover */
+      }
+
+      /* // comunity clean toilet -list table css */
+      /* // Mohalla Committee List CSS */
+
+      .tableContainer {
+            width: 100%;
+            padding: 0 10px;
+            margin-top: 10px;
+            overflow-x: auto;
+      }
+
+      .table_filter {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+      }
+
+      .table_filter_all,
+      .table_filter_pending {
+            width: 80px;
+            height: auto;
+            margin: 10px 10px 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            font-size: 12px;
+      }
+
+      .table_filter_all {
+            color: white;
+            background-color: var(--lic-blue);
+      }
+
+      .table_filter_all:hover {
+            color: var(--bitan-green);
+            background-color: var(--lic-yellow);
+      }
+
+      .table_filter_pending {
+            color: white;
+            background-color: var(--lic-blue);
+      }
+
+      .table_filter_pending:hover {
+            color: var(--bitan-green);
+            background-color: var(--lic-yellow);
+      }
+
+      .table {
+            width: 100%;
+            border-collapse: collapse;
+      }
+
+      .table thead {
+            background-color: var(--lic-blue);
+      }
+
+      .table thead th {
+            padding: 10px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--lic-blue);
+            font-size: 12px;
+            color: white;
+      }
+
+      .table_body {
+            width: 100%;
+            padding: 0 10px;
+      }
+
+      .td {
+            padding: 2px 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 12px;
+      }
+
+      .table_body tr:nth-child(even) {
+            background-color: #f2f2f2;
+      }
+
+      .table_body tr:hover {
+            background-color: var(--lic-yellow);
+            color: var(--bitan-green);
+      }
+
+      /* // Weekly waste collection CSS */
+
+      .ListContainerWasteCollection {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+      }
+
+      .ListContainerWasteCollection .textParser {
+            margin-top: 10px;
+            padding: 0 10px;
+            color: var(--bitan-green);
+            background-color: var(--lic-yellow);
+      }
+
+      .actionWaste {
+            width: 80px;
+            border-bottom: 1px solid #ddd;
+      }
+
+      .actionWaste img {
+            margin: 0 4px;
+            cursor: pointer;
+      }
+
+      .spinner {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
+
+
 }

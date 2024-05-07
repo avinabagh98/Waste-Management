@@ -190,7 +190,6 @@ export default function ComunityCleanpage() {
   useEffect(() => {
     localStorage.setItem("previousPath", "/home/community-clean-list");
     setToday(localStorage.getItem("today"))
-    console.log(today);
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
