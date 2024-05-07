@@ -9,6 +9,7 @@ export default function Buttongroup({ handleUsertypeBtn }) {
       <div className={styles.container}>
         <Row className={styles.userTypeContainer}>
           <Col xs={6} className={styles.btnCol}>
+
             {/* Supervisor card */}
             <span
               className={styles.card_supervisor}
@@ -27,6 +28,7 @@ export default function Buttongroup({ handleUsertypeBtn }) {
                 </div>
               </a>
             </span>
+
             {/* Field staff card */}
             <span
               className={styles.card_fieldstaff}
@@ -45,6 +47,7 @@ export default function Buttongroup({ handleUsertypeBtn }) {
                 </div>
               </a>
             </span>
+
             {/* Waste collector card */}
             <span
               className={styles.card_wastecollector}
@@ -60,6 +63,25 @@ export default function Buttongroup({ handleUsertypeBtn }) {
                 />
                 <div className={styles.cardContent_wastecollector}>
                   <p className={styles.cardText}>Waste Collector</p>
+                </div>
+              </a>
+            </span>
+
+            {/* Fees collector card */}
+            <span
+              className={styles.card_wastecollector}
+              name="fees-collector"
+              id="8"
+              onClick={(e) => handleUsertypeBtn(e)}
+            >
+              <a href="#">
+                <img
+                  className={styles.cardImage}
+                  src="/images/field_staff.png"
+                  alt="waste-collector img"
+                />
+                <div className={styles.cardContent_wastecollector}>
+                  <p className={styles.cardText}>Fees Collector</p>
                 </div>
               </a>
             </span>

@@ -121,15 +121,12 @@
 
 }
 
-@media only screen and (max-width: 600px) and (min-width: 401px) {
+@media only screen and (min-width: 401px) and (max-width: 600px) {
       .container {
             overflow-x: auto;
             white-space: nowrap;
             height: auto;
             width: 90vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
       }
 
       .container::-webkit-scrollbar {
@@ -140,13 +137,10 @@
             margin-top: 10px;
             display: inline-block;
             vertical-align: top;
-
       }
 
       .btnCol {
             display: inline-block;
-            margin-right: 10px;
-
       }
 
       .btnCol:last-child {
@@ -154,20 +148,35 @@
       }
 
       /* Card Styles */
-      .card {
+      .card_supervisor,
+      .card_fieldstaff,
+      .card_wastecollector {
             height: 150px;
             width: 100px;
-            border: 1px solid var(--blue);
+            /* border: 1px solid var(--blue); */
             border-radius: 5px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             display: inline-block;
             margin-right: 10px;
             vertical-align: top;
-
       }
 
-      .card a {
+      .card_supervisor {
+            border: 1px solid #FF7C6A;
+      }
+
+      .card_fieldstaff {
+            border: 1px solid #1BAD04;
+      }
+
+      .card_wastecollector {
+            border: 1px solid #7B61FF;
+      }
+
+      .card_supervisor a,
+      .card_fieldstaff a,
+      .card_wastecollector a {
             text-decoration: none;
       }
 
@@ -175,23 +184,47 @@
             width: 100%;
             height: 86px;
             object-fit: contain;
-
       }
 
-      .cardContent {
+      .cardContent_supervisor {
             height: 32px;
-            padding: 6px;
+            padding: 24px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: var(--blue);
+            background-color: #FF7C6A;
             position: relative;
             top: 16px;
             border-radius: 0 0 5px 5px;
-
       }
 
-      .cardContent p {
+      .cardContent_fieldstaff {
+            height: 32px;
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1BAD04;
+            position: relative;
+            top: 16px;
+            border-radius: 0 0 5px 5px;
+      }
+
+      .cardContent_wastecollector {
+            height: 32px;
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #7B61FF;
+            position: relative;
+            top: 16px;
+            border-radius: 0 0 5px 5px;
+      }
+
+      .cardContent_fieldstaff p,
+      .cardContent_supervisor p,
+      .cardContent_wastecollector p {
             margin: 0;
             font-size: 12px;
       }
@@ -199,9 +232,5 @@
       .cardText {
             color: var(--white);
             text-decoration: none;
-
-
       }
-
-
 }
