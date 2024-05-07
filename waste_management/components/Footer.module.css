@@ -60,3 +60,60 @@
             color: var(--lic-yellow);
       }
 }
+
+@media screen and (min-width: 401px) and (max-width: 600px) {
+      .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 9vh;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 0;
+            background-color: var(--lic-blue);
+      }
+
+      .iconcontainerHome,
+      .iconcontainerCamera,
+      .iconcontainerMobile {
+            height: 60px;
+            width: 80px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 5px;
+      }
+
+      .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+      }
+
+      .icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+      }
+
+      .iconcontainerCamera p,
+      .iconcontainerMobile p {
+            margin: 0;
+            padding: 0;
+            font-size: 13px;
+            color: aliceblue;
+      }
+
+      .iconcontainerHome p {
+            margin: 0;
+            padding: 0;
+            font-size: 13px;
+            color: var(--lic-yellow);
+      }
+}

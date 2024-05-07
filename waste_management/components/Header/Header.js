@@ -11,6 +11,7 @@ export default function Header({
   defaultHeader,
   isOffCanvasVisible,
   userRole,
+  supervisor,
   loadingdata,
 }) {
   const route = useRouter();
@@ -304,7 +305,11 @@ export default function Header({
               <div className={styles.namebar}>
                 <span>
                   {userRole ? (
-                    <Textparser text={`${name}(${userRole})`} />
+                    <>
+                      <Textparser text={`${name}(${userRole})`} />
+                      <Textparser text={`(${supervisor})`} />
+                    </>
+
                   ) : (
                     <span className={styles.userRoleSelected}>
                       <Textparser text={` ${name} `} />
