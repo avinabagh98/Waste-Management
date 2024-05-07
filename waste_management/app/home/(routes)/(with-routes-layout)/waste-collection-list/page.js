@@ -28,7 +28,6 @@ export default function WasteCollectionListPage() {
   const [mohallas, setMohallas] = useState([]);
   const [mohallaName, setMohallaName] = useState([]);
 
-<<<<<<< HEAD
   //loader states
   const [loaderVar1, setLoaderVar1] = useState(false);
   const [loaderVar2, setLoaderVar2] = useState(false);
@@ -36,8 +35,6 @@ export default function WasteCollectionListPage() {
 
 
 
-=======
->>>>>>> 6fb682acf8e4510bb0e5d89e1114e5a1baa58505
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
@@ -80,16 +77,11 @@ export default function WasteCollectionListPage() {
             setWard_id(localStorage.getItem("ward_id"));
           }
         }
+
         fetchData();
       } catch (error) {
-        swal("Error", error.message, "error");
+        swal("Error", error, "error");
       }
-<<<<<<< HEAD
-      fetchData();
-    } catch (error) {
-      swal("Error", error, "error");
-=======
->>>>>>> 6fb682acf8e4510bb0e5d89e1114e5a1baa58505
     }
   }, []);
 
@@ -144,56 +136,44 @@ export default function WasteCollectionListPage() {
             }
           );
           if (response.status === 1) {
+            setLoaderVar2(true);
             console.log(response.data.data.lists);
-
             setMohallas(response.data.data.lists);
+
             // const mohallas_name = response.data.data.lists.map(
             //   (item) => item.committee_name
             // );
             // setMohallaName(mohallas_name);
           }
-<<<<<<< HEAD
-        );
-  if (response.status === 1) {
-    setLoaderVar2(true);
-    console.log(response.data.data.lists);
-    setMohallas(response.data.data.lists);
+        }
 
-    // const mohallas_name = response.data.data.lists.map(
-    //   (item) => item.committee_name
-    // );
-    // setMohallaName(mohallas_name);
-=======
->>>>>>> 6fb682acf8e4510bb0e5d89e1114e5a1baa58505
-  }
-
-  fetchDropdown();
-} catch (error) {
-  console.log(error);
-}
+        fetchDropdown();
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [token]);
 
-const showHandler = (arrayData) => {
+  const showHandler = (arrayData) => {
 
-  //Date Formatter
-  const formatDate = (dateString) => {
-    const [year, month, day] = dateString.split('-');
-    return `${day}/${month}/${year}`;
-  };
+    //Date Formatter
+    const formatDate = (dateString) => {
+      const [year, month, day] = dateString.split('-');
+      return `${day}/${month}/${year}`;
+    };
 
-  const formattedDate = formatDate(arrayData?.date);
-  const mohalla_ID = arrayData?.moholla_committee_id;
+    const formattedDate = formatDate(arrayData?.date);
+    const mohalla_ID = arrayData?.moholla_committee_id;
 
-  if (mohallas.length > 0) {
-    //from ID to Name
-    const mohalla = mohallas.filter((item) => item.id === mohalla_ID);
-    setMohallaName(mohalla[0]?.committee_name);
-    console.log(mohallaName);
-  }
-  Swal.fire({
-    title: "Weekly Waste Collection Details",
-    html: `<swal-html>
+    if (mohallas.length > 0) {
+      //from ID to Name
+      const mohalla = mohallas.filter((item) => item.id === mohalla_ID);
+      setMohallaName(mohalla[0]?.committee_name);
+      console.log(mohallaName);
+    }
+    Swal.fire({
+      title: "Weekly Waste Collection Details",
+      html: `<swal-html>
           <div id="livestockDetails">
 
           <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${formattedDate}</p>
@@ -222,12 +202,98 @@ const showHandler = (arrayData) => {
          
           </div>
         </swal-html>`,
-  });
-};
+    });
+  };
 
-return (
-  loaderVar1 && loaderVar2 ?
-    !spinner ?
+  return (
+    loaderVar1 && loaderVar2 ?
+      !spinner ?
+        // Content Load
+        <>
+          <Header
+            loadingdata={loadingHeaderData}
+            userRole={userRole}
+            isOffCanvasVisible={false}
+          />
+
+          <div className={styles.bodyContainer}>
+
+            {/* //breadcrumb */}
+            <div className={styles.breadcrumb}>
+              <Textparser text={"Weekly Waste Collection List"} />
+            </div>
+
+
+            <div className={styles.ListContainerWasteCollection}>
+
+              <div className={styles.textParser}><Textparser text={`Supervisor: ${supervisor}`} /> </div>
+
+              {/* //Table Container */}
+              <div className={styles.tableContainer}>
+
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Date</th>
+                      {/* <th>House Number</th> */}
+                      <th>Resident Name</th>
+                      {/* <th>Mohalla Committee</th> */}
+                      <th style={{ textAlign: "center" }}>Action</th>
+
+                    </tr>
+                  </thead>
+                  <tbody className={styles.table_body}>
+                    {api_wasteCollectionData.map((item, index) => {
+
+                      //Date Formatter
+                      const formatDate = (dateString) => {
+                        const [year, month, day] = dateString.split('-');
+                        return `${day}/${month}/${year}`;
+                      };
+
+                      const formattedDate = formatDate(item.date);
+
+                      return (
+
+                        <tr key={item.id}>
+                          <td className={styles.td}>{index + 1}</td>
+                          <td className={styles.td}>{formattedDate}</td>
+                          {/* <td className={styles.td}>{item.house_number}</td> */}
+                          <td className={styles.td}>{item.resident_name}</td>
+                          {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
+                          <td className={styles.actionWaste}>
+                            <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
+                            <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className={styles.addNewContainer}>
+              <img
+                src="/svg/add_new.svg"
+                alt="add_new"
+                onClick={() => {
+                  setSpinner(true);
+                  route.push("/home/waste-collection-add");
+                }}
+              ></img>
+            </div>
+          </div>
+        </> :
+        // Spinner
+        <>
+          <div className={styles.spinner}>
+            <img src="/svg/loader.svg" alt="spinner"></img>
+          </div>
+        </>
+      :
+      //Skeleton loader
       <>
         <Header
           loadingdata={loadingHeaderData}
@@ -236,151 +302,42 @@ return (
         />
 
         <div className={styles.bodyContainer}>
-
-          {/* //breadcrumb */}
+          {/* Breadcrumb */}
           <div className={styles.breadcrumb}>
-            <Textparser text={"Weekly Waste Collection List"} />
+            <Skeleton width={200} height={15} baseColor="#6fd199" borderRadius={20} />
           </div>
 
-
+          {/* List Container */}
           <div className={styles.ListContainerWasteCollection}>
+            <div className={styles.textParser}>
+              <Skeleton width={300} height={10} baseColor="#f2d98d" borderRadius={50} />
+            </div>
 
-            <div className={styles.textParser}><Textparser text={`Supervisor: ${supervisor}`} /> </div>
-
-            {/* //Table Container */}
+            {/* Table Container */}
             <div className={styles.tableContainer}>
-
               <table className={styles.table}>
                 <thead>
                   <tr>
-                    <th>SL</th>
-                    <th>Date</th>
-                    {/* <th>House Number</th> */}
-                    <th>Resident Name</th>
-                    {/* <th>Mohalla Committee</th> */}
-                    <th style={{ textAlign: "center" }}>Action</th>
-
+                    <th><Skeleton width={25} baseColor="#6b96db" /></th>
+                    <th><Skeleton width={50} baseColor="#6b96db" /></th>
+                    <th><Skeleton width={100} baseColor="#6b96db" /></th>
+                    <th style={{ textAlign: "center" }}><Skeleton width={50} /></th>
                   </tr>
                 </thead>
                 <tbody className={styles.table_body}>
-                  {api_wasteCollectionData.map((item, index) => {
-
-                    //Date Formatter
-                    const formatDate = (dateString) => {
-                      const [year, month, day] = dateString.split('-');
-                      return `${day}/${month}/${year}`;
-                    };
-
-                    const formattedDate = formatDate(item.date);
-
-<<<<<<< HEAD
-                    return (
-
-                      <tr key={item.id}>
-                        <td className={styles.td}>{index + 1}</td>
-                        <td className={styles.td}>{formattedDate}</td>
-                        {/* <td className={styles.td}>{item.house_number}</td> */}
-                        <td className={styles.td}>{item.resident_name}</td>
-                        {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
-                        <td className={styles.actionWaste}>
-                          <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
-                          <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {[...Array(5)].map((_, index) => (
+                    <tr key={index}>
+                      <td className={styles.td}><Skeleton width={25} /></td>
+                      <td className={styles.td}><Skeleton width={50} /></td>
+                      <td className={styles.td}><Skeleton width={100} /></td>
+                      <td className="text-center">
+                        <Skeleton circle={true} height={30} width={30} />
+                        <Skeleton circle={true} height={30} width={30} />
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
-            </div>
-          </div>
-
-          <div className={styles.addNewContainer}>
-            <img
-              src="/svg/add_new.svg"
-              alt="add_new"
-              onClick={() => {
-                setSpinner(true);
-                route.push("/home/waste-collection-add");
-              }}
-            ></img>
-          </div>
-        </div>
-      </> :
-      <>
-        <div className={styles.spinner}>
-          <img src="/svg/loader.svg" alt="spinner"></img>
-        </div>
-      </>
-    :
-      <>
-      <Header
-        loadingdata={loadingHeaderData}
-        userRole={userRole}
-        isOffCanvasVisible={false}
-      />
-
-
-      <div className={styles.bodyContainer}>
-        {/* Breadcrumb */}
-        <div className={styles.breadcrumb}>
-          <Skeleton width={200} height={15} baseColor="#6fd199" borderRadius={20} />
-        </div>
-
-        {/* List Container */}
-        <div className={styles.ListContainerWasteCollection}>
-          <div className={styles.textParser}>
-            <Skeleton width={300} height={10} baseColor="#f2d98d" borderRadius={50} />
-          </div>
-
-          {/* Table Container */}
-          <div className={styles.tableContainer}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th><Skeleton width={25} baseColor="#6b96db" /></th>
-                  <th><Skeleton width={50} baseColor="#6b96db" /></th>
-                  <th><Skeleton width={100} baseColor="#6b96db" /></th>
-                  <th style={{ textAlign: "center" }}><Skeleton width={50} /></th>
-                </tr>
-              </thead>
-              <tbody className={styles.table_body}>
-                {[...Array(5)].map((_, index) => (
-                  <tr key={index}>
-                    <td className={styles.td}><Skeleton width={25} /></td>
-                    <td className={styles.td}><Skeleton width={50} /></td>
-                    <td className={styles.td}><Skeleton width={100} /></td>
-                    <td className="text-center">
-                      <Skeleton circle={true} height={30} width={30} />
-                      <Skeleton circle={true} height={30} width={30} />
-=======
-                  return (
-                    <tr key={item.id}>
-                        <td className={styles.td}>{index + 1}</td>
-                        <td className={styles.td}>{formattedDate}</td>
-                        {/* <td className={styles.td}>{item.house_number}</td> */}
-                        <td className={styles.td}>{item.resident_name}</td>
-                        {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
-                        <td className={styles.actionWaste}>
-                          <img
-                            onClick={() => {
-                              showHandler(item);
-                            }}
-                            src="/svg/eye.svg"
-                            alt="Show_details"
-                          ></img>
-                          <img
-                            onClick={() => {
-                              editHandler(item);
-                            }}
-                            src="/svg/edit.svg"
-                            alt="update"
-                          ></img>
->>>>>>> 6fb682acf8e4510bb0e5d89e1114e5a1baa58505
-                        </td>
-                      </tr>
-                  ))}
-                    </tbody>
-                  </table>
             </div>
           </div>
 
@@ -390,5 +347,5 @@ return (
           </div>
         </div>
       </>
-      );
+  );
 }

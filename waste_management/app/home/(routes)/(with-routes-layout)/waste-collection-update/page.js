@@ -15,13 +15,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 
 export default function WastecollectionUpdatePage() {
-<<<<<<< HEAD
 
-
-
-
-=======
->>>>>>> 6fb682acf8e4510bb0e5d89e1114e5a1baa58505
   //State variables
   const [userRole, setUserRole] = useState(null);
   const [token, setToken] = useState(null);
