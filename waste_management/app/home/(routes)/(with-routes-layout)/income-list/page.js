@@ -22,6 +22,7 @@ export default function IncomeListPage() {
   const [mohalla, setMohalla] = useState([]);
   const [locality, setLocality] = useState([]);
   const [wasteCollectors, setWasteCollectors] = useState([]);
+  const [supervisor, setSupervisor] = useState([]);
 
 
   //Loading Header Data States
@@ -40,6 +41,7 @@ export default function IncomeListPage() {
     district_name: district_name,
     ward_id: ward_id,
     block_name: block_name,
+    supervisor: supervisor
   };
 
   const incomeBody = {
@@ -58,6 +60,7 @@ export default function IncomeListPage() {
   // Common LocalStorage Fetching -----------------------------
   useEffect(() => {
     localStorage.setItem("previousPath", "/home/dashboard");
+    setSupervisor(localStorage.getItem("supervisor"));
     try {
       async function fetchData() {
         const tokeN = await localStorage.getItem("token");

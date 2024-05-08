@@ -41,6 +41,7 @@ export default function WasteCollectionListPage() {
     district_name: district_name,
     ward_id: ward_id,
     block_name: block_name,
+    supervisor: supervisor
   };
   const wasteCollectionlistBody = {
     token: token,
@@ -227,7 +228,7 @@ export default function WasteCollectionListPage() {
 
             <div className={styles.ListContainerWasteCollection}>
 
-              <div className={styles.textParser}><Textparser text={`Supervisor: ${supervisor}`} /> </div>
+              {/* <div className={styles.textParser}><Textparser text={`Supervisor: ${supervisor}`} /> </div> */}
 
               {/* //Table Container */}
               <div className={styles.tableContainer}>

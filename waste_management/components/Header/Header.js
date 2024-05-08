@@ -11,7 +11,6 @@ export default function Header({
   defaultHeader,
   isOffCanvasVisible,
   userRole,
-  supervisor,
   loadingdata,
 }) {
   const route = useRouter();
@@ -26,6 +25,7 @@ export default function Header({
   const district_name = loadingdata?.district_name || null;
   const block_name = loadingdata?.block_name || null;
   const ward_id = loadingdata?.ward_id || null;
+  const supervisor = loadingdata?.supervisor || null;
 
   const handleLogout = () => {
     swal({
@@ -309,11 +309,11 @@ export default function Header({
           {name !== null ? (
             <div className={styles.container}>
               <div className={styles.namebar}>
-                <span>
-                  {userRole ? (
+                <span className={styles.namebarFont1}>
+                  {userRole && supervisor ? (
                     <>
                       <Textparser text={`${name}(${userRole})`} />
-                      <Textparser text={`(${supervisor})`} />
+                      <Textparser text={`${supervisor} (Supervisor)`} />
                     </>
 
                   ) : (
@@ -321,14 +321,17 @@ export default function Header({
                       <Textparser text={` ${name} `} />
                     </span>
                   )}
-                  <br />
-                  {district_name ? (
-                    <Textparser text={`${district_name} Block-${block_name}`} />
-                  ) : (
-                    <></>
-                  )}
+
+
                 </span>
-                {ward_id ? <span>{`Ward-${ward_id}`}</span> : <></>}
+                {ward_id && district_name ?
+                  <span>{`Ward-${ward_id}`}
+                    <Textparser text={`${district_name}`} />
+                    <Textparser text={`Block-${block_name}`} />
+                  </span>
+
+
+                  : <></>}
               </div>
             </div>
           ) : (

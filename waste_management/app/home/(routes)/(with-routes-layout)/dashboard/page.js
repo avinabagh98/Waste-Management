@@ -27,6 +27,7 @@ export default function Dashboardpage() {
   const [scanResutlt, setScanResult] = useState("");
   const [showScanner, setShowScanner] = useState(false);
   const [spinner, setSpinner] = useState(false);
+  const [supervisor, setSupervisor] = useState("");
 
   //Other declarations
   const loadingHeaderData = {
@@ -34,6 +35,7 @@ export default function Dashboardpage() {
     ward_id: ward_id,
     district_name: district_name,
     block_name: block_name,
+    supervisor: supervisor
   };
 
   const route = useRouter();
@@ -42,6 +44,7 @@ export default function Dashboardpage() {
   // LocalStorage Fetching
   useEffect(() => {
     console.log(showScanner);
+    setSupervisor(localStorage.getItem("supervisor"))
     try {
       localStorage.setItem("today", getDate());
       async function fetchData() {

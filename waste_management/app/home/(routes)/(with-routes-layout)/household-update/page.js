@@ -310,7 +310,7 @@ export default function HouseholdUpdatepage() {
 
       //from ID to Name Update in dropdown
       const mohallaname = mohalla.filter((item) => item.id === mohallaId);
-      setMohallaCommitte(mohallaname[0].committee_name);
+      setMohallaCommitte(mohallaname[0]?.committee_name);
     }
   }, [mohalla]);
 

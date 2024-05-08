@@ -66,6 +66,7 @@ export default function IncomeUpdatepage() {
     district_name: district_name,
     ward_id: ward_id,
     block_name: block_name,
+    supervisor: supervisorIncome
   };
 
   const formDataIncomeUpdate = {

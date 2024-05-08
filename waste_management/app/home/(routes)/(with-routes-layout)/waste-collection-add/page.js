@@ -65,6 +65,7 @@ export default function WastecollectionAddPage() {
   const [mohallaId, setMohallaId] = useState("");
   const [userId, setUserId] = useState("");
   const [supervisorId, setSupervisorId] = useState("");
+  const [supervisor, setSupervisor] = useState("");
   const [locality, setLocality] = useState([]);
   const [localName, setLocalName] = useState([]);
   const [localityId, setLocalityId] = useState([]);
@@ -84,6 +85,7 @@ export default function WastecollectionAddPage() {
     district_name: district_name,
     ward_id: wardId,
     block_name: block_name,
+    supervisor: supervisor
   };
 
   const formDataWC = {
@@ -124,7 +126,9 @@ export default function WastecollectionAddPage() {
   useEffect(() => {
     setToday(localStorage.getItem("today"))
     setDateWasteCollection(localStorage.getItem("today"))
+    setSupervisor(localStorage.getItem("supervisor"))
     localStorage.setItem("previousPath", "/home/waste-collection-list");
+
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");

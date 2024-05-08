@@ -89,6 +89,7 @@ export default function WastecollectionUpdatePage() {
     district_name: district_name,
     ward_id: wardId,
     block_name: block_name,
+    supervisor: supervisor
   };
 
   const formDataWCUpdate = {
@@ -425,11 +426,11 @@ export default function WastecollectionUpdatePage() {
             <Textparser text={"Weekly Waste Collection Update"} />
           </div>
           <div className={styles.ListContainerWasteCollection}>
-            <div className={styles.textParser}>
+            {/* <div className={styles.textParser}>
               <Textparser
                 text={`Supervisor: ${supervisor}`}
               />
-            </div>
+            </div> */}
 
             <div className={styles.formcontainer}>
               <Surveyques
