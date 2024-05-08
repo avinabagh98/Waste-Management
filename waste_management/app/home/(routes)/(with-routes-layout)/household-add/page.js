@@ -14,6 +14,8 @@ import axios from "axios";
 
 export default function HouseholdAddpage() {
 
+
+
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -92,6 +94,8 @@ export default function HouseholdAddpage() {
   const [toilets, setToilets] = useState([]);
   const [toiletName, setToiletName] = useState([]);
   const [toiletId, setToiletId] = useState([]);
+  const [today, setToday] = useState("");
+  const [spinner, setSpinner] = useState(false);
 
   //Common Other declarations///
   const loadingHeaderData = {
@@ -153,6 +157,8 @@ export default function HouseholdAddpage() {
   // LocalStorage Fetching
   useEffect(() => {
     localStorage.setItem("previousPath", "/home/household-list");
+    setToday(localStorage.getItem("today"))
+    setDateHHSurvey(localStorage.getItem("today"))
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
@@ -484,6 +490,7 @@ export default function HouseholdAddpage() {
       if (flag) {
         swal("Error", "Please fill all the fields", "error");
       } else {
+        setSpinner(true);
         const household_add_res = await axios.post(
           "https://waste.ebluesys.com/api/household/Insert",
           formDataHH
@@ -503,6 +510,7 @@ export default function HouseholdAddpage() {
 
       }
     } catch (error) {
+      setSpinner(false);
       console.log(error);
       if (error.name === "AxiosError") {
         swal("Error", error.response.data.data.msg, "error")
@@ -512,6 +520,7 @@ export default function HouseholdAddpage() {
 
   return (
     <>
+      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
       <Header
         userRole={userRole}
         isOffCanvasVisible={false}
@@ -530,10 +539,11 @@ export default function HouseholdAddpage() {
             type={"date"}
             labelText={translate?.Date_HH_survey}
             value={dateHHSurvey}
+            defaultValue={today}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />
-
+          {/* 
           <Surveyques
             id={"supervisorHHSurvey"}
             labelText={translate?.Supervisor_HH_survey}
@@ -541,7 +551,7 @@ export default function HouseholdAddpage() {
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
             disabled={true}
-          />
+          /> */}
           {/* 
           <SurveyDropdown
             id={"fieldStaffHHSurvey"}
@@ -552,17 +562,18 @@ export default function HouseholdAddpage() {
             options={demoOptions}
           /> */}
 
-          <Surveyques
+          {/* <Surveyques
             id={"fieldStaffHHSurvey"}
             labelText={translate?.Field_Staff_HH_survey}
             value={fieldStaffHHSurvey}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
             disabled={true}
-          />
+          /> */}
 
           <Surveyques
             id={"mobileNumberHHSurvey"}
+            type={"number"}
             labelText={"Mobile Number"}
             value={mobileNo}
             required={true}
@@ -571,6 +582,7 @@ export default function HouseholdAddpage() {
 
           <Surveyques
             id={"aadhaarNumberHHSurvey"}
+            type={"number"}
             labelText={"Aadhaar Number"}
             value={aadhaar}
             required={true}
@@ -586,13 +598,13 @@ export default function HouseholdAddpage() {
             options={demoOptions}
           /> */}
 
-          <Surveyques
+          {/* <Surveyques
             id={"wardNoGPHHSurvey"}
             labelText={translate?.Ward_no_GP_HH_survey}
             value={wardNoGPHHSurvey}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-          />
+          /> */}
 
           <SurveyDropdown
             id={"localityNameMohallaHHSurvey"}
@@ -617,6 +629,7 @@ export default function HouseholdAddpage() {
             value={nameOfResidentHHSurvey}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+
           />
 
           <Surveyques
@@ -625,6 +638,7 @@ export default function HouseholdAddpage() {
             value={numberOfFamilyMembersHHSurvey}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -633,6 +647,7 @@ export default function HouseholdAddpage() {
             value={numberOfChildBelow18YearsHHSurvey}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -641,6 +656,7 @@ export default function HouseholdAddpage() {
             value={roadLane}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -649,6 +665,7 @@ export default function HouseholdAddpage() {
             value={roadLane}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -657,6 +674,7 @@ export default function HouseholdAddpage() {
             value={homeBaseManageRat}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -669,18 +687,20 @@ export default function HouseholdAddpage() {
 
           <Surveyques
             id={"pets"}
-            labelText={"Pets"}
+            labelText={"How Many Pets?"}
             value={pets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
             id={"patients"}
-            labelText={"patients"}
+            labelText={" How Many patients?"}
             value={patients}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <SurveyDropdown
@@ -994,6 +1014,7 @@ export default function HouseholdAddpage() {
             value={userChargesInRupeesPerMonthHHSurvey}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <div className={styles.btnContainer}>

@@ -411,37 +411,41 @@ export default function WastecollectionUpdatePage() {
     }
   };
 
-  return !loading ? (
-    !spinner ?
-      <>
-        <Header
-          userRole={userRole}
-          isOffCanvasVisible={false}
-          loadingdata={loadingHeaderData}
-        />
+  return !loading ?
 
-        <div className={styles.container}>
-          {/* //breadcrumb */}
-          <div className={styles.breadcrumb}>
-            <Textparser text={"Weekly Waste Collection Update"} />
-          </div>
-          <div className={styles.ListContainerWasteCollection}>
-            {/* <div className={styles.textParser}>
+    <>
+      {/* //Spinner */}
+      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+
+
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
+
+      <div className={styles.container}>
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Weekly Waste Collection Update"} />
+        </div>
+        <div className={styles.ListContainerWasteCollection}>
+          {/* <div className={styles.textParser}>
               <Textparser
                 text={`Supervisor: ${supervisor}`}
               />
             </div> */}
 
-            <div className={styles.formcontainer}>
-              <Surveyques
-                id={"dateWasteCollection"}
-                type={"date"}
-                labelText={translate?.Date_Waste_Collection}
-                value={dateWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
-              {/* 
+          <div className={styles.formcontainer}>
+            <Surveyques
+              id={"dateWasteCollection"}
+              type={"date"}
+              labelText={translate?.Date_Waste_Collection}
+              value={dateWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
+            {/* 
           <Surveyques
             id={"supervisorWasteCollection"}
             disabled={true}
@@ -462,195 +466,188 @@ export default function WastecollectionUpdatePage() {
             handleVal={(id, val) => handleVal(id, val)}
           /> */}
 
-              <Surveyques
-                id={"houseNumberWasteCollection"}
-                type={"text"}
-                labelText={translate?.House_number_Waste_Collection}
-                value={houseNumberWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"houseNumberWasteCollection"}
+              type={"text"}
+              labelText={translate?.House_number_Waste_Collection}
+              value={houseNumberWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <SurveyDropdown
-                id={"mohallaCommiteeWasteCollection"}
-                labelText={translate?.Mohalla_Commitee_Waste_Collection}
-                value={mohallaCommiteeWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-                options={mohallaName}
-              />
+            <SurveyDropdown
+              id={"mohallaCommiteeWasteCollection"}
+              labelText={translate?.Mohalla_Commitee_Waste_Collection}
+              value={mohallaCommiteeWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+              options={mohallaName}
+            />
 
-              <Surveyques
-                id={"nameOfULBBlockWasteCollection"}
-                type={"text"}
-                labelText={translate?.Name_of_ULB_Block_Waste_Collection}
-                value={nameOfULBBlockWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"nameOfULBBlockWasteCollection"}
+              type={"text"}
+              labelText={translate?.Name_of_ULB_Block_Waste_Collection}
+              value={nameOfULBBlockWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"wardNoGPWasteCollection"}
-                type={"text"}
-                labelText={translate?.Ward_No_GP_Waste_Collection}
-                value={wardNoGPWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
-              <SurveyDropdown
-                id={"localityNameVillageWasteCollection"}
-                labelText={translate?.Locality_Name_Village_Waste_Collection}
-                value={localityNameVillageWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-                options={localName}
-              />
-              <Surveyques
-                id={"nameOfResidentWasteCollection"}
-                type={"text"}
-                labelText={translate?.Name_of_Resident_Waste_Collection}
-                value={nameOfResidentWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"wardNoGPWasteCollection"}
+              type={"text"}
+              labelText={translate?.Ward_No_GP_Waste_Collection}
+              value={wardNoGPWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
+            <SurveyDropdown
+              id={"localityNameVillageWasteCollection"}
+              labelText={translate?.Locality_Name_Village_Waste_Collection}
+              value={localityNameVillageWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+              options={localName}
+            />
+            <Surveyques
+              id={"nameOfResidentWasteCollection"}
+              type={"text"}
+              labelText={translate?.Name_of_Resident_Waste_Collection}
+              value={nameOfResidentWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"compostableWasteCollectedWasteCollection"}
-                type={"number"}
-                labelText={
-                  translate?.Compostable_Waste_Collected_Waste_Collection
-                }
-                value={compostableWasteCollectedWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"compostableWasteCollectedWasteCollection"}
+              type={"number"}
+              labelText={
+                translate?.Compostable_Waste_Collected_Waste_Collection
+              }
+              value={compostableWasteCollectedWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"ironWasteCollection"}
-                type={"number"}
-                labelText={translate?.Iron_Waste_Collection}
-                value={ironWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"ironWasteCollection"}
+              type={"number"}
+              labelText={translate?.Iron_Waste_Collection}
+              value={ironWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"aluminiumWasteCollection"}
-                type={"number"}
-                labelText={translate?.Aluminium_Waste_Collection}
-                value={aluminiumWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"aluminiumWasteCollection"}
+              type={"number"}
+              labelText={translate?.Aluminium_Waste_Collection}
+              value={aluminiumWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"otherMetalsWasteCollection"}
-                type={"number"}
-                labelText={translate?.Other_Metals_Waste_Collection}
-                value={otherMetalsWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"otherMetalsWasteCollection"}
+              type={"number"}
+              labelText={translate?.Other_Metals_Waste_Collection}
+              value={otherMetalsWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"petBottlesWasteCollection"}
-                type={"number"}
-                labelText={translate?.Pet_Bottles_Waste_Collection}
-                value={petBottlesWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"petBottlesWasteCollection"}
+              type={"number"}
+              labelText={translate?.Pet_Bottles_Waste_Collection}
+              value={petBottlesWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"otherPlasticWasteCollection"}
-                type={"number"}
-                labelText={translate?.Other_Plastic_Waste_Collection}
-                value={otherPlasticWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"otherPlasticWasteCollection"}
+              type={"number"}
+              labelText={translate?.Other_Plastic_Waste_Collection}
+              value={otherPlasticWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"glassWasteCollection"}
-                type={"number"}
-                labelText={translate?.Glass_Waste_Collection}
-                value={glassWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"glassWasteCollection"}
+              type={"number"}
+              labelText={translate?.Glass_Waste_Collection}
+              value={glassWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"milkBagWasteCollection"}
-                type={"number"}
-                labelText={translate?.Milk_Bag_Waste_Collection}
-                value={milkBagWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"milkBagWasteCollection"}
+              type={"number"}
+              labelText={translate?.Milk_Bag_Waste_Collection}
+              value={milkBagWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"paperWasteCollection"}
-                type={"number"}
-                labelText={translate?.Paper_Waste_Collection}
-                value={paperWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"paperWasteCollection"}
+              type={"number"}
+              labelText={translate?.Paper_Waste_Collection}
+              value={paperWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"cardBoardWasteCollection"}
-                type={"number"}
-                labelText={translate?.Card_Board_Waste_Collection}
-                value={cardBoardWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"cardBoardWasteCollection"}
+              type={"number"}
+              labelText={translate?.Card_Board_Waste_Collection}
+              value={cardBoardWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"othersWasteCollection"}
-                type={"number"}
-                labelText={translate?.Others_Waste_Collection}
-                value={othersWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"othersWasteCollection"}
+              type={"number"}
+              labelText={translate?.Others_Waste_Collection}
+              value={othersWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"inertWasteWasteCollection"}
-                type={"number"}
-                labelText={translate?.Inert_Waste_Waste_Collection}
-                value={inertWasteWasteCollection}
-                required={true}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"inertWasteWasteCollection"}
+              type={"number"}
+              labelText={translate?.Inert_Waste_Waste_Collection}
+              value={inertWasteWasteCollection}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <Surveyques
-                id={"daysOfCollectionsInAWeekWasteCollection"}
-                type={"number"}
-                labelText={
-                  translate?.Days_of_Collections_in_a_week_Waste_Collection
-                }
-                value={daysOfCollectionsInAWeekWasteCollection}
-                handleVal={(id, val) => handleVal(id, val)}
-              />
+            <Surveyques
+              id={"daysOfCollectionsInAWeekWasteCollection"}
+              type={"number"}
+              labelText={
+                translate?.Days_of_Collections_in_a_week_Waste_Collection
+              }
+              value={daysOfCollectionsInAWeekWasteCollection}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-              <div className={styles.btnContainer}>
-                <button className={styles.submitbtn} onClick={UpdateHandler}>
-                  Update
-                </button>
-              </div>
+            <div className={styles.btnContainer}>
+              <button className={styles.submitbtn} onClick={UpdateHandler}>
+                Update
+              </button>
             </div>
           </div>
         </div>
-      </> :
-      spinner ?
-        <>
-          <div className={styles.spinner}>
-            <img src="/svg/loader.svg"></img>
-          </div>
-        </> : <></>
-  ) :
-
+      </div>
+    </>
+    :
     //Skeleton Loader
     <FormSkeletonLoader />
 

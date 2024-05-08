@@ -209,92 +209,88 @@ export default function WasteCollectionListPage() {
 
   return (
     loaderVar1 && loaderVar2 ?
-      !spinner ?
-        // Content Load
-        <>
-          <Header
-            loadingdata={loadingHeaderData}
-            userRole={userRole}
-            isOffCanvasVisible={false}
-          />
 
-          <div className={styles.bodyContainer}>
+      // Content Load
+      <>
 
-            {/* //breadcrumb */}
-            <div className={styles.breadcrumb}>
-              <Textparser text={"Weekly Waste Collection List"} />
-            </div>
+        {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+        <Header
+          loadingdata={loadingHeaderData}
+          userRole={userRole}
+          isOffCanvasVisible={false}
+        />
+
+        <div className={styles.bodyContainer}>
+
+          {/* //breadcrumb */}
+          <div className={styles.breadcrumb}>
+            <Textparser text={"Weekly Waste Collection List"} />
+          </div>
 
 
-            <div className={styles.ListContainerWasteCollection}>
+          <div className={styles.ListContainerWasteCollection}>
 
-              {/* <div className={styles.textParser}><Textparser text={`Supervisor: ${supervisor}`} /> </div> */}
+            {/* <div className={styles.textParser}><Textparser text={`Supervisor: ${supervisor}`} /> </div> */}
 
-              {/* //Table Container */}
-              <div className={styles.tableContainer}>
+            {/* //Table Container */}
+            <div className={styles.tableContainer}>
 
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Date</th>
-                      {/* <th>House Number</th> */}
-                      <th>Resident Name</th>
-                      {/* <th>Mohalla Committee</th> */}
-                      <th style={{ textAlign: "center" }}>Action</th>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Date</th>
+                    {/* <th>House Number</th> */}
+                    <th>Resident Name</th>
+                    {/* <th>Mohalla Committee</th> */}
+                    <th style={{ textAlign: "center" }}>Action</th>
 
-                    </tr>
-                  </thead>
-                  <tbody className={styles.table_body}>
-                    {api_wasteCollectionData.map((item, index) => {
+                  </tr>
+                </thead>
+                <tbody className={styles.table_body}>
+                  {api_wasteCollectionData.map((item, index) => {
 
-                      //Date Formatter
-                      const formatDate = (dateString) => {
-                        const [year, month, day] = dateString.split('-');
-                        return `${day}/${month}/${year}`;
-                      };
+                    //Date Formatter
+                    const formatDate = (dateString) => {
+                      const [year, month, day] = dateString.split('-');
+                      return `${day}/${month}/${year}`;
+                    };
 
-                      const formattedDate = formatDate(item.date);
+                    const formattedDate = formatDate(item.date);
 
-                      return (
+                    return (
 
-                        <tr key={item.id}>
-                          <td className={styles.td}>{index + 1}</td>
-                          <td className={styles.td}>{formattedDate}</td>
-                          {/* <td className={styles.td}>{item.house_number}</td> */}
-                          <td className={styles.td}>{item.resident_name}</td>
-                          {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
-                          <td className={styles.actionWaste}>
-                            <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
-                            <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div className={styles.addNewContainer}>
-              <img
-                src="/svg/add_new.svg"
-                alt="add_new"
-                onClick={() => {
-                  setSpinner(true);
-                  route.push("/home/waste-collection-add");
-                }}
-              ></img>
+                      <tr key={item.id}>
+                        <td className={styles.td}>{index + 1}</td>
+                        <td className={styles.td}>{formattedDate}</td>
+                        {/* <td className={styles.td}>{item.house_number}</td> */}
+                        <td className={styles.td}>{item.resident_name}</td>
+                        {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
+                        <td className={styles.actionWaste}>
+                          <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
+                          <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
-        </> :
-        // Spinner
-        <>
-          <div className={styles.spinner}>
-            <img src="/svg/loader.svg" alt="spinner"></img>
+
+          <div className={styles.addNewContainer}>
+            <img
+              src="/svg/add_new.svg"
+              alt="add_new"
+              onClick={() => {
+                setSpinner(true);
+                route.push("/home/waste-collection-add");
+              }}
+            ></img>
           </div>
-        </>
-      :
+        </div>
+      </> :
+
       //Skeleton loader
       <>
         <Header

@@ -177,7 +177,7 @@ export default function HouseholdListPage() {
         }</p>
           <p style="text-align:left"><strong>Number of Pets:</strong> ${arrayData?.pets
         }</p>
-          <p style="text-align:left"><strong>Road:</strong> ${arrayData?.road_lane
+          <p style="text-align:left"><strong>Road:</strong> ${arrayData?.road
         }</p>
           <p style="text-align:left"><strong>Has Toilet Inside House:</strong> ${arrayData?.toilet_in_house === "1" ? "Yes" : "No"
         }</p>
