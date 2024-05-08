@@ -4,7 +4,6 @@ import styles from "./mohalla.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
@@ -19,9 +18,7 @@ export default function Mohallapage() {
 
   //form-data states
   const [dateOfMeetingMohalla, setDateOfMeetingMohalla] = useState("");
-  const [supervisorMohalla, setSupervisorMohalla] = useState("");
-  const [fieldStaffMohalla, setFieldStaffMohalla] = useState("");
-  const [wardNoGPMohalla, setWardNoGPMohalla] = useState("");
+  const [supervisor, setSupervisor] = useState("");
   const [localityNameVillageMohalla, setLocalityNameVillageMohalla] =
     useState("");
   const [mohallaCommiteeMohalla, setMohallaCommiteeMohalla] = useState("");
@@ -70,6 +67,7 @@ export default function Mohallapage() {
   const [locality, setLocality] = useState([]);
   const [localName, setLocalName] = useState([]);
   const [localityId, setLocalityId] = useState([]);
+  const [today, setToday] = useState("");
 
 
   //Loading Header Data States
@@ -79,12 +77,19 @@ export default function Mohallapage() {
   const [block_name, setBLockName] = useState("");
 
 
+  //loader states
+
+  const [spinner, setSpinner] = useState(false);
+
+
+
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
     ward_id: wardId,
     block_name: block_name,
+    supervisor: supervisor
   };
 
 
@@ -100,11 +105,11 @@ export default function Mohallapage() {
     dateOfMeeting: dateOfMeetingMohalla,
     supervisorId: supervisorId,
     fieldStaffId: userId,
-    wardId: wardNoGPMohalla,
-    localityId: localityId,
+    wardId: wardId,
+    locality_id: localityId,
     mohollaCommitteeId: mohallaId,
     householdMc: householdsUnderMCMohalla,
-    householdSegregation: householdDoingSegregationMohalla,
+    householdSegregation: householdDoingSegregationMohalla === "yes" ? "1" : "0",
     hhUserPayCharge: hhPayingUserChargesMohalla,
     userChargeCollection: userChargesCollectedRsPerMonthMohalla,
     salaryPaidWastePicker: salaryPaidToWastePickerMohalla,
@@ -137,6 +142,8 @@ export default function Mohallapage() {
           setUserRole(localStorage.getItem("role_name"));
 
           //loadingHeaderData from local storage
+          setToday(localStorage.getItem("today"));
+          setDateOfMeetingMohalla(localStorage.getItem("today"));
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
@@ -144,9 +151,7 @@ export default function Mohallapage() {
           setUserId(localStorage.getItem("user_id"));
 
           // add data to the form
-          setWardNoGPMohalla(localStorage.getItem("ward_id"));
-          setFieldStaffMohalla(localStorage.getItem("name"));
-          setSupervisorMohalla(localStorage.getItem("supervisor"));
+          setSupervisor(localStorage.getItem("supervisor"));
           setSupervisorId(localStorage.getItem("supervisor_id"));
 
 
@@ -234,8 +239,8 @@ export default function Mohallapage() {
   // Locality List Dropdown State Update
   useEffect(() => {
     if (locality.length > 0) {
-      const localityaNames = locality.map((locality) => locality.village_name);
-      setLocalName(localityaNames);
+      const localityNames = locality.map((locality) => locality.village_name);
+      setLocalName(localityNames);
       setLocalityId(locality[0].id);
     }
   }, [locality]);
@@ -246,16 +251,7 @@ export default function Mohallapage() {
     if (id === "dateOfMeetingMohalla") {
       setDateOfMeetingMohalla(val);
     }
-    if (id === "supervisorMohalla") {
-      setSupervisorMohalla(val);
-    }
-    if (id === "fieldStaffMohalla") {
-      setFieldStaffMohalla(val);
-    }
 
-    if (id === "wardNoGPMohalla") {
-      setWardNoGPMohalla(val);
-    }
     if (id === "localityNameVillageMohalla") {
       setLocalityNameVillageMohalla(val);
     }
@@ -271,6 +267,7 @@ export default function Mohallapage() {
     }
     if (id === "householdDoingSegregationMohalla") {
       setHouseholdDoingSegregationMohalla(val);
+
     }
     if (id === "hhPayingUserChargesMohalla") {
       setHhPayingUserChargesMohalla(val);
@@ -324,28 +321,46 @@ export default function Mohallapage() {
 
 
   const submitHandler = async (e) => {
+    setSpinner(true)
     e.preventDefault();
-    console.log("Mohalla Committee Submitted :: ", formDatamohalla);
-
-    try {
-      const res = await sendRequest("post", "/mohollaCommitteemeeting/add", formDatamohalla, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (res.status === 1) {
-        swal("Successfully", "Mohalla Committee Added", "success");
-        route.push("/home/mohalla-list");
+    let flag = false;
+    for (const field in formDatamohalla) {
+      if (formDatamohalla[field] === null || formDatamohalla[field] === "") {
+        flag = true;
+        break;
       }
-    } catch (error) {
-      console.log(error);
     }
-  };
+    if (flag) {
+      setSpinner(false)
+      swal("Error", "Please fill all the fields", "error");
+    } else {
+      console.log("Mohalla Committee Submitted :: ", formDatamohalla);
+      try {
+        const res = await sendRequest("post", "/mohollaCommitteemeeting/add", formDatamohalla, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (res.status === 1) {
+          swal("Successfully", "Mohalla Committee Added", "success");
+          route.push("/home/mohalla-list");
+        }
+      } catch (error) {
+        setSpinner(false);
+        console.log(error);
+      }
+    }
+  }
 
 
   return (
     <>
+
+      {/* //Spinner */}
+      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+
+      {/* //Content */}
       <Header
         userRole={userRole}
         isOffCanvasVisible={false}
@@ -366,11 +381,12 @@ export default function Mohallapage() {
             type={"date"}
             labelText={translate?.Date_of_Meeting_mohalla}
             value={dateOfMeetingMohalla}
+            defaultValue={today}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          <Surveyques
+          {/* <Surveyques
             id={"supervisorMohalla"}
             disabled={true}
             labelText={translate?.Supervisor_mohalla}
@@ -393,7 +409,7 @@ export default function Mohallapage() {
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
 
-          />
+          /> */}
           <SurveyDropdown
             id={"localityNameVillageMohalla"}
             labelText={translate?.Locality_Name_Village_mohalla}
@@ -417,6 +433,7 @@ export default function Mohallapage() {
             value={householdsUnderMCMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <SurveyDropdown
@@ -434,6 +451,7 @@ export default function Mohallapage() {
             value={hhPayingUserChargesMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -442,6 +460,7 @@ export default function Mohallapage() {
             value={userChargesCollectedRsPerMonthMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -450,6 +469,7 @@ export default function Mohallapage() {
             value={salaryPaidToWastePickerMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -458,6 +478,7 @@ export default function Mohallapage() {
             value={otherExpensesInRsMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <div className={styles.radioInput}>
@@ -578,6 +599,7 @@ export default function Mohallapage() {
             value={manureGeneratedInKgMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
           <Surveyques
             id={"manureSoldInKgMohalla"}
@@ -585,6 +607,7 @@ export default function Mohallapage() {
             value={manureSoldInKgMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -593,6 +616,7 @@ export default function Mohallapage() {
             value={incomeFromManureSoldInRsMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -601,6 +625,7 @@ export default function Mohallapage() {
             value={noOfHhsTakingHomeCompostingMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -609,6 +634,7 @@ export default function Mohallapage() {
             value={balanceInRsMohalla}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <div className={styles.btnContainer} >

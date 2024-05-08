@@ -8,8 +8,11 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Textparser from "@/components/Textparser";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function MohallaListPage() {
+
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -24,6 +27,7 @@ export default function MohallaListPage() {
   const [locality, setLocality] = useState([]);
   const [localName, setLocalName] = useState([]);
   const [localityId, setLocalityId] = useState([]);
+  const [supervisor, setSupervisor] = useState("");
 
 
   //Loading Header Data States
@@ -32,12 +36,19 @@ export default function MohallaListPage() {
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
+  //loader states
+  const [loaderVar1, setLoaderVar1] = useState(false);
+  const [loaderVar2, setLoaderVar2] = useState(false);
+  const [loaderVar3, setLoaderVar3] = useState(false);
+  const [spinner, setSpinner] = useState(false);
+
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
     ward_id: wardId,
     block_name: block_name,
+    supervisor: supervisor
   };
 
   const mohallalistBody = {
@@ -71,6 +82,7 @@ export default function MohallaListPage() {
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setWardId(localStorage.getItem("ward_id"));
+          setSupervisor(localStorage.getItem("supervisor"));
 
         }
       }
@@ -95,6 +107,7 @@ export default function MohallaListPage() {
       );
 
       if (response_mohallalist.status === 1) {
+        setLoaderVar1(true);
         console.log("API_list_ARRAY::", response_mohallalist.data.data.lists);
         setApi_mohallaData(response_mohallalist.data.data.lists);
       }
@@ -120,7 +133,7 @@ export default function MohallaListPage() {
         );
         if (response.status === 1) {
           console.log(response.data.data.lists);
-
+          setLoaderVar2(true);
           setMohallas(response.data.data.lists);
           const mohallas_name = response.data.data.lists.map(
             (item) => item.committee_name
@@ -159,6 +172,7 @@ export default function MohallaListPage() {
           }
         );
         if (response.status === 1) {
+          setLoaderVar3(true);
           console.log(
             `Locality lists in ward ${wardId} from API ::`,
             response.data.data.incomeList
@@ -187,6 +201,7 @@ export default function MohallaListPage() {
   // Handler Functions
 
   const editHandler = (id) => {
+    setSpinner(true);
     localStorage.setItem("id", id);
     route.push("/home/mohalla-update");
   };
@@ -226,92 +241,153 @@ export default function MohallaListPage() {
   };
 
   return (
-    <>
-      <Header
-        loadingdata={loadingHeaderData}
-        userRole={userRole}
-        isOffCanvasVisible={false}
-      />
+    loaderVar1 && loaderVar2 && loaderVar3 ?
 
-      <div className={styles.bodyContainer}>
-        {/* //breadcrumb */}
-        <div className={styles.breadcrumb}>
-          <Textparser text={"Mohalla Committee List"} />
+      // Content Load
+      <>
+        {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+        <Header
+          loadingdata={loadingHeaderData}
+          userRole={userRole}
+          isOffCanvasVisible={false}
+        />
+
+        <div className={styles.bodyContainer}>
+          {/* //breadcrumb */}
+          <div className={styles.breadcrumb}>
+            <Textparser text={"Mohalla Committee List"} />
+          </div>
+
+          {/* //List */}
+
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead>
+                <tr className={styles.thead}>
+                  <th>SL</th>
+                  <th>Date of Meeting</th>
+                  <th>Locality</th>
+                  <th>Mohalla</th>
+                  <th>Action</th>
+
+                </tr>
+              </thead>
+              <tbody className={styles.table_body}>
+                {api_mohallaData.map((item, index) => {
+
+
+                  //Date Formatter
+                  const formatDate = (dateString) => {
+                    const [year, month, day] = dateString.split('-');
+                    return `${day}/${month}/${year}`;
+                  };
+
+                  // Mohalla Name Picker
+                  let getMohalla = mohallas.filter((item1) => (item1.id === item.moholla_committee_id));
+                  //Location Name Picker
+                  let getLocality = locality.filter((item1) => (item1.id === item.locality_id));
+
+                  const formattedDate = formatDate(item.date_of_meeting);
+                  return (
+                    <tr key={index}>
+                      <td className={styles.td}>{index + 1}</td>
+                      <td className={styles.td}>{formattedDate}</td>
+                      <td className={styles.td}>{getLocality[0]?.village_name}</td>
+                      <td className={styles.td}>{getMohalla[0]?.committee_name}</td>
+                      <td className={styles.actionWaste}>
+                        <img
+                          onClick={() => {
+                            showHandler(item);
+                          }}
+                          src="/svg/eye.svg"
+                          alt="Show_details"
+                        ></img>
+                        <img
+                          onClick={() => {
+                            editHandler(item.id);
+                          }}
+                          src="/svg/edit.svg"
+                          alt="update"
+                        ></img>
+                      </td>
+                    </tr>
+                  )
+                }
+
+
+                )}
+              </tbody>
+            </table>
+          </div>
+
+
+          <div className={styles.addNewContainer}>
+            <img
+              src="/svg/add_new.svg"
+              alt="add_new"
+              onClick={() => {
+                setSpinner(true);
+                route.push("/home/mohalla-add");
+              }}
+            ></img>
+          </div>
         </div>
+      </>
+      :
 
-        {/* //List */}
+      //Skeleton loader
+      <>
+        <Header
+          loadingdata={loadingHeaderData}
+          userRole={userRole}
+          isOffCanvasVisible={false}
+        />
 
-        <div className={styles.tableContainer}>
-          <table className={styles.table}>
-            <thead>
-              <tr className={styles.thead}>
-                <th>SL</th>
-                <th>Date of Meeting</th>
-                <th>Locality</th>
-                <th>Mohalla</th>
-                <th>Action</th>
+        <div className={styles.bodyContainer}>
+          {/* Breadcrumb */}
+          <div className={styles.breadcrumb}>
+            <Skeleton width={200} height={15} baseColor="#6fd199" borderRadius={20} />
+          </div>
 
-              </tr>
-            </thead>
-            <tbody className={styles.table_body}>
-              {api_mohallaData.map((item, index) => {
+          {/* List Container */}
+          <div className={styles.ListContainerWasteCollection}>
+            <div className={styles.textParser}>
+              <Skeleton width={300} height={10} baseColor="#f2d98d" borderRadius={50} />
+            </div>
 
-
-                //Date Formatter
-                const formatDate = (dateString) => {
-                  const [year, month, day] = dateString.split('-');
-                  return `${day}/${month}/${year}`;
-                };
-
-                // Mohalla Name Picker
-                let getMohalla = mohallas.filter((item1) => (item1.id === item.moholla_committee_id));
-                //Location Name Picker
-                let getLocality = locality.filter((item1) => (item1.id === item.locality_id));
-
-                const formattedDate = formatDate(item.date_of_meeting);
-                return (
-                  <tr key={index}>
-                    <td className={styles.td}>{index + 1}</td>
-                    <td className={styles.td}>{formattedDate}</td>
-                    <td className={styles.td}>{getLocality[0]?.village_name}</td>
-                    <td className={styles.td}>{getMohalla[0]?.committee_name}</td>
-                    <td className={styles.actionWaste}>
-                      <img
-                        onClick={() => {
-                          showHandler(item);
-                        }}
-                        src="/svg/eye.svg"
-                        alt="Show_details"
-                      ></img>
-                      <img
-                        onClick={() => {
-                          editHandler(item.id);
-                        }}
-                        src="/svg/edit.svg"
-                        alt="update"
-                      ></img>
-                    </td>
+            {/* Table Container */}
+            <div className={styles.tableContainer}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th><Skeleton width={25} baseColor="#6b96db" /></th>
+                    <th><Skeleton width={50} baseColor="#6b96db" /></th>
+                    <th><Skeleton width={100} baseColor="#6b96db" /></th>
+                    <th style={{ textAlign: "center" }}><Skeleton width={50} /></th>
                   </tr>
-                )
-              }
+                </thead>
+                <tbody className={styles.table_body}>
+                  {[...Array(5)].map((_, index) => (
+                    <tr key={index}>
+                      <td className={styles.td}><Skeleton width={25} /></td>
+                      <td className={styles.td}><Skeleton width={50} /></td>
+                      <td className={styles.td}><Skeleton width={100} /></td>
+                      <td className="text-center">
+                        <Skeleton circle={true} height={30} width={30} />
+                        <Skeleton circle={true} height={30} width={30} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-
-              )}
-            </tbody>
-          </table>
+          {/* Add New Container */}
+          <div className={styles.addNewContainer}>
+            <Skeleton circle={true} height={50} width={50} baseColor="#6fd199" />
+          </div>
         </div>
-
-
-        <div className={styles.addNewContainer}>
-          <img
-            src="/svg/add_new.svg"
-            alt="add_new"
-            onClick={() => {
-              route.push("/home/mohalla-add");
-            }}
-          ></img>
-        </div>
-      </div>
-    </>
+      </>
   );
 }

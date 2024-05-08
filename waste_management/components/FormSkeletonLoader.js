@@ -1,6 +1,5 @@
 'use client';
 import styles from '@/app/home/(routes)/(with-routes-layout)/waste-collection-add/waste.module.css';
-import React, { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 

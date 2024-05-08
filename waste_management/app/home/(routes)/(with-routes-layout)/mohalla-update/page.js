@@ -12,8 +12,10 @@ import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
+import FormSkeletonLoader from "@/components/FormSkeletonLoader";
 
 export default function Mohallapage() {
+
 
     //State variables
     const [userRole, setUserRole] = useState("");
@@ -21,7 +23,7 @@ export default function Mohallapage() {
 
     //form-data states
     const [dateOfMeetingMohalla, setDateOfMeetingMohalla] = useState("");
-    const [supervisorMohalla, setSupervisorMohalla] = useState("");
+    const [supervisor, setSupervisor] = useState("");
     const [fieldStaffMohalla, setFieldStaffMohalla] = useState("");
     const [wardNoGPMohalla, setWardNoGPMohalla] = useState("");
     const [localityNameVillageMohalla, setLocalityNameVillageMohalla] =
@@ -80,6 +82,9 @@ export default function Mohallapage() {
     const [district_name, setDistrictName] = useState("");
     const [block_name, setBLockName] = useState("");
 
+    //Loader states
+    const [isLoading, setIsLoading] = useState(true);
+    const [spinner, setSpinner] = useState(false);
 
     //Common Other declarations///
     const loadingHeaderData = {
@@ -87,6 +92,7 @@ export default function Mohallapage() {
         district_name: district_name,
         ward_id: wardId,
         block_name: block_name,
+        supervisor: supervisor,
     };
 
 
@@ -104,11 +110,11 @@ export default function Mohallapage() {
         dateOfMeeting: dateOfMeetingMohalla,
         supervisorId: supervisorId,
         fieldStaffId: userId,
-        wardId: wardNoGPMohalla,
+        wardId: wardId,
         localityId: localityId,
         mohollaCommitteeId: mohallaId,
         householdMc: householdsUnderMCMohalla,
-        householdSegregation: householdDoingSegregationMohalla,
+        householdSegregation: householdDoingSegregationMohalla === "yes" ? "1" : "0",
         hhUserPayCharge: hhPayingUserChargesMohalla,
         userChargeCollection: userChargesCollectedRsPerMonthMohalla,
         salaryPaidWastePicker: salaryPaidToWastePickerMohalla,
@@ -150,8 +156,6 @@ export default function Mohallapage() {
                     // add data to the form
                     setWardNoGPMohalla(localStorage.getItem("ward_id"));
                     setFieldStaffMohalla(localStorage.getItem("name"));
-                    setSupervisorMohalla(localStorage.getItem("supervisor"));
-                    setSupervisorId(localStorage.getItem("supervisor_id"));
                     setId(localStorage.getItem("id"));
 
 
@@ -180,6 +184,8 @@ export default function Mohallapage() {
                     }
                 );
                 if (res.status === 1) {
+
+                    setIsLoading(false);
                     console.log("Response mohalla committee by id", res.data.data.list);
 
                     //inserting data to the respected fields
@@ -187,12 +193,13 @@ export default function Mohallapage() {
 
                     setDateOfMeetingMohalla(api_response.date_of_meeting);
                     setSupervisorId(api_response.supervisor_id);
+                    setSupervisor(localStorage.getItem("supervisor"));
                     setFieldStaffMohalla(api_response.field_staff_id);
                     setWardNoGPMohalla(api_response.ward_id);
                     setLocalityId(api_response.locality_id);
                     setMohallaId(api_response.moholla_committee_id);
                     setHouseholdsUnderMCMohalla(api_response.household_mc);
-                    setHouseholdDoingSegregationMohalla(api_response.household_segregation);
+                    setHouseholdDoingSegregationMohalla(api_response.household_segregation === "1" ? "yes" : "no");
                     setHhPayingUserChargesMohalla(api_response.hh_user_pay_charge);
                     setUserChargesCollectedRsPerMonthMohalla(api_response.user_charge_collection);
                     setSalaryPaidToWastePickerMohalla(api_response.salarypicker_wastepicker);
@@ -255,8 +262,8 @@ export default function Mohallapage() {
             const mohallaNames = mohallas.map((mohalla) => mohalla.committee_name);
             setMohallaName(mohallaNames);
             //   from ID to Name Update in dropdown
-            const mohallaname = mohallas?.filter((item) => item.id === mohallaId);
-            setMohallaCommiteeMohalla(mohallaname[0].committee_name);
+            const mohallaname = mohallas.filter((item) => item.id === mohallaId);
+            setMohallaCommiteeMohalla(mohallaname[0]?.committee_name);
 
         }
     }, [mohallas]);
@@ -297,7 +304,7 @@ export default function Mohallapage() {
             setLocalName(localityaNames);
             //from ID to Name Update in dropdown
             const local = locality?.filter((item) => item.id === localityId);
-            setLocalityNameVillageMohalla(local[0].village_name);
+            setLocalityNameVillageMohalla(local[0]?.village_name);
 
         }
     }, [locality]);
@@ -307,16 +314,6 @@ export default function Mohallapage() {
     const handleVal = (id, val) => {
         if (id === "dateOfMeetingMohalla") {
             setDateOfMeetingMohalla(val);
-        }
-        if (id === "supervisorMohalla") {
-            setSupervisorMohalla(val);
-        }
-        if (id === "fieldStaffMohalla") {
-            setFieldStaffMohalla(val);
-        }
-
-        if (id === "wardNoGPMohalla") {
-            setWardNoGPMohalla(val);
         }
         if (id === "localityNameVillageMohalla") {
             setLocalityNameVillageMohalla(val);
@@ -332,12 +329,7 @@ export default function Mohallapage() {
             setHouseholdsUnderMCMohalla(val);
         }
         if (id === "householdDoingSegregationMohalla") {
-            if (val === "yes") {
-                setHouseholdDoingSegregationMohalla("1");
-            }
-            if (val === "no") {
-                setHouseholdDoingSegregationMohalla("0");
-            }
+            setHouseholdDoingSegregationMohalla(val);
         }
         if (id === "hhPayingUserChargesMohalla") {
             setHhPayingUserChargesMohalla(val);
@@ -391,6 +383,7 @@ export default function Mohallapage() {
 
 
     const UpdateHandler = async (e) => {
+
         console.log("Mohalla Form Submitted::", formDatamohallaUpdate);
         //UPDATE API CALLING
         let flag = false;
@@ -405,8 +398,10 @@ export default function Mohallapage() {
             }
         }
         if (flag) {
+            setSpinner(false);
             swal("Error", "Please fill all the fields", "error");
         } else {
+            setSpinner(true);
             console.log("Mohalla Update Form Submitted::", formDatamohallaUpdate);
             //UPDATE API CALLING
             const res = await sendRequest(
@@ -420,7 +415,6 @@ export default function Mohallapage() {
                 }
             );
 
-
             if (res.status === 1) {
                 swal("Success", "Updated Successfully", "success");
                 route.push("/home/mohalla-list");
@@ -429,32 +423,35 @@ export default function Mohallapage() {
     };
 
     return (
-        <>
-            <Header
-                userRole={userRole}
-                isOffCanvasVisible={false}
-                loadingdata={loadingHeaderData}
-            />
+        !isLoading ?
+            <>
 
-            <div className={styles.container}>
+                {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+                <Header
+                    userRole={userRole}
+                    isOffCanvasVisible={false}
+                    loadingdata={loadingHeaderData}
+                />
 
-                {/* //breadcrumb */}
-                <div className={styles.breadcrumb}>
-                    <Textparser text={"Mohalla Committee Add"} />
-                </div>
+                <div className={styles.container}>
 
-                {/* //List */}
-                <div className={styles.formcontainer}>
-                    <Surveyques
-                        id={"dateOfMeetingMohalla"}
-                        type={"date"}
-                        labelText={translate?.Date_of_Meeting_mohalla}
-                        value={dateOfMeetingMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                    {/* //breadcrumb */}
+                    <div className={styles.breadcrumb}>
+                        <Textparser text={"Mohalla Committee Add"} />
+                    </div>
 
-                    <Surveyques
+                    {/* //List */}
+                    <div className={styles.formcontainer}>
+                        <Surveyques
+                            id={"dateOfMeetingMohalla"}
+                            type={"date"}
+                            labelText={translate?.Date_of_Meeting_mohalla}
+                            value={dateOfMeetingMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        {/* <Surveyques
                         id={"supervisorMohalla"}
                         labelText={translate?.Supervisor_mohalla}
                         value={supervisorMohalla}
@@ -475,229 +472,230 @@ export default function Mohallapage() {
                         required={true}
                         handleVal={(id, val) => handleVal(id, val)}
 
-                    />
-                    <SurveyDropdown
-                        id={"localityNameVillageMohalla"}
-                        labelText={translate?.Locality_Name_Village_mohalla}
-                        value={localityNameVillageMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={localName}
-                    />
-                    <SurveyDropdown
-                        id={"mohallaCommiteeMohalla"}
-                        labelText={translate?.Mohalla_Commitee_mohalla}
-                        value={mohallaCommiteeMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={mohallaName}
-                    />
-
-                    <Surveyques
-                        id={"householdsUnderMCMohalla"}
-                        labelText={translate?.Households_Under_MC_mohalla}
-                        value={householdsUnderMCMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <SurveyDropdown
-                        id={"householdDoingSegregationMohalla"}
-                        labelText={translate?.Household_Doing_Segregation_mohalla}
-                        value={householdDoingSegregationMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={booleanOption}
-                    />
-
-                    <Surveyques
-                        id={"hhPayingUserChargesMohalla"}
-                        labelText={translate?.HH_Paying_User_Charges_mohalla}
-                        value={hhPayingUserChargesMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"userChargesCollectedRsPerMonthMohalla"}
-                        labelText={translate?.User_Charges_Collected_Rs_per_month_mohalla}
-                        value={userChargesCollectedRsPerMonthMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"salaryPaidToWastePickerMohalla"}
-                        labelText={translate?.Salary_paid_to_Waste_Picker_mohalla}
-                        value={salaryPaidToWastePickerMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"otherExpensesInRsMohalla"}
-                        labelText={translate?.Other_Expenses_in_Rs_mohalla}
-                        value={otherExpensesInRsMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <div className={styles.radioInput}>
-                        <Textparser
-                            text={translate?.Is_the_waste_collector_regular_mohalla}
+                    /> */}
+                        <SurveyDropdown
+                            id={"localityNameVillageMohalla"}
+                            labelText={translate?.Locality_Name_Village_mohalla}
+                            value={localityNameVillageMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={localName}
                         />
-                        <div className={styles.radioInput_Options}>
-                            <span>
-                                <input
-                                    type="radio"
-                                    id="isTheWasteCollectorRegularMohalla_yes"
-                                    name="isTheWasteCollectorRegularMohalla"
-                                    value="1"
-                                    checked={isTheWasteCollectorRegularMohalla === "1"}
-                                    onChange={(e) => {
-                                        handleRadioChange(e, e.target.name);
-                                    }}
-                                />
-                                <label htmlFor="isTheWasteCollectorRegularMohalla_yes">
-                                    Yes
-                                </label>
-                            </span>
-                            <span>
-                                <input
-                                    type="radio"
-                                    id="isTheWasteCollectorRegularMohalla_no"
-                                    name="isTheWasteCollectorRegularMohalla"
-                                    value="0"
-                                    checked={isTheWasteCollectorRegularMohalla === "0"}
-                                    onChange={(e) => {
-                                        handleRadioChange(e, e.target.name);
-                                    }}
-                                />
-                                <label htmlFor="isTheWasteCollectorRegularMohalla_no">No</label>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className={styles.radioInput}>
-                        <Textparser
-                            text={translate?.Is_the_waste_coming_to_composter_1_mohalla}
+                        <SurveyDropdown
+                            id={"mohallaCommiteeMohalla"}
+                            labelText={translate?.Mohalla_Commitee_mohalla}
+                            value={mohallaCommiteeMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={mohallaName}
                         />
-                        <div className={styles.radioInput_Options}>
-                            <span>
-                                <input
-                                    type="radio"
-                                    id="isTheWasteComingToComposter1Mohalla_yes"
-                                    name="isTheWasteComingToComposter1Mohalla"
-                                    value="1"
-                                    checked={isTheWasteComingToComposter1Mohalla === "1"}
-                                    onChange={(e) => {
-                                        handleRadioChange(e, e.target.name);
-                                    }}
-                                />
-                                <label htmlFor="isTheWasteComingToComposter1Mohalla_yes">
-                                    Yes
-                                </label>
-                            </span>
-                            <span>
-                                <input
-                                    type="radio"
-                                    id="isTheWasteComingToComposter1Mohalla_no"
-                                    name="isTheWasteComingToComposter1Mohalla"
-                                    value="0"
-                                    checked={isTheWasteComingToComposter1Mohalla === "0"}
-                                    onChange={(e) => {
-                                        handleRadioChange(e, e.target.name);
-                                    }}
-                                />
-                                <label htmlFor="isTheWasteComingToComposter1Mohalla_no">
-                                    No
-                                </label>
-                            </span>
-                        </div>
-                    </div>
 
-                    <div className={styles.radioInput}>
-                        <Textparser
-                            text={translate?.Is_the_waste_coming_to_composter_2_mohalla}
+                        <Surveyques
+                            id={"householdsUnderMCMohalla"}
+                            labelText={translate?.Households_Under_MC_mohalla}
+                            value={householdsUnderMCMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
                         />
-                        <div className={styles.radioInput_Options}>
-                            <span>
-                                <input
-                                    type="radio"
-                                    id="isTheWasteComingToComposter2Mohalla_yes"
-                                    name="isTheWasteComingToComposter2Mohalla"
-                                    value="1"
-                                    checked={isTheWasteComingToComposter2Mohalla === "1"}
-                                    onChange={(e) => {
-                                        handleRadioChange(e, e.target.name);
-                                    }}
-                                />
-                                <label htmlFor="isTheWasteComingToComposter2Mohalla_yes">
-                                    Yes
-                                </label>
-                            </span>
-                            <span>
-                                <input
-                                    type="radio"
-                                    id="isTheWasteComingToComposter2Mohalla_no"
-                                    name="isTheWasteComingToComposter2Mohalla"
-                                    value="0"
-                                    checked={isTheWasteComingToComposter2Mohalla === "0"}
-                                    onChange={(e) => {
-                                        handleRadioChange(e, e.target.name);
-                                    }}
-                                />
-                                <label htmlFor="isTheWasteComingToComposter2Mohalla_no">
-                                    No
-                                </label>
-                            </span>
+
+                        <SurveyDropdown
+                            id={"householdDoingSegregationMohalla"}
+                            labelText={translate?.Household_Doing_Segregation_mohalla}
+                            value={householdDoingSegregationMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={booleanOption}
+                        />
+
+                        <Surveyques
+                            id={"hhPayingUserChargesMohalla"}
+                            labelText={translate?.HH_Paying_User_Charges_mohalla}
+                            value={hhPayingUserChargesMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <Surveyques
+                            id={"userChargesCollectedRsPerMonthMohalla"}
+                            labelText={translate?.User_Charges_Collected_Rs_per_month_mohalla}
+                            value={userChargesCollectedRsPerMonthMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <Surveyques
+                            id={"salaryPaidToWastePickerMohalla"}
+                            labelText={translate?.Salary_paid_to_Waste_Picker_mohalla}
+                            value={salaryPaidToWastePickerMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <Surveyques
+                            id={"otherExpensesInRsMohalla"}
+                            labelText={translate?.Other_Expenses_in_Rs_mohalla}
+                            value={otherExpensesInRsMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <div className={styles.radioInput}>
+                            <Textparser
+                                text={translate?.Is_the_waste_collector_regular_mohalla}
+                            />
+                            <div className={styles.radioInput_Options}>
+                                <span>
+                                    <input
+                                        type="radio"
+                                        id="isTheWasteCollectorRegularMohalla_yes"
+                                        name="isTheWasteCollectorRegularMohalla"
+                                        value="1"
+                                        checked={isTheWasteCollectorRegularMohalla === "1"}
+                                        onChange={(e) => {
+                                            handleRadioChange(e, e.target.name);
+                                        }}
+                                    />
+                                    <label htmlFor="isTheWasteCollectorRegularMohalla_yes">
+                                        Yes
+                                    </label>
+                                </span>
+                                <span>
+                                    <input
+                                        type="radio"
+                                        id="isTheWasteCollectorRegularMohalla_no"
+                                        name="isTheWasteCollectorRegularMohalla"
+                                        value="0"
+                                        checked={isTheWasteCollectorRegularMohalla === "0"}
+                                        onChange={(e) => {
+                                            handleRadioChange(e, e.target.name);
+                                        }}
+                                    />
+                                    <label htmlFor="isTheWasteCollectorRegularMohalla_no">No</label>
+                                </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <Surveyques
-                        id={"manureGeneratedInKgMohalla"}
-                        labelText={translate?.Manure_Generated_in_Kg_mohalla}
-                        value={manureGeneratedInKgMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-                    <Surveyques
-                        id={"manureSoldInKgMohalla"}
-                        labelText={translate?.Manure_Sold_in_Kg_mohalla}
-                        value={manureSoldInKgMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <div className={styles.radioInput}>
+                            <Textparser
+                                text={translate?.Is_the_waste_coming_to_composter_1_mohalla}
+                            />
+                            <div className={styles.radioInput_Options}>
+                                <span>
+                                    <input
+                                        type="radio"
+                                        id="isTheWasteComingToComposter1Mohalla_yes"
+                                        name="isTheWasteComingToComposter1Mohalla"
+                                        value="1"
+                                        checked={isTheWasteComingToComposter1Mohalla === "1"}
+                                        onChange={(e) => {
+                                            handleRadioChange(e, e.target.name);
+                                        }}
+                                    />
+                                    <label htmlFor="isTheWasteComingToComposter1Mohalla_yes">
+                                        Yes
+                                    </label>
+                                </span>
+                                <span>
+                                    <input
+                                        type="radio"
+                                        id="isTheWasteComingToComposter1Mohalla_no"
+                                        name="isTheWasteComingToComposter1Mohalla"
+                                        value="0"
+                                        checked={isTheWasteComingToComposter1Mohalla === "0"}
+                                        onChange={(e) => {
+                                            handleRadioChange(e, e.target.name);
+                                        }}
+                                    />
+                                    <label htmlFor="isTheWasteComingToComposter1Mohalla_no">
+                                        No
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
 
-                    <Surveyques
-                        id={"incomeFromManureSoldInRsMohalla"}
-                        labelText={translate?.Income_from_Manure_Sold_in_Rs_mohalla}
-                        value={incomeFromManureSoldInRsMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <div className={styles.radioInput}>
+                            <Textparser
+                                text={translate?.Is_the_waste_coming_to_composter_2_mohalla}
+                            />
+                            <div className={styles.radioInput_Options}>
+                                <span>
+                                    <input
+                                        type="radio"
+                                        id="isTheWasteComingToComposter2Mohalla_yes"
+                                        name="isTheWasteComingToComposter2Mohalla"
+                                        value="1"
+                                        checked={isTheWasteComingToComposter2Mohalla === "1"}
+                                        onChange={(e) => {
+                                            handleRadioChange(e, e.target.name);
+                                        }}
+                                    />
+                                    <label htmlFor="isTheWasteComingToComposter2Mohalla_yes">
+                                        Yes
+                                    </label>
+                                </span>
+                                <span>
+                                    <input
+                                        type="radio"
+                                        id="isTheWasteComingToComposter2Mohalla_no"
+                                        name="isTheWasteComingToComposter2Mohalla"
+                                        value="0"
+                                        checked={isTheWasteComingToComposter2Mohalla === "0"}
+                                        onChange={(e) => {
+                                            handleRadioChange(e, e.target.name);
+                                        }}
+                                    />
+                                    <label htmlFor="isTheWasteComingToComposter2Mohalla_no">
+                                        No
+                                    </label>
+                                </span>
+                            </div>
+                        </div>
 
-                    <Surveyques
-                        id={"noOfHhsTakingHomeCompostingMohalla"}
-                        labelText={translate?.No_of_HHs_taking_Home_Composting_mohalla}
-                        value={noOfHhsTakingHomeCompostingMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <Surveyques
+                            id={"manureGeneratedInKgMohalla"}
+                            labelText={translate?.Manure_Generated_in_Kg_mohalla}
+                            value={manureGeneratedInKgMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+                        <Surveyques
+                            id={"manureSoldInKgMohalla"}
+                            labelText={translate?.Manure_Sold_in_Kg_mohalla}
+                            value={manureSoldInKgMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-                    <Surveyques
-                        id={"balanceInRsMohalla"}
-                        labelText={translate?.Balance_in_Rs_mohalla}
-                        value={balanceInRsMohalla}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <Surveyques
+                            id={"incomeFromManureSoldInRsMohalla"}
+                            labelText={translate?.Income_from_Manure_Sold_in_Rs_mohalla}
+                            value={incomeFromManureSoldInRsMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-                    <div className={styles.btnContainer} >
-                        <button className={styles.submitbtn} onClick={UpdateHandler}>Update</button>
+                        <Surveyques
+                            id={"noOfHhsTakingHomeCompostingMohalla"}
+                            labelText={translate?.No_of_HHs_taking_Home_Composting_mohalla}
+                            value={noOfHhsTakingHomeCompostingMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <Surveyques
+                            id={"balanceInRsMohalla"}
+                            labelText={translate?.Balance_in_Rs_mohalla}
+                            value={balanceInRsMohalla}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <div className={styles.btnContainer} >
+                            <button className={styles.submitbtn} onClick={UpdateHandler}>Update</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </>
+            </> :
+            <FormSkeletonLoader />
     );
 }
