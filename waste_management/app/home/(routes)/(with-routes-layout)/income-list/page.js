@@ -7,27 +7,32 @@ import { sendRequest } from "@/api/sendRequest";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
-import Listcard from "@/components/Listcard";
 import Textparser from "@/components/Textparser";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function IncomeListPage() {
+
+
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
   const [api_incomeData, setApi_incomeData] = useState([]);
 
   const [mohalla, setMohalla] = useState([]);
-  const [mohallaName, setMohallaName] = useState([]);
   const [locality, setLocality] = useState([]);
-  const [localName, setLocalName] = useState([]);
   const [wasteCollectors, setWasteCollectors] = useState([]);
-  const [wasteCollectorName, setWasteCollectorName] = useState([]);
+
 
   //Loading Header Data States
   const [name, setName] = useState("");
   const [ward_id, setWard_id] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
+
+  //Loader States
+  const [isloading, setIsLoading] = useState(true);
+  const [spinner, setSpinner] = useState(false);
 
   //Common Other declarations///
   const loadingHeaderData = {
@@ -90,6 +95,7 @@ export default function IncomeListPage() {
       );
 
       if (response_income.status === 1) {
+        setIsLoading(false);
         console.log("API_list_ARRAY::", response_income.data.data.incomeList);
         setApi_incomeData(response_income.data.data.incomeList);
       }
@@ -216,6 +222,7 @@ export default function IncomeListPage() {
 
   // Handler Functions ----------------------
   const editHandler = (id) => {
+    setSpinner(true);
     localStorage.setItem("id", id);
     route.push("/home/income-update");
   };
@@ -250,7 +257,8 @@ export default function IncomeListPage() {
     });
   };
 
-  return (
+  return (!isloading ?
+    //Content
     <>
       <Header
         loadingdata={loadingHeaderData}
@@ -259,6 +267,10 @@ export default function IncomeListPage() {
       />
 
       <div className={styles.bodyContainer}>
+
+
+        {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
           <Textparser text={"Income List"} />
@@ -315,11 +327,61 @@ export default function IncomeListPage() {
             src="/svg/add_new.svg"
             alt="add_new"
             onClick={() => {
+              setSpinner(true);
               route.push("/home/income-add");
             }}
           ></img>
         </div>
       </div>
+    </> :
+    //Skeleton Loader
+    <>
+      <Header
+        loadingdata={loadingHeaderData}
+        userRole={userRole}
+        isOffCanvasVisible={false}
+      />
+
+      <div className={styles.bodyContainer}>
+        {/* Breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Skeleton width={200} height={10} baseColor="#6fd199" />
+        </div>
+
+        {/* Table Container */}
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <thead>
+              <tr className={styles.thead}>
+                <th><Skeleton width={30} height={10} baseColor="#6b96db" /></th>
+                <th><Skeleton width={90} height={10} baseColor="#6b96db" /></th>
+                <th><Skeleton width={70} height={10} baseColor="#6b96db" /></th>
+                <th><Skeleton width={40} height={10} baseColor="#6b96db" /></th>
+              </tr>
+            </thead>
+            <tbody className={styles.table_body}>
+              {/* Skeleton loader for table rows */}
+              {[...Array(5)].map((_, index) => (
+                <tr key={index}>
+                  <td className={styles.td}><Skeleton width={30} /></td>
+                  <td className={styles.td}><Skeleton width={90} /></td>
+                  <td className={styles.td}><Skeleton width={70} /></td>
+
+                  <td className="text-center">
+                    <Skeleton circle={true} width={20} height={20} />
+                    <Skeleton circle={true} width={20} height={20} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Add New Container */}
+        <div className={styles.addNewContainer}>
+          <Skeleton circle={true} width={50} height={50} baseColor=" #6fd199" />
+        </div>
+      </div>
     </>
-  );
+  )
 }

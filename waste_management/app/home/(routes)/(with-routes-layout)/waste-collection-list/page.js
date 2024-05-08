@@ -116,6 +116,7 @@ export default function WasteCollectionListPage() {
 
   // Handler Functions
   const editHandler = (item) => {
+    setSpinner(true);
     localStorage.setItem("id", item?.id);
     route.push("/home/waste-collection-update");
   };

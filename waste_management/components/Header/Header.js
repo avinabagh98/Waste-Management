@@ -19,6 +19,9 @@ export default function Header({
   const handleShow = () => setShow(true);
   const [show, setShow] = useState(false);
 
+  //loader-state
+  const [spinner, setSpinner] = useState(false);
+
   const name = loadingdata?.name || null;
   const district_name = loadingdata?.district_name || null;
   const block_name = loadingdata?.block_name || null;
@@ -46,13 +49,16 @@ export default function Header({
 
 
   const handleBack = () => {
-
+    setSpinner(true);
     const prevPath = localStorage.getItem("previousPath");
     route.push(prevPath);
     console.log(prevPath);
   };
   return (
     <>
+
+      {/* //loader */}
+      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
       <div className={styles.rowContainer}>
         <div className={defaultHeader ? styles.defaultHeader : styles.header}>
           <div

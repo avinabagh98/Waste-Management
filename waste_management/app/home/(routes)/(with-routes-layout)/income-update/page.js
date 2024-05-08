@@ -4,14 +4,16 @@ import styles from "@/app/home/(routes)/(with-routes-layout)/income-add/income.m
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import { sendRequest } from "@/api/sendRequest";
+import FormSkeletonLoader from "@/components/FormSkeletonLoader";
 
 export default function IncomeUpdatepage() {
+
+
   //State variables
   const [id, setId] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -44,12 +46,19 @@ export default function IncomeUpdatepage() {
   const [wasteCollectors, setWasteCollectors] = useState([]);
   const [wasteCollectorName, setWasteCollectorName] = useState([]);
   const [wasteCollectorId, setWasteCollectorId] = useState("");
+  const [locality, setLocality] = useState([]);
+  const [localName, setLocalName] = useState([]);
+  const [localityId, setLocalityId] = useState([]);
 
   //Loading Header Data States
   const [name, setName] = useState("");
   const [ward_id, setWard_id] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
+
+  //Loader States
+  const [isloading, setIsLoading] = useState(true);
+  const [spinner, setSpinner] = useState(false);
 
   //Common Other declarations///
   const loadingHeaderData = {
@@ -65,7 +74,7 @@ export default function IncomeUpdatepage() {
     create_date: dateIncome,
     fieldstaffId: user_id,
     wardId: ward_id,
-    localityId: localityNameVillageIncome,
+    localityId: localityId,
     supervisorId: supervisorId,
     mohallaId: mohallaId,
     wasteCollector: wasteCollectorId,
@@ -88,7 +97,7 @@ export default function IncomeUpdatepage() {
     localStorage.setItem("previousPath", "/home/income-list");
     try {
       async function fetchData() {
-        const token = await localStorage.getItem("token");
+        const token = localStorage.getItem("token");
         if (!token) {
           route.push("/home/login");
         } else {
@@ -134,14 +143,15 @@ export default function IncomeUpdatepage() {
         );
         if (res.status === 1) {
           console.log("Response income id", res.data.data.list);
-
+          //Loader state managing
+          setIsLoading(false);
           //inserting data to the respected fields
           const api_response = res.data.data.list;
 
           setDateIncome(api_response.create_date);
           setFieldStaffIncome(api_response.user_id);
           setWardNoGpIncome(api_response.ward_id);
-          setLocalityNameVillageIncome(api_response.locality_id);
+          setLocalityId(api_response.locality_id);
           setSupervisorId(api_response.supervisor_id);
           setMohallaId(api_response.mohalla_id); //Updating mohalla id
           setWasteCollectorId(api_response.waste_collector); //Updating waste collector id
@@ -235,18 +245,59 @@ export default function IncomeUpdatepage() {
       let collector = wasteCollectors.filter(
         (item) => item.id === wasteCollectorId
       );
-      setWasteCollectorNameIncome(collector[0].user_name);
+      setWasteCollectorNameIncome(collector[0]?.user_name);
     }
   }, [wasteCollectors]);
 
+
+  // Locality By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/localitylist/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Locality lists in ward ${ward_id} from API ::`,
+            response.data.data.incomeList
+          );
+          setLocality(response.data.data.incomeList);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Locality List Dropdown State Update -- for Update API
+  useEffect(() => {
+    if (locality.length > 0) {
+      const localityaNames = locality.map((locality) => locality.village_name);
+      setLocalName(localityaNames);
+      //from ID to Name Update in dropdown
+      const local = locality.filter((item) => item.id === localityId);
+      setLocalityNameVillageIncome(local[0]?.village_name);
+    }
+  }, [locality]);
+
+
+
+
+
+
   // Handler Functions
   const handleVal = (id, val) => {
-    if (id === "supervisorIncome") {
-      setSupervisorIncome(val);
-    }
-    if (id === "fieldStaffIncome") {
-      setFieldStaffIncome(val);
-    }
+
     if (id === "dateIncome") {
       setDateIncome(val);
     }
@@ -254,6 +305,9 @@ export default function IncomeUpdatepage() {
       setWardNoGpIncome(val);
     }
     if (id === "localityNameVillageIncome") {
+      let LVal = locality.filter((item) => item.village_name === val);
+      let local_Selected = LVal[0].id;
+      setLocalityId(local_Selected);
       setLocalityNameVillageIncome(val);
     }
     if (id === "mohallaCommiteeIncome") {
@@ -299,6 +353,7 @@ export default function IncomeUpdatepage() {
     if (flag) {
       swal("Error", "Please fill all the fields", "error");
     } else {
+      setSpinner(true);
       console.log("Income Form Submitted::", formDataIncomeUpdate);
       //UPDATE API CALLING
       const res = await sendRequest(
@@ -320,25 +375,31 @@ export default function IncomeUpdatepage() {
   };
 
   return (
-    <>
-      <Header
-        userRole={userRole}
-        isOffCanvasVisible={false}
-        loadingdata={loadingHeaderData}
-      />
+    !isloading ?
+      <>
+        <Header
+          userRole={userRole}
+          isOffCanvasVisible={false}
+          loadingdata={loadingHeaderData}
+        />
 
-      <div className={styles.container}>
-        <div className={styles.formcontainer}>
-          <Surveyques
-            id={"dateIncome"}
-            type={"date"}
-            labelText={translate?.Date_income}
-            value={dateIncome}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
+        <div className={styles.container}>
 
-          <Surveyques
+          {/* //Spinner */}
+          {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+
+          {/* //Form */}
+          <div className={styles.formcontainer}>
+            <Surveyques
+              id={"dateIncome"}
+              type={"date"}
+              labelText={translate?.Date_income}
+              value={dateIncome}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
+
+            {/* <Surveyques
             id={"supervisorIncome"}
             labelText={translate?.Supervisor_income}
             value={supervisorIncome}
@@ -352,78 +413,80 @@ export default function IncomeUpdatepage() {
             value={fieldStaffIncome}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-          />
+          /> */}
 
-          <SurveyDropdown
-            id={"mohallaCommiteeIncome"}
-            labelText={translate?.Mohalla_Commitee_income}
-            value={mohallaCommiteeIncome}
-            options={mohallaName}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
+            <SurveyDropdown
+              id={"mohallaCommiteeIncome"}
+              labelText={translate?.Mohalla_Commitee_income}
+              value={mohallaCommiteeIncome}
+              options={mohallaName}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-          <Surveyques
+            {/* <Surveyques
             id={"wardNoGpIncome"}
             labelText={translate?.Ward_No_GP_income}
             value={wardNoGpIncome}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-          />
+          /> */}
 
-          <Surveyques
-            id={"localityNameVillageIncome"}
-            labelText={translate?.Locality_Name_Village_income}
-            value={localityNameVillageIncome}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
-          <SurveyDropdown
-            id={"wasteCollectorNameIncome"}
-            labelText={translate?.Waste_Collector_Name_income}
-            value={wasteCollectorNameIncome}
-            options={wasteCollectorName}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
-          <Surveyques
-            id={"recyclableSoldIncome"}
-            labelText={translate?.Recyclable_Sold_income}
-            value={recyclableSoldIncome}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
+            <SurveyDropdown
+              id={"localityNameVillageIncome"}
+              labelText={translate?.Locality_Name_Village_income}
+              value={localityNameVillageIncome}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+              options={localName}
+            />
+            <SurveyDropdown
+              id={"wasteCollectorNameIncome"}
+              labelText={translate?.Waste_Collector_Name_income}
+              value={wasteCollectorNameIncome}
+              options={wasteCollectorName}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
+            <Surveyques
+              id={"recyclableSoldIncome"}
+              labelText={translate?.Recyclable_Sold_income}
+              value={recyclableSoldIncome}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-          <Surveyques
-            id={"plasticRecyclableSoldIncome"}
-            labelText={translate?.Plastic_Recyclable_Sold_income}
-            value={plasticRecyclableSoldIncome}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
+            <Surveyques
+              id={"plasticRecyclableSoldIncome"}
+              labelText={translate?.Plastic_Recyclable_Sold_income}
+              value={plasticRecyclableSoldIncome}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-          <Surveyques
-            id={"incomeFromSaleOfRecyclableIncome"}
-            labelText={translate?.Income_from_sale_of_recyclable_income}
-            value={incomeFromSaleOfRecyclableIncome}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
+            <Surveyques
+              id={"incomeFromSaleOfRecyclableIncome"}
+              labelText={translate?.Income_from_sale_of_recyclable_income}
+              value={incomeFromSaleOfRecyclableIncome}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
 
-          <Surveyques
-            id={"saleOfManureIncome"}
-            labelText={translate?.Sale_of_Manure_income}
-            value={saleOfManureIncome}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
-          <div className={styles.btnContainer}>
-            <button className={styles.submitbtn} onClick={UpdateHandler}>
-              Update
-            </button>
+            <Surveyques
+              id={"saleOfManureIncome"}
+              labelText={translate?.Sale_of_Manure_income}
+              value={saleOfManureIncome}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+            />
+            <div className={styles.btnContainer}>
+              <button className={styles.submitbtn} onClick={UpdateHandler}>
+                Update
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </> :
+      <FormSkeletonLoader />
   );
 }

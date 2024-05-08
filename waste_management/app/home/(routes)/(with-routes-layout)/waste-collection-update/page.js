@@ -10,11 +10,11 @@ import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import FormSkeletonLoader from "@/components/FormSkeletonLoader";
 
 
 export default function WastecollectionUpdatePage() {
+
 
   //State variables
   const [userRole, setUserRole] = useState(null);
@@ -498,7 +498,6 @@ export default function WastecollectionUpdatePage() {
               />
               <SurveyDropdown
                 id={"localityNameVillageWasteCollection"}
-                type={"text"}
                 labelText={translate?.Locality_Name_Village_Waste_Collection}
                 value={localityNameVillageWasteCollection}
                 required={true}
@@ -649,41 +648,9 @@ export default function WastecollectionUpdatePage() {
             <img src="/svg/loader.svg"></img>
           </div>
         </> : <></>
-  ) : <>
-    <Header
-      userRole={userRole}
-      isOffCanvasVisible={false}
-      loadingdata={loadingHeaderData}
+  ) :
 
-    />
-
-    <div className={styles.container}>
-      <div className={styles.breadcrumb}>
-
-        <Skeleton width={200} baseColor="#6fd199" />
-
-      </div>
-
-      <div className={styles.ListContainerWasteCollection}>
-        <div className={styles.textParser}>
-
-          <Skeleton width={200} baseColor="#f2d98d" />
-
-
-        </div>
-
-        <div>
-          {[...Array(7)].map((_, index) => (
-            <div className={styles.formcontainer} key={index}>
-              <Skeleton width={200} height={10} />
-              <Skeleton width={"100%"} height={40} />
-            </div>
-          ))}
-        </div>
-
-
-      </div>
-    </div>
-  </>
+    //Skeleton Loader
+    <FormSkeletonLoader />
 
 }

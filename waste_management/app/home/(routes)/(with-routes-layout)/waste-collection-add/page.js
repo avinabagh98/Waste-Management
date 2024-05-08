@@ -13,6 +13,7 @@ import { sendRequest } from "@/api/sendRequest";
 
 
 export default function WastecollectionAddPage() {
+
   //State variables
   const [userRole, setUserRole] = useState(null);
   const [token, setToken] = useState(null);
@@ -21,10 +22,6 @@ export default function WastecollectionAddPage() {
   //form-data states
   const [today, setToday] = useState("");
   const [dateWasteCollection, setDateWasteCollection] = useState("");
-  const [supervisorWasteCollection, setSupervisorWasteCollection] =
-    useState(null);
-  const [fieldStaffWasteCollection, setFieldStaffWasteCollection] =
-    useState(null);
   const [houseNumberWasteCollection, setHouseNumberWasteCollection] =
     useState(null);
   const [mohallaCommiteeWasteCollection, setMohallaCommiteeWasteCollection] =

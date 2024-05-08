@@ -4,7 +4,6 @@ import styles from "./income.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
@@ -12,7 +11,9 @@ import SurveyDropdown from "@/components/SurveyDropdown";
 import { sendRequest } from "@/api/sendRequest";
 import Textparser from "@/components/Textparser";
 
+
 export default function IncomeAddpage() {
+
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -36,6 +37,7 @@ export default function IncomeAddpage() {
   const [saleOfManureIncome, setSaleOfManureIncome] = useState("");
   const [user_id, setUser_id] = useState("");
   const [supervisorId, setSupervisorId] = useState("");
+  const [today, setToday] = useState("");
 
   const [mohalla, setMohalla] = useState("");
   const [mohallaId, setMohallaId] = useState("");
@@ -50,6 +52,13 @@ export default function IncomeAddpage() {
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
+  const [locality, setLocality] = useState([]);
+  const [localName, setLocalName] = useState([]);
+  const [localityId, setLocalityId] = useState([]);
+
+  //Loader States
+  const [spinner, setSpinner] = useState(false);
+
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
@@ -63,7 +72,7 @@ export default function IncomeAddpage() {
     create_date: dateIncome,
     fieldstaffId: user_id,
     wardId: ward_id,
-    localityId: localityNameVillageIncome,
+    localityId: localityId,
     supervisorId: supervisorId,
     mohallaId: mohallaId,
     wasteCollector: wasteCollectorId,
@@ -85,6 +94,8 @@ export default function IncomeAddpage() {
   useEffect(() => {
     try {
       localStorage.setItem("previousPath", "/home/income-list");
+      setToday(localStorage.getItem("today"))
+      setDateIncome(localStorage.getItem("today"));
       async function fetchData() {
         const token = await localStorage.getItem("token");
         if (!token) {
@@ -188,6 +199,52 @@ export default function IncomeAddpage() {
     }
   }, [wasteCollectors]);
 
+
+
+  // Locality By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/localitylist/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Locality lists in ward ${ward_id} from API ::`,
+            response.data.data.incomeList
+          );
+          setLocality(response.data.data.incomeList);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+  // Locality List Dropdown State Update
+  useEffect(() => {
+    if (locality.length > 0) {
+      const localityaNames = locality.map((locality) => locality.village_name);
+      setLocalName(localityaNames);
+      setLocalityId(locality[0].id);
+    }
+  }, [locality]);
+
+
+
+
+
+
+
   // Handler Functions
   const handleVal = (id, val) => {
     if (id === "supervisorIncome") {
@@ -233,21 +290,37 @@ export default function IncomeAddpage() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("Income Submitted :: ", formDataIncome);
-
-    try {
-      const res = await sendRequest("post", "/income/add", formDataIncome, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (res.status === 1) {
-        swal("Successfully", "Income Added", "success");
-        route.push("/home/income-list");
+    let flag = false;
+    for (const field in formDataIncome) {
+      if (formDataIncome[field] === null || formDataIncome[field] === "") {
+        flag = true;
+        break;
       }
-    } catch (error) {
-      console.log(error);
     }
+    if (flag) {
+
+      swal("Error", "Please fill all the fields", "error");
+    } else {
+      console.log("Income Added Submitted::", formDataIncome);
+      try {
+        setSpinner(true);
+        const res = await sendRequest("post", "/income/add", formDataIncome, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (res.status === 1) {
+          swal("Successfully", "Income Added", "success");
+          route.push("/home/income-list");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+
+
+
   };
 
   return (
@@ -264,17 +337,23 @@ export default function IncomeAddpage() {
           <Textparser text={"Income Add"} />
         </div>
 
+        {/* //spinner */}
+        {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+
+        {/* //form */}
         <div className={styles.formcontainer}>
+
           <Surveyques
             id={"dateIncome"}
             type={"date"}
             labelText={translate?.Date_income}
             value={dateIncome}
+            defaultValue={today}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          <Surveyques
+          {/* <Surveyques
             id={"supervisorIncome"}
             labelText={translate?.Supervisor_income}
             value={supervisorIncome}
@@ -288,7 +367,7 @@ export default function IncomeAddpage() {
             value={fieldStaffIncome}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-          />
+          /> */}
 
           <SurveyDropdown
             id={"mohallaCommiteeIncome"}
@@ -299,20 +378,21 @@ export default function IncomeAddpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          <Surveyques
+          {/* <Surveyques
             id={"wardNoGpIncome"}
             labelText={translate?.Ward_No_GP_income}
             value={wardNoGpIncome}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-          />
+          /> */}
 
-          <Surveyques
+          <SurveyDropdown
             id={"localityNameVillageIncome"}
             labelText={translate?.Locality_Name_Village_income}
             value={localityNameVillageIncome}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            options={localName}
           />
           <SurveyDropdown
             id={"wasteCollectorNameIncome"}

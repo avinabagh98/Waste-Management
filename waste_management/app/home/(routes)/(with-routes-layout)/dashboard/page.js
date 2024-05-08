@@ -15,6 +15,7 @@ export default function Dashboardpage() {
 
 
 
+
   //State variables
   const [name, setName] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -25,6 +26,7 @@ export default function Dashboardpage() {
   const [ward_id, setWard_id] = useState("");
   const [scanResutlt, setScanResult] = useState("");
   const [showScanner, setShowScanner] = useState(false);
+  const [spinner, setSpinner] = useState(false);
 
   //Other declarations
   const loadingHeaderData = {
@@ -116,18 +118,27 @@ export default function Dashboardpage() {
         />
         {/* //Body */}
         <div className={styles.bodyContainer}>
+
+          {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+
           {/* first row */}
           <div className={styles.firstRow}>
             <div
               className={styles.card1}
-              onClick={() => route.push("/home/waste-collection-list")}
+              onClick={() => {
+                setSpinner(true)
+                route.push("/home/waste-collection-list")
+              }}
             >
               <img src="/images/waste_collector.png" alt="waste_collection"></img>
               <p> Weekly Waste Collection</p>
             </div>
             <div
               className={styles.card2}
-              onClick={() => route.push("/home/income-list")}
+              onClick={() => {
+                setSpinner(true)
+                route.push("/home/income-list")
+              }}
             >
               <img src="/images/income.png" alt="income"></img>
               <p>Income</p>
@@ -138,14 +149,20 @@ export default function Dashboardpage() {
           <div className={styles.secondRow}>
             <div
               className={styles.card3}
-              onClick={() => route.push("/home/household-list")}
+              onClick={() => {
+                setSpinner(true)
+                route.push("/home/household-list")
+              }}
             >
               <img src="/images/HH_Survey.png" alt="HH_Survey"></img>
               <p>HH Survey</p>
             </div>
             <div
               className={styles.card4}
-              onClick={() => route.push("/home/mohalla-list")}
+              onClick={() => {
+                setSpinner(true)
+                route.push("/home/mohalla-list")
+              }}
             >
               <img
                 src="/images/mohalla_commitee.png"
@@ -159,14 +176,20 @@ export default function Dashboardpage() {
           <div className={styles.thirdRow}>
             <div
               className={styles.card5}
-              onClick={() => route.push("/home/livestock-list")}
+              onClick={() => {
+                setSpinner(true)
+                route.push("/home/livestock-list")
+              }}
             >
               <img src="/images/livestock_shed.png" alt="livestock_shed"></img>
               <p>Livestock Shed</p>
             </div>
             <div
               className={styles.card6}
-              onClick={() => route.push("/home/community-clean-list")}
+              onClick={() => {
+                setSpinner(true)
+                route.push("/home/community-clean-list")
+              }}
             >
               <img
                 src="/images/community_toilet.png"
@@ -203,6 +226,7 @@ export default function Dashboardpage() {
               <div
                 className={styles.card1}
                 onClick={() => {
+                  setSpinner(true)
                   setShowScanner(true);
                 }}
               >
@@ -214,6 +238,7 @@ export default function Dashboardpage() {
                 <div id="scannerArea">
                   <QRCodeScanner handleScan={handleScan} />
                   <button onClick={() => {
+                    setSpinner(true)
                     setShowScanner(false);
                   }}>Close Scanner
                   </button>
@@ -223,6 +248,7 @@ export default function Dashboardpage() {
                 <div id="scanResult">
                   <p>`Scan QR Code ${scanResutlt}`</p>
                   <button onClick={() => {
+                    setSpinner(true)
                     document.getElementById("scanResult").style.display = "none";
                   }}>Back</button>
                 </div> : <></>}
