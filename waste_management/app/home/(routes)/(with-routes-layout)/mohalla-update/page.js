@@ -282,6 +282,7 @@ export default function Mohallapage() {
                         },
                     }
                 );
+
                 if (response.status === 1) {
                     console.log(
                         `Locality lists in ward ${wardId} from API ::`,
@@ -419,6 +420,7 @@ export default function Mohallapage() {
                 }
             );
 
+            console.log(res);//testing
             if (res.status === 1) {
                 swal("Success", "Updated Successfully", "success");
                 route.push("/home/mohalla-list");
@@ -500,6 +502,7 @@ export default function Mohallapage() {
                             value={householdsUnderMCMohalla}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            type={"number"}
                         />
 
                         <SurveyDropdown
@@ -517,6 +520,7 @@ export default function Mohallapage() {
                             value={hhPayingUserChargesMohalla}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            type={"number"}
                         />
 
                         <Surveyques
@@ -525,6 +529,7 @@ export default function Mohallapage() {
                             value={userChargesCollectedRsPerMonthMohalla}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            type={"number"}
                         />
 
                         <Surveyques
@@ -533,6 +538,7 @@ export default function Mohallapage() {
                             value={salaryPaidToWastePickerMohalla}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            type={"number"}
                         />
 
                         <Surveyques
@@ -541,6 +547,7 @@ export default function Mohallapage() {
                             value={otherExpensesInRsMohalla}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            type={"number"}
                         />
 
                         <div className={styles.radioInput}>
@@ -661,6 +668,7 @@ export default function Mohallapage() {
                             value={manureGeneratedInKgMohalla}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            type={"number"}
                         />
                         <Surveyques
                             id={"manureSoldInKgMohalla"}
@@ -668,6 +676,7 @@ export default function Mohallapage() {
                             value={manureSoldInKgMohalla}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            type={"number"}
                         />
 
                         <Surveyques
@@ -676,6 +685,7 @@ export default function Mohallapage() {
                             value={incomeFromManureSoldInRsMohalla}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            type={"number"}
                         />
 
                         <Surveyques
@@ -684,6 +694,7 @@ export default function Mohallapage() {
                             value={noOfHhsTakingHomeCompostingMohalla}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            type={"number"}
                         />
 
                         <Surveyques
@@ -692,6 +703,7 @@ export default function Mohallapage() {
                             value={balanceInRsMohalla}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            type={"number"}
                         />
 
                         <div className={styles.btnContainer} >

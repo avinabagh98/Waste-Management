@@ -223,7 +223,7 @@ export default function HouseholdUpdatepage() {
           setMobileNo(api_response.mobile_no);
           setAadhaar(api_response.addahar_no);
           setWardNoGPHHSurvey(api_response.which_word);
-          setLocalityId(api_response.locality); //locality id
+          setLocalityId(api_response.locality);
           setHouseNumberHHSurvey(api_response.holding_number);
           setNameOfResidentHHSurvey(api_response.house_hold_name);
           setNumberOfFamilyMembersHHSurvey(api_response.family_members);
@@ -354,7 +354,7 @@ export default function HouseholdUpdatepage() {
 
       //from ID to Name Update in dropdown
       const local = locality.filter((item) => item.id === localityId);
-      setLocalityNameMohallaHHSurvey(local[0].village_name);
+      setLocalityNameMohallaHHSurvey(local[0]?.village_name);
     }
   }, [locality]);
 
@@ -606,7 +606,7 @@ export default function HouseholdUpdatepage() {
       <div className={styles.container}>
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
-          <Textparser text={"Household Survey Add"} />
+          <Textparser text={"Household Survey Update"} />
         </div>
 
         <div className={styles.formcontainer}>
