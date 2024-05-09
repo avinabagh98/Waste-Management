@@ -7,10 +7,12 @@ import { sendRequest } from "@/api/sendRequest";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
-import Listcard from "@/components/Listcard";
 import Textparser from "@/components/Textparser";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function ComunityCleanListPage() {
+
 
   //Common States///
   const [userRole, setUserRole] = useState("");
@@ -24,6 +26,12 @@ export default function ComunityCleanListPage() {
   const [wardName, setWardName] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
+  const [supervisor, setSupervisor] = useState("");
+
+  //loader data
+  const [isLoading, setIsLoading] = useState(true);
+  const [spinner, setSpinner] = useState(false);
+
 
 
   //Common Other declarations///
@@ -32,6 +40,7 @@ export default function ComunityCleanListPage() {
     district_name: district_name,
     ward_name: wardName,
     block_name: block_name,
+    supervisor: supervisor,
   };
 
   const comunityCleanBody = {
@@ -60,6 +69,7 @@ export default function ComunityCleanListPage() {
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setWardName(localStorage.getItem("ward_id"));
+          setSupervisor(localStorage.getItem("supervisor"));
 
 
         }
@@ -85,6 +95,7 @@ export default function ComunityCleanListPage() {
       );
 
       if (response_comunityClean.status === 1) {
+        setIsLoading(false);
         console.log(
           "API_list_ARRAY::",
           response_comunityClean.data.data.ctoilet_list
@@ -111,6 +122,7 @@ export default function ComunityCleanListPage() {
 
   // Handler Functions
   const editHandler = (item) => {
+    setSpinner(true);
     localStorage.setItem("id", item.id);
     route.push("/home/community-clean-update");
   };
@@ -154,85 +166,131 @@ export default function ComunityCleanListPage() {
   };
 
   return (
-    <>
-      <Header
-        loadingdata={loadingHeaderData}
-        userRole={userRole}
-        isOffCanvasVisible={false}
-      />
+    !isLoading ?
+      <>
+        {/* //Spinner */}
+        {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
 
-      <div className={styles.bodyContainer}>
-        {/* //breadcrumb */}
-        <div className={styles.breadcrumb}>
-          <Textparser text={"Community Toilet List"} />
-        </div>
+        {/* // Main Content */}
+        <Header
+          loadingdata={loadingHeaderData}
+          userRole={userRole}
+          isOffCanvasVisible={false}
+        />
 
-        {/* //Lists */}
-        <div className={styles.tableContainer}>
-          <>
-            <div className={styles.table_filter}>
+        <div className={styles.bodyContainer}>
+          {/* //breadcrumb */}
+          <div className={styles.breadcrumb}>
+            <Textparser text={"Community Toilet List"} />
+          </div>
 
-              <div className={styles.table_filter_all} onClick={resetFilter} >
-                All
+          {/* //Lists */}
+          <div className={styles.tableContainer}>
+            <>
+              <div className={styles.table_filter}>
+
+                <div className={styles.table_filter_all} onClick={resetFilter} >
+                  All
+                </div>
+
+                <div className={styles.table_filter_pending} onClick={filterPending}>
+                  Pending
+                </div>
               </div>
 
-              <div className={styles.table_filter_pending} onClick={filterPending}>
-                Pending
-              </div>
-            </div>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Entry_date</th>
+                    <th>Community Toilet</th>
+                    <th>Mohalla Committee</th>
+                    <th>Cleaning Status</th>
+                    <th>Action</th>
 
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Entry_date</th>
-                  <th>Community Toilet</th>
-                  <th>Mohalla Committee</th>
-                  <th>Cleaning Status</th>
-                  <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody className={styles.table_body}>
+                  {filteredData.map((comunityToilet, index) => {
 
-                </tr>
-              </thead>
-              <tbody className={styles.table_body}>
-                {filteredData.map((comunityToilet, index) => {
+                    //Date Formatter
+                    const formatDate = (dateString) => {
+                      const [year, month, day] = dateString.split('-');
+                      return `${day}/${month}/${year}`;
+                    };
 
-                  //Date Formatter
-                  const formatDate = (dateString) => {
-                    const [year, month, day] = dateString.split('-');
-                    return `${day}/${month}/${year}`;
-                  };
+                    const formattedDate = formatDate(comunityToilet.entry_date);
+                    console.log("inside map function");
 
-                  const formattedDate = formatDate(comunityToilet.entry_date);
-                  console.log("inside map function");
+                    return (
 
-                  return (
+                      <tr key={comunityToilet.id}>
+                        <td className={styles.td}>{index + 1}</td>
+                        <td className={styles.td}>{formattedDate}</td>
+                        <td className={styles.td}>{comunityToilet.community_toilet_id}</td>
+                        <td className={styles.td}>{comunityToilet.moholla_committee}</td>
+                        <td className={styles.td}>{comunityToilet.cleaning_status}</td>
+                        <td className={styles.actionWaste} >
+                          <img onClick={() => { showHandler(comunityToilet) }} src="/svg/eye.svg" alt="Show_details"></img>
+                          <img onClick={() => { editHandler(comunityToilet) }} src="/svg/edit.svg" alt="update"></img></td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </>
+          </div>
 
-                    <tr key={comunityToilet.id}>
-                      <td className={styles.td}>{index + 1}</td>
-                      <td className={styles.td}>{formattedDate}</td>
-                      <td className={styles.td}>{comunityToilet.community_toilet_id}</td>
-                      <td className={styles.td}>{comunityToilet.moholla_committee}</td>
-                      <td className={styles.td}>{comunityToilet.cleaning_status}</td>
-                      <td className={styles.actionWaste} >
-                        <img onClick={() => { showHandler(comunityToilet) }} src="/svg/eye.svg" alt="Show_details"></img>
-                        <img onClick={() => { editHandler(comunityToilet) }} src="/svg/edit.svg" alt="update"></img></td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </>
+          {/* //add new button */}
+          <div className={styles.addNewContainer}>
+            <img
+              src="/svg/add_new.svg"
+              alt="add_new"
+              onClick={() => {
+                setSpinner(true);
+                route.push("/home/community-clean-add");
+              }}
+            ></img>
+          </div>
         </div>
+      </>
+      :
+      <>
+
+        <Header
+          loadingdata={loadingHeaderData}
+          userRole={userRole}
+          isOffCanvasVisible={false}
+        />
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th className="text-center"><Skeleton width={15} baseColor="#6b96db" /></th>
+              <th className="text-center"><Skeleton width={60} baseColor="#6b96db" /></th>
+              <th className="text-center"><Skeleton width={60} baseColor="#6b96db" /></th>
+              <th className="text-center"><Skeleton width={30} baseColor="#6b96db" /></th>
+            </tr>
+          </thead>
+          <tbody className={styles.table_body}>
+            {[...Array(5)].map((_, index) => (
+              <tr key={index}>
+                <td className={styles.td}><Skeleton width={10} /></td>
+                <td className={styles.td}><Skeleton width={60} /></td>
+                <td className={styles.td}><Skeleton width={60} /></td>
+
+                <td className="text-center">
+                  <Skeleton circle={true} height={30} width={30} />
+                  <Skeleton circle={true} height={30} width={30} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
         <div className={styles.addNewContainer}>
-          <img
-            src="/svg/add_new.svg"
-            alt="add_new"
-            onClick={() => {
-              route.push("/home/community-clean-add");
-            }}
-          ></img>
+          <Skeleton circle={true} height={50} width={50} baseColor="#6fd199" />
         </div>
-      </div>
-    </>
+
+      </>
   );
 }

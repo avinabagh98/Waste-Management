@@ -12,6 +12,7 @@ import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
+import FormSkeletonLoader from "@/components/FormSkeletonLoader";
 
 
 export default function Livestockpage() {
@@ -56,6 +57,9 @@ export default function Livestockpage() {
     const [token, setToken] = useState("");
 
 
+    //loader state
+    const [isLoading, setIsLoading] = useState(true);
+    const [spinner, setSpinner] = useState(false);
 
 
 
@@ -170,7 +174,7 @@ export default function Livestockpage() {
                     setFieldStaffLivestock(api_response.user_id);
                     setWardNoGPLivestock(api_response.ward);
 
-
+                    setIsLoading(false);
 
 
                 }
@@ -237,7 +241,7 @@ export default function Livestockpage() {
 
             //from ID to Name Update in dropdown
             const local = locality?.filter((item) => item.id === localityId);
-            setLocalityNameVillageLivestock(local[0].village_name);
+            setLocalityNameVillageLivestock(local[0]?.village_name);
         }
     }, [locality]);
 
@@ -283,8 +287,10 @@ export default function Livestockpage() {
             }
         }
         if (flag) {
+            setSpinner(false);
             swal("Error", "Please fill all the fields", "error");
         } else {
+            setSpinner(true);
             console.log("LiveStock Update-form Submitted::", formDataLSUpdate);
             //UPDATE API CALLING
             const res = await sendRequest(
@@ -307,133 +313,138 @@ export default function Livestockpage() {
 
 
     return (
-        <>
-            <Header
-                userRole={userRole}
-                isOffCanvasVisible={false}
-                loadingdata={loadingHeaderData}
-            />
+        !isLoading ?
+            <>
 
-            <div className={styles.container}>
+                {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+                <Header
+                    userRole={userRole}
+                    isOffCanvasVisible={false}
+                    loadingdata={loadingHeaderData}
+                />
 
-                {/* //breadcrumb */}
-                <div className={styles.breadcrumb}>
-                    <Textparser text={"Livestock Update"} />
-                </div>
+                <div className={styles.container}>
 
-                {/* //Form Container */}
+                    {/* //breadcrumb */}
+                    <div className={styles.breadcrumb}>
+                        <Textparser text={"Livestock Update"} />
+                    </div>
 
-                <div className={styles.formcontainer}>
-                    <Surveyques
-                        id={"supervisorLivestock"}
-                        labelText={translate?.Supervisor_Livestock}
-                        value={supervisor}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        disabled={true}
+                    {/* //Form Container */}
 
-                    />
+                    <div className={styles.formcontainer}>
+                        <Surveyques
+                            id={"supervisorLivestock"}
+                            labelText={translate?.Supervisor_Livestock}
+                            value={supervisor}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            disabled={true}
 
-                    <Surveyques
-                        id={"fieldStaffLivestock"}
-                        labelText={translate?.Field_staff_Livestock}
-                        value={name}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        disabled={true}
-                    />
+                        />
 
-                    <Surveyques
-                        id={"dateOfReportingLivestock"}
-                        type={"date"}
-                        labelText={translate?.Date_of_Reporting_Livestock}
-                        value={dateOfReportingLivestock}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <Surveyques
+                            id={"fieldStaffLivestock"}
+                            labelText={translate?.Field_staff_Livestock}
+                            value={name}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            disabled={true}
+                        />
 
-                    <Surveyques
-                        id={"wardNoGPLivestock"}
-                        labelText={translate?.Ward_No_Livestock}
-                        value={wardNoGPLivestock}
-                        required={true}
-                        handleVal={handleValdropdown}
-                        disabled={true}
-                    />
-                    <SurveyDropdown
-                        id={"localityNameVillageLivestock"}
-                        labelText={translate?.Locality_Name_Village_Livestock}
-                        value={localityNameVillageLivestock}
-                        options={localName}
-                        required={true}
-                        handleVal={handleValdropdown}
-                    />
+                        <Surveyques
+                            id={"dateOfReportingLivestock"}
+                            type={"date"}
+                            labelText={translate?.Date_of_Reporting_Livestock}
+                            value={dateOfReportingLivestock}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-
-                    <Surveyques
-                        id={"registorNumberLivestock"}
-                        type={"text"}
-                        labelText={translate?.Registor_Number_Livestock}
-                        value={registorNumberLivestock}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-
-                    />
-
-                    <Surveyques
-                        id={"nameOfLivestockShedLivestock"}
-                        labelText={translate?.Name_of_Livestock_Shed_Livestock}
-                        value={nameOfLivestockShedLivestock}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-
-                    <Surveyques
-                        id={"typeOfLivestock"}
-                        labelText={translate?.LiveStockType_Livestock}
-                        value={typeOfLivestock}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <Surveyques
+                            id={"wardNoGPLivestock"}
+                            labelText={translate?.Ward_No_Livestock}
+                            value={wardNoGPLivestock}
+                            required={true}
+                            handleVal={handleValdropdown}
+                            disabled={true}
+                        />
+                        <SurveyDropdown
+                            id={"localityNameVillageLivestock"}
+                            labelText={translate?.Locality_Name_Village_Livestock}
+                            value={localityNameVillageLivestock}
+                            options={localName}
+                            required={true}
+                            handleVal={handleValdropdown}
+                        />
 
 
-                    <Surveyques
-                        id={"nameOfOwnerLivestock"}
-                        labelText={translate?.Name_of_Owner_Livestock}
-                        value={nameOfOwnerLivestock}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <Surveyques
+                            id={"registorNumberLivestock"}
+                            type={"text"}
+                            labelText={translate?.Registor_Number_Livestock}
+                            value={registorNumberLivestock}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
 
-                    <Surveyques
-                        id={"contactNumberLivestock"}
-                        labelText={translate?.Contact_Number_Livestock}
-                        value={contactNumberLivestock}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        />
 
-                    <Surveyques
-                        id={"numberOfLivestockLivestock"}
-                        labelText={translate?.Number_of_Livestock_Livestock}
-                        value={numberOfLivestockLivestock}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <Surveyques
+                            id={"nameOfLivestockShedLivestock"}
+                            labelText={translate?.Name_of_Livestock_Shed_Livestock}
+                            value={nameOfLivestockShedLivestock}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-                    <Surveyques
-                        id={"compostableWasteTransferredLivestock"}
-                        labelText={translate?.Compostable_Waste_Transfarred_Livestock}
-                        value={compostableWasteTransferredLivestock}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <Surveyques
+                            id={"typeOfLivestock"}
+                            labelText={translate?.LiveStockType_Livestock}
+                            value={typeOfLivestock}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-                    <div className={styles.btnContainer}>
-                        <button className={styles.submitbtn} onClick={UpdateHandler}>Update</button>
+
+                        <Surveyques
+                            id={"nameOfOwnerLivestock"}
+                            labelText={translate?.Name_of_Owner_Livestock}
+                            value={nameOfOwnerLivestock}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <Surveyques
+                            id={"contactNumberLivestock"}
+                            labelText={translate?.Contact_Number_Livestock}
+                            value={contactNumberLivestock}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <Surveyques
+                            id={"numberOfLivestockLivestock"}
+                            labelText={translate?.Number_of_Livestock_Livestock}
+                            value={numberOfLivestockLivestock}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <Surveyques
+                            id={"compostableWasteTransferredLivestock"}
+                            labelText={translate?.Compostable_Waste_Transfarred_Livestock}
+                            value={compostableWasteTransferredLivestock}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <div className={styles.btnContainer}>
+                            <button className={styles.submitbtn} onClick={UpdateHandler}>Update</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </>
+            </>
+            :
+            <FormSkeletonLoader />
     );
 }

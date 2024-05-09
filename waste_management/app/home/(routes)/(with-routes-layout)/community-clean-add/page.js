@@ -20,10 +20,7 @@ export default function ComunityCleanpage() {
   //form-data states
   const [monthAndYearCleaningToilets, setMonthAndYearCleaningToilets] =
     useState("");
-  const [supervisorCleaningToilets, setSupervisorCleaningToilets] =
-    useState("");
-  const [fieldStaffCleaningToilets, setFieldStaffCleaningToilets] =
-    useState("");
+
   const [communityToiletCleaningToilets, setCommunityToiletCleaningToilets] =
     useState("");
   const [mohallaCommiteeCleaningToilets, setMohallaCommiteeCleaningToilets] =
@@ -117,6 +114,9 @@ export default function ComunityCleanpage() {
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
+  //loader states
+  const [spinner, setSpinner] = useState(false);
+
 
   //Common Other declarations///
   const loadingHeaderData = {
@@ -124,6 +124,7 @@ export default function ComunityCleanpage() {
     district_name: district_name,
     ward_id: wardId,
     block_name: block_name,
+    supervisor: Supervisor
   };
 
   const formDataCC = {
@@ -374,8 +375,10 @@ export default function ComunityCleanpage() {
       }
     }
     if (flag) {
+      setSpinner(false);
       swal("Error", "Please fill all the fields", "error");
     } else {
+      setSpinner(true);
       console.log("Community Clean Submitted::", formDataCC);
       const res = await sendRequest(
         "post",
@@ -398,6 +401,10 @@ export default function ComunityCleanpage() {
 
   return (
     <>
+      {/* //Spinner */}
+      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+
+      {/* //Content */}
       <Header
         userRole={userRole}
         isOffCanvasVisible={false}
@@ -423,7 +430,7 @@ export default function ComunityCleanpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          <Surveyques
+          {/* <Surveyques
             id={"supervisorCleaningToilets"}
             labelText={translate?.Supervisor_cleaning_toilets}
             value={Supervisor}
@@ -440,7 +447,7 @@ export default function ComunityCleanpage() {
             required={true}
           // handleVal={(id, val) => handleVal(id, val)}
 
-          />
+          /> */}
 
           <Surveyques
             id={"communityToiletCleaningToilets"}
@@ -485,6 +492,7 @@ export default function ComunityCleanpage() {
             value={swiperChargesCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -493,6 +501,7 @@ export default function ComunityCleanpage() {
             value={minorRepairCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -501,6 +510,7 @@ export default function ComunityCleanpage() {
             value={majorRepairCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
           <Surveyques
             id={"oMCollectorCleaningToilets"}
@@ -508,6 +518,7 @@ export default function ComunityCleanpage() {
             value={oMCollectorCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <SurveyDropdown
@@ -642,6 +653,7 @@ export default function ComunityCleanpage() {
             value={totalUserChargesCollectedCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
           <Surveyques
             id={"totalNumberOfHouseholdsInMCCleaningToilets"}
@@ -651,6 +663,7 @@ export default function ComunityCleanpage() {
             value={totalNumberOfHouseholdsInMCCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -659,6 +672,7 @@ export default function ComunityCleanpage() {
             value={userChargesPerUserCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <div className={styles.btnContainer}>

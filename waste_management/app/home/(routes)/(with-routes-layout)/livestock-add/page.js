@@ -18,7 +18,7 @@ export default function Livestockpage() {
   const [userRole, setUserRole] = useState("");
 
   //form-data states
-  const [supervisorLivestock, setSupervisorLivestock] = useState("");
+  const [supervisor, setSupervisor] = useState("");
   const [fieldStaffLivestock, setFieldStaffLivestock] = useState("");
   const [dateOfReportingLivestock, setDateOfReportingLivestock] = useState("");
   const [wardNoGPLivestock, setWardNoGPLivestock] = useState("");
@@ -51,8 +51,8 @@ export default function Livestockpage() {
   const [block_name, setBLockName] = useState("");
   const [token, setToken] = useState("");
 
-
-
+  //Loader States
+  const [spinner, setSpinner] = useState(false);
 
 
 
@@ -67,6 +67,7 @@ export default function Livestockpage() {
     district_name: district_name,
     ward_id: wardId,
     block_name: block_name,
+    supervisor: supervisor
   };
 
 
@@ -109,12 +110,13 @@ export default function Livestockpage() {
           setUserRole(localStorage.getItem("role_name"));
 
           //loadingHeaderData from local storage
+          setDateOfReportingLivestock(localStorage.getItem("today"));
           setName(localStorage.getItem("name"));
           setUserId(localStorage.getItem("user_id"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setWardId(localStorage.getItem("ward_id"));
-          setSupervisorLivestock(localStorage.getItem("supervisor"));
+          setSupervisor(localStorage.getItem("supervisor"));
           setSupervisorId(localStorage.getItem("supervisor_id"));
           setFieldStaffLivestock(localStorage.getItem("name"));
           setWardNoGPLivestock(localStorage.getItem("ward_id"));
@@ -136,8 +138,7 @@ export default function Livestockpage() {
 
         });
       } else {
-        // alert("Geolocation not available")
-        setLocation(null);
+        swal("Error", "Geolocation not available", "error");
       }
     };
 
@@ -187,10 +188,9 @@ export default function Livestockpage() {
 
   // Handler Functions
   const handleVal = (id, val) => {
-    if (id === "supervisorLivestock") { setSupervisorLivestock(val); }
-    if (id === "fieldStaffLivestock") { setFieldStaffLivestock(val); }
+
     if (id === "dateOfReportingLivestock") { setDateOfReportingLivestock(val); }
-    if (id === "wardNoGPLivestock") { setWardNoGPLivestock(val); }
+
     if (id === "localityNameVillageLivestock") {
       let LVal = locality.filter((item) => item.village_name === val);
       let local_Selected = LVal[0].id;
@@ -219,9 +219,9 @@ export default function Livestockpage() {
   };
 
   const submitHandler = async (e) => {
-
-    let flag = false;
     e.preventDefault();
+    let flag = false;
+
     for (const field in formDataLS) {
       if (formDataLS[field] === null || formDataLS[field] === "") {
         flag = true;
@@ -229,11 +229,11 @@ export default function Livestockpage() {
       }
     }
     if (flag) {
+      setSpinner(false);
       swal("Error", "Please fill all the fields", "error");
     } else {
-
       try {
-
+        setSpinner(true);
         console.log("LiveStock Submitted :: ", formDataLS);
         const res = await sendRequest(
           "post",
@@ -246,11 +246,11 @@ export default function Livestockpage() {
           }
         );
         if (res.status === 1) {
-
           swal("Successfully", "Livestock Added", "success");
           route.push("/home/livestock-list");
         }
       } catch (error) {
+        setSpinner(false);
         console.log(error);
       }
     }
@@ -258,6 +258,10 @@ export default function Livestockpage() {
 
   return (
     <>
+      {/* //spinner */}
+      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+
+      {/* //Content */}
       <Header
         userRole={userRole}
         isOffCanvasVisible={false}
@@ -274,7 +278,7 @@ export default function Livestockpage() {
         {/* //Form Container */}
 
         <div className={styles.formcontainer}>
-          <Surveyques
+          {/* <Surveyques
             id={"supervisorLivestock"}
             disabled={true}
             labelText={translate?.Supervisor_Livestock}
@@ -291,7 +295,7 @@ export default function Livestockpage() {
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
             disabled={true}
-          />
+          /> */}
 
           <Surveyques
             id={"dateOfReportingLivestock"}
@@ -302,14 +306,14 @@ export default function Livestockpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          <Surveyques
+          {/* <Surveyques
             id={"wardNoGPLivestock"}
             labelText={translate?.Ward_No_Livestock}
             value={wardNoGPLivestock}
             required={true}
             handleVal={handleValdropdown}
             disabled={true}
-          />
+          /> */}
 
           <SurveyDropdown
             id={"localityNameVillageLivestock"}

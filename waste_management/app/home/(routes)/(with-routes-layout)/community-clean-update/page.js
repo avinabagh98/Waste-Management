@@ -10,6 +10,7 @@ import Header from "@/components/Header/Header";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
+import FormSkeletonLoader from "@/components/FormSkeletonLoader";
 
 export default function ComunityCleanpage() {
     //State variables
@@ -115,6 +116,9 @@ export default function ComunityCleanpage() {
     const [district_name, setDistrictName] = useState("");
     const [block_name, setBLockName] = useState("");
 
+    //loader states
+    const [isLoading, setIsLoading] = useState(true);
+    const [spinner, setSpinner] = useState(false);
 
     //Common Other declarations///
     const loadingHeaderData = {
@@ -179,6 +183,7 @@ export default function ComunityCleanpage() {
                     setTotalUserChargesCollectedCleaningToilets(api_response.total_usercharge_collect);
                     setTotalNumberOfHouseholdsInMCCleaningToilets(api_response.total_house_mc_no);
 
+                    setIsLoading(false);
 
 
                 }
@@ -440,8 +445,10 @@ export default function ComunityCleanpage() {
             }
         }
         if (flag) {
+            setSpinner(false);
             swal("Error", "Please fill all the fields", "error");
         } else {
+            setSpinner(true);
             console.log("CC Update-form Submitted::", formDataCCUpdate);
             //UPDATE API CALLING
             const res = await sendRequest(
@@ -465,274 +472,283 @@ export default function ComunityCleanpage() {
 
 
     return (
-        <>
-            <Header
-                userRole={userRole}
-                isOffCanvasVisible={false}
-                loadingdata={loadingHeaderData}
-            />
+        !isLoading ?
+            <>
 
-            <div className={styles.container}>
+                {/* //spinner */}
 
-                {/* //breadcrumb */}
-                <div className={styles.breadcrumb}>
-                    <Textparser text={"Community Toilet Update"} />
-                </div>
+                {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
 
-                {/* //Lists */}
-                <div className={styles.formcontainer}>
-                    <Surveyques
-                        id={"monthAndYearCleaningToilets"}
-                        type={"date"}
-                        labelText={translate?.Entry_Date_cleaning_toilets}
-                        value={monthAndYearCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                {/* //content */}
+                <Header
+                    userRole={userRole}
+                    isOffCanvasVisible={false}
+                    loadingdata={loadingHeaderData}
+                />
 
-                    <Surveyques
-                        id={"supervisorCleaningToilets"}
-                        labelText={translate?.Supervisor_cleaning_toilets}
-                        value={Supervisor}
-                        required={true}
-                        disabled={true}
-                    // handleVal={(id, val) => handleVal(id, val)}
-                    />
+                <div className={styles.container}>
 
-                    <Surveyques
-                        id={"fieldStaffCleaningToilets"}
-                        labelText={translate?.Field_Staff_cleaning_toilets}
-                        value={name}
-                        disabled={true}
-                        required={true}
-                    // handleVal={(id, val) => handleVal(id, val)}
+                    {/* //breadcrumb */}
+                    <div className={styles.breadcrumb}>
+                        <Textparser text={"Community Toilet Update"} />
+                    </div>
 
-                    />
+                    {/* //Lists */}
+                    <div className={styles.formcontainer}>
+                        <Surveyques
+                            id={"monthAndYearCleaningToilets"}
+                            type={"date"}
+                            labelText={translate?.Entry_Date_cleaning_toilets}
+                            value={monthAndYearCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-                    <Surveyques
-                        id={"communityToiletCleaningToilets"}
-                        labelText={translate?.Community_Toilet_cleaning_toilets}
-                        value={communityToiletCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <Surveyques
+                            id={"supervisorCleaningToilets"}
+                            labelText={translate?.Supervisor_cleaning_toilets}
+                            value={Supervisor}
+                            required={true}
+                            disabled={true}
+                        // handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-                    <SurveyDropdown
-                        id={"mohallaCommiteeCleaningToilets"}
-                        labelText={translate?.Mohalla_Commitee_cleaning_toilets}
-                        value={mohallaCommiteeCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={mohallaName}
-                    />
-                    <Surveyques
-                        id={"cleaningToiletCleaningToilets"}
-                        labelText={translate?.Cleaning_Toilet_cleaning_toilets}
-                        value={cleaningToiletCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-                    <Surveyques
-                        id={"electricityCleaningToilets"}
-                        labelText={translate?.Electricity_cleaning_toilets}
-                        value={electricityCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-                    <Surveyques
-                        id={"cleaningMaterialsCleaningToilets"}
-                        labelText={translate?.Cleaning_Materials_cleaning_toilets}
-                        value={cleaningMaterialsCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-                    <Surveyques
-                        id={"swiperChargesCleaningToilets"}
-                        labelText={translate?.Swiper_Charges_cleaning_toilets}
-                        value={swiperChargesCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <Surveyques
+                            id={"fieldStaffCleaningToilets"}
+                            labelText={translate?.Field_Staff_cleaning_toilets}
+                            value={name}
+                            disabled={true}
+                            required={true}
+                        // handleVal={(id, val) => handleVal(id, val)}
 
-                    <Surveyques
-                        id={"minorRepairCleaningToilets"}
-                        labelText={translate?.Minor_Repair_cleaning_toilets}
-                        value={minorRepairCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        />
 
-                    <Surveyques
-                        id={"majorRepairCleaningToilets"}
-                        labelText={translate?.Major_Repair_cleaning_toilets}
-                        value={majorRepairCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-                    <Surveyques
-                        id={"oMCollectorCleaningToilets"}
-                        labelText={translate?.OM_Collector_cleaning_toilets}
-                        value={oMCollectorCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <Surveyques
+                            id={"communityToiletCleaningToilets"}
+                            labelText={translate?.Community_Toilet_cleaning_toilets}
+                            value={communityToiletCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-                    <SurveyDropdown
-                        id={"oMRegisterMaintainedCleaningToilets"}
-                        labelText={translate?.OM_Register_Maintained_cleaning_toilets}
-                        value={oMRegisterMaintainedCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={oMOptions}
-                    />
+                        <SurveyDropdown
+                            id={"mohallaCommiteeCleaningToilets"}
+                            labelText={translate?.Mohalla_Commitee_cleaning_toilets}
+                            value={mohallaCommiteeCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={mohallaName}
+                        />
+                        <Surveyques
+                            id={"cleaningToiletCleaningToilets"}
+                            labelText={translate?.Cleaning_Toilet_cleaning_toilets}
+                            value={cleaningToiletCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+                        <Surveyques
+                            id={"electricityCleaningToilets"}
+                            labelText={translate?.Electricity_cleaning_toilets}
+                            value={electricityCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+                        <Surveyques
+                            id={"cleaningMaterialsCleaningToilets"}
+                            labelText={translate?.Cleaning_Materials_cleaning_toilets}
+                            value={cleaningMaterialsCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+                        <Surveyques
+                            id={"swiperChargesCleaningToilets"}
+                            labelText={translate?.Swiper_Charges_cleaning_toilets}
+                            value={swiperChargesCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-                    <SurveyDropdown
-                        id={"sanitaryWasteManagedCleaningToilets"}
-                        labelText={translate?.Sanitary_Waste_Managed_cleaning_toilets}
-                        value={sanitaryWasteManagedCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={sanitaryOptions}
-                    />
+                        <Surveyques
+                            id={"minorRepairCleaningToilets"}
+                            labelText={translate?.Minor_Repair_cleaning_toilets}
+                            value={minorRepairCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-                    <SurveyDropdown
-                        id={"hygieneTrainingUndertakenCleaningToilets"}
-                        labelText={translate?.Hygiene_Training_Undertaken_cleaning_toilets}
-                        value={hygieneTrainingUndertakenCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={hygineOptions}
-                    />
+                        <Surveyques
+                            id={"majorRepairCleaningToilets"}
+                            labelText={translate?.Major_Repair_cleaning_toilets}
+                            value={majorRepairCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+                        <Surveyques
+                            id={"oMCollectorCleaningToilets"}
+                            labelText={translate?.OM_Collector_cleaning_toilets}
+                            value={oMCollectorCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
 
-                    <SurveyDropdown
-                        id={"specialDayCelebratedCleaningToilets"}
-                        labelText={translate?.Special_Day_Celebrated_cleaning_toilets}
-                        value={specialDayCelebratedCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={specialdayOptions}
-                    />
+                        <SurveyDropdown
+                            id={"oMRegisterMaintainedCleaningToilets"}
+                            labelText={translate?.OM_Register_Maintained_cleaning_toilets}
+                            value={oMRegisterMaintainedCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={oMOptions}
+                        />
 
-                    <SurveyDropdown
-                        id={"allTapFunctionalCleaningToilets"}
-                        labelText={translate?.All_Tap_Functional_cleaning_toilets}
-                        value={allTapFunctionalCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={alltapOptions}
-                    />
+                        <SurveyDropdown
+                            id={"sanitaryWasteManagedCleaningToilets"}
+                            labelText={translate?.Sanitary_Waste_Managed_cleaning_toilets}
+                            value={sanitaryWasteManagedCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={sanitaryOptions}
+                        />
 
-                    <SurveyDropdown
-                        id={"allDoorsClosingCleaningToilets"}
-                        labelText={translate?.All_Doors_Closing_cleaning_toilets}
-                        value={allDoorsClosingCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={alldoorOptions}
-                    />
+                        <SurveyDropdown
+                            id={"hygieneTrainingUndertakenCleaningToilets"}
+                            labelText={translate?.Hygiene_Training_Undertaken_cleaning_toilets}
+                            value={hygieneTrainingUndertakenCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={hygineOptions}
+                        />
 
-                    <SurveyDropdown
-                        id={"conditionOfTilesCleaningToilets"}
-                        labelText={translate?.Condition_of_Tiles_cleaning_toilets}
-                        value={conditionOfTilesCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={tileconditionOptions}
-                    />
+                        <SurveyDropdown
+                            id={"specialDayCelebratedCleaningToilets"}
+                            labelText={translate?.Special_Day_Celebrated_cleaning_toilets}
+                            value={specialDayCelebratedCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={specialdayOptions}
+                        />
 
-                    <SurveyDropdown
-                        id={"conditionOfRoofCleaningToilets"}
-                        labelText={translate?.Condition_of_Roof_cleaning_toilets}
-                        value={conditionOfRoofCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={roofconditionOptions}
-                    />
+                        <SurveyDropdown
+                            id={"allTapFunctionalCleaningToilets"}
+                            labelText={translate?.All_Tap_Functional_cleaning_toilets}
+                            value={allTapFunctionalCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={alltapOptions}
+                        />
 
-                    <SurveyDropdown
-                        id={"conditionOfWashbasinCleaningToilets"}
-                        labelText={translate?.Condition_of_Washbasin_cleaning_toilets}
-                        value={conditionOfWashbasinCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={washBasinconditionOptions}
-                    />
+                        <SurveyDropdown
+                            id={"allDoorsClosingCleaningToilets"}
+                            labelText={translate?.All_Doors_Closing_cleaning_toilets}
+                            value={allDoorsClosingCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={alldoorOptions}
+                        />
 
-                    <SurveyDropdown
-                        id={"conditionOfBoundaryWallCleaningToilets"}
-                        labelText={translate?.Condition_of_Boundary_Wall_cleaning_toilets}
-                        value={conditionOfBoundaryWallCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={boundarywallconditionOptions}
-                    />
+                        <SurveyDropdown
+                            id={"conditionOfTilesCleaningToilets"}
+                            labelText={translate?.Condition_of_Tiles_cleaning_toilets}
+                            value={conditionOfTilesCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={tileconditionOptions}
+                        />
 
-                    <SurveyDropdown
-                        id={"conditionOfOverheadTankCleaningToilets"}
-                        labelText={translate?.Condition_of_Overhead_Tank_cleaning_toilets}
-                        value={conditionOfOverheadTankCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={overheadtankOptions}
-                    />
+                        <SurveyDropdown
+                            id={"conditionOfRoofCleaningToilets"}
+                            labelText={translate?.Condition_of_Roof_cleaning_toilets}
+                            value={conditionOfRoofCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={roofconditionOptions}
+                        />
 
-                    <SurveyDropdown
-                        id={"conditionOfElectricBulbCleaningToilets"}
-                        labelText={translate?.Condition_of_Electric_Bulb_cleaning_toilets}
-                        value={conditionOfElectricBulbCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={bulbOptions}
-                    />
+                        <SurveyDropdown
+                            id={"conditionOfWashbasinCleaningToilets"}
+                            labelText={translate?.Condition_of_Washbasin_cleaning_toilets}
+                            value={conditionOfWashbasinCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={washBasinconditionOptions}
+                        />
 
-                    <SurveyDropdown
-                        id={"conditionOfSepticTankCleaningToilets"}
-                        labelText={translate?.Condition_of_Septic_Tank_cleaning_toilets}
-                        value={conditionOfSepticTankCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={septictankOptions}
-                    />
+                        <SurveyDropdown
+                            id={"conditionOfBoundaryWallCleaningToilets"}
+                            labelText={translate?.Condition_of_Boundary_Wall_cleaning_toilets}
+                            value={conditionOfBoundaryWallCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={boundarywallconditionOptions}
+                        />
 
-                    <SurveyDropdown
-                        id={"conditionOfPumpCleaningToilets"}
-                        labelText={translate?.Condition_of_Pump_cleaning_toilets}
-                        value={conditionOfPumpCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                        options={pumpOptions}
-                    />
+                        <SurveyDropdown
+                            id={"conditionOfOverheadTankCleaningToilets"}
+                            labelText={translate?.Condition_of_Overhead_Tank_cleaning_toilets}
+                            value={conditionOfOverheadTankCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={overheadtankOptions}
+                        />
 
-                    <Surveyques
-                        id={"totalUserChargesCollectedCleaningToilets"}
-                        labelText={translate?.Total_User_Charges_Collected_cleaning_toilets}
-                        value={totalUserChargesCollectedCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
-                    <Surveyques
-                        id={"totalNumberOfHouseholdsInMCCleaningToilets"}
-                        labelText={
-                            translate?.Total_number_of_Households_in_MC_cleaning_toilets
-                        }
-                        value={totalNumberOfHouseholdsInMCCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <SurveyDropdown
+                            id={"conditionOfElectricBulbCleaningToilets"}
+                            labelText={translate?.Condition_of_Electric_Bulb_cleaning_toilets}
+                            value={conditionOfElectricBulbCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={bulbOptions}
+                        />
 
-                    <Surveyques
-                        id={"userChargesPerUserCleaningToilets"}
-                        labelText={translate?.User_Charges_Per_User_cleaning_toilets}
-                        value={userChargesPerUserCleaningToilets}
-                        required={true}
-                        handleVal={(id, val) => handleVal(id, val)}
-                    />
+                        <SurveyDropdown
+                            id={"conditionOfSepticTankCleaningToilets"}
+                            labelText={translate?.Condition_of_Septic_Tank_cleaning_toilets}
+                            value={conditionOfSepticTankCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={septictankOptions}
+                        />
 
-                    <div className={styles.btnContainer}>
-                        <button className={styles.submitbtn} onClick={UpdateHandler}>Update</button>
+                        <SurveyDropdown
+                            id={"conditionOfPumpCleaningToilets"}
+                            labelText={translate?.Condition_of_Pump_cleaning_toilets}
+                            value={conditionOfPumpCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                            options={pumpOptions}
+                        />
+
+                        <Surveyques
+                            id={"totalUserChargesCollectedCleaningToilets"}
+                            labelText={translate?.Total_User_Charges_Collected_cleaning_toilets}
+                            value={totalUserChargesCollectedCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+                        <Surveyques
+                            id={"totalNumberOfHouseholdsInMCCleaningToilets"}
+                            labelText={
+                                translate?.Total_number_of_Households_in_MC_cleaning_toilets
+                            }
+                            value={totalNumberOfHouseholdsInMCCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <Surveyques
+                            id={"userChargesPerUserCleaningToilets"}
+                            labelText={translate?.User_Charges_Per_User_cleaning_toilets}
+                            value={userChargesPerUserCleaningToilets}
+                            required={true}
+                            handleVal={(id, val) => handleVal(id, val)}
+                        />
+
+                        <div className={styles.btnContainer}>
+                            <button className={styles.submitbtn} onClick={UpdateHandler}>Update</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </>
+            </>
+            :
+            <FormSkeletonLoader />
     );
 }

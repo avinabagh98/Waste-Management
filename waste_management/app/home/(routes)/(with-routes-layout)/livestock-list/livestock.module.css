@@ -406,5 +406,28 @@
             z-index: 999;
       }
 
+      /* ////Skeleyton CSS */
+
+      .skeletonCard {
+            margin: 20px auto;
+            width: 90%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .skeletoncardContent {
+            padding: 10px;
+      }
+
+      .skeletoncardTitle {
+            font-weight: bold;
+
+      }
+
+      .skeletoncardDescription {
+            line-height: 1.5;
+      }
 
 }
