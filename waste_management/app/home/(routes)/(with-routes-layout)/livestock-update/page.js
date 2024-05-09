@@ -88,9 +88,9 @@ export default function Livestockpage() {
     const formDataLSUpdate = {
         id: id,
         token: token,
-        supervisor: supervisor_id,
-        fieldStaff: user_id,
-        date_of_reporting: dateOfReportingLivestock,
+        supervisorName: supervisor_id,
+        user_id: user_id,
+        dateofReporting: dateOfReportingLivestock,
         wardId: wardId,
         localityId: localityId,
         regNumber: registorNumberLivestock,

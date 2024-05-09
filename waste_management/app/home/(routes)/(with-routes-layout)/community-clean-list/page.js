@@ -134,7 +134,7 @@ export default function ComunityCleanListPage() {
           <div id="livestockDetails">
 
           <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${arrayData?.entry_date}</p>
-          <p style="text-align:left"><strong>Community Toilet :</strong> ${arrayData?.id}</p>
+          <p style="text-align:left"><strong>Community Toilet :</strong> ${arrayData?.community_toilet_id}</p>
           <p style="text-align:left"><strong>Supervisor:</strong> ${arrayData?.supervisor_id}</p>
           <p style="text-align:left"><strong>Field Staff:</strong> ${arrayData?.field_staff}</p>
           <p style="text-align:left"><strong>Mohalla Committee:</strong> ${arrayData?.moholla_committee}</p>
