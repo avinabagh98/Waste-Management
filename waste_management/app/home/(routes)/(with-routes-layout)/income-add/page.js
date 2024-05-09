@@ -261,6 +261,9 @@ export default function IncomeAddpage() {
       setWardNoGpIncome(val);
     }
     if (id === "localityNameVillageIncome") {
+      let LVal = locality.filter((item) => item.village_name === val);
+      let local_Selected = LVal[0].id;
+      setLocalityId(local_Selected);
       setLocalityNameVillageIncome(val);
     }
     if (id === "mohallaCommiteeIncome") {

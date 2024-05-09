@@ -291,6 +291,7 @@ export default function Mohallapage() {
                 }
             }
 
+
             fetchDropdown();
         } catch (error) {
             console.log(error);
@@ -303,7 +304,7 @@ export default function Mohallapage() {
             const localityaNames = locality.map((locality) => locality.village_name);
             setLocalName(localityaNames);
             //from ID to Name Update in dropdown
-            const local = locality?.filter((item) => item.id === localityId);
+            const local = locality.filter((item) => item.id === localityId);
             setLocalityNameVillageMohalla(local[0]?.village_name);
 
         }
@@ -316,6 +317,9 @@ export default function Mohallapage() {
             setDateOfMeetingMohalla(val);
         }
         if (id === "localityNameVillageMohalla") {
+            let LVal = locality.filter((item) => item.village_name === val);
+            let local_Selected = LVal[0].id;
+            setLocalityId(local_Selected);
             setLocalityNameVillageMohalla(val);
         }
         if (id === "mohallaCommiteeMohalla") {
@@ -437,7 +441,7 @@ export default function Mohallapage() {
 
                     {/* //breadcrumb */}
                     <div className={styles.breadcrumb}>
-                        <Textparser text={"Mohalla Committee Add"} />
+                        <Textparser text={"Mohalla Committee Update"} />
                     </div>
 
                     {/* //List */}

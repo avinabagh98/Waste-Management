@@ -12,6 +12,7 @@ import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 
 export default function Mohallapage() {
+
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -106,7 +107,7 @@ export default function Mohallapage() {
     supervisorId: supervisorId,
     fieldStaffId: userId,
     wardId: wardId,
-    locality_id: localityId,
+    localityId: localityId,
     mohollaCommitteeId: mohallaId,
     householdMc: householdsUnderMCMohalla,
     householdSegregation: householdDoingSegregationMohalla === "yes" ? "1" : "0",
@@ -253,6 +254,9 @@ export default function Mohallapage() {
     }
 
     if (id === "localityNameVillageMohalla") {
+      let LVal = locality.filter((item) => item.village_name === val);
+      let local_Selected = LVal[0].id;
+      setLocalityId(local_Selected);
       setLocalityNameVillageMohalla(val);
     }
     if (id === "mohallaCommiteeMohalla") {
@@ -341,6 +345,8 @@ export default function Mohallapage() {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        console.log(res); //testing
 
         if (res.status === 1) {
           swal("Successfully", "Mohalla Committee Added", "success");

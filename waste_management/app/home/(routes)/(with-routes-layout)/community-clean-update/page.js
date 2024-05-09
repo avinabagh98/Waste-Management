@@ -20,10 +20,6 @@ export default function ComunityCleanpage() {
     //form-data states
     const [monthAndYearCleaningToilets, setMonthAndYearCleaningToilets] =
         useState("");
-    const [supervisorCleaningToilets, setSupervisorCleaningToilets] =
-        useState("");
-    const [fieldStaffCleaningToilets, setFieldStaffCleaningToilets] =
-        useState("");
     const [communityToiletCleaningToilets, setCommunityToiletCleaningToilets] =
         useState("");
     const [mohallaCommiteeCleaningToilets, setMohallaCommiteeCleaningToilets] =
@@ -126,6 +122,7 @@ export default function ComunityCleanpage() {
         district_name: district_name,
         ward_id: wardId,
         block_name: block_name,
+        supervisor: Supervisor,
     };
 
     // Getting Community Clean Toilet Survey By Id
@@ -258,7 +255,7 @@ export default function ComunityCleanpage() {
 
     // LocalStorage Fetching
     useEffect(() => {
-        localStorage.setItem("previousPath", "/home/community-clean-update");
+        localStorage.setItem("previousPath", "/home/community-clean-list");
         try {
             async function fetchData() {
                 const token = await localStorage.getItem("token");
@@ -503,7 +500,7 @@ export default function ComunityCleanpage() {
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
                         />
-
+                        {/* 
                         <Surveyques
                             id={"supervisorCleaningToilets"}
                             labelText={translate?.Supervisor_cleaning_toilets}
@@ -521,7 +518,7 @@ export default function ComunityCleanpage() {
                             required={true}
                         // handleVal={(id, val) => handleVal(id, val)}
 
-                        />
+                        /> */}
 
                         <Surveyques
                             id={"communityToiletCleaningToilets"}

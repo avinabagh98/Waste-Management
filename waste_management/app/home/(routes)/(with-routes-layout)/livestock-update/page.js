@@ -4,10 +4,8 @@ import styles from "@/app/home/(routes)/(with-routes-layout)/livestock-list/live
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
-import axios from "axios";
 import swal from "sweetalert";
 import Header from "@/components/Header/Header";
-import Footer from "@/components/Footer";
 import Surveyques from "@/components/Surveyques";
 import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
@@ -20,7 +18,6 @@ export default function Livestockpage() {
     const [userRole, setUserRole] = useState("");
 
     //form-data states
-    const [supervisorLivestock, setSupervisorLivestock] = useState("");
     const [fieldStaffLivestock, setFieldStaffLivestock] = useState("");
     const [dateOfReportingLivestock, setDateOfReportingLivestock] = useState("");
     const [wardNoGPLivestock, setWardNoGPLivestock] = useState("");
@@ -82,6 +79,7 @@ export default function Livestockpage() {
         district_name: district_name,
         ward_id: wardId,
         block_name: block_name,
+        supervisor: supervisor
     };
 
 
@@ -170,7 +168,7 @@ export default function Livestockpage() {
                     setNameOfOwnerLivestock(api_response.name_of_owner);
                     setNumberOfLivestockLivestock(api_response.no_of_livestock);
                     setRegistorNumberLivestock(api_response.regester_no);
-                    setSupervisorLivestock(api_response.supervisor_name);
+
                     setFieldStaffLivestock(api_response.user_id);
                     setWardNoGPLivestock(api_response.ward);
 
@@ -240,17 +238,15 @@ export default function Livestockpage() {
             setLocalName(localityaNames);
 
             //from ID to Name Update in dropdown
-            const local = locality?.filter((item) => item.id === localityId);
+            const local = locality.filter((item) => item.id === localityId);
             setLocalityNameVillageLivestock(local[0]?.village_name);
         }
     }, [locality]);
 
     // Handler Functions
     const handleVal = (id, val) => {
-        if (id === "supervisorLivestock") { setSupervisorLivestock(val); }
-        if (id === "fieldStaffLivestock") { setFieldStaffLivestock(val); }
+
         if (id === "dateOfReportingLivestock") { setDateOfReportingLivestock(val); }
-        if (id === "wardNoGPLivestock") { setWardNoGPLivestock(val); }
         if (id === "localityNameVillageLivestock") {
             let LVal = locality.filter((item) => item.village_name === val);
             let local_Selected = LVal[0].id;
@@ -268,14 +264,14 @@ export default function Livestockpage() {
 
     };
 
-    const handleValdropdown = (id, val) => {
-        if (id === "wardNoGPLivestock") {
-            setWardNoGPLivestock(val);
-        }
-        if (id === "localityNameVillageLivestock") {
-            setLocalityNameVillageLivestock(val);
-        }
-    };
+    // const handleValdropdown = (id, val) => {
+    //     if (id === "wardNoGPLivestock") {
+    //         setWardNoGPLivestock(val);
+    //     }
+    //     if (id === "localityNameVillageLivestock") {
+    //         setLocalityNameVillageLivestock(val);
+    //     }
+    // };
 
     const UpdateHandler = async (e) => {
         let flag = false;
@@ -316,13 +312,13 @@ export default function Livestockpage() {
         !isLoading ?
             <>
 
-                {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+
                 <Header
                     userRole={userRole}
                     isOffCanvasVisible={false}
                     loadingdata={loadingHeaderData}
                 />
-
+                {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
                 <div className={styles.container}>
 
                     {/* //breadcrumb */}
@@ -333,7 +329,7 @@ export default function Livestockpage() {
                     {/* //Form Container */}
 
                     <div className={styles.formcontainer}>
-                        <Surveyques
+                        {/* <Surveyques
                             id={"supervisorLivestock"}
                             labelText={translate?.Supervisor_Livestock}
                             value={supervisor}
@@ -350,7 +346,7 @@ export default function Livestockpage() {
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
                             disabled={true}
-                        />
+                        /> */}
 
                         <Surveyques
                             id={"dateOfReportingLivestock"}
@@ -361,21 +357,21 @@ export default function Livestockpage() {
                             handleVal={(id, val) => handleVal(id, val)}
                         />
 
-                        <Surveyques
+                        {/* <Surveyques
                             id={"wardNoGPLivestock"}
                             labelText={translate?.Ward_No_Livestock}
                             value={wardNoGPLivestock}
                             required={true}
-                            handleVal={handleValdropdown}
+                            handleVal={(id, val) => handleVal(id, val)}
                             disabled={true}
-                        />
+                        /> */}
                         <SurveyDropdown
                             id={"localityNameVillageLivestock"}
                             labelText={translate?.Locality_Name_Village_Livestock}
                             value={localityNameVillageLivestock}
                             options={localName}
                             required={true}
-                            handleVal={handleValdropdown}
+                            handleVal={(id, val) => handleVal(id, val)}
                         />
 
 

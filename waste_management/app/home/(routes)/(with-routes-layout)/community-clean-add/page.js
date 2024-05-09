@@ -105,7 +105,6 @@ export default function ComunityCleanpage() {
   const [mohalla, setMohalla] = useState("");
   const [mohallaId, setMohallaId] = useState("");
   const [mohallaName, setMohallaName] = useState([]);
-  const [today, setToday] = useState("");
 
 
   //Loading Header Data States
@@ -190,7 +189,7 @@ export default function ComunityCleanpage() {
   // LocalStorage Fetching
   useEffect(() => {
     localStorage.setItem("previousPath", "/home/community-clean-list");
-    setToday(localStorage.getItem("today"))
+    setMonthAndYearCleaningToilets(localStorage.getItem("today"))
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
@@ -425,7 +424,6 @@ export default function ComunityCleanpage() {
             type={"date"}
             labelText={translate?.Entry_Date_cleaning_toilets}
             value={monthAndYearCleaningToilets}
-            defaultValue={today}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />

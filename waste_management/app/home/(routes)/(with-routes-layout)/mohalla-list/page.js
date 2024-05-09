@@ -278,8 +278,14 @@ export default function MohallaListPage() {
 
                   //Date Formatter
                   const formatDate = (dateString) => {
-                    const [year, month, day] = dateString.split('-');
-                    return `${day}/${month}/${year}`;
+                    if (dateString === null || dateString === "" || dateString === undefined) {
+                      console.log("ERROR", dateString);
+
+                    }
+                    else {
+                      const [year, month, day] = dateString.split('-');
+                      return `${day}/${month}/${year}`
+                    }
                   };
 
                   // Mohalla Name Picker

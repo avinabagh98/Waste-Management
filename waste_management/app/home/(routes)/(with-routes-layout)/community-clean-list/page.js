@@ -94,6 +94,11 @@ export default function ComunityCleanListPage() {
         }
       );
 
+      if (response_comunityClean.msg.response?.data.data?.status === "error") {
+        setIsLoading(false);
+        swal("info", "No Data Present", "info");
+      }
+
       if (response_comunityClean.status === 1) {
         setIsLoading(false);
         console.log(
