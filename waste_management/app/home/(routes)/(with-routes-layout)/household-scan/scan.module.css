@@ -1,0 +1,133 @@
+@media only screen and (max-width: 600px) {
+
+    /* scan.module.css */
+    .cardContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 400px;
+    }
+
+    .card h1 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        text-align: center;
+        text-decoration: underline;
+    }
+
+    .formGroup {
+        margin-bottom: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        /* Allows elements to wrap onto the next line */
+    }
+
+    .formGroup label {
+        display: block;
+        font-weight: bold;
+        flex: 1 0 100%;
+        /* Expands label to full width */
+    }
+
+    .formGroup input[type='text'] {
+        width: 100%;
+        padding: 8px;
+        border: none;
+        border-bottom: 1px solid #cccccc;
+        flex: 1 0 100%;
+        outline: none;
+
+    }
+
+    .button {
+        background-color: var(--bitan-green);
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    /* scan.module.css */
+    .locked {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+        align-items: center;
+        justify-content: space-between;
+        padding-right: 10px;
+    }
+
+    .locked label {
+        font-weight: bold;
+    }
+
+    .locked input[type="checkbox"] {
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        background-color: #0056b3;
+    }
+
+    .text {
+        width: 100%;
+        padding: 8px;
+        background-color: var(--lic-yellow);
+    }
+
+    /* scan.module.css */
+    .textWaste {
+
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .radioInput {
+
+        display: flex;
+        margin-bottom: 20px;
+        justify-content: space-between;
+
+    }
+
+    .radioInput_Options {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .radioInput_Options span {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+
+    }
+
+    .radioInput_Options input {
+        margin-right: 5px;
+    }
+
+    .radioInput_Options label {
+        font-size: 15px;
+    }
+
+    .radioInput_Options label {
+        cursor: pointer;
+    }
+
+
+
+
+}

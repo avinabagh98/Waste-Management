@@ -10,11 +10,9 @@ import Footer from "@/components/Footer";
 import Camera, { FACING_MODES } from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
 import QRCodeScanner from "@/components/QrScanner";
+import axios from "axios";
 
 export default function Dashboardpage() {
-
-
-
 
   //State variables
   const [name, setName] = useState("");
@@ -28,6 +26,11 @@ export default function Dashboardpage() {
   const [showScanner, setShowScanner] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const [supervisor, setSupervisor] = useState("");
+  const [qrType, setQrType] = useState("");
+  const [householdIdQr, setHouseholdIdQr] = useState("");
+  const [token, setToken] = useState("");
+  const [nirmalsathiId, setNirmalsathiId] = useState("");
+  const [assignId, setAssignId] = useState("");
 
   //Other declarations
   const loadingHeaderData = {
@@ -44,7 +47,6 @@ export default function Dashboardpage() {
   // LocalStorage Fetching
   useEffect(() => {
     console.log(showScanner);
-    setSupervisor(localStorage.getItem("supervisor"))
     try {
       localStorage.setItem("today", getDate());
       async function fetchData() {
@@ -58,6 +60,12 @@ export default function Dashboardpage() {
           setBlock_Name(localStorage.getItem("block"));
           setDistrict_Name(localStorage.getItem("district"));
           setWard_id(localStorage.getItem("ward_id"));
+          setSupervisor(localStorage.getItem("supervisor"))
+          setToken(token);
+
+          if (userRole === "waste-collector") {
+            setNirmalsathiId(localStorage.getItem("user_id"))
+          }
         }
       }
       fetchData();
@@ -101,6 +109,96 @@ export default function Dashboardpage() {
     const day = date.getDate().toString().padStart(2, '0'); // Pad with leading zero if less than 10
     return `${year}-${month}-${day}`;
   };
+
+
+  const scanedDataHandler = (data) => {
+    let arr = data.split("|")
+    setQrType(arr[5])
+    setHouseholdIdQr(arr[0])
+    localStorage.setItem("qrType", arr[5])
+    localStorage.setItem("householdIdQr", arr[0])
+    return Promise.resolve({ houseId: arr[0], qrType: arr[5] })
+
+  }
+
+
+  //QR Code Effector
+  useEffect(() => {
+    let clr = localStorage.getItem("HTML5_QRCODE_DATA")
+    if (clr !== null || clr !== "") {
+      localStorage.removeItem("HTML5_QRCODE_DATA")
+      localStorage.removeItem("qrType")
+      localStorage.removeItem("householdIdQr")
+      setAssignId(localStorage.getItem("asynsid"))
+    }
+
+    if (scanResutlt) {
+      scanedDataHandler(scanResutlt).then((Qr_promisedata) => {
+
+
+
+        if (Qr_promisedata.qrType === "collection") {
+
+          try {
+            axios.post(
+              "https://waste.ebluesys.com/api/qrsurveyInfo/id",
+              {
+                token: token,
+                householdId: Qr_promisedata.houseId,
+                nirmalsathiId: nirmalsathiId
+              }
+            ).then((res) => {
+              console.log("response from api promise", res.data.data);
+
+              if (res.data.data.status === "success") {
+                localStorage.setItem("asynsid", res.data.data.asynsid);
+                localStorage.setItem("societyId", res.data.data.society_id);
+                localStorage.setItem("qrList", JSON.stringify(res.data.data.list));
+                route.push("/home/household-scan")
+              }
+              else {
+                swal("Error", "Error at QR Code", "error");
+              }
+            })
+
+          } catch (error) {
+            console.log(error);
+          }
+        }
+
+        if (Qr_promisedata.qrType === "dumping" && assignId !== "" && assignId !== null) {
+
+          try {
+            axios.post(
+              "https://waste.ebluesys.com/api/workTrip",
+              {
+                token: token,
+                assignId: assignId,
+                nirmalsathiId: nirmalsathiId
+              }
+            ).then((res) => {
+              console.log("response from api promise", res.data.data);
+
+              if (res.data.data.status === "success") {
+                swal("Success", "Trip Added Successfully", "success");
+              }
+              else {
+                swal("Error", "Error at QR Code", "error");
+              }
+            })
+
+          } catch (error) {
+            console.log(error);
+          }
+        }
+
+
+      })
+
+
+
+    }
+  }, [scanResutlt])
 
 
   return (userRole === "field-staff" ?
@@ -224,39 +322,42 @@ export default function Dashboardpage() {
           />
           {/* //Body */}
           <div className={styles.bodyContainer}>
+
             {/* first row */}
             <div className={styles.firstRow}>
               <div
-                className={styles.card1}
+                className={styles.scannercard1}
                 onClick={() => {
-                  setSpinner(true)
                   setShowScanner(true);
+
                 }}
               >
-                <img src="/images/waste_collector.png" alt="waste_collection"></img>
+                <img src="/svg/scanner.svg" alt="scanner-img"></img>
                 <p>Scanner</p>
               </div>
 
-              {showScanner ?
-                <div id="scannerArea">
-                  <QRCodeScanner handleScan={handleScan} />
-                  <button onClick={() => {
-                    setSpinner(true)
-                    setShowScanner(false);
-                  }}>Close Scanner
-                  </button>
-                </div> : <></>}
-
-              {scanResutlt ?
-                <div id="scanResult">
-                  <p>`Scan QR Code ${scanResutlt}`</p>
-                  <button onClick={() => {
-                    setSpinner(true)
-                    document.getElementById("scanResult").style.display = "none";
-                  }}>Back</button>
-                </div> : <></>}
-
             </div>
+
+
+            {showScanner ?
+              <div id="scannerArea" className={styles.scannerArea}>
+                <QRCodeScanner handleScan={(data) => { handleScan(data) }} />
+                <button className={styles.closeScanner} onClick={() => {
+                  setShowScanner(false);
+                }}>Close Scanner
+                </button>
+              </div> : <></>}
+            {/* 
+            {scanResutlt ?
+
+              <div id="scanResult">
+                <p>`Scan QR Code ${scanResutlt}`</p>
+                <button onClick={() => {
+                  document.getElementById("scanResult").style.display = "none";
+                }}>Back</button>
+              </div> : <></>} */}
+
+
           </div>
 
 

@@ -28,7 +28,8 @@
       .card3,
       .card4,
       .card5,
-      .card6 {
+      .card6,
+      .scannercard1 {
             width: 120px;
             height: 120px;
             padding: 6px;
@@ -42,12 +43,15 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       }
 
+
+
       .card1 img,
       .card2 img,
       .card3 img,
       .card4 img,
       .card5 img,
-      .card6 img {
+      .card6 img,
+      .scannercard1 img {
             width: 70px;
             height: 70px;
             object-fit: contain;
@@ -65,6 +69,14 @@
             color: white;
             text-align: center;
             font-size: 12px;
+      }
+
+      .scannercard1 p {
+            margin: 0;
+            padding: 0;
+            color: white;
+            text-align: center;
+            font-size: 14px;
       }
 
       .spinnerContainer {
@@ -112,7 +124,8 @@
       .card3,
       .card4,
       .card5,
-      .card6 {
+      .card6,
+      .scannercard1 {
             width: 140px;
             height: 140px;
             padding: 6px;
@@ -131,7 +144,8 @@
       .card3 img,
       .card4 img,
       .card5 img,
-      .card6 img {
+      .card6 img,
+      .scannercard1 img {
             width: 80px;
             height: 80px;
             object-fit: contain;
@@ -148,6 +162,14 @@
             color: white;
             text-align: center;
             font-size: 15px;
+      }
+
+      .scannercard1 p {
+            margin: 0;
+            padding: 0;
+            color: white;
+            text-align: center;
+            font-size: 18px;
       }
 
 
