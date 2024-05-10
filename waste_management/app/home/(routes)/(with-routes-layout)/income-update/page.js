@@ -455,6 +455,7 @@ export default function IncomeUpdatepage() {
               value={recyclableSoldIncome}
               required={true}
               handleVal={(id, val) => handleVal(id, val)}
+              type={"number"}
             />
 
             <Surveyques
@@ -463,6 +464,7 @@ export default function IncomeUpdatepage() {
               value={plasticRecyclableSoldIncome}
               required={true}
               handleVal={(id, val) => handleVal(id, val)}
+              type={"number"}
             />
 
             <Surveyques
@@ -471,6 +473,7 @@ export default function IncomeUpdatepage() {
               value={incomeFromSaleOfRecyclableIncome}
               required={true}
               handleVal={(id, val) => handleVal(id, val)}
+              type={"number"}
             />
 
             <Surveyques
@@ -479,6 +482,7 @@ export default function IncomeUpdatepage() {
               value={saleOfManureIncome}
               required={true}
               handleVal={(id, val) => handleVal(id, val)}
+              type={"number"}
             />
             <div className={styles.btnContainer}>
               <button className={styles.submitbtn} onClick={UpdateHandler}>

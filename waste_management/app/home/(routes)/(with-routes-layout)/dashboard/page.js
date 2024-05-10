@@ -140,6 +140,7 @@ export default function Dashboardpage() {
         if (Qr_promisedata.qrType === "collection") {
 
           try {
+            setSpinner(true)
             axios.post(
               "https://waste.ebluesys.com/api/qrsurveyInfo/id",
               {
@@ -157,6 +158,7 @@ export default function Dashboardpage() {
                 route.push("/home/household-scan")
               }
               else {
+                setSpinner(false)
                 swal("Error", "Error at QR Code", "error");
               }
             })
@@ -315,6 +317,7 @@ export default function Dashboardpage() {
         }}
       /> :
         <>
+          {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
           <Header
             userRole={userRole}
             isOffCanvasVisible={true}
@@ -323,20 +326,7 @@ export default function Dashboardpage() {
           {/* //Body */}
           <div className={styles.bodyContainer}>
 
-            {/* first row */}
-            <div className={styles.firstRow}>
-              <div
-                className={styles.scannercard1}
-                onClick={() => {
-                  setShowScanner(true);
 
-                }}
-              >
-                <img src="/svg/scanner.svg" alt="scanner-img"></img>
-                <p>Scanner</p>
-              </div>
-
-            </div>
 
 
             {showScanner ?
@@ -346,7 +336,22 @@ export default function Dashboardpage() {
                   setShowScanner(false);
                 }}>Close Scanner
                 </button>
-              </div> : <></>}
+              </div> :
+              <>
+                {/* first row */}
+                <div className={styles.firstRow}>
+                  <div
+                    className={styles.scannercard1}
+                    onClick={() => {
+                      setShowScanner(true);
+                    }}
+                  >
+                    <img src="/svg/scanner.svg" alt="scanner-img"></img>
+                    <p>Scanner</p>
+                  </div>
+
+                </div>
+              </>}
             {/* 
             {scanResutlt ?
 

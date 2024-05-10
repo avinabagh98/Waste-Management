@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
+import styles from "@/components/Qrscanner.module.css";
 
 function QRCodeScanner({ handleScan }) {
 
 
     useEffect(() => {
+
 
 
         const onScanSuccess = (result) => {
@@ -37,9 +39,9 @@ function QRCodeScanner({ handleScan }) {
 
 
     return (
-        <div>
-            <h1>QR Code Scanner</h1>
-            <div id="scanner"></div>
+        <div className={styles.qrCodeScanner}>
+            <h2>QR Code Scanner</h2>
+            <div id="scanner" className={styles.scannerClass}></div>
         </div>
     );
 }

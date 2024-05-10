@@ -405,6 +405,7 @@ export default function IncomeAddpage() {
             options={wasteCollectorName}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+
           />
           <Surveyques
             id={"recyclableSoldIncome"}
@@ -412,6 +413,7 @@ export default function IncomeAddpage() {
             value={recyclableSoldIncome}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -420,6 +422,7 @@ export default function IncomeAddpage() {
             value={plasticRecyclableSoldIncome}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -428,6 +431,7 @@ export default function IncomeAddpage() {
             value={incomeFromSaleOfRecyclableIncome}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -436,6 +440,7 @@ export default function IncomeAddpage() {
             value={saleOfManureIncome}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
           <div className={styles.btnContainer}>
             <button className={styles.submitbtn} onClick={submitHandler}>

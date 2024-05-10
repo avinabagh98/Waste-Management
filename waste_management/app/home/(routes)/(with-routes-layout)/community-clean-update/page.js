@@ -13,6 +13,7 @@ import Textparser from "@/components/Textparser";
 import FormSkeletonLoader from "@/components/FormSkeletonLoader";
 
 export default function ComunityCleanpage() {
+
     //State variables
     const [userRole, setUserRole] = useState("");
     const [token, setToken] = useState("");
@@ -155,7 +156,7 @@ export default function ComunityCleanpage() {
                     setUserId(api_response.user_id);
                     setCommunityToiletCleaningToilets(api_response.community_toilet_id);
                     setMohallaId(api_response.moholla_committee);
-                    setCleaningToiletCleaningToilets(api_response.cleaning_status);
+                    setCleaningToiletCleaningToilets(api_response.cleaning_status === "1" ? "yes" : "no");
                     setElectricityCleaningToilets(api_response.electricity);
                     setCleaningMaterialsCleaningToilets(api_response.cleaning_materials);
                     setSwiperChargesCleaningToilets(api_response.swiper_charge);
@@ -201,7 +202,7 @@ export default function ComunityCleanpage() {
         fieldStaff: user_id,
         communityToiletId: communityToiletCleaningToilets,
         mohollaCommittee: mohallaId,
-        cleaningStatus: cleaningToiletCleaningToilets,
+        cleaningStatus: cleaningToiletCleaningToilets === "yes" ? "1" : "0",
         electricity: electricityCleaningToilets,
         cleaningMaterials: cleaningMaterialsCleaningToilets,
         swiperCharge: swiperChargesCleaningToilets,
@@ -243,6 +244,7 @@ export default function ComunityCleanpage() {
     const bulbOptions = ["select", "good", "poor"];
     const septictankOptions = ["select", "good", "poor"];
     const pumpOptions = ["select", "good", "poor"];
+    const statusOption = ["select", "yes", "no"];
 
     const dropDownBody = {
         token: token,
@@ -274,6 +276,7 @@ export default function ComunityCleanpage() {
                     setSupervisor(localStorage.getItem("supervisor"));
                     setSupervisorId(localStorage.getItem("supervisor_id"));
                     setUserId(localStorage.getItem("user_id"));
+
 
                 }
             }
@@ -536,18 +539,22 @@ export default function ComunityCleanpage() {
                             handleVal={(id, val) => handleVal(id, val)}
                             options={mohallaName}
                         />
-                        <Surveyques
+                        <SurveyDropdown
                             id={"cleaningToiletCleaningToilets"}
                             labelText={translate?.Cleaning_Toilet_cleaning_toilets}
                             value={cleaningToiletCleaningToilets}
                             required={true}
                             handleVal={(id, val) => handleVal(id, val)}
+                            options={statusOption}
+
+
                         />
                         <Surveyques
                             id={"electricityCleaningToilets"}
                             labelText={translate?.Electricity_cleaning_toilets}
                             value={electricityCleaningToilets}
                             required={true}
+                            type={"number"}
                             handleVal={(id, val) => handleVal(id, val)}
                         />
                         <Surveyques
@@ -562,6 +569,7 @@ export default function ComunityCleanpage() {
                             labelText={translate?.Swiper_Charges_cleaning_toilets}
                             value={swiperChargesCleaningToilets}
                             required={true}
+                            type={"number"}
                             handleVal={(id, val) => handleVal(id, val)}
                         />
 
@@ -570,6 +578,7 @@ export default function ComunityCleanpage() {
                             labelText={translate?.Minor_Repair_cleaning_toilets}
                             value={minorRepairCleaningToilets}
                             required={true}
+                            type={"number"}
                             handleVal={(id, val) => handleVal(id, val)}
                         />
 
@@ -578,6 +587,7 @@ export default function ComunityCleanpage() {
                             labelText={translate?.Major_Repair_cleaning_toilets}
                             value={majorRepairCleaningToilets}
                             required={true}
+                            type={"number"}
                             handleVal={(id, val) => handleVal(id, val)}
                         />
                         <Surveyques
@@ -585,6 +595,7 @@ export default function ComunityCleanpage() {
                             labelText={translate?.OM_Collector_cleaning_toilets}
                             value={oMCollectorCleaningToilets}
                             required={true}
+                            type={"number"}
                             handleVal={(id, val) => handleVal(id, val)}
                         />
 
@@ -719,6 +730,7 @@ export default function ComunityCleanpage() {
                             labelText={translate?.Total_User_Charges_Collected_cleaning_toilets}
                             value={totalUserChargesCollectedCleaningToilets}
                             required={true}
+                            type={"number"}
                             handleVal={(id, val) => handleVal(id, val)}
                         />
                         <Surveyques
@@ -728,6 +740,7 @@ export default function ComunityCleanpage() {
                             }
                             value={totalNumberOfHouseholdsInMCCleaningToilets}
                             required={true}
+                            type={"number"}
                             handleVal={(id, val) => handleVal(id, val)}
                         />
 
@@ -736,6 +749,7 @@ export default function ComunityCleanpage() {
                             labelText={translate?.User_Charges_Per_User_cleaning_toilets}
                             value={userChargesPerUserCleaningToilets}
                             required={true}
+                            type={"number"}
                             handleVal={(id, val) => handleVal(id, val)}
                         />
 

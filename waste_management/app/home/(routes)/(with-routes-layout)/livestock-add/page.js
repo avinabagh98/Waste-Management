@@ -364,6 +364,8 @@ export default function Livestockpage() {
             value={contactNumberLivestock}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
+
           />
           <Surveyques
             id={"numberOfLivestockLivestock"}
@@ -371,6 +373,7 @@ export default function Livestockpage() {
             value={numberOfLivestockLivestock}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques
@@ -379,6 +382,7 @@ export default function Livestockpage() {
             value={compostableWasteTransferredLivestock}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
           <div className={styles.btnContainer}>
             <button className={styles.submitbtn} onClick={submitHandler}>Submit</button>

@@ -28,6 +28,7 @@ export default function HouseholdScanPage() {
     const [user_id, setUser_id] = useState("");
     const [asyns_id, setAsyns_id] = useState("");
     const [society_id, setSociety_id] = useState("");
+    const [today, setToday] = useState("");
 
 
 
@@ -75,6 +76,7 @@ export default function HouseholdScanPage() {
                 setUser_id(localStorage.getItem("user_id"));
                 setAsyns_id(localStorage.getItem("asynsid"));
                 setSociety_id(localStorage.getItem("societyId"));
+                setToday(localStorage.getItem("today"));
 
             }
         } catch (error) {
@@ -133,7 +135,7 @@ export default function HouseholdScanPage() {
                                 type="text"
                                 id="date"
                                 name="date"
-                                value={qrList.date}
+                                value={today}
                                 disabled={true}
 
 

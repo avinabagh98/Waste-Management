@@ -135,7 +135,7 @@ export default function ComunityCleanpage() {
     fieldStaff: user_id,
     communityToiletId: communityToiletCleaningToilets,
     mohollaCommittee: mohallaId,
-    cleaningStatus: cleaningToiletCleaningToilets,
+    cleaningStatus: cleaningToiletCleaningToilets === "yes" ? "1" : "0",
     electricity: electricityCleaningToilets,
     cleaningMaterials: cleaningMaterialsCleaningToilets,
     swiperCharge: swiperChargesCleaningToilets,
@@ -176,6 +176,7 @@ export default function ComunityCleanpage() {
   const bulbOptions = ["select", "good", "poor"];
   const septictankOptions = ["select", "good", "poor"];
   const pumpOptions = ["select", "good", "poor"];
+  const statusOption = ["select", "yes", "no"];
 
   const dropDownBody = {
     token: token,
@@ -463,12 +464,13 @@ export default function ComunityCleanpage() {
             handleVal={(id, val) => handleVal(id, val)}
             options={mohallaName}
           />
-          <Surveyques
+          <SurveyDropdown
             id={"cleaningToiletCleaningToilets"}
             labelText={translate?.Cleaning_Toilet_cleaning_toilets}
             value={cleaningToiletCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            options={statusOption}
           />
           <Surveyques
             id={"electricityCleaningToilets"}
