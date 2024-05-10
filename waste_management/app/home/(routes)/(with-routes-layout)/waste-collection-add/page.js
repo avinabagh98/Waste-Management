@@ -96,7 +96,7 @@ export default function WastecollectionAddPage() {
     houseNumber: houseNumberWasteCollection,
     mohallaId: mohallaId,
     Block: nameOfULBBlockWasteCollection,
-    wardId: wardNoGPWasteCollection,
+    wardId: wardId,
     localityId: localityId,
     residentName: nameOfResidentWasteCollection,
     compostableWasteCollected: compostableWasteCollectedWasteCollection,
@@ -416,7 +416,7 @@ export default function WastecollectionAddPage() {
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
           />
-
+          {/* 
           <Surveyques
             id={"wardNoGPWasteCollection"}
             type={"text"}
@@ -424,7 +424,7 @@ export default function WastecollectionAddPage() {
             value={wardNoGPWasteCollection}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-          />
+          /> */}
           <SurveyDropdown
             id={"localityNameVillageWasteCollection"}
             type={"text"}

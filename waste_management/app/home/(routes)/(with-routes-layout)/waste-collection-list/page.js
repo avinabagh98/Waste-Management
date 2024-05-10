@@ -13,6 +13,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function WasteCollectionListPage() {
 
+
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [supervisor, setSupervisor] = useState("");
@@ -27,6 +28,7 @@ export default function WasteCollectionListPage() {
 
   const [mohallas, setMohallas] = useState([]);
   const [mohallaName, setMohallaName] = useState([]);
+  const [locality, setLocality] = useState([]);
 
   //loader states
   const [loaderVar1, setLoaderVar1] = useState(false);
@@ -156,6 +158,51 @@ export default function WasteCollectionListPage() {
     }
   }, [token]);
 
+  // Locality By Ward API Calling
+  useEffect(() => {
+    try {
+      async function fetchDropdown() {
+        const response = await sendRequest(
+          "post",
+          `/localitylist/List`,
+          dropDownBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 1) {
+          console.log(
+            `Locality lists in ward ${ward_id} from API ::`,
+            response.data.data.incomeList
+          );
+          setLocality(response.data.data.incomeList);
+        }
+      }
+
+      fetchDropdown();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [token]);
+
+
+  const getMohallaName = (array, id) => {
+    if (array.length > 0) {
+      let mohalla = array.filter((item) => item.id == id);
+      return mohalla[0].committee_name;
+    }
+  };
+
+  const getLocalityName = (array, id) => {
+    if (array.length > 0) {
+      let locality = array.filter((item) => item.id == id);
+      return locality[0].village_name;
+    }
+  };
+
+
   const showHandler = (arrayData) => {
 
     //Date Formatter
@@ -163,7 +210,8 @@ export default function WasteCollectionListPage() {
       const [year, month, day] = dateString.split('-');
       return `${day}/${month}/${year}`;
     };
-
+    const mohalla_name = getMohallaName(mohallas, arrayData.moholla_committee_id);
+    const locality_name = getLocalityName(locality, arrayData.locality_id);
     const formattedDate = formatDate(arrayData?.date);
     const mohalla_ID = arrayData?.moholla_committee_id;
 
@@ -186,8 +234,8 @@ export default function WasteCollectionListPage() {
           <p style="text-align:left"><strong>House Id:</strong> ${arrayData?.id}</p>
           <p style="text-align:left"><strong>House Number:</strong> ${arrayData?.house_number}</p>
           <p style="text-align:left"><strong>House Name:</strong> ${arrayData?.resident_name}</p>
-          <p style="text-align:left"><strong>Locality:</strong> ${arrayData?.locality_id}</p>
-          <p style="text-align:left"><strong>Mohalla Committee:</strong> ${mohallaName}</p>
+          <p style="text-align:left"><strong>Locality:</strong> ${locality_name}</p>
+          <p style="text-align:left"><strong>Mohalla Committee:</strong> ${mohalla_name}</p>
           <p style="text-align:left"><strong>Aluminium (Kg):</strong> ${arrayData?.aluminium}</p>
           <p style="text-align:left"><strong>Cardboard (Kg):</strong> ${arrayData?.card_board}</p>
           <p style="text-align:left"><strong>Compostable Waste Collected (Kg):</strong> ${arrayData?.compostable_waste_collected}</p>
@@ -206,6 +254,8 @@ export default function WasteCollectionListPage() {
         </swal-html>`,
     });
   };
+
+
 
   return (
     loaderVar1 && loaderVar2 ?

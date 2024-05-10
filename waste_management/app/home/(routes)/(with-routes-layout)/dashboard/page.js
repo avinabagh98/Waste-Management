@@ -255,7 +255,7 @@ export default function Dashboardpage() {
                 route.push("/home/household-list")
               }}
             >
-              <img src="/images/HH_Survey.png" alt="HH_Survey"></img>
+              <img src="/images/HH_survey.png" alt="HH_Survey"></img>
               <p>HH Survey</p>
             </div>
             <div

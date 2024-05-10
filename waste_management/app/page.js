@@ -8,9 +8,18 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    setTimeout(() => {
-      router.push("/home");
-    }, 3000);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setTimeout(() => {
+        router.push("/home");
+      }, 3000);
+    }
+    else {
+      setTimeout(() => {
+        router.push("/home/dashboard");
+      }, 3000);
+    }
+
   });
 
   return (

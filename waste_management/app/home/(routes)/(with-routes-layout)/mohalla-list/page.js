@@ -13,6 +13,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function MohallaListPage() {
 
+
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");

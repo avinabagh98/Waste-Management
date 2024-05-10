@@ -475,6 +475,7 @@ export default function ComunityCleanpage() {
             labelText={translate?.Electricity_cleaning_toilets}
             value={electricityCleaningToilets}
             required={true}
+            type={"number"}
             handleVal={(id, val) => handleVal(id, val)}
           />
           <Surveyques

@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 export default function HouseholdScanPage() {
 
 
+    const route = useRouter();
+
     const [userRole, setUserRole] = useState("");
     const [token, setToken] = useState("");
     const [name, setName] = useState("");
@@ -27,27 +29,16 @@ export default function HouseholdScanPage() {
     const [asyns_id, setAsyns_id] = useState("");
     const [society_id, setSociety_id] = useState("");
 
-    const route = useRouter();
 
-    // State to manage form inputs
-    const [formData, setFormData] = useState({
-        longitude: '',
-        latitude: '',
-        name: '',
-        familymembers: '',
-        date: '',
-        slno: '',
-        holdingNumber: '',
-        ownerType: '',
-        wguType: '',
-        isLock: isLock,
-        wasteGiven: '',
-        WasteGivenInSegregateDmanner: '',
-        userId: '',
-        asynsId: '',
-        societyId: '',
-        token: '',
-    });
+
+    //Other declarations
+    const loadingHeaderData = {
+        name: name,
+        ward_id: ward_id,
+        district_name: district_name,
+        block_name: block_name,
+        supervisor: supervisor
+    };
 
     const formDataQR = {
         longitude: qrList.longi,
@@ -63,22 +54,7 @@ export default function HouseholdScanPage() {
     }
 
 
-    //Other declarations
-    const loadingHeaderData = {
-        name: name,
-        ward_id: ward_id,
-        district_name: district_name,
-        block_name: block_name,
-        supervisor: supervisor
-    };
-
-    const arrCreated = [];
-
-
-
-
-
-
+    // LocalStorage Fetching
     useEffect(() => {
         try {
             const Token = localStorage.getItem("token");
@@ -100,18 +76,6 @@ export default function HouseholdScanPage() {
                 setAsyns_id(localStorage.getItem("asynsid"));
                 setSociety_id(localStorage.getItem("societyId"));
 
-
-                // get scanned data from local
-
-                arrCreated.push(localStorage.getItem("asynsid"));
-                arrCreated.push(localStorage.getItem("societyId"));
-                console.log(arrCreated);
-
-                setFormData({
-                    ...formData,
-                    ["name"]: localStorage.getItem("name"),
-                })
-
             }
         } catch (error) {
             console.log(error);
@@ -119,7 +83,7 @@ export default function HouseholdScanPage() {
     }, [])
 
 
-
+    //Handler Functions
     const handleSubmitQR = (event) => {
         event.preventDefault();
         console.log(formDataQR);
@@ -297,8 +261,8 @@ export default function HouseholdScanPage() {
                                                     type="radio"
                                                     id="wasteGiven_no"
                                                     name="wasteGiven"
-                                                    value="2"
-                                                    checked={wasteGiven === "2"}
+                                                    value="0"
+                                                    checked={wasteGiven === "0"}
                                                     onChange={(e) => {
                                                         handleRadioChange(e.target.name, e.target.value);
                                                     }}
@@ -311,8 +275,8 @@ export default function HouseholdScanPage() {
                                                     type="radio"
                                                     id="wasteGiven_home"
                                                     name="wasteGiven"
-                                                    value="3"
-                                                    checked={wasteGiven === "3"}
+                                                    value="2"
+                                                    checked={wasteGiven === "2"}
                                                     onChange={(e) => {
                                                         handleRadioChange(e.target.name, e.target.value);
                                                     }}

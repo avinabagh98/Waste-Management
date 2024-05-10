@@ -218,7 +218,7 @@ export default function WastecollectionUpdatePage() {
       }
     }
     showData();
-  }, [token, mohallaCommiteeWasteCollection]);
+  }, [token]);
 
   // Mohalla Committee List Dropdown Fetching
   useEffect(() => {
@@ -492,7 +492,7 @@ export default function WastecollectionUpdatePage() {
               required={true}
               handleVal={(id, val) => handleVal(id, val)}
             />
-
+            {/* 
             <Surveyques
               id={"wardNoGPWasteCollection"}
               type={"text"}
@@ -500,7 +500,7 @@ export default function WastecollectionUpdatePage() {
               value={wardNoGPWasteCollection}
               required={true}
               handleVal={(id, val) => handleVal(id, val)}
-            />
+            /> */}
             <SurveyDropdown
               id={"localityNameVillageWasteCollection"}
               labelText={translate?.Locality_Name_Village_Waste_Collection}
