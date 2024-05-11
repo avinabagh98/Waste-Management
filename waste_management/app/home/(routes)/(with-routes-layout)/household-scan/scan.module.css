@@ -168,6 +168,7 @@
         margin-bottom: 20px;
         display: flex;
         flex-wrap: wrap;
+
         /* Allows elements to wrap onto the next line */
     }
 

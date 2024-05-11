@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 import Camera, { FACING_MODES } from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
 import QRCodeScanner from "@/components/QrScanner";
+import MyQrScanner from "@/components/MyQrScanner";
 import axios from "axios";
 
 export default function Dashboardpage() {
@@ -328,16 +329,34 @@ export default function Dashboardpage() {
 
 
 
+            {/* <>
+
+                <div id="scannerArea" className={styles.scannerArea}>
+                  <QRCodeScanner handleScan={(data) => { handleScan(data) }} />/
+                  <button className={styles.closeScanner} onClick={() => {
+                    setShowScanner(false);
+                  }}>Close Scanner
+                  </button>
+
+                </div>
+
+              </> */}
 
             {showScanner ?
-              <div id="scannerArea" className={styles.scannerArea}>
-                <QRCodeScanner handleScan={(data) => { handleScan(data) }} />
-                <button className={styles.closeScanner} onClick={() => {
-                  setShowScanner(false);
-                }}>Close Scanner
-                </button>
-              </div> :
               <>
+
+                <div id="scannerArea" className={styles.scannerArea}>
+                  <MyQrScanner handleScan={handleScan} />
+                  <button className={styles.closeScanner} onClick={() => {
+                    setShowScanner(false);
+                  }}>Close Scanner
+                  </button>
+
+                </div>
+
+              </> :
+              <>
+
                 {/* first row */}
                 <div className={styles.firstRow}>
                   <div
@@ -351,17 +370,9 @@ export default function Dashboardpage() {
                   </div>
 
                 </div>
-              </>}
-            {/* 
-            {scanResutlt ?
+              </>
 
-              <div id="scanResult">
-                <p>`Scan QR Code ${scanResutlt}`</p>
-                <button onClick={() => {
-                  document.getElementById("scanResult").style.display = "none";
-                }}>Back</button>
-              </div> : <></>} */}
-
+            }
 
           </div>
 

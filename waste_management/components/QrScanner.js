@@ -24,10 +24,10 @@ function QRCodeScanner({ handleScan }) {
             'scanner', // Element ID for the scanner container
             { fps: 10, qrbox: { width: 250, height: 250 } },
             false // verbose
+
         );
 
         qrCodeScanner.render(onScanSuccess, onScanFailure);
-
 
 
         // Cleanup

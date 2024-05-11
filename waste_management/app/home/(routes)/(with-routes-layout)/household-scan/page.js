@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 export default function HouseholdScanPage() {
 
 
+
     const route = useRouter();
 
     const [userRole, setUserRole] = useState("");
