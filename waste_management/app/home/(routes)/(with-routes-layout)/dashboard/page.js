@@ -14,7 +14,6 @@ import MyQrScanner from "@/components/MyQrScanner";
 import axios from "axios";
 
 export default function Dashboardpage() {
-
   //State variables
   const [name, setName] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -32,6 +31,9 @@ export default function Dashboardpage() {
   const [token, setToken] = useState("");
   const [nirmalsathiId, setNirmalsathiId] = useState("");
   const [assignId, setAssignId] = useState("");
+  const [damagedQr, setDamagedQr] = useState(false);
+  const [qrCode, setQrCode] = useState("");
+  const [scanType, setScanType] = useState("");
 
   //Other declarations
   const loadingHeaderData = {
@@ -39,7 +41,7 @@ export default function Dashboardpage() {
     ward_id: ward_id,
     district_name: district_name,
     block_name: block_name,
-    supervisor: supervisor
+    supervisor: supervisor,
   };
 
   const route = useRouter();
@@ -47,7 +49,6 @@ export default function Dashboardpage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-    console.log(showScanner);
     try {
       localStorage.setItem("today", getDate());
       async function fetchData() {
@@ -61,11 +62,11 @@ export default function Dashboardpage() {
           setBlock_Name(localStorage.getItem("block"));
           setDistrict_Name(localStorage.getItem("district"));
           setWard_id(localStorage.getItem("ward_id"));
-          setSupervisor(localStorage.getItem("supervisor"))
+          setSupervisor(localStorage.getItem("supervisor"));
           setToken(token);
 
           if (userRole === "waste-collector") {
-            setNirmalsathiId(localStorage.getItem("user_id"))
+            setNirmalsathiId(localStorage.getItem("user_id"));
           }
         }
       }
@@ -77,6 +78,98 @@ export default function Dashboardpage() {
 
   // API Data Fetching
 
+  //QR Code Effector
+  useEffect(() => {
+    let clr = localStorage.getItem("HTML5_QRCODE_DATA");
+    if (clr !== null || clr !== "") {
+      localStorage.removeItem("HTML5_QRCODE_DATA");
+      localStorage.removeItem("qrType");
+      localStorage.removeItem("householdIdQr");
+      setAssignId(localStorage.getItem("asynsid"));
+    }
+
+    if (scanResutlt) {
+      scanedDataHandler(scanResutlt).then((Qr_promisedata) => {
+        if (Qr_promisedata.qrType === "collection") {
+          try {
+            setSpinner(true);
+            axios
+              .post("https://waste.ebluesys.com/api/qrsurveyInfo/id", {
+                token: token,
+                householdId: Qr_promisedata.houseId,
+                nirmalsathiId: nirmalsathiId,
+              })
+              .then((res) => {
+                console.log(
+                  "response from api promise 'qrsurveyInfo/id' ",
+                  res.data.data
+                );
+
+                if (res.data.data.status === "success") {
+                  localStorage.setItem("asynsid", res.data.data.asynsid);
+                  localStorage.setItem("societyId", res.data.data.society_id);
+                  localStorage.setItem(
+                    "qrList",
+                    JSON.stringify(res.data.data.list)
+                  );
+                  route.push("/home/household-scan");
+                } else {
+                  setSpinner(false);
+                  swal("Error", "Data not found", "error");
+                }
+              })
+              .catch((error) => {
+                console.log("error catching at collection promise", error);
+
+                if (error.name === "AxiosError") {
+                  setSpinner(false);
+                  swal("Error", "Wrong Collection QR", "error");
+                }
+              });
+          } catch (error) {
+            console.log("Error at qrsurveyId api", error);
+          }
+        }
+
+        if (
+          Qr_promisedata.qrType === "dumping" &&
+          assignId !== "" &&
+          assignId !== null
+        ) {
+          try {
+            axios
+              .post("https://waste.ebluesys.com/api/workTrip", {
+                token: token,
+                assignId: assignId,
+                nirmalsathiId: nirmalsathiId,
+              })
+              .then((res) => {
+                console.log("response from api promise", res.data.data);
+
+                if (res.data.data.status === "success") {
+                  swal("Success", "Trip Added Successfully", "success");
+                } else {
+                  swal("Error", "Error at QR Code", "error");
+                }
+              })
+              .catch((error) => {
+                console.log("error catching at dumping promise ", error);
+                if (error.name === "AxiosError") {
+                  setSpinner(false);
+                  swal("Error", "Wrong Dumping QR", "error");
+                }
+              });
+          } catch (error) {
+            console.log("Error at worktrip api", error);
+          }
+        }
+
+        if (Qr_promisedata.qrType === undefined) {
+          swal("Error", "Wrong QR Code", "error");
+        }
+      });
+    }
+  }, [scanResutlt]);
   // Function Declarations
 
   const camera_button = () => {
@@ -85,9 +178,25 @@ export default function Dashboardpage() {
     } catch (error) {
       console.log(error);
     }
-
   };
 
+  //Functions
+
+  // Date Function
+  const getDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Pad with leading zero if less than 10
+    const day = date.getDate().toString().padStart(2, "0"); // Pad with leading zero if less than 10
+    return `${year}-${month}-${day}`;
+  };
+
+  //qrString genetor
+  const generateQrString = (qrCode, scanType) => {
+    const qrString = `${qrCode}|0|0|0|0|${scanType}`;
+
+    return Promise.resolve(qrString);
+  };
 
   // Handler Functions
   function handleTakePhoto(dataUri) {
@@ -97,123 +206,43 @@ export default function Dashboardpage() {
   }
 
   const handleScan = (data) => {
+    console.log("type of scanned data", typeof data); //tessting
     setScanResult(data);
     setShowScanner(false);
-  }
-
-  //Functions 
-  // Date Function
-  const getDate = () => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Pad with leading zero if less than 10
-    const day = date.getDate().toString().padStart(2, '0'); // Pad with leading zero if less than 10
-    return `${year}-${month}-${day}`;
   };
 
-
   const scanedDataHandler = (data) => {
-    let arr = data.split("|")
-    setQrType(arr[5])
-    setHouseholdIdQr(arr[0])
-    localStorage.setItem("qrType", arr[5])
-    localStorage.setItem("householdIdQr", arr[0])
-    return Promise.resolve({ houseId: arr[0], qrType: arr[5] })
+    let arr = data.split("|");
+    setQrType(arr[5]);
+    setHouseholdIdQr(arr[0]);
+    localStorage.setItem("qrType", arr[5]);
+    localStorage.setItem("householdIdQr", arr[0]);
+    return Promise.resolve({ houseId: arr[0], qrType: arr[5] });
+  };
 
-  }
-
-
-  //QR Code Effector
-  useEffect(() => {
-    let clr = localStorage.getItem("HTML5_QRCODE_DATA")
-    if (clr !== null || clr !== "") {
-      localStorage.removeItem("HTML5_QRCODE_DATA")
-      localStorage.removeItem("qrType")
-      localStorage.removeItem("householdIdQr")
-      setAssignId(localStorage.getItem("asynsid"))
+  const handleQrSubmit = async (qc, st) => {
+    if (st === "") {
+      swal("Warning", "Please fill all the fields", "warning");
+    } else {
+      await generateQrString(qc, st).then((Qr_promisedstr) => {
+        handleScan(Qr_promisedstr);
+        console.log(Qr_promisedstr);
+      });
     }
+  };
 
-    if (scanResutlt) {
-      scanedDataHandler(scanResutlt).then((Qr_promisedata) => {
-
-
-
-        if (Qr_promisedata.qrType === "collection") {
-
-          try {
-            setSpinner(true)
-            axios.post(
-              "https://waste.ebluesys.com/api/qrsurveyInfo/id",
-              {
-                token: token,
-                householdId: Qr_promisedata.houseId,
-                nirmalsathiId: nirmalsathiId
-              }
-            ).then((res) => {
-              console.log("response from api promise", res.data.data);
-
-              if (res.data.data.status === "success") {
-                localStorage.setItem("asynsid", res.data.data.asynsid);
-                localStorage.setItem("societyId", res.data.data.society_id);
-                localStorage.setItem("qrList", JSON.stringify(res.data.data.list));
-                route.push("/home/household-scan")
-              }
-              else {
-                setSpinner(false)
-                swal("Error", "Error at QR Code", "error");
-              }
-            })
-
-          } catch (error) {
-            console.log(error);
-          }
-        }
-
-        if (Qr_promisedata.qrType === "dumping" && assignId !== "" && assignId !== null) {
-
-          try {
-            axios.post(
-              "https://waste.ebluesys.com/api/workTrip",
-              {
-                token: token,
-                assignId: assignId,
-                nirmalsathiId: nirmalsathiId
-              }
-            ).then((res) => {
-              console.log("response from api promise", res.data.data);
-
-              if (res.data.data.status === "success") {
-                swal("Success", "Trip Added Successfully", "success");
-              }
-              else {
-                swal("Error", "Error at QR Code", "error");
-              }
-            })
-
-          } catch (error) {
-            console.log(error);
-          }
-        }
-
-
-      })
-
-
-
-    }
-  }, [scanResutlt])
-
-
-  return (userRole === "field-staff" ?
-    (cameraClicked ? <Camera
-      sizeFactor={0.5}
-      imageCompression={0.5}
-      isFullscreen={true}
-      idealFacingMode={FACING_MODES.ENVIRONMENT}
-      onTakePhoto={(dataUri) => {
-        handleTakePhoto(dataUri);
-      }}
-    /> :
+  return userRole === "field-staff" ? (
+    cameraClicked ? (
+      <Camera
+        sizeFactor={0.5}
+        imageCompression={0.5}
+        isFullscreen={true}
+        idealFacingMode={FACING_MODES.ENVIRONMENT}
+        onTakePhoto={(dataUri) => {
+          handleTakePhoto(dataUri);
+        }}
+      />
+    ) : (
       <>
         <Header
           userRole={userRole}
@@ -222,26 +251,34 @@ export default function Dashboardpage() {
         />
         {/* //Body */}
         <div className={styles.bodyContainer}>
-
-          {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+          {spinner ? (
+            <>
+              <div className={styles.spinnerContainer}>
+                <img src="/svg/loader.svg" alt="loader"></img>
+              </div>
+            </>
+          ) : null}
 
           {/* first row */}
           <div className={styles.firstRow}>
             <div
               className={styles.card1}
               onClick={() => {
-                setSpinner(true)
-                route.push("/home/waste-collection-list")
+                setSpinner(true);
+                route.push("/home/waste-collection-list");
               }}
             >
-              <img src="/images/waste_collector.png" alt="waste_collection"></img>
+              <img
+                src="/images/waste_collector.png"
+                alt="waste_collection"
+              ></img>
               <p> Weekly Waste Collection</p>
             </div>
             <div
               className={styles.card2}
               onClick={() => {
-                setSpinner(true)
-                route.push("/home/income-list")
+                setSpinner(true);
+                route.push("/home/income-list");
               }}
             >
               <img src="/images/income.png" alt="income"></img>
@@ -254,8 +291,8 @@ export default function Dashboardpage() {
             <div
               className={styles.card3}
               onClick={() => {
-                setSpinner(true)
-                route.push("/home/household-list")
+                setSpinner(true);
+                route.push("/home/household-list");
               }}
             >
               <img src="/images/HH_survey.png" alt="HH_Survey"></img>
@@ -264,8 +301,8 @@ export default function Dashboardpage() {
             <div
               className={styles.card4}
               onClick={() => {
-                setSpinner(true)
-                route.push("/home/mohalla-list")
+                setSpinner(true);
+                route.push("/home/mohalla-list");
               }}
             >
               <img
@@ -281,8 +318,8 @@ export default function Dashboardpage() {
             <div
               className={styles.card5}
               onClick={() => {
-                setSpinner(true)
-                route.push("/home/livestock-list")
+                setSpinner(true);
+                route.push("/home/livestock-list");
               }}
             >
               <img src="/images/livestock_shed.png" alt="livestock_shed"></img>
@@ -291,8 +328,8 @@ export default function Dashboardpage() {
             <div
               className={styles.card6}
               onClick={() => {
-                setSpinner(true)
-                route.push("/home/community-clean-list")
+                setSpinner(true);
+                route.push("/home/community-clean-list");
               }}
             >
               <img
@@ -305,10 +342,11 @@ export default function Dashboardpage() {
         </div>
 
         <Footer camera_button={camera_button} />
-      </>)
-    :
-    userRole === "waste-collector" ?
-      (cameraClicked ? <Camera
+      </>
+    )
+  ) : userRole === "waste-collector" ? (
+    cameraClicked ? (
+      <Camera
         sizeFactor={0.5}
         imageCompression={0.5}
         isFullscreen={true}
@@ -316,20 +354,24 @@ export default function Dashboardpage() {
         onTakePhoto={(dataUri) => {
           handleTakePhoto(dataUri);
         }}
-      /> :
-        <>
-          {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
-          <Header
-            userRole={userRole}
-            isOffCanvasVisible={true}
-            loadingdata={loadingHeaderData}
-          />
-          {/* //Body */}
-          <div className={styles.bodyContainer}>
-
-
-
-            {/* <>
+      />
+    ) : (
+      <>
+        {spinner ? (
+          <>
+            <div className={styles.spinnerContainer}>
+              <img src="/svg/loader.svg" alt="loader"></img>
+            </div>
+          </>
+        ) : null}
+        <Header
+          userRole={userRole}
+          isOffCanvasVisible={true}
+          loadingdata={loadingHeaderData}
+        />
+        {/* //Body */}
+        <div className={styles.bodyContainer}>
+          {/* <>
 
                 <div id="scannerArea" className={styles.scannerArea}>
                   <QRCodeScanner handleScan={(data) => { handleScan(data) }} />/
@@ -342,45 +384,97 @@ export default function Dashboardpage() {
 
               </> */}
 
-            {showScanner ?
-              <>
-
-                <div id="scannerArea" className={styles.scannerArea}>
-                  <MyQrScanner handleScan={handleScan} />
-                  <button className={styles.closeScanner} onClick={() => {
+          {showScanner ? (
+            <>
+              <div id="scannerArea" className={styles.scannerArea}>
+                <MyQrScanner handleScan={handleScan} />
+                <button
+                  className={styles.closeScanner}
+                  onClick={() => {
                     setShowScanner(false);
-                  }}>Close Scanner
-                  </button>
-
+                  }}
+                >
+                  Close Scanner
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* first row */}
+              <div className={styles.firstRow}>
+                <div
+                  className={styles.scannercard1}
+                  onClick={() => {
+                    setShowScanner(true);
+                  }}
+                >
+                  <img src="/svg/scanner.svg" alt="scanner-img"></img>
+                  <p>Scanner</p>
                 </div>
+              </div>
+              {/* Second row - checkbutton*/}
+              <div className={styles.secondRow}>
+                <div className={styles.damagedQr}>
+                  <label htmlFor="damagedQr">Damaged QR Code ?</label>
+                  <input
+                    type="checkbox"
+                    id="damagedQr"
+                    onChange={(e) => setDamagedQr(e.target.checked)}
+                  ></input>
+                </div>
+              </div>
 
-              </> :
-              <>
-
-                {/* first row */}
-                <div className={styles.firstRow}>
-                  <div
-                    className={styles.scannercard1}
-                    onClick={() => {
-                      setShowScanner(true);
-                    }}
-                  >
-                    <img src="/svg/scanner.svg" alt="scanner-img"></img>
-                    <p>Scanner</p>
+              {/* third row - QR Code input*/}
+              {damagedQr ? (
+                <>
+                  <div className={styles.qrCodeManual}>
+                    <label htmlFor="qrCode">Enter QR Code ID</label>
+                    <input
+                      type="text"
+                      id="qrCodeId"
+                      name="qrCodeId"
+                      onChange={(e) => {
+                        setQrCode(e.target.value);
+                      }}
+                    ></input>
                   </div>
 
-                </div>
-              </>
+                  <div className={styles.dropdownContainer}>
+                    <label htmlFor="scanType">Select scan type</label>
+                    <select
+                      id="scanType"
+                      value={scanType}
+                      className={styles.dropdown}
+                      onChange={(e) => setScanType(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Select
+                      </option>
+                      <option value="collection">Collection</option>
+                      <option value="dumping">Dumping</option>
+                    </select>
+                  </div>
 
-            }
+                  <button
+                    className={styles.submitQRButton}
+                    onClick={() => {
+                      handleQrSubmit(qrCode, scanType);
+                    }}
+                  >
+                    Submit
+                  </button>
+                </>
+              ) : (
+                <></>
+              )}
+            </>
+          )}
+        </div>
 
-          </div>
-
-
-
-          <Footer camera_button={camera_button} />
-        </>) :
-      <></>
-
-  )
+        <Footer camera_button={camera_button} />
+      </>
+    )
+  ) : (
+    <></>
+  );
 }
