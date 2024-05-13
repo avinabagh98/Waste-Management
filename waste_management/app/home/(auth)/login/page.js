@@ -10,9 +10,7 @@ import Header from "@/components/Header/Header";
 import FooterDesign from "@/components/FooterDesign";
 
 export default function LoginPage() {
-
   //Login state variables
-
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [role_name, setRoleName] = useState();
@@ -37,7 +35,7 @@ export default function LoginPage() {
 
   //Localstorage fetching on page load
   useEffect(() => {
-    localStorage.setItem("previousPath", "/home")
+    localStorage.setItem("previousPath", "/home");
     setRole_id(localStorage.getItem("role_id"));
     setRoleName(localStorage.getItem("role_name"));
   }, [role_id, role_name]);
@@ -55,7 +53,7 @@ export default function LoginPage() {
         //Setting user details to localstorage
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("name", res.data.name);
-        localStorage.setItem("user_id", res.data.user_id)
+        localStorage.setItem("user_id", res.data.user_id);
         localStorage.setItem("user_contact", res.data.user_contact);
         localStorage.setItem("user_type", res.data.user_type_name);
         localStorage.setItem("block", res.data.block);

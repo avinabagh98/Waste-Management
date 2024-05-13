@@ -13,7 +13,6 @@ import { sendRequest } from "@/api/sendRequest";
 import axios from "axios";
 
 export default function HouseholdUpdatepage() {
-
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -23,6 +22,7 @@ export default function HouseholdUpdatepage() {
   const [supervisorHHSurvey, setSupervisorHHSurvey] = useState("");
   const [fieldStaffHHSurvey, setFieldStaffHHSurvey] = useState("");
   const [wardNoGPHHSurvey, setWardNoGPHHSurvey] = useState("");
+  const [gp, setGp] = useState("");
   const [localityNameMohallaHHSurvey, setLocalityNameMohallaHHSurvey] =
     useState("");
   const [houseNumberHHSurvey, setHouseNumberHHSurvey] = useState("");
@@ -101,9 +101,9 @@ export default function HouseholdUpdatepage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_name: wardName,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: supervisor
+    supervisor: supervisor,
   };
 
   const dropDownBody = {
@@ -161,12 +161,10 @@ export default function HouseholdUpdatepage() {
     localStorage.setItem("previousPath", "/home/household-list");
     try {
       async function fetchData() {
-
         const token = await localStorage.getItem("token");
         if (!token) {
           route.push("/home/login");
         } else {
-
           setToken(token);
           setUserRole(localStorage.getItem("role_name"));
           setSupervisor(localStorage.getItem("supervisor"));
@@ -182,10 +180,10 @@ export default function HouseholdUpdatepage() {
           setUser_id(localStorage.getItem("user_id"));
           setWardNoGPHHSurvey(localStorage.getItem("ward"));
           setWard_id(localStorage.getItem("ward_id"));
+          setGp(localStorage.getItem("gp"));
         }
       }
       fetchData();
-
     } catch (error) {
       swal("Error", error.message, "error");
     }
@@ -592,9 +590,14 @@ export default function HouseholdUpdatepage() {
 
   return (
     <>
-
       {/* //Spinner */}
-      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
+          </div>
+        </>
+      ) : null}
 
       {/* //Content */}
       <Header

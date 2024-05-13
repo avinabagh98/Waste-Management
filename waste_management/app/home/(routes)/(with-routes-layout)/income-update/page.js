@@ -12,8 +12,6 @@ import { sendRequest } from "@/api/sendRequest";
 import FormSkeletonLoader from "@/components/FormSkeletonLoader";
 
 export default function IncomeUpdatepage() {
-
-
   //State variables
   const [id, setId] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -25,6 +23,7 @@ export default function IncomeUpdatepage() {
   const [fieldStaffIncome, setFieldStaffIncome] = useState("");
   const [mohallaCommiteeIncome, setMohallaCommiteeIncome] = useState("");
   const [wardNoGpIncome, setWardNoGpIncome] = useState("");
+  const [gp, setGp] = useState("");
   const [localityNameVillageIncome, setLocalityNameVillageIncome] =
     useState("");
   const [wasteCollectorNameIncome, setWasteCollectorNameIncome] = useState("");
@@ -64,9 +63,9 @@ export default function IncomeUpdatepage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: ward_id,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: supervisorIncome
+    supervisor: supervisorIncome,
   };
 
   const formDataIncomeUpdate = {
@@ -111,6 +110,7 @@ export default function IncomeUpdatepage() {
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setWard_id(localStorage.getItem("ward_id"));
+          setGp(localStorage.getItem("gp"));
 
           setFieldStaffIncome(localStorage.getItem("name"));
           setSupervisorIncome(localStorage.getItem("supervisor"));
@@ -250,7 +250,6 @@ export default function IncomeUpdatepage() {
     }
   }, [wasteCollectors]);
 
-
   // Locality By Ward API Calling
   useEffect(() => {
     try {
@@ -291,14 +290,8 @@ export default function IncomeUpdatepage() {
     }
   }, [locality]);
 
-
-
-
-
-
   // Handler Functions
   const handleVal = (id, val) => {
-
     if (id === "dateIncome") {
       setDateIncome(val);
     }
@@ -375,32 +368,36 @@ export default function IncomeUpdatepage() {
     }
   };
 
-  return (
-    !isloading ?
-      <>
-        <Header
-          userRole={userRole}
-          isOffCanvasVisible={false}
-          loadingdata={loadingHeaderData}
-        />
+  return !isloading ? (
+    <>
+      <Header
+        userRole={userRole}
+        isOffCanvasVisible={false}
+        loadingdata={loadingHeaderData}
+      />
 
-        <div className={styles.container}>
+      <div className={styles.container}>
+        {/* //Spinner */}
+        {spinner ? (
+          <>
+            <div className={styles.spinnerContainer}>
+              <img src="/svg/loader.svg" alt="loader"></img>
+            </div>
+          </>
+        ) : null}
 
-          {/* //Spinner */}
-          {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+        {/* //Form */}
+        <div className={styles.formcontainer}>
+          <Surveyques
+            id={"dateIncome"}
+            type={"date"}
+            labelText={translate?.Date_income}
+            value={dateIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
 
-          {/* //Form */}
-          <div className={styles.formcontainer}>
-            <Surveyques
-              id={"dateIncome"}
-              type={"date"}
-              labelText={translate?.Date_income}
-              value={dateIncome}
-              required={true}
-              handleVal={(id, val) => handleVal(id, val)}
-            />
-
-            {/* <Surveyques
+          {/* <Surveyques
             id={"supervisorIncome"}
             labelText={translate?.Supervisor_income}
             value={supervisorIncome}
@@ -416,16 +413,16 @@ export default function IncomeUpdatepage() {
             handleVal={(id, val) => handleVal(id, val)}
           /> */}
 
-            <SurveyDropdown
-              id={"mohallaCommiteeIncome"}
-              labelText={translate?.Mohalla_Commitee_income}
-              value={mohallaCommiteeIncome}
-              options={mohallaName}
-              required={true}
-              handleVal={(id, val) => handleVal(id, val)}
-            />
+          <SurveyDropdown
+            id={"mohallaCommiteeIncome"}
+            labelText={translate?.Mohalla_Commitee_income}
+            value={mohallaCommiteeIncome}
+            options={mohallaName}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
 
-            {/* <Surveyques
+          {/* <Surveyques
             id={"wardNoGpIncome"}
             labelText={translate?.Ward_No_GP_income}
             value={wardNoGpIncome}
@@ -433,65 +430,66 @@ export default function IncomeUpdatepage() {
             handleVal={(id, val) => handleVal(id, val)}
           /> */}
 
-            <SurveyDropdown
-              id={"localityNameVillageIncome"}
-              labelText={translate?.Locality_Name_Village_income}
-              value={localityNameVillageIncome}
-              required={true}
-              handleVal={(id, val) => handleVal(id, val)}
-              options={localName}
-            />
-            <SurveyDropdown
-              id={"wasteCollectorNameIncome"}
-              labelText={translate?.Waste_Collector_Name_income}
-              value={wasteCollectorNameIncome}
-              options={wasteCollectorName}
-              required={true}
-              handleVal={(id, val) => handleVal(id, val)}
-            />
-            <Surveyques
-              id={"recyclableSoldIncome"}
-              labelText={translate?.Recyclable_Sold_income}
-              value={recyclableSoldIncome}
-              required={true}
-              handleVal={(id, val) => handleVal(id, val)}
-              type={"number"}
-            />
+          <SurveyDropdown
+            id={"localityNameVillageIncome"}
+            labelText={translate?.Locality_Name_Village_income}
+            value={localityNameVillageIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+            options={localName}
+          />
+          <SurveyDropdown
+            id={"wasteCollectorNameIncome"}
+            labelText={translate?.Waste_Collector_Name_income}
+            value={wasteCollectorNameIncome}
+            options={wasteCollectorName}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          />
+          <Surveyques
+            id={"recyclableSoldIncome"}
+            labelText={translate?.Recyclable_Sold_income}
+            value={recyclableSoldIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
+          />
 
-            <Surveyques
-              id={"plasticRecyclableSoldIncome"}
-              labelText={translate?.Plastic_Recyclable_Sold_income}
-              value={plasticRecyclableSoldIncome}
-              required={true}
-              handleVal={(id, val) => handleVal(id, val)}
-              type={"number"}
-            />
+          <Surveyques
+            id={"plasticRecyclableSoldIncome"}
+            labelText={translate?.Plastic_Recyclable_Sold_income}
+            value={plasticRecyclableSoldIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
+          />
 
-            <Surveyques
-              id={"incomeFromSaleOfRecyclableIncome"}
-              labelText={translate?.Income_from_sale_of_recyclable_income}
-              value={incomeFromSaleOfRecyclableIncome}
-              required={true}
-              handleVal={(id, val) => handleVal(id, val)}
-              type={"number"}
-            />
+          <Surveyques
+            id={"incomeFromSaleOfRecyclableIncome"}
+            labelText={translate?.Income_from_sale_of_recyclable_income}
+            value={incomeFromSaleOfRecyclableIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
+          />
 
-            <Surveyques
-              id={"saleOfManureIncome"}
-              labelText={translate?.Sale_of_Manure_income}
-              value={saleOfManureIncome}
-              required={true}
-              handleVal={(id, val) => handleVal(id, val)}
-              type={"number"}
-            />
-            <div className={styles.btnContainer}>
-              <button className={styles.submitbtn} onClick={UpdateHandler}>
-                Update
-              </button>
-            </div>
+          <Surveyques
+            id={"saleOfManureIncome"}
+            labelText={translate?.Sale_of_Manure_income}
+            value={saleOfManureIncome}
+            required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
+          />
+          <div className={styles.btnContainer}>
+            <button className={styles.submitbtn} onClick={UpdateHandler}>
+              Update
+            </button>
           </div>
         </div>
-      </> :
-      <FormSkeletonLoader />
+      </div>
+    </>
+  ) : (
+    <FormSkeletonLoader />
   );
 }

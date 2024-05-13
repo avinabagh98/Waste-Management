@@ -11,13 +11,11 @@ import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 
-
 export default function WastecollectionAddPage() {
-
   //State variables
   const [userRole, setUserRole] = useState(null);
   const [token, setToken] = useState(null);
-
+  const [gp, setGp] = useState("");
 
   //form-data states
   const [today, setToday] = useState("");
@@ -83,9 +81,9 @@ export default function WastecollectionAddPage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: wardId,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: supervisor
+    supervisor: supervisor,
   };
 
   const formDataWC = {
@@ -124,9 +122,9 @@ export default function WastecollectionAddPage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-    setToday(localStorage.getItem("today"))
-    setDateWasteCollection(localStorage.getItem("today"))
-    setSupervisor(localStorage.getItem("supervisor"))
+    setToday(localStorage.getItem("today"));
+    setDateWasteCollection(localStorage.getItem("today"));
+    setSupervisor(localStorage.getItem("supervisor"));
     localStorage.setItem("previousPath", "/home/waste-collection-list");
 
     try {
@@ -145,6 +143,7 @@ export default function WastecollectionAddPage() {
           setWardId(localStorage.getItem("ward_id"));
           setNameOfULBBlockWasteCollection(localStorage.getItem("block"));
           setWardNoGPWasteCollection(localStorage.getItem("ward_id"));
+          setGp(localStorage.getItem("gp"));
 
           setSupervisorId(localStorage.getItem("supervisor_id"));
           setUserId(localStorage.getItem("user_id"));
@@ -241,7 +240,6 @@ export default function WastecollectionAddPage() {
       setDateWasteCollection(val);
     }
 
-
     if (id === "houseNumberWasteCollection") {
       setHouseNumberWasteCollection(val);
     }
@@ -310,7 +308,7 @@ export default function WastecollectionAddPage() {
   };
 
   const submitHandler = async (e) => {
-    setSpinner(true)
+    setSpinner(true);
     let flag = false;
     e.preventDefault();
     for (const field in formDataWC) {
@@ -320,7 +318,7 @@ export default function WastecollectionAddPage() {
       }
     }
     if (flag) {
-      setSpinner(false)
+      setSpinner(false);
       swal("Error", "Please fill all the fields", "error");
     } else {
       console.log("Waste Collection Submitted::", formDataWC);
@@ -343,10 +341,14 @@ export default function WastecollectionAddPage() {
   };
 
   return (
-
     <>
-
-      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
+          </div>
+        </>
+      ) : null}
       <Header
         userRole={userRole}
         isOffCanvasVisible={false}
@@ -570,6 +572,5 @@ export default function WastecollectionAddPage() {
         </div>
       </div>
     </>
-
   );
 }

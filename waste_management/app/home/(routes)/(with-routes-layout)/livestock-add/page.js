@@ -11,9 +11,7 @@ import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 
-
 export default function Livestockpage() {
-
   //State variables
   const [userRole, setUserRole] = useState("");
 
@@ -22,6 +20,7 @@ export default function Livestockpage() {
   const [fieldStaffLivestock, setFieldStaffLivestock] = useState("");
   const [dateOfReportingLivestock, setDateOfReportingLivestock] = useState("");
   const [wardNoGPLivestock, setWardNoGPLivestock] = useState("");
+  const [gp, setGp] = useState("");
   const [localityNameVillageLivestock, setLocalityNameVillageLivestock] =
     useState("");
   const [registorNumberLivestock, setRegistorNumberLivestock] = useState("");
@@ -54,28 +53,22 @@ export default function Livestockpage() {
   //Loader States
   const [spinner, setSpinner] = useState(false);
 
-
-
   //Other declarations
   const route = useRouter();
   const translate = LanguageFetcher();
 
-
-
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: wardId,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: supervisor
+    supervisor: supervisor,
   };
-
 
   const dropDownBody = {
     token: token,
     wardId: wardId,
   };
-
 
   const formDataLS = {
     token: token,
@@ -97,7 +90,6 @@ export default function Livestockpage() {
 
   // LocalStorage Fetching
   useEffect(() => {
-
     localStorage.setItem("previousPath", "/home/livestock-list");
     // setUserRole(localStorage.getItem("role_name"));
     try {
@@ -120,6 +112,7 @@ export default function Livestockpage() {
           setSupervisorId(localStorage.getItem("supervisor_id"));
           setFieldStaffLivestock(localStorage.getItem("name"));
           setWardNoGPLivestock(localStorage.getItem("ward_id"));
+          setGp(localStorage.getItem("gp"));
         }
       }
       fetchData();
@@ -135,7 +128,6 @@ export default function Livestockpage() {
         navigator.geolocation.getCurrentPosition((position) => {
           setLat(position.coords.latitude);
           setLong(position.coords.longitude);
-
         });
       } else {
         swal("Error", "Geolocation not available", "error");
@@ -144,8 +136,6 @@ export default function Livestockpage() {
 
     geolocation();
   }, []);
-
-
 
   // Locality By Ward API Calling
   useEffect(() => {
@@ -185,11 +175,11 @@ export default function Livestockpage() {
     }
   }, [locality]);
 
-
   // Handler Functions
   const handleVal = (id, val) => {
-
-    if (id === "dateOfReportingLivestock") { setDateOfReportingLivestock(val); }
+    if (id === "dateOfReportingLivestock") {
+      setDateOfReportingLivestock(val);
+    }
 
     if (id === "localityNameVillageLivestock") {
       let LVal = locality.filter((item) => item.village_name === val);
@@ -199,14 +189,27 @@ export default function Livestockpage() {
       setLocalityNameVillageLivestock(val);
     }
 
-    if (id === "registorNumberLivestock") { setRegistorNumberLivestock(val); }
-    if (id === "nameOfLivestockShedLivestock") { setNameOfLivestockShedLivestock(val); }
-    if (id === "nameOfOwnerLivestock") { setNameOfOwnerLivestock(val); }
-    if (id === "contactNumberLivestock") { setContactNumberLivestock(val); }
-    if (id === "numberOfLivestockLivestock") { setNumberOfLivestockLivestock(val); }
-    if (id === "compostableWasteTransferredLivestock") { setCompostableWasteTransferredLivestock(val); }
-    if (id === "typeOfLivestock") { setTypeOfLivestock(val); }
-
+    if (id === "registorNumberLivestock") {
+      setRegistorNumberLivestock(val);
+    }
+    if (id === "nameOfLivestockShedLivestock") {
+      setNameOfLivestockShedLivestock(val);
+    }
+    if (id === "nameOfOwnerLivestock") {
+      setNameOfOwnerLivestock(val);
+    }
+    if (id === "contactNumberLivestock") {
+      setContactNumberLivestock(val);
+    }
+    if (id === "numberOfLivestockLivestock") {
+      setNumberOfLivestockLivestock(val);
+    }
+    if (id === "compostableWasteTransferredLivestock") {
+      setCompostableWasteTransferredLivestock(val);
+    }
+    if (id === "typeOfLivestock") {
+      setTypeOfLivestock(val);
+    }
   };
 
   const handleValdropdown = (id, val) => {
@@ -242,7 +245,7 @@ export default function Livestockpage() {
           {
             headers: {
               Authorization: `Bearer ${token}`,
-            }
+            },
           }
         );
         if (res.status === 1) {
@@ -254,12 +257,18 @@ export default function Livestockpage() {
         console.log(error);
       }
     }
-  }
+  };
 
   return (
     <>
       {/* //spinner */}
-      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
+          </div>
+        </>
+      ) : null}
 
       {/* //Content */}
       <Header
@@ -269,7 +278,6 @@ export default function Livestockpage() {
       />
 
       <div className={styles.container}>
-
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
           <Textparser text={"Livestock Add"} />
@@ -324,7 +332,6 @@ export default function Livestockpage() {
             handleVal={handleValdropdown}
           />
 
-
           <Surveyques
             id={"registorNumberLivestock"}
             type={"text"}
@@ -332,7 +339,6 @@ export default function Livestockpage() {
             value={registorNumberLivestock}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-
           />
 
           <Surveyques
@@ -365,7 +371,6 @@ export default function Livestockpage() {
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
             type={"number"}
-
           />
           <Surveyques
             id={"numberOfLivestockLivestock"}
@@ -385,7 +390,9 @@ export default function Livestockpage() {
             type={"number"}
           />
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtn} onClick={submitHandler}>Submit</button>
+            <button className={styles.submitbtn} onClick={submitHandler}>
+              Submit
+            </button>
           </div>
         </div>
       </div>

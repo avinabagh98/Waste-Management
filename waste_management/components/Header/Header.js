@@ -47,7 +47,6 @@ export default function Header({
     });
   };
 
-
   const handleBack = () => {
     setSpinner(true);
     const prevPath = localStorage.getItem("previousPath");
@@ -56,9 +55,14 @@ export default function Header({
   };
   return (
     <>
-
       {/* //loader */}
-      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
+          </div>
+        </>
+      ) : null}
       <div className={styles.rowContainer}>
         <div className={defaultHeader ? styles.defaultHeader : styles.header}>
           <div
@@ -66,13 +70,15 @@ export default function Header({
               isOffCanvasVisible
                 ? styles.headerContent
                 : isOffCanvasVisible === false
-                  ? styles.offcanvas_false_headerContent
-                  : styles.defaultHeader
+                ? styles.offcanvas_false_headerContent
+                : styles.defaultHeader
             }
           >
             {isOffCanvasVisible ? (
               <>
-                {userRole === "supervisor" || userRole === "field-staff" || userRole === "waste-collector" ? (
+                {userRole === "supervisor" ||
+                userRole === "field-staff" ||
+                userRole === "waste-collector" ? (
                   <>
                     <div className={styles.headerOffcanvaBtn}>
                       <a onClick={handleShow}>
@@ -105,13 +111,14 @@ export default function Header({
 
                       <Offcanvas.Body className={styles.offCanvasBody}>
                         <div className={styles.offCanvasBodyMenu}>
-                          <div className={styles.MenuLink}
+                          <div
+                            className={styles.MenuLink}
                             onClick={(e) => {
                               e.preventDefault();
                               route.push("/home/dashboard");
                               setShow(false);
-                            }}>
-
+                            }}
+                          >
                             <img src="/svg/dashboard.svg"></img>
                             DASH BOARD
                           </div>
@@ -315,23 +322,21 @@ export default function Header({
                       <Textparser text={`${name}(${userRole})`} />
                       <Textparser text={`${supervisor} (Supervisor)`} />
                     </>
-
                   ) : (
                     <span className={styles.userRoleSelected}>
                       <Textparser text={` ${name} `} />
                     </span>
                   )}
-
-
                 </span>
-                {ward_id && district_name ?
-                  <span>{`Ward-${ward_id}`}
+                {ward_id && district_name ? (
+                  <span>
+                    {`GP-${ward_id}`}
                     <Textparser text={`${district_name}`} />
                     <Textparser text={`Block-${block_name}`} />
                   </span>
-
-
-                  : <></>}
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           ) : (

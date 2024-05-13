@@ -8,12 +8,10 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Textparser from "@/components/Textparser";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function WasteCollectionListPage() {
-
-
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [supervisor, setSupervisor] = useState("");
@@ -25,6 +23,7 @@ export default function WasteCollectionListPage() {
   const [name, setName] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
+  const [gp, setGp] = useState("");
 
   const [mohallas, setMohallas] = useState([]);
   const [mohallaName, setMohallaName] = useState([]);
@@ -35,15 +34,13 @@ export default function WasteCollectionListPage() {
   const [loaderVar2, setLoaderVar2] = useState(false);
   const [spinner, setSpinner] = useState(false);
 
-
-
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: ward_id,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: supervisor
+    supervisor: supervisor,
   };
   const wasteCollectionlistBody = {
     token: token,
@@ -78,6 +75,7 @@ export default function WasteCollectionListPage() {
             setDistrictName(localStorage.getItem("district"));
             setBLockName(localStorage.getItem("block"));
             setWard_id(localStorage.getItem("ward_id"));
+            setGp(localStorage.getItem("gp"));
           }
         }
 
@@ -187,11 +185,10 @@ export default function WasteCollectionListPage() {
     }
   }, [token]);
 
-
   const getMohallaName = (array, id) => {
     if (array.length > 0) {
       let mohalla = array.filter((item) => item.id == id);
-      return mohalla[0].committee_name;
+      return mohalla[0]?.committee_name;
     }
   };
 
@@ -202,15 +199,16 @@ export default function WasteCollectionListPage() {
     }
   };
 
-
   const showHandler = (arrayData) => {
-
     //Date Formatter
     const formatDate = (dateString) => {
-      const [year, month, day] = dateString.split('-');
+      const [year, month, day] = dateString.split("-");
       return `${day}/${month}/${year}`;
     };
-    const mohalla_name = getMohallaName(mohallas, arrayData.moholla_committee_id);
+    const mohalla_name = getMohallaName(
+      mohallas,
+      arrayData.moholla_committee_id
+    );
     const locality_name = getLocalityName(locality, arrayData.locality_id);
     const formattedDate = formatDate(arrayData?.date);
     const mohalla_ID = arrayData?.moholla_committee_id;
@@ -255,145 +253,175 @@ export default function WasteCollectionListPage() {
     });
   };
 
-
-
-  return (
-    loaderVar1 && loaderVar2 ?
-
-      // Content Load
-      <>
-
-        {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
-        <Header
-          loadingdata={loadingHeaderData}
-          userRole={userRole}
-          isOffCanvasVisible={false}
-        />
-
-        <div className={styles.bodyContainer}>
-
-          {/* //breadcrumb */}
-          <div className={styles.breadcrumb}>
-            <Textparser text={"Weekly Waste Collection List"} />
+  return loaderVar1 && loaderVar2 ? (
+    // Content Load
+    <>
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
           </div>
+        </>
+      ) : null}
+      <Header
+        loadingdata={loadingHeaderData}
+        userRole={userRole}
+        isOffCanvasVisible={false}
+      />
 
-
-          <div className={styles.ListContainerWasteCollection}>
-
-            {/* <div className={styles.textParser}><Textparser text={`Supervisor: ${supervisor}`} /> </div> */}
-
-            {/* //Table Container */}
-            <div className={styles.tableContainer}>
-
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Date</th>
-                    {/* <th>House Number</th> */}
-                    <th>Resident Name</th>
-                    {/* <th>Mohalla Committee</th> */}
-                    <th style={{ textAlign: "center" }}>Action</th>
-
-                  </tr>
-                </thead>
-                <tbody className={styles.table_body}>
-                  {api_wasteCollectionData.map((item, index) => {
-
-                    //Date Formatter
-                    const formatDate = (dateString) => {
-                      const [year, month, day] = dateString.split('-');
-                      return `${day}/${month}/${year}`;
-                    };
-
-                    const formattedDate = formatDate(item.date);
-
-                    return (
-
-                      <tr key={item.id}>
-                        <td className={styles.td}>{index + 1}</td>
-                        <td className={styles.td}>{formattedDate}</td>
-                        {/* <td className={styles.td}>{item.house_number}</td> */}
-                        <td className={styles.td}>{item.resident_name}</td>
-                        {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
-                        <td className={styles.actionWaste}>
-                          <img onClick={() => { showHandler(item) }} src="/svg/eye.svg" alt="Show_details"></img>
-                          <img onClick={() => { editHandler(item) }} src="/svg/edit.svg" alt="update"></img>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className={styles.addNewContainer}>
-            <img
-              src="/svg/add_new.svg"
-              alt="add_new"
-              onClick={() => {
-                setSpinner(true);
-                route.push("/home/waste-collection-add");
-              }}
-            ></img>
-          </div>
+      <div className={styles.bodyContainer}>
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Weekly Waste Collection List"} />
         </div>
-      </> :
 
-      //Skeleton loader
-      <>
-        <Header
-          loadingdata={loadingHeaderData}
-          userRole={userRole}
-          isOffCanvasVisible={false}
-        />
+        <div className={styles.ListContainerWasteCollection}>
+          {/* <div className={styles.textParser}><Textparser text={`Supervisor: ${supervisor}`} /> </div> */}
 
-        <div className={styles.bodyContainer}>
-          {/* Breadcrumb */}
-          <div className={styles.breadcrumb}>
-            <Skeleton width={200} height={15} baseColor="#6fd199" borderRadius={20} />
-          </div>
+          {/* //Table Container */}
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Date</th>
+                  {/* <th>House Number</th> */}
+                  <th>Resident Name</th>
+                  {/* <th>Mohalla Committee</th> */}
+                  <th style={{ textAlign: "center" }}>Action</th>
+                </tr>
+              </thead>
+              <tbody className={styles.table_body}>
+                {api_wasteCollectionData.map((item, index) => {
+                  //Date Formatter
+                  const formatDate = (dateString) => {
+                    const [year, month, day] = dateString.split("-");
+                    return `${day}/${month}/${year}`;
+                  };
 
-          {/* List Container */}
-          <div className={styles.ListContainerWasteCollection}>
-            <div className={styles.textParser}>
-              <Skeleton width={300} height={10} baseColor="#f2d98d" borderRadius={50} />
-            </div>
+                  const formattedDate = formatDate(item.date);
 
-            {/* Table Container */}
-            <div className={styles.tableContainer}>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th><Skeleton width={25} baseColor="#6b96db" /></th>
-                    <th><Skeleton width={50} baseColor="#6b96db" /></th>
-                    <th><Skeleton width={100} baseColor="#6b96db" /></th>
-                    <th style={{ textAlign: "center" }}><Skeleton width={50} /></th>
-                  </tr>
-                </thead>
-                <tbody className={styles.table_body}>
-                  {[...Array(5)].map((_, index) => (
-                    <tr key={index}>
-                      <td className={styles.td}><Skeleton width={25} /></td>
-                      <td className={styles.td}><Skeleton width={50} /></td>
-                      <td className={styles.td}><Skeleton width={100} /></td>
-                      <td className="text-center">
-                        <Skeleton circle={true} height={30} width={30} />
-                        <Skeleton circle={true} height={30} width={30} />
+                  return (
+                    <tr key={item.id}>
+                      <td className={styles.td}>{index + 1}</td>
+                      <td className={styles.td}>{formattedDate}</td>
+                      {/* <td className={styles.td}>{item.house_number}</td> */}
+                      <td className={styles.td}>{item.resident_name}</td>
+                      {/* <td className={styles.td}>{item.moholla_committee_id}</td> */}
+                      <td className={styles.actionWaste}>
+                        <img
+                          onClick={() => {
+                            showHandler(item);
+                          }}
+                          src="/svg/eye.svg"
+                          alt="Show_details"
+                        ></img>
+                        <img
+                          onClick={() => {
+                            editHandler(item);
+                          }}
+                          src="/svg/edit.svg"
+                          alt="update"
+                        ></img>
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Add New Container */}
-          <div className={styles.addNewContainer}>
-            <Skeleton circle={true} height={50} width={50} baseColor="#6fd199" />
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
-      </>
+
+        <div className={styles.addNewContainer}>
+          <img
+            src="/svg/add_new.svg"
+            alt="add_new"
+            onClick={() => {
+              setSpinner(true);
+              route.push("/home/waste-collection-add");
+            }}
+          ></img>
+        </div>
+      </div>
+    </>
+  ) : (
+    //Skeleton loader
+    <>
+      <Header
+        loadingdata={loadingHeaderData}
+        userRole={userRole}
+        isOffCanvasVisible={false}
+      />
+
+      <div className={styles.bodyContainer}>
+        {/* Breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Skeleton
+            width={200}
+            height={15}
+            baseColor="#6fd199"
+            borderRadius={20}
+          />
+        </div>
+
+        {/* List Container */}
+        <div className={styles.ListContainerWasteCollection}>
+          <div className={styles.textParser}>
+            <Skeleton
+              width={300}
+              height={10}
+              baseColor="#f2d98d"
+              borderRadius={50}
+            />
+          </div>
+
+          {/* Table Container */}
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>
+                    <Skeleton width={25} baseColor="#6b96db" />
+                  </th>
+                  <th>
+                    <Skeleton width={50} baseColor="#6b96db" />
+                  </th>
+                  <th>
+                    <Skeleton width={100} baseColor="#6b96db" />
+                  </th>
+                  <th style={{ textAlign: "center" }}>
+                    <Skeleton width={50} />
+                  </th>
+                </tr>
+              </thead>
+              <tbody className={styles.table_body}>
+                {[...Array(5)].map((_, index) => (
+                  <tr key={index}>
+                    <td className={styles.td}>
+                      <Skeleton width={25} />
+                    </td>
+                    <td className={styles.td}>
+                      <Skeleton width={50} />
+                    </td>
+                    <td className={styles.td}>
+                      <Skeleton width={100} />
+                    </td>
+                    <td className="text-center">
+                      <Skeleton circle={true} height={30} width={30} />
+                      <Skeleton circle={true} height={30} width={30} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Add New Container */}
+        <div className={styles.addNewContainer}>
+          <Skeleton circle={true} height={50} width={50} baseColor="#6fd199" />
+        </div>
+      </div>
+    </>
   );
 }

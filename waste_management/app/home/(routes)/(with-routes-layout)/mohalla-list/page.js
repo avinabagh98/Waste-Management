@@ -8,16 +8,15 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Textparser from "@/components/Textparser";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function MohallaListPage() {
-
-
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
   const [ward_id, setWard_id] = useState("");
+  const [gp, setGp] = useState("");
   const [api_mohallaData, setApi_mohallaData] = useState([]);
 
   const [mohallas, setMohallas] = useState([]);
@@ -29,7 +28,6 @@ export default function MohallaListPage() {
   const [localName, setLocalName] = useState([]);
   const [localityId, setLocalityId] = useState([]);
   const [supervisor, setSupervisor] = useState("");
-
 
   //Loading Header Data States
   const [name, setName] = useState("");
@@ -47,9 +45,9 @@ export default function MohallaListPage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: wardId,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: supervisor
+    supervisor: supervisor,
   };
 
   const mohallalistBody = {
@@ -84,7 +82,7 @@ export default function MohallaListPage() {
           setBLockName(localStorage.getItem("block"));
           setWardId(localStorage.getItem("ward_id"));
           setSupervisor(localStorage.getItem("supervisor"));
-
+          setGp(localStorage.getItem("gp"));
         }
       }
       fetchData();
@@ -116,7 +114,6 @@ export default function MohallaListPage() {
 
     fetchLists();
   }, [token]);
-
 
   // Mohalla Committee List Dropdown Fetching
   useEffect(() => {
@@ -197,8 +194,6 @@ export default function MohallaListPage() {
     }
   }, [locality]);
 
-
-
   // Handler Functions
 
   const editHandler = (id) => {
@@ -213,188 +208,276 @@ export default function MohallaListPage() {
       title: "Mohalla Details",
       html: `<swal-html>
             <div id="Mohalla Committee Details">
-            <p style="text-align:left ; font-size:15px"><strong>Id:</strong> ${arrayData?.id}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Date of Meeting:</strong> ${arrayData?.date_of_meeting}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Field Staff:</strong> ${arrayData?.field_staff_id}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Supervisor:</strong> ${arrayData?.supervisor_id}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Locality:</strong> ${arrayData?.locality_id}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Ward:</strong> ${arrayData?.ward_id}</p>
-            <p style="text-align:left ; font-size:15px"><strong >Mohalla Name:</strong> ${arrayData?.moholla_committee_id}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Id:</strong> ${
+              arrayData?.id
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Date of Meeting:</strong> ${
+              arrayData?.date_of_meeting
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Field Staff:</strong> ${
+              arrayData?.field_staff_id
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Supervisor:</strong> ${
+              arrayData?.supervisor_id
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Locality:</strong> ${
+              arrayData?.locality_id
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Ward:</strong> ${
+              arrayData?.ward_id
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong >Mohalla Name:</strong> ${
+              arrayData?.moholla_committee_id
+            }</p>
 
-            <p style="text-align:left ; font-size:15px"><strong>Households under Mohalla Committee:</strong> ${arrayData?.household_mc}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Is Household doing Segregation:</strong> ${arrayData?.household_segregation === "0" ? "No" : arrayData?.household_segregation === "1" ? "Yes" : ""}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Is Waste Collector Regular:</strong> ${arrayData?.is_wastecollector_regular === "0" ? "No" : arrayData?.is_wastecollector_regular === "1" ? "Yes" : ""}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Is Waste Coming to Composter 1:</strong> ${arrayData?.is_wastecoming_composter1 === "0" ? "No" : arrayData?.is_wastecoming_composter1 === "1" ? "Yes" : ""}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Is Waste Coming to Composter 2:</strong> ${arrayData?.is_wastecoming_composter2 === "0" ? "No" : arrayData?.household_segregation === "1" ? "Yes" : ""}</p>
+            <p style="text-align:left ; font-size:15px"><strong>Households under Mohalla Committee:</strong> ${
+              arrayData?.household_mc
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Is Household doing Segregation:</strong> ${
+              arrayData?.household_segregation === "0"
+                ? "No"
+                : arrayData?.household_segregation === "1"
+                ? "Yes"
+                : ""
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Is Waste Collector Regular:</strong> ${
+              arrayData?.is_wastecollector_regular === "0"
+                ? "No"
+                : arrayData?.is_wastecollector_regular === "1"
+                ? "Yes"
+                : ""
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Is Waste Coming to Composter 1:</strong> ${
+              arrayData?.is_wastecoming_composter1 === "0"
+                ? "No"
+                : arrayData?.is_wastecoming_composter1 === "1"
+                ? "Yes"
+                : ""
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Is Waste Coming to Composter 2:</strong> ${
+              arrayData?.is_wastecoming_composter2 === "0"
+                ? "No"
+                : arrayData?.household_segregation === "1"
+                ? "Yes"
+                : ""
+            }</p>
            
-            <p style="text-align:left ; font-size:15px"><strong>HH paying user charges:</strong> ${arrayData?.hh_user_pay_charge}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Manure Generated (Kg):</strong> ${arrayData?.manure_generated}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Manure Sold (Kg):</strong> ${arrayData?.manure_sold}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Income from Manure Sold (Rs.):</strong> ${arrayData?.incomefrom_manuresold}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Number of HH taking home composting:</strong> ${arrayData?.no_of_undertaken_homecomposting}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Other Expenses (Rs):</strong> ${arrayData?.other_expense}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Salary of Waste Picker (Rs):</strong> ${arrayData?.salarypicker_wastepicker}</p>
-            <p style="text-align:left ; font-size:15px"><strong>User Charges Collection (Rs):</strong> ${arrayData?.user_charge_collection}</p>
-            <p style="text-align:left ; font-size:15px"><strong>Balance(Rs):</strong> ${arrayData?.balance}</p>
+            <p style="text-align:left ; font-size:15px"><strong>HH paying user charges:</strong> ${
+              arrayData?.hh_user_pay_charge
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Manure Generated (Kg):</strong> ${
+              arrayData?.manure_generated
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Manure Sold (Kg):</strong> ${
+              arrayData?.manure_sold
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Income from Manure Sold (Rs.):</strong> ${
+              arrayData?.incomefrom_manuresold
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Number of HH taking home composting:</strong> ${
+              arrayData?.no_of_undertaken_homecomposting
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Other Expenses (Rs):</strong> ${
+              arrayData?.other_expense
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Salary of Waste Picker (Rs):</strong> ${
+              arrayData?.salarypicker_wastepicker
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>User Charges Collection (Rs):</strong> ${
+              arrayData?.user_charge_collection
+            }</p>
+            <p style="text-align:left ; font-size:15px"><strong>Balance(Rs):</strong> ${
+              arrayData?.balance
+            }</p>
             </div>
           </swal-html>`,
     });
   };
 
-  return (
-    loaderVar1 && loaderVar2 && loaderVar3 ?
+  return loaderVar1 && loaderVar2 && loaderVar3 ? (
+    // Content Load
+    <>
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
+          </div>
+        </>
+      ) : null}
+      <Header
+        loadingdata={loadingHeaderData}
+        userRole={userRole}
+        isOffCanvasVisible={false}
+      />
 
-      // Content Load
-      <>
-        {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
-        <Header
-          loadingdata={loadingHeaderData}
-          userRole={userRole}
-          isOffCanvasVisible={false}
-        />
+      <div className={styles.bodyContainer}>
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Mohalla Committee List"} />
+        </div>
 
-        <div className={styles.bodyContainer}>
-          {/* //breadcrumb */}
-          <div className={styles.breadcrumb}>
-            <Textparser text={"Mohalla Committee List"} />
+        {/* //List */}
+
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <thead>
+              <tr className={styles.thead}>
+                <th>SL</th>
+                <th>Date of Meeting</th>
+                <th>Locality</th>
+                <th>Mohalla</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody className={styles.table_body}>
+              {api_mohallaData.map((item, index) => {
+                //Date Formatter
+                const formatDate = (dateString) => {
+                  if (
+                    dateString === null ||
+                    dateString === "" ||
+                    dateString === undefined
+                  ) {
+                    console.log("ERROR", dateString);
+                  } else {
+                    const [year, month, day] = dateString.split("-");
+                    return `${day}/${month}/${year}`;
+                  }
+                };
+
+                // Mohalla Name Picker
+                let getMohalla = mohallas.filter(
+                  (item1) => item1.id === item.moholla_committee_id
+                );
+                //Location Name Picker
+                let getLocality = locality.filter(
+                  (item1) => item1.id === item.locality_id
+                );
+
+                const formattedDate = formatDate(item.date_of_meeting);
+                return (
+                  <tr key={index}>
+                    <td className={styles.td}>{index + 1}</td>
+                    <td className={styles.td}>{formattedDate}</td>
+                    <td className={styles.td}>
+                      {getLocality[0]?.village_name}
+                    </td>
+                    <td className={styles.td}>
+                      {getMohalla[0]?.committee_name}
+                    </td>
+                    <td className={styles.actionWaste}>
+                      <img
+                        onClick={() => {
+                          showHandler(item);
+                        }}
+                        src="/svg/eye.svg"
+                        alt="Show_details"
+                      ></img>
+                      <img
+                        onClick={() => {
+                          editHandler(item.id);
+                        }}
+                        src="/svg/edit.svg"
+                        alt="update"
+                      ></img>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <div className={styles.addNewContainer}>
+          <img
+            src="/svg/add_new.svg"
+            alt="add_new"
+            onClick={() => {
+              setSpinner(true);
+              route.push("/home/mohalla-add");
+            }}
+          ></img>
+        </div>
+      </div>
+    </>
+  ) : (
+    //Skeleton loader
+    <>
+      <Header
+        loadingdata={loadingHeaderData}
+        userRole={userRole}
+        isOffCanvasVisible={false}
+      />
+
+      <div className={styles.bodyContainer}>
+        {/* Breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Skeleton
+            width={200}
+            height={15}
+            baseColor="#6fd199"
+            borderRadius={20}
+          />
+        </div>
+
+        {/* List Container */}
+        <div className={styles.ListContainerWasteCollection}>
+          <div className={styles.textParser}>
+            <Skeleton
+              width={300}
+              height={10}
+              baseColor="#f2d98d"
+              borderRadius={50}
+            />
           </div>
 
-          {/* //List */}
-
+          {/* Table Container */}
           <div className={styles.tableContainer}>
             <table className={styles.table}>
               <thead>
-                <tr className={styles.thead}>
-                  <th>SL</th>
-                  <th>Date of Meeting</th>
-                  <th>Locality</th>
-                  <th>Mohalla</th>
-                  <th>Action</th>
-
+                <tr>
+                  <th>
+                    <Skeleton width={25} baseColor="#6b96db" />
+                  </th>
+                  <th>
+                    <Skeleton width={50} baseColor="#6b96db" />
+                  </th>
+                  <th>
+                    <Skeleton width={100} baseColor="#6b96db" />
+                  </th>
+                  <th style={{ textAlign: "center" }}>
+                    <Skeleton width={50} />
+                  </th>
                 </tr>
               </thead>
               <tbody className={styles.table_body}>
-                {api_mohallaData.map((item, index) => {
-
-
-                  //Date Formatter
-                  const formatDate = (dateString) => {
-                    if (dateString === null || dateString === "" || dateString === undefined) {
-                      console.log("ERROR", dateString);
-
-                    }
-                    else {
-                      const [year, month, day] = dateString.split('-');
-                      return `${day}/${month}/${year}`
-                    }
-                  };
-
-                  // Mohalla Name Picker
-                  let getMohalla = mohallas.filter((item1) => (item1.id === item.moholla_committee_id));
-                  //Location Name Picker
-                  let getLocality = locality.filter((item1) => (item1.id === item.locality_id));
-
-                  const formattedDate = formatDate(item.date_of_meeting);
-                  return (
-                    <tr key={index}>
-                      <td className={styles.td}>{index + 1}</td>
-                      <td className={styles.td}>{formattedDate}</td>
-                      <td className={styles.td}>{getLocality[0]?.village_name}</td>
-                      <td className={styles.td}>{getMohalla[0]?.committee_name}</td>
-                      <td className={styles.actionWaste}>
-                        <img
-                          onClick={() => {
-                            showHandler(item);
-                          }}
-                          src="/svg/eye.svg"
-                          alt="Show_details"
-                        ></img>
-                        <img
-                          onClick={() => {
-                            editHandler(item.id);
-                          }}
-                          src="/svg/edit.svg"
-                          alt="update"
-                        ></img>
-                      </td>
-                    </tr>
-                  )
-                }
-
-
-                )}
+                {[...Array(5)].map((_, index) => (
+                  <tr key={index}>
+                    <td className={styles.td}>
+                      <Skeleton width={25} />
+                    </td>
+                    <td className={styles.td}>
+                      <Skeleton width={50} />
+                    </td>
+                    <td className={styles.td}>
+                      <Skeleton width={100} />
+                    </td>
+                    <td className="text-center">
+                      <Skeleton circle={true} height={30} width={30} />
+                      <Skeleton circle={true} height={30} width={30} />
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
-
-
-          <div className={styles.addNewContainer}>
-            <img
-              src="/svg/add_new.svg"
-              alt="add_new"
-              onClick={() => {
-                setSpinner(true);
-                route.push("/home/mohalla-add");
-              }}
-            ></img>
-          </div>
         </div>
-      </>
-      :
 
-      //Skeleton loader
-      <>
-        <Header
-          loadingdata={loadingHeaderData}
-          userRole={userRole}
-          isOffCanvasVisible={false}
-        />
-
-        <div className={styles.bodyContainer}>
-          {/* Breadcrumb */}
-          <div className={styles.breadcrumb}>
-            <Skeleton width={200} height={15} baseColor="#6fd199" borderRadius={20} />
-          </div>
-
-          {/* List Container */}
-          <div className={styles.ListContainerWasteCollection}>
-            <div className={styles.textParser}>
-              <Skeleton width={300} height={10} baseColor="#f2d98d" borderRadius={50} />
-            </div>
-
-            {/* Table Container */}
-            <div className={styles.tableContainer}>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th><Skeleton width={25} baseColor="#6b96db" /></th>
-                    <th><Skeleton width={50} baseColor="#6b96db" /></th>
-                    <th><Skeleton width={100} baseColor="#6b96db" /></th>
-                    <th style={{ textAlign: "center" }}><Skeleton width={50} /></th>
-                  </tr>
-                </thead>
-                <tbody className={styles.table_body}>
-                  {[...Array(5)].map((_, index) => (
-                    <tr key={index}>
-                      <td className={styles.td}><Skeleton width={25} /></td>
-                      <td className={styles.td}><Skeleton width={50} /></td>
-                      <td className={styles.td}><Skeleton width={100} /></td>
-                      <td className="text-center">
-                        <Skeleton circle={true} height={30} width={30} />
-                        <Skeleton circle={true} height={30} width={30} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Add New Container */}
-          <div className={styles.addNewContainer}>
-            <Skeleton circle={true} height={50} width={50} baseColor="#6fd199" />
-          </div>
+        {/* Add New Container */}
+        <div className={styles.addNewContainer}>
+          <Skeleton circle={true} height={50} width={50} baseColor="#6fd199" />
         </div>
-      </>
+      </div>
+    </>
   );
 }

@@ -13,9 +13,6 @@ import { sendRequest } from "@/api/sendRequest";
 import axios from "axios";
 
 export default function HouseholdAddpage() {
-
-
-
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -25,6 +22,7 @@ export default function HouseholdAddpage() {
   const [supervisorHHSurvey, setSupervisorHHSurvey] = useState("");
   const [fieldStaffHHSurvey, setFieldStaffHHSurvey] = useState("");
   const [wardNoGPHHSurvey, setWardNoGPHHSurvey] = useState("");
+  const [gp, setGp] = useState("");
   const [localityNameMohallaHHSurvey, setLocalityNameMohallaHHSurvey] =
     useState("");
   const [houseNumberHHSurvey, setHouseNumberHHSurvey] = useState("");
@@ -101,7 +99,7 @@ export default function HouseholdAddpage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: ward_id,
+    ward_id: gp,
     block_name: block_name,
   };
 
@@ -157,8 +155,8 @@ export default function HouseholdAddpage() {
   // LocalStorage Fetching
   useEffect(() => {
     localStorage.setItem("previousPath", "/home/household-list");
-    setToday(localStorage.getItem("today"))
-    setDateHHSurvey(localStorage.getItem("today"))
+    setToday(localStorage.getItem("today"));
+    setDateHHSurvey(localStorage.getItem("today"));
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
@@ -178,6 +176,7 @@ export default function HouseholdAddpage() {
           setUser_id(localStorage.getItem("user_id"));
           setWardNoGPHHSurvey(localStorage.getItem("ward"));
           setWard_id(localStorage.getItem("ward_id"));
+          setGp(localStorage.getItem("gp"));
         }
       }
       fetchData();
@@ -507,20 +506,25 @@ export default function HouseholdAddpage() {
           console.log("Household Survey Response", household_add_res);
           route.push("/home/household-list");
         }
-
       }
     } catch (error) {
       setSpinner(false);
       console.log(error);
       if (error.name === "AxiosError") {
-        swal("Error", error.response.data.data.msg, "error")
+        swal("Error", error.response.data.data.msg, "error");
       }
     }
   };
 
   return (
     <>
-      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
+          </div>
+        </>
+      ) : null}
       <Header
         userRole={userRole}
         isOffCanvasVisible={false}
@@ -629,7 +633,6 @@ export default function HouseholdAddpage() {
             value={nameOfResidentHHSurvey}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-
           />
 
           <Surveyques
@@ -656,7 +659,7 @@ export default function HouseholdAddpage() {
             value={roadLane}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
+            type={"text"}
           />
 
           <Surveyques
@@ -665,7 +668,7 @@ export default function HouseholdAddpage() {
             value={roadLane}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
+            type={"text"}
           />
 
           <Surveyques
@@ -679,10 +682,11 @@ export default function HouseholdAddpage() {
 
           <Surveyques
             id={"wgutype"}
-            labelText={"Wgu Type"}
+            labelText={"W.g.u Type"}
             value={WGUtype}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
+            type={"number"}
           />
 
           <Surveyques

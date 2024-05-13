@@ -9,16 +9,15 @@ import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Listcard from "@/components/Listcard";
 import Textparser from "@/components/Textparser";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function LivestockListPage() {
-
-
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
   const [ward_id, setWard_id] = useState("");
+  const [gp, setGp] = useState("");
   const [api_livestockData, setApi_livestockData] = useState([]);
   //Loading Header Data States
   const [name, setName] = useState("");
@@ -27,14 +26,14 @@ export default function LivestockListPage() {
   const [supervisor, setSupervisor] = useState("");
 
   //loader states
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const [spinner, setSpinner] = useState(false);
 
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: ward_id,
+    ward_id: gp,
     block_name: block_name,
     supervisor: supervisor,
   };
@@ -66,7 +65,7 @@ export default function LivestockListPage() {
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
-
+          setGp(localStorage.getItem("gp"));
         }
       }
       fetchData();
@@ -109,7 +108,7 @@ export default function LivestockListPage() {
   // Handler Functions
   const editHandler = (id) => {
     setSpinner(true);
-    localStorage.setItem("id", id)
+    localStorage.setItem("id", id);
     route.push("/home/livestock-update");
   };
 
@@ -121,117 +120,137 @@ export default function LivestockListPage() {
           <div id="livestockDetails">
 
           <div style="display:flex; align-items:center; gap:10px">
-          <p style="text-align:left"><strong>Livestock Id:</strong> ${arrayData?.id
-        }</p>
-          <p style="text-align:left"><strong>Registor No:</strong> ${arrayData?.regester_no
-        }</p>
+          <p style="text-align:left"><strong>Livestock Id:</strong> ${
+            arrayData?.id
+          }</p>
+          <p style="text-align:left"><strong>Registor No:</strong> ${
+            arrayData?.regester_no
+          }</p>
           </div>
           
           <div style="display:flex; align-items:center;gap:10px">
-          <p style="text-align:left"><strong>Ward:</strong> ${arrayData?.ward
-        }</p>
-          <p style="text-align:left"><strong>Municipality:</strong> ${arrayData?.municipality_id
-        }</p>
+          <p style="text-align:left"><strong>Ward:</strong> ${
+            arrayData?.ward
+          }</p>
+          <p style="text-align:left"><strong>Municipality:</strong> ${
+            arrayData?.municipality_id
+          }</p>
           </div>
 
-          <p style="text-align:left"><strong>Location:</strong> ${arrayData?.latitude
-        }, ${arrayData?.longitude}</p>
-          <p style="text-align:left"><strong >Livestock Name:</strong> ${arrayData?.name_of_live_shed
-        }</p>
-          <p style="text-align:left"><strong>Livestock Type:</strong> ${arrayData?.livestock_type
-        }</p>
-          <p style="text-align:left"><strong>Name of Owner:</strong> ${arrayData?.name_of_owner
-        }</p>
-          <p style="text-align:left"><strong>Contact Number:</strong> ${arrayData?.contact_number
-        }</p>
-          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${arrayData?.compostable_waste
-        }</p>
-          <p style="text-align:left"><strong>Is Approved:</strong> ${arrayData?.is_approve === "0" ? "Not approved" : "Approved"
-        }</p>
+          <p style="text-align:left"><strong>Location:</strong> ${
+            arrayData?.latitude
+          }, ${arrayData?.longitude}</p>
+          <p style="text-align:left"><strong >Livestock Name:</strong> ${
+            arrayData?.name_of_live_shed
+          }</p>
+          <p style="text-align:left"><strong>Livestock Type:</strong> ${
+            arrayData?.livestock_type
+          }</p>
+          <p style="text-align:left"><strong>Name of Owner:</strong> ${
+            arrayData?.name_of_owner
+          }</p>
+          <p style="text-align:left"><strong>Contact Number:</strong> ${
+            arrayData?.contact_number
+          }</p>
+          <p style="text-align:left"><strong>Compostable Waste (KG):</strong> ${
+            arrayData?.compostable_waste
+          }</p>
+          <p style="text-align:left"><strong>Is Approved:</strong> ${
+            arrayData?.is_approve === "0" ? "Not approved" : "Approved"
+          }</p>
           </div>
         </swal-html>`,
     });
   };
 
-  return (
-    !isLoading ?
-      <>
-        {/* //Spinner */}
-        {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
-
-        {/* //Content */}
-        <Header
-          loadingdata={loadingHeaderData}
-          userRole={userRole}
-          isOffCanvasVisible={false}
-        />
-
-        <div className={styles.bodyContainer}>
-
-          {/* //breadcrumb */}
-          <div className={styles.breadcrumb}>
-            <Textparser text={"Livestock List"} />
+  return !isLoading ? (
+    <>
+      {/* //Spinner */}
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
           </div>
+        </>
+      ) : null}
 
-          {/* //Lists */}
-          <div className={styles.listContainer}>
-            {api_livestockData ? (
-              api_livestockData.map((livestock) => {
-                return (
-                  <Listcard
-                    key={livestock.id}
-                    name={livestock?.name_of_live_shed}
-                    type={livestock?.livestock_type}
-                    status={
-                      livestock?.is_approve === "0" ? "Not approved" : "Approved"
-                    }
-                    owner_name={livestock.name_of_owner}
-                    owner_contact={livestock.contact_number}
-                    editHandler={() => { editHandler(livestock.id) }}
-                    ShowHandler={(e) => {
-                      showHandler(livestock);
-                    }}
-                  />
-                );
-              })
-            ) : (
-              <></>
-            )}
-          </div>
+      {/* //Content */}
+      <Header
+        loadingdata={loadingHeaderData}
+        userRole={userRole}
+        isOffCanvasVisible={false}
+      />
 
-          {/* //Add New Button */}
-          <div className={styles.addNewContainer}>
-            <img
-              src="/svg/add_new.svg"
-              alt="add_new"
-              onClick={() => {
-                setSpinner(true);
-                route.push("/home/livestock-add");
-              }}
-            ></img>
-          </div>
+      <div className={styles.bodyContainer}>
+        {/* //breadcrumb */}
+        <div className={styles.breadcrumb}>
+          <Textparser text={"Livestock List"} />
         </div>
-      </> :
 
-      //Skeleton Loader
-      <>
+        {/* //Lists */}
+        <div className={styles.listContainer}>
+          {api_livestockData ? (
+            api_livestockData.map((livestock) => {
+              return (
+                <Listcard
+                  key={livestock.id}
+                  name={livestock?.name_of_live_shed}
+                  type={livestock?.livestock_type}
+                  status={
+                    livestock?.is_approve === "0" ? "Not approved" : "Approved"
+                  }
+                  owner_name={livestock.name_of_owner}
+                  owner_contact={livestock.contact_number}
+                  editHandler={() => {
+                    editHandler(livestock.id);
+                  }}
+                  ShowHandler={(e) => {
+                    showHandler(livestock);
+                  }}
+                />
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
 
-        <Header
-          loadingdata={loadingHeaderData}
-          userRole={userRole}
-          isOffCanvasVisible={false}
-        />
-        {[...Array(3)].map(() => {
-          return (<div className={styles.skeletonCard}>
+        {/* //Add New Button */}
+        <div className={styles.addNewContainer}>
+          <img
+            src="/svg/add_new.svg"
+            alt="add_new"
+            onClick={() => {
+              setSpinner(true);
+              route.push("/home/livestock-add");
+            }}
+          ></img>
+        </div>
+      </div>
+    </>
+  ) : (
+    //Skeleton Loader
+    <>
+      <Header
+        loadingdata={loadingHeaderData}
+        userRole={userRole}
+        isOffCanvasVisible={false}
+      />
+      {[...Array(3)].map(() => {
+        return (
+          <div className={styles.skeletonCard}>
             <Skeleton height={100} />
             <div className={styles.skeletoncardContent}>
-              <h3 className={styles.skeletoncardTitle}><Skeleton width={100} /></h3>
-              <p className={styles.skeletoncardDescription}><Skeleton count={3} /></p>
+              <h3 className={styles.skeletoncardTitle}>
+                <Skeleton width={100} />
+              </h3>
+              <p className={styles.skeletoncardDescription}>
+                <Skeleton count={3} />
+              </p>
             </div>
-          </div>)
-        })}
-
-
-      </>
+          </div>
+        );
+      })}
+    </>
   );
 }

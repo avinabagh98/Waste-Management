@@ -12,7 +12,6 @@ import SurveyDropdown from "@/components/SurveyDropdown";
 import Textparser from "@/components/Textparser";
 
 export default function ComunityCleanpage() {
-
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -106,24 +105,23 @@ export default function ComunityCleanpage() {
   const [mohallaId, setMohallaId] = useState("");
   const [mohallaName, setMohallaName] = useState([]);
 
-
   //Loading Header Data States
   const [name, setName] = useState("");
   const [wardId, setWardId] = useState("");
+  const [gp, setGp] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
   //loader states
   const [spinner, setSpinner] = useState(false);
 
-
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: wardId,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: Supervisor
+    supervisor: Supervisor,
   };
 
   const formDataCC = {
@@ -158,9 +156,8 @@ export default function ComunityCleanpage() {
     conditionOfPump: conditionOfPumpCleaningToilets,
     totalUserchargeCollect: totalUserChargesCollectedCleaningToilets,
     userChargesPerUser: userChargesPerUserCleaningToilets,
-    totalHouseMcNo: totalNumberOfHouseholdsInMCCleaningToilets
+    totalHouseMcNo: totalNumberOfHouseholdsInMCCleaningToilets,
   };
-
 
   const oMOptions = ["select", "yes", "no"];
   const sanitaryOptions = ["select", "yes", "no"];
@@ -183,21 +180,19 @@ export default function ComunityCleanpage() {
     wardId: wardId,
   };
 
-
   const route = useRouter();
   const translate = LanguageFetcher();
 
   // LocalStorage Fetching
   useEffect(() => {
     localStorage.setItem("previousPath", "/home/community-clean-list");
-    setMonthAndYearCleaningToilets(localStorage.getItem("today"))
+    setMonthAndYearCleaningToilets(localStorage.getItem("today"));
     try {
       async function fetchData() {
         const token = await localStorage.getItem("token");
         if (!token) {
           route.push("/home/login");
         } else {
-
           setToken(token);
           setUserRole(localStorage.getItem("role_name"));
           //loadingHeaderData from local storage
@@ -205,6 +200,7 @@ export default function ComunityCleanpage() {
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setWardId(localStorage.getItem("ward_id"));
+          setGp(localStorage.getItem("gp"));
           setSupervisor(localStorage.getItem("supervisor"));
           setSupervisorId(localStorage.getItem("supervisor_id"));
           setUserId(localStorage.getItem("user_id"));
@@ -256,10 +252,8 @@ export default function ComunityCleanpage() {
     }
   }, [mohalla]);
 
-
   const handleVal = (id, val) => {
     if (id === "monthAndYearCleaningToilets") {
-
       setMonthAndYearCleaningToilets(val);
       // setEnterDateCleaningToilets(val);
     }
@@ -269,7 +263,7 @@ export default function ComunityCleanpage() {
     if (id === "communityToiletCleaningToilets") {
       setCommunityToiletCleaningToilets(val);
     }
-    if (id === 'cleaningToiletCleaningToilets') {
+    if (id === "cleaningToiletCleaningToilets") {
       setCleaningToiletCleaningToilets(val);
     }
     if (id === "electricityCleaningToilets") {
@@ -308,11 +302,11 @@ export default function ComunityCleanpage() {
     }
 
     if (id === "hygieneTrainingUndertakenCleaningToilets") {
-      setHygieneTrainingUndertakenCleaningToilets(val)
+      setHygieneTrainingUndertakenCleaningToilets(val);
     }
 
     if (id === "specialDayCelebratedCleaningToilets") {
-      setSpecialDayCelebratedCleaningToilets(val)
+      setSpecialDayCelebratedCleaningToilets(val);
     }
 
     // if (id === "fieldStaffCleaningToilets") {
@@ -346,8 +340,7 @@ export default function ComunityCleanpage() {
     }
     if (id === "conditionOfOverheadTankCleaningToilets") {
       setConditionOfOverheadTankCleaningToilets(val);
-
-    };
+    }
     if (id === "conditionOfElectricBulbCleaningToilets") {
       setConditionOfElectricBulbCleaningToilets(val);
     }
@@ -359,11 +352,7 @@ export default function ComunityCleanpage() {
     if (id === "conditionOfPumpCleaningToilets") {
       setConditionOfPumpCleaningToilets(val);
     }
-
-  }
-
-
-
+  };
 
   const submitHandler = async (e) => {
     let flag = false;
@@ -391,18 +380,23 @@ export default function ComunityCleanpage() {
         }
       );
 
-
       if (res.status === 1) {
         swal("Success", "Community Clean Added", "success");
         route.push("/home/community-clean-list");
       }
     }
-  }
+  };
 
   return (
     <>
       {/* //Spinner */}
-      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
+          </div>
+        </>
+      ) : null}
 
       {/* //Content */}
       <Header
@@ -412,7 +406,6 @@ export default function ComunityCleanpage() {
       />
 
       <div className={styles.container}>
-
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
           <Textparser text={"Community Toilet Add"} />
@@ -502,7 +495,7 @@ export default function ComunityCleanpage() {
             value={minorRepairCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
+            type={"text"}
           />
 
           <Surveyques
@@ -511,7 +504,7 @@ export default function ComunityCleanpage() {
             value={majorRepairCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
+            type={"text"}
           />
           <Surveyques
             id={"oMCollectorCleaningToilets"}
@@ -519,7 +512,7 @@ export default function ComunityCleanpage() {
             value={oMCollectorCleaningToilets}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
+            type={"text"}
           />
 
           <SurveyDropdown
@@ -677,7 +670,9 @@ export default function ComunityCleanpage() {
           />
 
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtn} onClick={submitHandler}>Submit</button>
+            <button className={styles.submitbtn} onClick={submitHandler}>
+              Submit
+            </button>
           </div>
         </div>
       </div>

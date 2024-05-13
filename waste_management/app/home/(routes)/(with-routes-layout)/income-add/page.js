@@ -11,9 +11,7 @@ import SurveyDropdown from "@/components/SurveyDropdown";
 import { sendRequest } from "@/api/sendRequest";
 import Textparser from "@/components/Textparser";
 
-
 export default function IncomeAddpage() {
-
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -49,6 +47,7 @@ export default function IncomeAddpage() {
   //Loading Header Data States
   const [name, setName] = useState("");
   const [ward_id, setWard_id] = useState("");
+  const [gp, setGp] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
@@ -63,9 +62,9 @@ export default function IncomeAddpage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: ward_id,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: supervisorIncome
+    supervisor: supervisorIncome,
   };
 
   const formDataIncome = {
@@ -95,7 +94,7 @@ export default function IncomeAddpage() {
   useEffect(() => {
     try {
       localStorage.setItem("previousPath", "/home/income-list");
-      setToday(localStorage.getItem("today"))
+      setToday(localStorage.getItem("today"));
       setDateIncome(localStorage.getItem("today"));
       async function fetchData() {
         const token = await localStorage.getItem("token");
@@ -111,6 +110,7 @@ export default function IncomeAddpage() {
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setWard_id(localStorage.getItem("ward_id"));
+          setGp(localStorage.getItem("gp"));
 
           setFieldStaffIncome(localStorage.getItem("name"));
           setSupervisorIncome(localStorage.getItem("supervisor"));
@@ -200,8 +200,6 @@ export default function IncomeAddpage() {
     }
   }, [wasteCollectors]);
 
-
-
   // Locality By Ward API Calling
   useEffect(() => {
     try {
@@ -239,12 +237,6 @@ export default function IncomeAddpage() {
       setLocalityId(locality[0].id);
     }
   }, [locality]);
-
-
-
-
-
-
 
   // Handler Functions
   const handleVal = (id, val) => {
@@ -302,7 +294,6 @@ export default function IncomeAddpage() {
       }
     }
     if (flag) {
-
       swal("Error", "Please fill all the fields", "error");
     } else {
       console.log("Income Added Submitted::", formDataIncome);
@@ -321,10 +312,6 @@ export default function IncomeAddpage() {
         console.log(error);
       }
     }
-
-
-
-
   };
 
   return (
@@ -342,11 +329,16 @@ export default function IncomeAddpage() {
         </div>
 
         {/* //spinner */}
-        {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+        {spinner ? (
+          <>
+            <div className={styles.spinnerContainer}>
+              <img src="/svg/loader.svg" alt="loader"></img>
+            </div>
+          </>
+        ) : null}
 
         {/* //form */}
         <div className={styles.formcontainer}>
-
           <Surveyques
             id={"dateIncome"}
             type={"date"}
@@ -405,7 +397,6 @@ export default function IncomeAddpage() {
             options={wasteCollectorName}
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
-
           />
           <Surveyques
             id={"recyclableSoldIncome"}

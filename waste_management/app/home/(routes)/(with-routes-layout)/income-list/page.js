@@ -8,12 +8,10 @@ import swal from "sweetalert";
 import Swal from "sweetalert2";
 import Header from "@/components/Header/Header";
 import Textparser from "@/components/Textparser";
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function IncomeListPage() {
-
-
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -24,10 +22,10 @@ export default function IncomeListPage() {
   const [wasteCollectors, setWasteCollectors] = useState([]);
   const [supervisor, setSupervisor] = useState([]);
 
-
   //Loading Header Data States
   const [name, setName] = useState("");
   const [ward_id, setWard_id] = useState("");
+  const [gp, setGp] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
 
@@ -39,9 +37,9 @@ export default function IncomeListPage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: ward_id,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: supervisor
+    supervisor: supervisor,
   };
 
   const incomeBody = {
@@ -75,6 +73,7 @@ export default function IncomeListPage() {
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
+          setGp(localStorage.getItem("gp"));
         }
       }
       fetchData();
@@ -217,7 +216,7 @@ export default function IncomeListPage() {
 
   const getWasteCollectorName = (array, id) => {
     if (array.length > 0) {
-      console.log("array_testing", array);//testing
+      console.log("array_testing", array); //testing
       let Collector = array.filter((item) => item.id == id);
       return Collector[0].user_name;
     }
@@ -260,7 +259,7 @@ export default function IncomeListPage() {
     });
   };
 
-  return (!isloading ?
+  return !isloading ? (
     //Content
     <>
       <Header
@@ -270,9 +269,13 @@ export default function IncomeListPage() {
       />
 
       <div className={styles.bodyContainer}>
-
-
-        {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+        {spinner ? (
+          <>
+            <div className={styles.spinnerContainer}>
+              <img src="/svg/loader.svg" alt="loader"></img>
+            </div>
+          </>
+        ) : null}
 
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
@@ -336,7 +339,8 @@ export default function IncomeListPage() {
           ></img>
         </div>
       </div>
-    </> :
+    </>
+  ) : (
     //Skeleton Loader
     <>
       <Header
@@ -356,19 +360,33 @@ export default function IncomeListPage() {
           <table className={styles.table}>
             <thead>
               <tr className={styles.thead}>
-                <th><Skeleton width={30} height={10} baseColor="#6b96db" /></th>
-                <th><Skeleton width={90} height={10} baseColor="#6b96db" /></th>
-                <th><Skeleton width={70} height={10} baseColor="#6b96db" /></th>
-                <th><Skeleton width={40} height={10} baseColor="#6b96db" /></th>
+                <th>
+                  <Skeleton width={30} height={10} baseColor="#6b96db" />
+                </th>
+                <th>
+                  <Skeleton width={90} height={10} baseColor="#6b96db" />
+                </th>
+                <th>
+                  <Skeleton width={70} height={10} baseColor="#6b96db" />
+                </th>
+                <th>
+                  <Skeleton width={40} height={10} baseColor="#6b96db" />
+                </th>
               </tr>
             </thead>
             <tbody className={styles.table_body}>
               {/* Skeleton loader for table rows */}
               {[...Array(5)].map((_, index) => (
                 <tr key={index}>
-                  <td className={styles.td}><Skeleton width={30} /></td>
-                  <td className={styles.td}><Skeleton width={90} /></td>
-                  <td className={styles.td}><Skeleton width={70} /></td>
+                  <td className={styles.td}>
+                    <Skeleton width={30} />
+                  </td>
+                  <td className={styles.td}>
+                    <Skeleton width={90} />
+                  </td>
+                  <td className={styles.td}>
+                    <Skeleton width={70} />
+                  </td>
 
                   <td className="text-center">
                     <Skeleton circle={true} width={20} height={20} />
@@ -386,5 +404,5 @@ export default function IncomeListPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

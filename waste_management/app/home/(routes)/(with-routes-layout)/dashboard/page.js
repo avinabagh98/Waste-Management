@@ -22,6 +22,7 @@ export default function Dashboardpage() {
   const [cameraClicked, setCameraClicked] = useState(false);
   const [image, setImage] = useState("");
   const [ward_id, setWard_id] = useState("");
+  const [gp, setGp] = useState("");
   const [scanResutlt, setScanResult] = useState("");
   const [showScanner, setShowScanner] = useState(false);
   const [spinner, setSpinner] = useState(false);
@@ -38,7 +39,7 @@ export default function Dashboardpage() {
   //Other declarations
   const loadingHeaderData = {
     name: name,
-    ward_id: ward_id,
+    ward_id: gp,
     district_name: district_name,
     block_name: block_name,
     supervisor: supervisor,
@@ -62,6 +63,7 @@ export default function Dashboardpage() {
           setBlock_Name(localStorage.getItem("block"));
           setDistrict_Name(localStorage.getItem("district"));
           setWard_id(localStorage.getItem("ward_id"));
+          setGp(localStorage.getItem("gp"));
           setSupervisor(localStorage.getItem("supervisor"));
           setToken(token);
 

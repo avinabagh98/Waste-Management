@@ -12,15 +12,11 @@ import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 import FormSkeletonLoader from "@/components/FormSkeletonLoader";
 
-
 export default function WastecollectionUpdatePage() {
-
-
   //State variables
   const [userRole, setUserRole] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
-
 
   //form-data states
   const [dateWasteCollection, setDateWasteCollection] = useState(null);
@@ -76,6 +72,7 @@ export default function WastecollectionUpdatePage() {
   const [supervisor, setSupervisor] = useState("");
   const [wardId, setWardId] = useState(null);
   const [id, setId] = useState("");
+  const [gp, setGp] = useState("");
 
   //Loading Header Data States
   const [name, setName] = useState("");
@@ -87,9 +84,9 @@ export default function WastecollectionUpdatePage() {
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: wardId,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: supervisor
+    supervisor: supervisor,
   };
 
   const formDataWCUpdate = {
@@ -150,6 +147,7 @@ export default function WastecollectionUpdatePage() {
             setNameOfULBBlockWasteCollection(localStorage.getItem("block"));
             setWardNoGPWasteCollection(localStorage.getItem("ward_id"));
             setId(localStorage.getItem("id"));
+            setGp(localStorage.getItem("gp"));
           }
         }
         fetchData();
@@ -209,7 +207,6 @@ export default function WastecollectionUpdatePage() {
           setDaysOfCollectionsInAWeekWasteCollection(
             api_response.days_collection_in_week
           );
-
 
           setLoading(false);
         }
@@ -406,17 +403,20 @@ export default function WastecollectionUpdatePage() {
       if (res.status === 1) {
         swal("Success", "Updated Successfully", "success");
         route.push("/home/waste-collection-list");
-
       }
     }
   };
 
-  return !loading ?
-
+  return !loading ? (
     <>
       {/* //Spinner */}
-      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
-
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
+          </div>
+        </>
+      ) : null}
 
       <Header
         userRole={userRole}
@@ -647,8 +647,8 @@ export default function WastecollectionUpdatePage() {
         </div>
       </div>
     </>
-    :
+  ) : (
     //Skeleton Loader
     <FormSkeletonLoader />
-
+  );
 }

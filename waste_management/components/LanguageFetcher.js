@@ -1,22 +1,26 @@
 "use client";
 import { useState, useEffect } from "react";
 
-
 //////////////////////////////////// GetDictionary Function /////////////////////////////////////
 const dictionaries = {
-  en: () => import("@/dictionaries/en.json").then((response) => response.default),
-  hi: () => import("@/dictionaries/hi.json").then((response) => response.default),
-  bn: () => import("@/dictionaries/bn.json").then((response) => response.default),
+  en: () =>
+    import("@/dictionaries/en.json").then((response) => response.default),
+  hi: () =>
+    import("@/dictionaries/hi.json").then((response) => response.default),
+  bn: () =>
+    import("@/dictionaries/bn.json").then((response) => response.default),
 };
 
 const getDictionary = async (lang) => {
   const dictionary = dictionaries[lang]; //here dictionary will be a function
   if (!dictionary) {
     console.log(`Dictionary for language '${lang}' not found.`);
+    console.log("response @ !dict"); //testing
     return dictionaries["en"]();
   } else {
     try {
       const response = await dictionary();
+      console.log("response", response); //testing
       return response;
     } catch (error) {
       throw new Error(`Error fetching dictionary for language '${lang}'.`);
@@ -24,20 +28,20 @@ const getDictionary = async (lang) => {
   }
 };
 
-
-
 //////////////////////////////////// Language fetcher /////////////////////////////////////
-export default function LanguageFetcher () {
+export default function LanguageFetcher() {
   const [language, setLanguage] = useState("");
   const [translate, setTranslate] = useState({});
 
   useEffect(() => {
     const lang = localStorage.getItem("language");
-    if(!lang) {setLanguage("en")}
-    else{
+    console.log("language", lang); //testing
+    if (!lang) {
+      setLanguage("en");
+    } else {
       setLanguage(lang);
     }
-    
+
     // Fetch translation based on language
     async function fetchTranslation(language) {
       try {
@@ -49,6 +53,6 @@ export default function LanguageFetcher () {
     }
 
     fetchTranslation(language);
-  }, []);
+  }, [language]);
   return translate;
-};
+}

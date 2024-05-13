@@ -12,7 +12,6 @@ import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 
 export default function Mohallapage() {
-
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -70,36 +69,30 @@ export default function Mohallapage() {
   const [localityId, setLocalityId] = useState([]);
   const [today, setToday] = useState("");
 
-
   //Loading Header Data States
   const [name, setName] = useState("");
   const [wardId, setWardId] = useState("");
+  const [gp, setGp] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
-
 
   //loader states
 
   const [spinner, setSpinner] = useState(false);
 
-
-
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
     district_name: district_name,
-    ward_id: wardId,
+    ward_id: gp,
     block_name: block_name,
-    supervisor: supervisor
+    supervisor: supervisor,
   };
-
 
   const dropDownBody = {
     token: token,
     wardId: wardId,
   };
-
-
 
   const formDatamohalla = {
     token: token,
@@ -110,7 +103,8 @@ export default function Mohallapage() {
     localityId: localityId,
     mohollaCommitteeId: mohallaId,
     householdMc: householdsUnderMCMohalla,
-    householdSegregation: householdDoingSegregationMohalla === "yes" ? "1" : "0",
+    householdSegregation:
+      householdDoingSegregationMohalla === "yes" ? "1" : "0",
     hhUserPayCharge: hhPayingUserChargesMohalla,
     userChargeCollection: userChargesCollectedRsPerMonthMohalla,
     salaryPaidWastePicker: salaryPaidToWastePickerMohalla,
@@ -150,12 +144,11 @@ export default function Mohallapage() {
           setBLockName(localStorage.getItem("block"));
           setWardId(localStorage.getItem("ward_id"));
           setUserId(localStorage.getItem("user_id"));
+          setGp(localStorage.getItem("gp"));
 
           // add data to the form
           setSupervisor(localStorage.getItem("supervisor"));
           setSupervisorId(localStorage.getItem("supervisor_id"));
-
-
         }
       }
       fetchData();
@@ -163,10 +156,6 @@ export default function Mohallapage() {
       swal("Error", error.message, "error");
     }
   }, []);
-
-
-
-
 
   // Mohalla Committee List Dropdown Fetching
   useEffect(() => {
@@ -271,7 +260,6 @@ export default function Mohallapage() {
     }
     if (id === "householdDoingSegregationMohalla") {
       setHouseholdDoingSegregationMohalla(val);
-
     }
     if (id === "hhPayingUserChargesMohalla") {
       setHhPayingUserChargesMohalla(val);
@@ -307,8 +295,6 @@ export default function Mohallapage() {
     if (id === "balanceInRsMohalla") {
       setBalanceInRsMohalla(val);
     }
-
-
   };
 
   const handleRadioChange = (e, name) => {
@@ -323,9 +309,8 @@ export default function Mohallapage() {
     }
   };
 
-
   const submitHandler = async (e) => {
-    setSpinner(true)
+    setSpinner(true);
     e.preventDefault();
     let flag = false;
     for (const field in formDatamohalla) {
@@ -335,16 +320,21 @@ export default function Mohallapage() {
       }
     }
     if (flag) {
-      setSpinner(false)
+      setSpinner(false);
       swal("Error", "Please fill all the fields", "error");
     } else {
       console.log("Mohalla Committee Submitted :: ", formDatamohalla);
       try {
-        const res = await sendRequest("post", "/mohollaCommitteemeeting/add", formDatamohalla, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await sendRequest(
+          "post",
+          "/mohollaCommitteemeeting/add",
+          formDatamohalla,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         console.log(res); //testing
 
@@ -357,14 +347,18 @@ export default function Mohallapage() {
         console.log(error);
       }
     }
-  }
-
+  };
 
   return (
     <>
-
       {/* //Spinner */}
-      {spinner ? <><div className={styles.spinnerContainer}><img src="/svg/loader.svg" alt="loader"></img></div></> : null}
+      {spinner ? (
+        <>
+          <div className={styles.spinnerContainer}>
+            <img src="/svg/loader.svg" alt="loader"></img>
+          </div>
+        </>
+      ) : null}
 
       {/* //Content */}
       <Header
@@ -374,7 +368,6 @@ export default function Mohallapage() {
       />
 
       <div className={styles.container}>
-
         {/* //breadcrumb */}
         <div className={styles.breadcrumb}>
           <Textparser text={"Mohalla Committee Add"} />
@@ -643,8 +636,10 @@ export default function Mohallapage() {
             type={"number"}
           />
 
-          <div className={styles.btnContainer} >
-            <button className={styles.submitbtn} onClick={submitHandler}>Submit</button>
+          <div className={styles.btnContainer}>
+            <button className={styles.submitbtn} onClick={submitHandler}>
+              Submit
+            </button>
           </div>
         </div>
       </div>
