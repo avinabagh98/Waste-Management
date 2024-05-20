@@ -17,27 +17,22 @@
             padding: var(--globalPadding);
       }
 
+      .quescontainer,
+      .personalInfoContainer {
+            margin-bottom: 20px;
+            width: 100%;
+            padding: var(--globalPadding);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .personalInfoHeading {
+            font-weight: 500;
+      }
+
       .btnContainer {
             display: flex;
             justify-content: center;
             align-items: center;
-      }
-
-      .submitbtn {
-            width: 80%;
-            height: auto;
-            border-radius: 50px;
-            background-color: var(--green);
-            color: white;
-            padding: 6px 14px;
-            border: none;
-            cursor: pointer;
-
-      }
-
-      .submitbtn:hover {
-            background-color: #0056b3;
-            /* Darker blue background color on hover */
       }
 
       .radioInput {
@@ -76,6 +71,25 @@
             z-index: 9999;
 
       }
+
+      .submitbtn {
+            margin-top: 20px;
+            width: 80%;
+            height: auto;
+            border-radius: 50px;
+            background-color: var(--green);
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            cursor: pointer;
+
+      }
+
+      .submitbtn:hover {
+            background-color: #0056b3;
+            /* Darker blue background color on hover */
+      }
+
 }
 
 @media only screen and (min-width: 401px) and (max-width: 600px) {

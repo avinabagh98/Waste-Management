@@ -98,12 +98,12 @@ export default function Header({
                         <div className={styles.offCanvasHeaderLogo}>
                           <img
                             className={styles.licLogo}
-                            src="/images/lic_logo.png"
+                            src="/svg/lic_hfl.svg"
                             alt="lic_logo"
                           ></img>
                           <img
                             className={styles.licLogo}
-                            src="/images/bitan_logo.png"
+                            src="/images/bitanLogo.png"
                             alt="bitan_logo"
                           ></img>
                         </div>
@@ -296,12 +296,12 @@ export default function Header({
             >
               <img
                 className={styles.licLogo}
-                src="/images/lic_logo.png"
-                alt="lic-logo"
+                src="/svg/lic_hfl.svg"
+                alt="lic_hfl-logo"
               ></img>
               <img
                 className={styles.bitanLogo}
-                src="/images/bitan_logo.png"
+                src="/images/bitanLogo.png"
                 alt="bitan-logo"
               ></img>
             </div>

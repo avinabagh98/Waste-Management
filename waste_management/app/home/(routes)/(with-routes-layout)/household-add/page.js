@@ -19,12 +19,10 @@ export default function HouseholdAddpage() {
 
   //form-data states
   const [dateHHSurvey, setDateHHSurvey] = useState("");
-  const [supervisorHHSurvey, setSupervisorHHSurvey] = useState("");
-  const [fieldStaffHHSurvey, setFieldStaffHHSurvey] = useState("");
-  const [wardNoGPHHSurvey, setWardNoGPHHSurvey] = useState("");
   const [gp, setGp] = useState("");
   const [localityNameMohallaHHSurvey, setLocalityNameMohallaHHSurvey] =
     useState("");
+  const [idType, setIdType] = useState("");
   const [houseNumberHHSurvey, setHouseNumberHHSurvey] = useState("");
   const [nameOfResidentHHSurvey, setNameOfResidentHHSurvey] = useState("");
   const [numberOfFamilyMembersHHSurvey, setNumberOfFamilyMembersHHSurvey] =
@@ -62,7 +60,7 @@ export default function HouseholdAddpage() {
   ] = useState("");
 
   const [mobileNo, setMobileNo] = useState("");
-  const [aadhaar, setAadhaar] = useState("");
+  const [idCardNumber, setIdCardNumber] = useState("");
   const [roadLane, setRoadLane] = useState("");
   const [homeBaseManageRat, setHomeBaseManageRat] = useState("");
   const [WGUtype, setWGUtype] = useState("");
@@ -76,8 +74,11 @@ export default function HouseholdAddpage() {
   const [block_name, setBLockName] = useState("");
   const [lat, setLat] = useState("");
   const [long, setLong] = useState("");
+  const [supervisorName, setSupervisorName] = useState("");
   const [supervisor_id, setSupervisor_id] = useState("");
   const [user_id, setUser_id] = useState("");
+  const [userName, setUserName] = useState("");
+  const [wardName, setWardName] = useState("");
   const [ward_id, setWard_id] = useState("");
 
   const [mohalla, setMohalla] = useState("");
@@ -93,6 +94,8 @@ export default function HouseholdAddpage() {
   const [toiletName, setToiletName] = useState([]);
   const [toiletId, setToiletId] = useState([]);
   const [today, setToday] = useState("");
+  const [hasPets, setHasPets] = useState("");
+  const [hasPatients, setHasPatients] = useState("");
   const [spinner, setSpinner] = useState(false);
 
   //Common Other declarations///
@@ -124,7 +127,7 @@ export default function HouseholdAddpage() {
     userChargeParMonth: userChargesInRupeesPerMonthHHSurvey,
     wardNo: ward_id,
     locality: localityId,
-    addaharNo: aadhaar,
+    addaharNo: idCardNumber,
     familyMembers: numberOfFamilyMembersHHSurvey,
     houseHoldName: nameOfResidentHHSurvey,
     mobileNo: mobileNo,
@@ -170,11 +173,11 @@ export default function HouseholdAddpage() {
           setName(localStorage.getItem("name"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
-          setSupervisorHHSurvey(localStorage.getItem("supervisor"));
+          setSupervisorName(localStorage.getItem("supervisor"));
           setSupervisor_id(localStorage.getItem("supervisor_id"));
-          setFieldStaffHHSurvey(localStorage.getItem("name"));
+          setUserName(localStorage.getItem("name"));
           setUser_id(localStorage.getItem("user_id"));
-          setWardNoGPHHSurvey(localStorage.getItem("ward"));
+          setWardName(localStorage.getItem("ward"));
           setWard_id(localStorage.getItem("ward_id"));
           setGp(localStorage.getItem("gp"));
         }
@@ -201,10 +204,10 @@ export default function HouseholdAddpage() {
     geolocation();
   }, []);
 
-  // Mohalla Committee By Ward API Calling
+  // Dropdown-Options List API Calling
   useEffect(() => {
     try {
-      async function fetchDropdown() {
+      async function fetchMohalla() {
         const response = await sendRequest(
           "post",
           `/mohollacommittee/List`,
@@ -224,25 +227,7 @@ export default function HouseholdAddpage() {
         }
       }
 
-      fetchDropdown();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [token]);
-
-  // Mohalla Committee List Dropdown State Update
-  useEffect(() => {
-    if (mohalla.length > 0) {
-      const mohallaNames = mohalla.map((mohalla) => mohalla.committee_name);
-      setMohallaName(mohallaNames);
-      setMohallaId(mohalla[0].id);
-    }
-  }, [mohalla]);
-
-  // Locality By Ward API Calling
-  useEffect(() => {
-    try {
-      async function fetchDropdown() {
+      async function fetchLocality() {
         const response = await sendRequest(
           "post",
           `/localitylist/List`,
@@ -261,25 +246,6 @@ export default function HouseholdAddpage() {
           setLocality(response.data.data.incomeList);
         }
       }
-
-      fetchDropdown();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [token]);
-
-  // Locality List Dropdown State Update
-  useEffect(() => {
-    if (locality.length > 0) {
-      const localityaNames = locality.map((locality) => locality.village_name);
-      setLocalName(localityaNames);
-      setLocalityId(locality[0].id);
-    }
-  }, [locality]);
-
-  // Occupation List API Calling
-  useEffect(() => {
-    try {
       async function fetchOccupation() {
         const response = await sendRequest(
           "post",
@@ -300,26 +266,6 @@ export default function HouseholdAddpage() {
         }
       }
 
-      fetchOccupation();
-    } catch (error) {
-      console.log("Error at occupation fetching:", error);
-    }
-  }, [token]);
-
-  // Occupations Dropdown State Update
-  useEffect(() => {
-    if (occupations.length > 0) {
-      const occupation_name = occupations.map(
-        (occupation) => occupation.ocupationname
-      );
-      setOccupationName(occupation_name);
-      setOccupationId(occupations[0]?.id);
-    }
-  }, [occupations]);
-
-  // Toilet List API Calling
-  useEffect(() => {
-    try {
       async function fetchToilet() {
         const response = await sendRequest(
           "post",
@@ -341,35 +287,47 @@ export default function HouseholdAddpage() {
       }
 
       fetchToilet();
+      fetchMohalla();
+      fetchLocality();
+      fetchOccupation();
     } catch (error) {
-      console.log("Error at toilet type fetching:", error);
+      console.log("Error at dropdown fetching:", error);
     }
   }, [token]);
 
-  // Toilet Dropdown State Update
+  // Dropdown-Options State Update
   useEffect(() => {
+    if (occupations.length > 0) {
+      const occupation_name = occupations.map(
+        (occupation) => occupation.ocupationname
+      );
+      setOccupationName(occupation_name);
+      setOccupationId(occupations[0]?.id);
+    }
+
     if (toilets.length > 0) {
       const toilet_name = toilets.map((toilet) => toilet.toiletTypename);
       setToiletName(toilet_name);
       setToiletId(toilets[0].id);
     }
-  }, [toilets]);
+
+    if (mohalla.length > 0) {
+      const mohallaNames = mohalla.map((mohalla) => mohalla.committee_name);
+      setMohallaName(mohallaNames);
+      setMohallaId(mohalla[0].id);
+    }
+
+    if (locality.length > 0) {
+      const localityaNames = locality.map((locality) => locality.village_name);
+      setLocalName(localityaNames);
+      setLocalityId(locality[0].id);
+    }
+  }, [occupations, toilets, mohalla, locality]);
 
   // Handler Functions
   const handleVal = (id, val) => {
     if (id === "dateHHSurvey") {
       setDateHHSurvey(val);
-    }
-    if (id === "supervisorHHSurvey") {
-      setSupervisorHHSurvey(val);
-    }
-
-    if (id === "fieldStaffHHSurvey") {
-      setFieldStaffHHSurvey(val);
-    }
-
-    if (id === "wardNoGPHHSurvey") {
-      setWardNoGPHHSurvey(val);
     }
 
     if (id === "localityNameMohallaHHSurvey") {
@@ -395,6 +353,23 @@ export default function HouseholdAddpage() {
       setNumberOfChildBelow18YearsHHSurvey(val);
     }
 
+    if (id === "hasPets") {
+      if (val === "yes") {
+        setHasPets("1");
+      }
+      if (val === "no") {
+        setHasPets("0");
+      }
+    }
+
+    if (id === "hasPatient") {
+      if (val === "yes") {
+        setHasPatients("1");
+      }
+      if (val === "no") {
+        setHasPatients("0");
+      }
+    }
     if (id === "occupationHHSurvey") {
       let oVal = occupations.filter((item) => item.ocupationname === val);
       let occupationId_Selected = oVal[0].id;
@@ -417,8 +392,12 @@ export default function HouseholdAddpage() {
       setMobileNo(val);
     }
 
-    if (id === "aadhaarNumberHHSurvey") {
-      setAadhaar(val);
+    if (id === "identificationNumberHHSurvey") {
+      setIdCardNumber(val);
+    }
+
+    if (id === "idTypeHHSurvey") {
+      setIdType(val);
     }
 
     if (id === "roadLane") {
@@ -525,6 +504,8 @@ export default function HouseholdAddpage() {
           </div>
         </>
       ) : null}
+
+      {/* //form content */}
       <Header
         userRole={userRole}
         isOffCanvasVisible={false}
@@ -536,490 +517,507 @@ export default function HouseholdAddpage() {
         <div className={styles.breadcrumb}>
           <Textparser text={"Household Survey Add"} />
         </div>
-
+        {/* //form container */}
         <div className={styles.formcontainer}>
-          <Surveyques
-            id={"dateHHSurvey"}
-            type={"date"}
-            labelText={translate?.Date_HH_survey}
-            value={dateHHSurvey}
-            defaultValue={today}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
-          {/* 
-          <Surveyques
-            id={"supervisorHHSurvey"}
-            labelText={translate?.Supervisor_HH_survey}
-            value={supervisorHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            disabled={true}
-          /> */}
-          {/* 
-          <SurveyDropdown
-            id={"fieldStaffHHSurvey"}
-            labelText={translate?.Field_Staff_HH_survey}
-            value={fieldStaffHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            options={demoOptions}
-          /> */}
-
-          {/* <Surveyques
-            id={"fieldStaffHHSurvey"}
-            labelText={translate?.Field_Staff_HH_survey}
-            value={fieldStaffHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            disabled={true}
-          /> */}
-
-          <Surveyques
-            id={"mobileNumberHHSurvey"}
-            type={"number"}
-            labelText={"Mobile Number"}
-            value={mobileNo}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
-
-          <Surveyques
-            id={"aadhaarNumberHHSurvey"}
-            type={"number"}
-            labelText={"Aadhaar Number"}
-            value={aadhaar}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
-
-          {/* <SurveyDropdown
-            id={"wardNoGPHHSurvey"}
-            labelText={translate?.Ward_no_GP_HH_survey}
-            value={wardNoGPHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            options={demoOptions}
-          /> */}
-
-          {/* <Surveyques
-            id={"wardNoGPHHSurvey"}
-            labelText={translate?.Ward_no_GP_HH_survey}
-            value={wardNoGPHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          /> */}
-
-          <SurveyDropdown
-            id={"localityNameMohallaHHSurvey"}
-            labelText={translate?.Locality_Name_Mohalla_HH_survey}
-            value={localityNameMohallaHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            options={localName}
-          />
-
-          <Surveyques
-            id={"houseNumberHHSurvey"}
-            labelText={translate?.House_Number_HH_survey}
-            value={houseNumberHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
-
-          <Surveyques
-            id={"nameOfResidentHHSurvey"}
-            labelText={translate?.Name_of_Resident_HH_survey}
-            value={nameOfResidentHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          />
-
-          <Surveyques
-            id={"numberOfFamilyMembersHHSurvey"}
-            labelText={translate?.Number_of_Family_Members_HH_survey}
-            value={numberOfFamilyMembersHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
-          />
-
-          <Surveyques
-            id={"numberOfChildBelow18YearsHHSurvey"}
-            labelText={translate?.No_of_Child_below_18_years_HH_survey}
-            value={numberOfChildBelow18YearsHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
-          />
-
-          <Surveyques
-            id={"roadLane"}
-            labelText={"Road Lane"}
-            value={roadLane}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            type={"text"}
-          />
-
-          <Surveyques
-            id={"roadLane"}
-            labelText={"Road"}
-            value={roadLane}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            type={"text"}
-          />
-
-          <Surveyques
-            id={"homebasemanageRat"}
-            labelText={"Home Base Manage Rate"}
-            value={homeBaseManageRat}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
-          />
-
-          <Surveyques
-            id={"wgutype"}
-            labelText={"W.g.u Type"}
-            value={WGUtype}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
-          />
-
-          <Surveyques
-            id={"pets"}
-            labelText={"How Many Pets?"}
-            value={pets}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
-          />
-
-          <Surveyques
-            id={"patients"}
-            labelText={" How Many patients?"}
-            value={patients}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
-          />
-
-          <SurveyDropdown
-            id={"mohallaCommitte"}
-            labelText={"mohallaCommitte"}
-            value={mohallaCommitte}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            options={mohallaName}
-          />
-
-          <SurveyDropdown
-            id={"occupationHHSurvey"}
-            labelText={translate?.Occupation_HH_survey}
-            value={occupationHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            options={occupationName}
-          />
-
-          <div className={styles.radioInput}>
-            <Textparser text={translate?.Ownership_of_House_HH_survey} />
-            <div className={styles.radioInput_Options}>
-              <span>
-                <input
-                  type="radio"
-                  id="ownershipOfHouseHHSurvey_own"
-                  name="ownershipOfHouseHHSurvey"
-                  value="1"
-                  checked={ownershipOfHouseHHSurvey === "1"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="ownershipOfHouseHHSurvey_own">Own</label>
-              </span>
-              <span>
-                <input
-                  type="radio"
-                  id="ownershipOfHouseHHSurvey_rent"
-                  name="ownershipOfHouseHHSurvey"
-                  value="0"
-                  checked={ownershipOfHouseHHSurvey === "0"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="ownershipOfHouseHHSurvey_rent">Rent</label>
-              </span>
-            </div>
-          </div>
-
-          <div className={styles.radioInput}>
-            <Textparser text={translate?.Type_of_Segregation_HH_survey} />
-            <div className={styles.radioInput_Options}>
-              <span>
-                <input
-                  type="radio"
-                  id="typeOfSegregationHHSurvey_fully"
-                  name="typeOfSegregationHHSurvey"
-                  value="2"
-                  checked={typeOfSegregationHHSurvey === "2"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="typeOfSegregationHHSurvey_fully">Fully</label>
-              </span>
-              <span>
-                <input
-                  type="radio"
-                  id="typeOfSegregationHHSurvey_partial"
-                  name="typeOfSegregationHHSurvey"
-                  value="1"
-                  checked={typeOfSegregationHHSurvey === "1"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="typeOfSegregationHHSurvey_partial">
-                  Partial
-                </label>
-              </span>
-
-              <span>
-                <input
-                  type="radio"
-                  id="typeOfSegregationHHSurvey_no"
-                  name="typeOfSegregationHHSurvey"
-                  value="0"
-                  checked={typeOfSegregationHHSurvey === "0"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="typeOfSegregationHHSurvey_no">No</label>
-              </span>
-            </div>
-          </div>
-
-          <div className={styles.radioInput}>
-            <Textparser
-              text={translate?.Are_You_Doing_Home_Composting_HH_survey}
+          <div className={styles.quescontainer}>
+            <Surveyques
+              id={"dateHHSurvey"}
+              type={"date"}
+              labelText={translate?.Date_HH_survey}
+              value={dateHHSurvey}
+              defaultValue={today}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
             />
-            <div className={styles.radioInput_Options}>
-              <span>
-                <input
-                  type="radio"
-                  id="areYouDoingHomeCompostingHHSurvey_yes"
-                  name="areYouDoingHomeCompostingHHSurvey"
-                  value="1"
-                  checked={areYouDoingHomeCompostingHHSurvey === "1"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="areYouDoingHomeCompostingHHSurvey_yes">
-                  Yes
-                </label>
-              </span>
-              <span>
-                <input
-                  type="radio"
-                  id="areYouDoingHomeCompostingHHSurvey_no"
-                  name="areYouDoingHomeCompostingHHSurvey"
-                  value="0"
-                  checked={areYouDoingHomeCompostingHHSurvey === "0"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="areYouDoingHomeCompostingHHSurvey_no">No</label>
-              </span>
-            </div>
+
+            <SurveyDropdown
+              id={"wgutype"}
+              labelText={translate?.WguType_HH_survey}
+              value={WGUtype}
+              required={true}
+              handleVal={(id, val) => handleVal(id, val)}
+              options={["select", "household", "instituion", "market", "shop"]}
+            />
           </div>
 
-          <div className={styles.radioInput}>
-            <Textparser
-              text={translate?.Do_You_have_Toilet_in_Your_House_HH_survey}
-            />
-            <div className={styles.radioInput_Options}>
-              <span>
-                <input
-                  type="radio"
-                  id="doYouHaveToiletInYourHouseHHSurvey_yes"
-                  name="doYouHaveToiletInYourHouseHHSurvey"
-                  value="1"
-                  checked={doYouHaveToiletInYourHouseHHSurvey === "1"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="doYouHaveToiletInYourHouseHHSurvey_yes">
-                  Yes
-                </label>
-              </span>
-              <span>
-                <input
-                  type="radio"
-                  id="doYouHaveToiletInYourHouseHHSurvey_no"
-                  name="doYouHaveToiletInYourHouseHHSurvey"
-                  value="0"
-                  checked={doYouHaveToiletInYourHouseHHSurvey === "0"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="doYouHaveToiletInYourHouseHHSurvey_no">
-                  No
-                </label>
-              </span>
-            </div>
-          </div>
+          {/* //Type of WGU */}
 
-          <SurveyDropdown
-            id={"selectToiletTypeHHSurvey"}
-            labelText={translate?.Select_Toilet_Type_HH_survey}
-            value={selectToiletTypeHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            options={toiletName}
-          />
-
-          <div className={styles.radioInput}>
-            <Textparser
-              text={translate?.Do_you_managing_Grey_Water_HH_survey}
-            />
-            <div className={styles.radioInput_Options}>
-              <span>
-                <input
-                  type="radio"
-                  id="doYouManagingGreyWaterHHSurvey_yes"
-                  name="doYouManagingGreyWaterHHSurvey"
-                  value="1"
-                  checked={doYouManagingGreyWaterHHSurvey === "1"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
+          {WGUtype === "household" ? (
+            <>
+              <div className={styles.personalInfoContainer}>
+                <div className={styles.personalInfoHeading}>
+                  <Textparser text={"Personal Information"} />
+                </div>
+                <Surveyques
+                  id={"mobileNumberHHSurvey"}
+                  type={"number"}
+                  labelText={"Mobile Number"}
+                  value={mobileNo}
+                  handleVal={(id, val) => handleVal(id, val)}
                 />
-                <label htmlFor="doYouManagingGreyWaterHHSurvey_yes">Yes</label>
-              </span>
-              <span>
-                <input
-                  type="radio"
-                  id="doYouManagingGreyWaterHHSurvey_no"
-                  name="doYouManagingGreyWaterHHSurvey"
-                  value="0"
-                  checked={doYouManagingGreyWaterHHSurvey === "0"}
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="doYouManagingGreyWaterHHSurvey_no">No</label>
-              </span>
-            </div>
-          </div>
 
-          <div className={styles.radioInput}>
-            <Textparser
-              text={
-                translate?.Are_you_willing_to_do_kitchen_garden_in_future_HH_survey
-              }
-            />
-            <div className={styles.radioInput_Options}>
-              <span>
-                <input
-                  type="radio"
-                  id="areYouWillingToDoKitchenGardenInFutureHHSurvey_yes"
-                  name="areYouWillingToDoKitchenGardenInFutureHHSurvey"
-                  value="1"
-                  checked={
-                    areYouWillingToDoKitchenGardenInFutureHHSurvey === "1"
+                <SurveyDropdown
+                  id={"idTypeHHSurvey"}
+                  labelText={translate?.IdType_HH_survey}
+                  value={idType}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  options={[
+                    "select",
+                    "aadhaar",
+                    "pan",
+                    "voter",
+                    "driving lisence",
+                  ]}
+                />
+                {idType !== "" && idType !== "select" ? (
+                  <Surveyques
+                    id={"identificationNumberHHSurvey"}
+                    type={"number"}
+                    labelText={"Identification Number"}
+                    value={idCardNumber}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    required={true}
+                  />
+                ) : null}
+
+                <SurveyDropdown
+                  id={"localityNameMohallaHHSurvey"}
+                  labelText={translate?.Locality_Name_Mohalla_HH_survey}
+                  value={localityNameMohallaHHSurvey}
+                  required={true}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  options={localName}
+                />
+              </div>
+
+              <Surveyques
+                id={"houseNumberHHSurvey"}
+                labelText={translate?.House_Number_HH_survey}
+                value={houseNumberHHSurvey}
+                handleVal={(id, val) => handleVal(id, val)}
+              />
+
+              <Surveyques
+                id={"nameOfResidentHHSurvey"}
+                labelText={translate?.Name_of_Resident_HH_survey}
+                value={nameOfResidentHHSurvey}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+              />
+
+              <Surveyques
+                id={"numberOfFamilyMembersHHSurvey"}
+                labelText={translate?.Number_of_Family_Members_HH_survey}
+                value={numberOfFamilyMembersHHSurvey}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+                type={"number"}
+              />
+
+              <Surveyques
+                id={"numberOfChildBelow18YearsHHSurvey"}
+                labelText={translate?.No_of_Child_below_18_years_HH_survey}
+                value={numberOfChildBelow18YearsHHSurvey}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+                type={"number"}
+              />
+
+              <Surveyques
+                id={"roadLane"}
+                labelText={"Road Lane"}
+                value={roadLane}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+                type={"text"}
+              />
+
+              <Surveyques
+                id={"roadLane"}
+                labelText={"Road"}
+                value={roadLane}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+                type={"text"}
+              />
+
+              {/* <Surveyques
+                id={"homebasemanageRat"}
+                labelText={"Home Base Manage Rate"}
+                value={homeBaseManageRat}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+                type={"number"}
+              /> */}
+
+              <SurveyDropdown
+                id={"hasPets"}
+                labelText={"Has any pets?"}
+                value={
+                  hasPets === "0" ? "no" : hasPets === "1" ? "yes" : "select"
+                }
+                handleVal={(id, val) => handleVal(id, val)}
+                options={["select", "yes", "no"]}
+              />
+              {hasPets === "yes" ? (
+                <Surveyques
+                  id={"pets"}
+                  labelText={"How many pets?"}
+                  value={pets}
+                  required={true}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  type={"number"}
+                />
+              ) : null}
+              <SurveyDropdown
+                id={"hasPatient"}
+                labelText={"Has patient?"}
+                value={
+                  hasPatients === "0"
+                    ? "no"
+                    : hasPatients === "1"
+                    ? "yes"
+                    : "select"
+                }
+                handleVal={(id, val) => handleVal(id, val)}
+                options={["select", "yes", "no"]}
+              />
+              {hasPatients === "yes" ? (
+                <Surveyques
+                  id={"patients"}
+                  labelText={" How Many patients?"}
+                  value={patients}
+                  required={true}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  type={"number"}
+                />
+              ) : null}
+              {/* 
+              <SurveyDropdown
+                id={"mohallaCommitte"}
+                labelText={"mohallaCommitte"}
+                value={mohallaCommitte}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+                options={mohallaName}
+              /> */}
+
+              <SurveyDropdown
+                id={"occupationHHSurvey"}
+                labelText={translate?.Occupation_HH_survey}
+                value={occupationHHSurvey}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+                options={occupationName}
+              />
+
+              <div className={styles.radioInput}>
+                <Textparser text={translate?.Ownership_of_House_HH_survey} />
+                <div className={styles.radioInput_Options}>
+                  <span>
+                    <input
+                      type="radio"
+                      id="ownershipOfHouseHHSurvey_own"
+                      name="ownershipOfHouseHHSurvey"
+                      value="1"
+                      checked={ownershipOfHouseHHSurvey === "1"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="ownershipOfHouseHHSurvey_own">Own</label>
+                  </span>
+                  <span>
+                    <input
+                      type="radio"
+                      id="ownershipOfHouseHHSurvey_rent"
+                      name="ownershipOfHouseHHSurvey"
+                      value="0"
+                      checked={ownershipOfHouseHHSurvey === "0"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="ownershipOfHouseHHSurvey_rent">Rent</label>
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.radioInput}>
+                <Textparser text={translate?.Type_of_Segregation_HH_survey} />
+                <div className={styles.radioInput_Options}>
+                  <span>
+                    <input
+                      type="radio"
+                      id="typeOfSegregationHHSurvey_fully"
+                      name="typeOfSegregationHHSurvey"
+                      value="2"
+                      checked={typeOfSegregationHHSurvey === "2"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="typeOfSegregationHHSurvey_fully">
+                      Fully
+                    </label>
+                  </span>
+                  <span>
+                    <input
+                      type="radio"
+                      id="typeOfSegregationHHSurvey_partial"
+                      name="typeOfSegregationHHSurvey"
+                      value="1"
+                      checked={typeOfSegregationHHSurvey === "1"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="typeOfSegregationHHSurvey_partial">
+                      Partial
+                    </label>
+                  </span>
+
+                  <span>
+                    <input
+                      type="radio"
+                      id="typeOfSegregationHHSurvey_no"
+                      name="typeOfSegregationHHSurvey"
+                      value="0"
+                      checked={typeOfSegregationHHSurvey === "0"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="typeOfSegregationHHSurvey_no">No</label>
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.radioInput}>
+                <Textparser
+                  text={translate?.Are_You_Doing_Home_Composting_HH_survey}
+                />
+                <div className={styles.radioInput_Options}>
+                  <span>
+                    <input
+                      type="radio"
+                      id="areYouDoingHomeCompostingHHSurvey_yes"
+                      name="areYouDoingHomeCompostingHHSurvey"
+                      value="1"
+                      checked={areYouDoingHomeCompostingHHSurvey === "1"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="areYouDoingHomeCompostingHHSurvey_yes">
+                      Yes
+                    </label>
+                  </span>
+                  <span>
+                    <input
+                      type="radio"
+                      id="areYouDoingHomeCompostingHHSurvey_no"
+                      name="areYouDoingHomeCompostingHHSurvey"
+                      value="0"
+                      checked={areYouDoingHomeCompostingHHSurvey === "0"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="areYouDoingHomeCompostingHHSurvey_no">
+                      No
+                    </label>
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.radioInput}>
+                <Textparser
+                  text={translate?.Do_You_have_Toilet_in_Your_House_HH_survey}
+                />
+                <div className={styles.radioInput_Options}>
+                  <span>
+                    <input
+                      type="radio"
+                      id="doYouHaveToiletInYourHouseHHSurvey_yes"
+                      name="doYouHaveToiletInYourHouseHHSurvey"
+                      value="1"
+                      checked={doYouHaveToiletInYourHouseHHSurvey === "1"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="doYouHaveToiletInYourHouseHHSurvey_yes">
+                      Yes
+                    </label>
+                  </span>
+                  <span>
+                    <input
+                      type="radio"
+                      id="doYouHaveToiletInYourHouseHHSurvey_no"
+                      name="doYouHaveToiletInYourHouseHHSurvey"
+                      value="0"
+                      checked={doYouHaveToiletInYourHouseHHSurvey === "0"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="doYouHaveToiletInYourHouseHHSurvey_no">
+                      No
+                    </label>
+                  </span>
+                </div>
+              </div>
+
+              <SurveyDropdown
+                id={"selectToiletTypeHHSurvey"}
+                labelText={translate?.Select_Toilet_Type_HH_survey}
+                value={selectToiletTypeHHSurvey}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+                options={toiletName}
+              />
+
+              <div className={styles.radioInput}>
+                <Textparser
+                  text={translate?.Do_you_managing_Grey_Water_HH_survey}
+                />
+                <div className={styles.radioInput_Options}>
+                  <span>
+                    <input
+                      type="radio"
+                      id="doYouManagingGreyWaterHHSurvey_yes"
+                      name="doYouManagingGreyWaterHHSurvey"
+                      value="1"
+                      checked={doYouManagingGreyWaterHHSurvey === "1"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="doYouManagingGreyWaterHHSurvey_yes">
+                      Yes
+                    </label>
+                  </span>
+                  <span>
+                    <input
+                      type="radio"
+                      id="doYouManagingGreyWaterHHSurvey_no"
+                      name="doYouManagingGreyWaterHHSurvey"
+                      value="0"
+                      checked={doYouManagingGreyWaterHHSurvey === "0"}
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="doYouManagingGreyWaterHHSurvey_no">
+                      No
+                    </label>
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.radioInput}>
+                <Textparser
+                  text={
+                    translate?.Are_you_willing_to_do_kitchen_garden_in_future_HH_survey
                   }
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
                 />
-                <label htmlFor="areYouWillingToDoKitchenGardenInFutureHHSurvey_yes">
-                  Yes
-                </label>
-              </span>
-              <span>
-                <input
-                  type="radio"
-                  id="areYouWillingToDoKitchenGardenInFutureHHSurvey_no"
-                  name="areYouWillingToDoKitchenGardenInFutureHHSurvey"
-                  value="0"
-                  checked={
-                    areYouWillingToDoKitchenGardenInFutureHHSurvey === "0"
-                  }
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="areYouWillingToDoKitchenGardenInFutureHHSurvey_no">
-                  No
-                </label>
-              </span>
-            </div>
-          </div>
+                <div className={styles.radioInput_Options}>
+                  <span>
+                    <input
+                      type="radio"
+                      id="areYouWillingToDoKitchenGardenInFutureHHSurvey_yes"
+                      name="areYouWillingToDoKitchenGardenInFutureHHSurvey"
+                      value="1"
+                      checked={
+                        areYouWillingToDoKitchenGardenInFutureHHSurvey === "1"
+                      }
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="areYouWillingToDoKitchenGardenInFutureHHSurvey_yes">
+                      Yes
+                    </label>
+                  </span>
+                  <span>
+                    <input
+                      type="radio"
+                      id="areYouWillingToDoKitchenGardenInFutureHHSurvey_no"
+                      name="areYouWillingToDoKitchenGardenInFutureHHSurvey"
+                      value="0"
+                      checked={
+                        areYouWillingToDoKitchenGardenInFutureHHSurvey === "0"
+                      }
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="areYouWillingToDoKitchenGardenInFutureHHSurvey_no">
+                      No
+                    </label>
+                  </span>
+                </div>
+              </div>
 
-          <div className={styles.radioInput}>
-            <Textparser
-              text={
-                translate?.Are_you_willing_to_construct_individual_soak_pit_in_future_HH_survey
-              }
-            />
-            <div className={styles.radioInput_Options}>
-              <span>
-                <input
-                  type="radio"
-                  id="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey_yes"
-                  name="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey"
-                  value="1"
-                  checked={
-                    areYouWillingToConstructIndividualSoakPitInFutureHHSurvey ===
-                    "1"
+              <div className={styles.radioInput}>
+                <Textparser
+                  text={
+                    translate?.Are_you_willing_to_construct_individual_soak_pit_in_future_HH_survey
                   }
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
                 />
-                <label htmlFor="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey_yes">
-                  Yes
-                </label>
-              </span>
-              <span>
-                <input
-                  type="radio"
-                  id="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey_no"
-                  name="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey"
-                  value="0"
-                  checked={
-                    areYouWillingToConstructIndividualSoakPitInFutureHHSurvey ===
-                    "0"
-                  }
-                  onChange={(e) => {
-                    handleRadioChange(e.target.name, e.target.value);
-                  }}
-                />
-                <label htmlFor="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey_no">
-                  No
-                </label>
-              </span>
-            </div>
-          </div>
+                <div className={styles.radioInput_Options}>
+                  <span>
+                    <input
+                      type="radio"
+                      id="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey_yes"
+                      name="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey"
+                      value="1"
+                      checked={
+                        areYouWillingToConstructIndividualSoakPitInFutureHHSurvey ===
+                        "1"
+                      }
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey_yes">
+                      Yes
+                    </label>
+                  </span>
+                  <span>
+                    <input
+                      type="radio"
+                      id="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey_no"
+                      name="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey"
+                      value="0"
+                      checked={
+                        areYouWillingToConstructIndividualSoakPitInFutureHHSurvey ===
+                        "0"
+                      }
+                      onChange={(e) => {
+                        handleRadioChange(e.target.name, e.target.value);
+                      }}
+                    />
+                    <label htmlFor="areYouWillingToConstructIndividualSoakPitInFutureHHSurvey_no">
+                      No
+                    </label>
+                  </span>
+                </div>
+              </div>
 
-          <Surveyques
-            id={"userChargesInRupeesPerMonthHHSurvey"}
-            labelText={translate?.User_charges_HH_survey}
-            value={userChargesInRupeesPerMonthHHSurvey}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            type={"number"}
-          />
+              <Surveyques
+                id={"userChargesInRupeesPerMonthHHSurvey"}
+                labelText={translate?.User_charges_HH_survey}
+                value={userChargesInRupeesPerMonthHHSurvey}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+                type={"number"}
+              />
+            </>
+          ) : (
+            <></>
+          )}
 
           <div className={styles.btnContainer}>
             <button className={styles.submitbtn} onClick={submitHandler}>
