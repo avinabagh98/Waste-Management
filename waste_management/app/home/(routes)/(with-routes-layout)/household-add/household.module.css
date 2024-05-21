@@ -13,19 +13,27 @@
 
 
       .formcontainer {
-            width: 100%;
+            width: 95%;
+            margin: 10px auto 0;
             padding: var(--globalPadding);
       }
 
       .quescontainer,
-      .personalInfoContainer {
+      .personalInfoContainer,
+      .householdInfoContainer,
+      .wasteInfoContainer,
+      .toiletInfoContainer {
             margin-bottom: 20px;
             width: 100%;
-            padding: var(--globalPadding);
+            padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
-      .personalInfoHeading {
+
+      .personalInfoHeading,
+      .householdInfoHeading,
+      .wasteInfoHeading,
+      .toiletInfoHeading {
             font-weight: 500;
       }
 
@@ -40,7 +48,9 @@
             margin: 10px 0;
             display: flex;
             justify-content: space-between;
-            align-items: center
+            align-items: center;
+            font-size: 15px;
+            gap: 15px;
       }
 
       .radioInput_Options {
