@@ -52,7 +52,7 @@ export default function HouseholdListPage() {
 
     try {
       async function fetchData() {
-        const tokeN = await localStorage.getItem("token");
+        const tokeN = localStorage.getItem("token");
         if (!tokeN) {
           route.push("/home/login");
         } else {
@@ -96,6 +96,13 @@ export default function HouseholdListPage() {
         );
         setApi_householdData(response_householdlist.data.data.house_holds);
       }
+
+      else {
+        setIsLoading(false);
+        swal("info", "No Data Present", "info");
+      }
+
+
     }
 
     fetchLists();
@@ -116,99 +123,78 @@ export default function HouseholdListPage() {
       html: `<swal-html>
           <div id="livestockDetails">
 
-          <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${
-            arrayData?.date
-          }</p>
-          <p style="text-align:left; color:var(--lic-blue)"><strong>Location:</strong> ${
-            arrayData?.lat
-          }, ${arrayData?.longi}</p>
-          <p style="text-align:left"><strong>Household Id:</strong> ${
-            arrayData?.id
-          }</p>
+          <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${arrayData?.date
+        }</p>
+          <p style="text-align:left; color:var(--lic-blue)"><strong>Location:</strong> ${arrayData?.lat
+        }, ${arrayData?.longi}</p>
+          <p style="text-align:left"><strong>Household Id:</strong> ${arrayData?.id
+        }</p>
           <p style="text-align:left"><strong>Supervisor:</strong> ${supervisor}</p>
           <p style="text-align:left"><strong>Entry By:</strong> ${name}</p>
          
-          <p style="text-align:left"><strong>Number of Family Members:</strong> ${
-            arrayData?.family_members
-          }</p>
-          <p style="text-align:left"><strong>Holding Number:</strong> ${
-            arrayData?.holding_number
-          }</p>
-          <p style="text-align:left"><strong>Household Name:</strong> ${
-            arrayData?.house_hold_name
-          }</p>
-          <p style="text-align:left"><strong>Home Base Manage Rate(Rs.):</strong> ${
-            arrayData?.home_base_manage_rat
-          }</p>
+          <p style="text-align:left"><strong>Number of Family Members:</strong> ${arrayData?.family_members
+        }</p>
+          <p style="text-align:left"><strong>Holding Number:</strong> ${arrayData?.holding_number
+        }</p>
+          <p style="text-align:left"><strong>Household Name:</strong> ${arrayData?.house_hold_name
+        }</p>
+          <p style="text-align:left"><strong>Home Base Manage Rate(Rs.):</strong> ${arrayData?.home_base_manage_rat
+        }</p>
           
-          <p style="text-align:left"><strong>Doing Home Composting:</strong> ${
-            arrayData?.is_composed === "1"
-              ? "Yes"
-              : arrayData?.is_composed === "0"
-              ? "No"
-              : ""
-          }
+          <p style="text-align:left"><strong>Doing Home Composting:</strong> ${arrayData?.is_composed === "1"
+          ? "Yes"
+          : arrayData?.is_composed === "0"
+            ? "No"
+            : ""
+        }
           </p>
-          <p style="text-align:left"><strong>Willing to construct individual soak pit:</strong> ${
-            arrayData?.is_construct_individual === "1"
-              ? "Yes"
-              : arrayData?.is_construct_individual === "0"
-              ? "No"
-              : ""
-          }</p>
+          <p style="text-align:left"><strong>Willing to construct individual soak pit:</strong> ${arrayData?.is_construct_individual === "1"
+          ? "Yes"
+          : arrayData?.is_construct_individual === "0"
+            ? "No"
+            : ""
+        }</p>
        
-          <p style="text-align:left"><strong>Doing Kitchen Garden:</strong> ${
-            arrayData?.is_kitchen_garden === "1"
-              ? "Yes"
-              : arrayData?.is_kitchen_garden === "0"
-              ? "No"
-              : ""
-          }</p>
-          <p style="text-align:left"><strong>Is Grey water managed:</strong> ${
-            arrayData?.is_manage_gray_water === "1"
-              ? "Yes"
-              : arrayData?.is_manage_gray_water === "0"
-              ? "No"
-              : ""
-          }</p>
-          <p style="text-align:left"><strong>Mobile Number:</strong> ${
-            arrayData?.mobile_no
-          }</p>
-          <p style="text-align:left"><strong>Below 18 years child count:</strong> ${
-            arrayData?.number_of_child_below_18_years
-          }</p>
-          <p style="text-align:left"><strong>Occupation:</strong> ${
-            arrayData?.ocupation
-          }</p>
-          <p style="text-align:left"><strong>House Ownership Type:</strong> ${
-            arrayData?.owner_type === "1"
-              ? "Own"
-              : arrayData?.owner_type === "0"
-              ? "Rent"
-              : ""
-          }</p>
-          <p style="text-align:left"><strong>Number of Patients:</strong> ${
-            arrayData?.patients
-          }</p>
-          <p style="text-align:left"><strong>Number of Pets:</strong> ${
-            arrayData?.pets
-          }</p>
-          <p style="text-align:left"><strong>Road:</strong> ${
-            arrayData?.road
-          }</p>
-          <p style="text-align:left"><strong>Has Toilet Inside House:</strong> ${
-            arrayData?.toilet_in_house === "1" ? "Yes" : "No"
-          }</p>
-          <p style="text-align:left"><strong>Segregation Type:</strong> ${
-            arrayData?.type_of_segragation === "0"
-              ? "Not Segregated"
-              : arrayData?.type_of_segragation === "1"
-              ? "Partially Segregated"
-              : "Fully Segregated"
-          }</p>
-          <p style="text-align:left"><strong>User Charge Per Month (Rs.):</strong> ${
-            arrayData?.user_charge_par_month
-          }</p>
+          <p style="text-align:left"><strong>Doing Kitchen Garden:</strong> ${arrayData?.is_kitchen_garden === "1"
+          ? "Yes"
+          : arrayData?.is_kitchen_garden === "0"
+            ? "No"
+            : ""
+        }</p>
+          <p style="text-align:left"><strong>Is Grey water managed:</strong> ${arrayData?.is_manage_gray_water === "1"
+          ? "Yes"
+          : arrayData?.is_manage_gray_water === "0"
+            ? "No"
+            : ""
+        }</p>
+          <p style="text-align:left"><strong>Mobile Number:</strong> ${arrayData?.mobile_no
+        }</p>
+          <p style="text-align:left"><strong>Below 18 years child count:</strong> ${arrayData?.number_of_child_below_18_years
+        }</p>
+          <p style="text-align:left"><strong>Occupation:</strong> ${arrayData?.ocupation
+        }</p>
+          <p style="text-align:left"><strong>House Ownership Type:</strong> ${arrayData?.owner_type === "1"
+          ? "Own"
+          : arrayData?.owner_type === "0"
+            ? "Rent"
+            : ""
+        }</p>
+          <p style="text-align:left"><strong>Number of Patients:</strong> ${arrayData?.patients
+        }</p>
+          <p style="text-align:left"><strong>Number of Pets:</strong> ${arrayData?.pets
+        }</p>
+          <p style="text-align:left"><strong>Road:</strong> ${arrayData?.road
+        }</p>
+          <p style="text-align:left"><strong>Has Toilet Inside House:</strong> ${arrayData?.toilet_in_house === "1" ? "Yes" : "No"
+        }</p>
+          <p style="text-align:left"><strong>Segregation Type:</strong> ${arrayData?.type_of_segragation === "0"
+          ? "Not Segregated"
+          : arrayData?.type_of_segragation === "1"
+            ? "Partially Segregated"
+            : "Fully Segregated"
+        }</p>
+          <p style="text-align:left"><strong>User Charge Per Month (Rs.):</strong> ${arrayData?.user_charge_par_month
+        }</p>
           
           </div>
         </swal-html>`,

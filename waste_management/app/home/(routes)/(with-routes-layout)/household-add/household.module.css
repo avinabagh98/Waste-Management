@@ -22,7 +22,9 @@
       .personalInfoContainer,
       .householdInfoContainer,
       .wasteInfoContainer,
-      .toiletInfoContainer {
+      .toiletInfoContainer,
+      .shopInfoContainer,
+      .marketInfoContainer {
             margin-bottom: 20px;
             width: 100%;
             padding: 20px;
@@ -33,7 +35,9 @@
       .personalInfoHeading,
       .householdInfoHeading,
       .wasteInfoHeading,
-      .toiletInfoHeading {
+      .toiletInfoHeading,
+      .shopInfoHeading,
+      .marketInfoHeading {
             font-weight: 500;
       }
 

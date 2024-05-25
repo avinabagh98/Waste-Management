@@ -103,6 +103,37 @@ export default function HouseholdAddpage() {
   const [wantTOPay, setWantTOPay] = useState("");
   const [spinner, setSpinner] = useState(false);
 
+  //Shop
+  const [typeOfShop, setTypeOfShop] = useState("");
+  const [sansadNo, setSansadNo] = useState("");
+  const [mobileShop, setMobileShop] = useState("");
+  const [bioWasteShop, setBioWasteShop] = useState("");
+  const [nonBioWasteShop, setNonBioWasteShop] = useState("");
+  const [dailyWasteManage, setDailyWasteManage] = useState("");
+  const [willingToGiveWaste, setWillingToGiveWaste] = useState("");
+  const [willingToPayGp, setWillingToPayGp] = useState("");
+
+  //Market
+  const [typeofMarket, settypeofMarket] = useState("");
+  const [ismarketCommitteePresence, setIsmarketCommitteePresence] = useState("");
+  const [numberOfshops, setNumberOfshops] = useState("");
+  const [numberOfGroceries, setNumberOfGroceries] = useState("");
+  const [numberOfFoodShops, setNumberOfFoodShops] = useState("");
+  const [numberOfVegetables, setNumberOfVegetables] = useState("");
+  const [numberOfResturants, setNumberOfResturants] = useState("");
+  const [numberOfHotels, setNumberOfHotels] = useState("");
+  const [numberOfMeatShop, setNumberOfMeatShop] = useState("");
+  const [numberOfFishShops, setNumberOfFishShops] = useState("");
+  const [numberOfOtherShops, setNumberOfOtherShops] = useState("");
+  const [wasteGenMarket, setWasteGenMarket] = useState("");
+  const [bioDegradableWasteMarket, setBioDegradableWasteMarket] = useState("");
+  const [nonBioDegradableWasteMarket, setNonBioDegradableWasteMarket] = useState("");
+  const [hazardousWasteMarket, setHazardousWasteMarket] = useState("");
+  const [dailyWasteManageMarket, setDailyWasteManageMarket] = useState("");
+  const [willingToGiveWasteMarket, setWillingToGiveWasteMarket] = useState("");
+  const [willingToPayGpMarket, setWillingToPayGpMarket] = useState("");
+
+
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
@@ -331,6 +362,8 @@ export default function HouseholdAddpage() {
 
   // Handler Functions
   const handleVal = (id, val) => {
+
+    //Household
     if (id === "WillingToDoManage") {
       val === "yes" ? setWillingToDoManage("1") : setWillingToDoManage("0");
     }
@@ -439,7 +472,96 @@ export default function HouseholdAddpage() {
       val === "Own" ? setOwnershipOfHouseHHSurvey("1") : setOwnershipOfHouseHHSurvey("0");
 
     }
+
+    //Shop
+
+    if (id === "typeOfShop") {
+      val === "Grocery" ? setTypeOfShop("1") : val === "Food" ? setTypeOfShop("2") : val === "Vegetables" ? setTypeOfShop("3") : val === "Resturant" ? setTypeOfShop("4") : val === "Fish" ? setTypeOfShop("5") : val === "Meat" ? setTypeOfShop("6") : ""
+    }
+
+    if (id === "sansadNoShop") {
+      val === "Itahar Sansad" ? setSansadNo("1") : val === "Raj Sansad" ? setSansadNo("2") : ""
+    }
+
+    if (id === "dailyWasteManage") {
+      val === "Dumping" ? setDailyWasteManage("1") : val === "Throwing" ? setDailyWasteManage("2") : val === "Burned" ? setDailyWasteManage("3") : ""
+    }
+
+
+    if (id === "willingToGiveWasteGp") {
+      if (val === "Yes") {
+        setWillingToGiveWaste("1");
+      }
+      if (val === "No") {
+        setWillingToGiveWaste("0");
+      }
+    }
+
+    if (id === "willingToPayGp") {
+      if (val === "Yes") {
+        setWillingToPayGp("1");
+      }
+      if (val === "No") {
+        setWillingToPayGp("0");
+      }
+    }
+
+
+    //Market
+
+    if (id === "typeofMarket") {
+      val === "Hat" ? settypeofMarket("1") : val === "Market" ? settypeofMarket("2") : val === "MultiComplex" ? settypeofMarket("3") : val === "Others" ? settypeofMarket("4") : ""
+    }
+
+    if (id === "sansadNoShop") {
+      val === "Itahar Sansad" ? setSansadNo("1") : val === "Raj Sansad" ? setSansadNo("2") : ""
+    }
+
+    if (id === "marketCommitteePresence") {
+
+      val === "Yes" ? setIsmarketCommitteePresence("1") : val === "No" ? setIsmarketCommitteePresence("0") : ""
+    }
+
+    if (id === "dailyWasteManageMarket") {
+      val === "Dumping" ? setDailyWasteManageMarket("1") : val === "Throwing" ? setDailyWasteManageMarket("2") : val === "Burned" ? setDailyWasteManageMarket("3") : ""
+    }
+
+    if (id === "willingToGiveWasteMarket") {
+      if (val === "Yes") {
+        setWillingToGiveWasteMarket("1");
+      }
+      if (val === "No") {
+        setWillingToGiveWasteMarket("0");
+      }
+    }
+
+    if (id === "willingToPayGpMarket") {
+      if (val === "Yes") {
+        setWillingToPayGpMarket("1");
+      }
+      if (val === "No") {
+        setWillingToPayGpMarket("0");
+      }
+    }
+
+
+
+
+
+
+
   };
+
+
+
+
+
+
+
+
+
+
+
 
   const handleRadioChange = (name, value) => {
 
@@ -509,6 +631,13 @@ export default function HouseholdAddpage() {
       }
     }
   };
+
+
+  const dummySubmit = (e) => {
+    e.preventDefault();
+    route.push("/home/household-list");
+  };
+
 
   return (
     <>
@@ -1111,22 +1240,293 @@ export default function HouseholdAddpage() {
             </>
           ) : (
             WGUtype === "shop" ?
-              <>
-                <Surveyques
+              <div className={styles.shopInfoContainer}>
+                <div className={styles.shopInfoHeading}>
+                  <Textparser text={"Shop Information"} />
+                </div>
+
+                <SurveyDropdown
                   id={"typeOfShop"}
-                  labelText={translate?.Type_of_shop}
-                  value={typeOfShop}
+                  labelText={translate?.Type_of_shop_HH_survey}
+                  value={typeOfShop === '1' ? "Grocery" : typeOfShop === '2' ? "Food" : typeOfShop === '3' ? "Vegetables" : typeOfShop === '4' ? "Resturant" : typeOfShop === '5' ? "Fish" : typeOfShop === '6' ? "Meat" : ""}
                   required={true}
                   handleVal={(id, val) => handleVal(id, val)}
-                  type={"text"}
+                  options={["Select", "Grocery", "Food", "Vegetables", "Resturant", "Fish", "Meat"]}
                 />
-              </>
-              :
-              <></>
+
+                <SurveyDropdown
+                  id={"sansadNoShop"}
+                  labelText={translate?.SansadNo_HH_survey}
+                  value={sansadNo === "1" ? "Itahar Sansad" : sansadNo === "2" ? "Raj Sansad" : ""}
+                  required={true}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  options={["Select", "Itahar Sansad", "Raj Sansad"]}
+                />
+
+                <Surveyques
+                  id={"contactShop"}
+                  labelText={translate?.mobile_Shop_HH_survey}
+                  value={mobileShop}
+                  // required={true}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  type={"number"}
+                />
+
+                <Surveyques
+                  id={"bioDegradableWasteShop"}
+                  labelText={translate?.bioWaste_Shop_HH_survey}
+                  value={bioWasteShop}
+                  // required={true}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  type={"number"}
+                />
+
+                <Surveyques
+                  id={"nonBioDegradableWasteShop"}
+                  labelText={translate?.nonBiowaste_Shop_HH_survey}
+                  value={nonBioWasteShop}
+                  // required={true}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  type={"number"}
+                />
+
+
+                <SurveyDropdown
+                  id={"dailyWasteManage"}
+                  labelText={translate?.dailyWasteManage_Shop_HH_survey}
+                  value={dailyWasteManage === "1" ? "Dumping" : dailyWasteManage === "2" ? "Throwing" : dailyWasteManage === "3" ? "Burned" : ""}
+                  // required={true}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  options={["Select", "Dumping", "Throwing", "Burned"]}
+
+                />
+
+                <SurveyDropdown
+                  id={"willingToGiveWasteGp"}
+                  labelText={translate?.willingToGiveWaste_Shop_HH_survey}
+                  value={willingToGiveWaste === "1" ? "Yes" : willingToGiveWaste === "0" ? "No" : ""}
+                  // required={true}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  options={["Select", "Yes", "No"]}
+
+                />
+
+                <SurveyDropdown
+                  id={"willingToPayGp"}
+                  labelText={translate?.willingToPayGp_Shop_HH_survey}
+                  value={willingToPayGp === "1" ? "Yes" : willingToPayGp === "0" ? "No" : ""}
+                  // required={true}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  options={["Select", "Yes", "No"]}
+
+                />
+
+
+
+              </div>
+
+              : WGUtype === "market" ?
+
+                <div className={styles.marketInfoContainer}>
+                  <div className={styles.marketInfoHeading}>
+                    <Textparser text={"Market Information"} />
+                  </div>
+
+                  <SurveyDropdown
+                    id={"typeofMarket"}
+                    labelText={translate?.Type_of_market_HH_survey}
+                    value={typeofMarket === '1' ? "Hat" : typeofMarket === '2' ? "Market" : typeofMarket === '3' ? "MultiComplex" : typeofMarket === '4' ? "Others" : ""}
+                    required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    options={["Select", "Hat", "Market", "MultiComplex", "Others"]}
+                  />
+
+
+                  <SurveyDropdown
+                    id={"sansadNoShop"}
+                    labelText={translate?.SansadNo_HH_survey}
+                    value={sansadNo === "1" ? "Itahar Sansad" : sansadNo === "2" ? "Raj Sansad" : ""}
+                    required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    options={["Select", "Itahar Sansad", "Raj Sansad"]}
+                  />
+
+                  <SurveyDropdown
+                    id={"marketCommitteePresence"}
+                    labelText={translate?.MarketCommitee_HH_survey}
+                    value={ismarketCommitteePresence === "1" ? "Yes" : ismarketCommitteePresence === "0" ? "No" : ""}
+                    required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    options={["Select", "Yes", "No"]}
+                  />
+
+                  <Surveyques
+                    id={"numberOfshops"}
+                    labelText={translate?.TotalShop_Market_HH_survey}
+                    value={numberOfshops}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+                  <Surveyques
+                    id={"numberOfGroceries"}
+                    labelText={translate?.TotalGrocery_Market_HH_survey}
+                    value={numberOfGroceries}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+                  <Surveyques
+                    id={"numberOfFoodShops"}
+                    labelText={translate?.TotalFood_Market_HH_survey}
+                    value={numberOfFoodShops}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+                  <Surveyques
+                    id={"numberOfVegetables"}
+                    labelText={translate?.TotalVegetable_Market_HH_survey}
+                    value={numberOfVegetables}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+
+                  <Surveyques
+                    id={"numberOfResturants"}
+                    labelText={translate?.TotalResturant_Market_HH_survey}
+                    value={numberOfResturants}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+
+                  <Surveyques
+                    id={"numberOfHotels"}
+                    labelText={translate?.TotalHotels_Market_HH_survey}
+                    value={numberOfHotels}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+
+                  <Surveyques
+                    id={"numberOfMeatShop"}
+                    labelText={translate?.TotalMeatShop_Market_HH_survey}
+                    value={numberOfMeatShop}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+                  <Surveyques
+                    id={"numberOfFishShops"}
+                    labelText={translate?.TotalFishShops_Market_HH_survey}
+                    value={numberOfFishShops}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+                  <Surveyques
+                    id={"numberOfOtherShops"}
+                    labelText={translate?.TotalOther_Market_HH_survey}
+                    value={numberOfOtherShops}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+
+                  <Surveyques
+                    id={"wasteGenMarket"}
+                    labelText={translate?.TotalWasteGeneration_Market_HH_survey}
+                    value={wasteGenMarket}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+
+
+                  <Surveyques
+                    id={"bioDegradableWasteMarket"}
+                    labelText={translate?.TotalBioDegradableWaste_Market_HH_survey}
+                    value={bioDegradableWasteMarket}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+                  <Surveyques
+                    id={"nonBioDegradableWasteMarket"}
+                    labelText={translate?.TotalNonBioDegradableWaste_Market_HH_survey}
+                    value={nonBioDegradableWasteMarket}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+                  <Surveyques
+                    id={"hazardousWasteMarket"}
+                    labelText={translate?.TotalHazardousWaste_Market_HH_survey}
+                    value={hazardousWasteMarket}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    type={"number"}
+                  />
+
+
+
+                  <SurveyDropdown
+                    id={"dailyWasteManageMarket"}
+                    labelText={translate?.WasteMangement_Market_HH_survey}
+                    value={dailyWasteManageMarket === "1" ? "Dumping" : dailyWasteManageMarket === "2" ? "Throwing" : dailyWasteManageMarket === "3" ? "Burned" : ""}
+                    required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    options={["Select", "Dumping", "Throwing", "Burned"]}
+                  />
+
+
+
+                  <SurveyDropdown
+                    id={"willingToGiveWasteMarket"}
+                    labelText={translate?.willingToGiveWaste_Market_HH_survey}
+                    value={willingToGiveWasteMarket === "1" ? "Yes" : willingToGiveWasteMarket === "0" ? "No" : ""}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    options={["Select", "Yes", "No"]}
+
+                  />
+
+
+                  <SurveyDropdown
+                    id={"willingToPayGpMarket"}
+                    labelText={translate?.willingToPayGp_Market_HH_survey}
+                    value={willingToPayGpMarket === "1" ? "Yes" : willingToPayGpMarket === "0" ? "No" : ""}
+                    // required={true}
+                    handleVal={(id, val) => handleVal(id, val)}
+                    options={["Select", "Yes", "No"]}
+
+                  />
+
+
+
+                </div>
+
+                :
+                <></>
           )}
 
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtn} onClick={submitHandler}>
+            <button className={styles.submitbtn} onClick={dummySubmit}>
               Submit
             </button>
           </div>
