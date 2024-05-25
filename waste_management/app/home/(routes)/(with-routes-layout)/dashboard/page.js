@@ -284,7 +284,7 @@ export default function Dashboardpage() {
               }}
             >
               <img src="/images/income.png" alt="income"></img>
-              <p>Income</p>
+              <p>Revenue Generation</p>
             </div>
           </div>
 
@@ -311,7 +311,7 @@ export default function Dashboardpage() {
                 src="/images/mohalla_commitee.png"
                 alt="mohalla_commitee"
               ></img>
-              <p>Community Meetings</p>
+              <p>Project Activity</p>
             </div>
           </div>
 

@@ -780,6 +780,15 @@ export default function HouseholdAddpage() {
                 </div>
 
 
+
+                <SurveyDropdown
+                  id={"typeOfHousehold"}
+                  labelText={"Type of Household"}
+                  value={ownershipOfHouseHHSurvey === "1" ? "Own" : "Rent"}
+                  handleVal={(id, val) => handleVal(id, val)}
+                  options={["Individual", "Multi Storied", "Housing Society"]}
+                />
+
                 <SurveyDropdown
                   id={"ownershipOfHouseHHSurvey"}
                   labelText={translate?.Ownership_of_House_HH_survey}
@@ -842,7 +851,7 @@ export default function HouseholdAddpage() {
 
                 <SurveyDropdown
                   id={"hasPets"}
-                  labelText={"Has any pets?"}
+                  labelText={"Has any Domestic Animal?"}
                   value={
                     hasPets === "0" ? "no" : hasPets === "1" ? "yes" : "select"
                   }
@@ -852,7 +861,7 @@ export default function HouseholdAddpage() {
                 {hasPets === "1" ? (
                   <Surveyques
                     id={"pets"}
-                    labelText={"How many pets?"}
+                    labelText={"How many domestic animal?"}
                     value={pets}
                     required={true}
                     handleVal={(id, val) => handleVal(id, val)}
