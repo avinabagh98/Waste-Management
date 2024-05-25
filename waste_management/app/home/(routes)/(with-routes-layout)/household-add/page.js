@@ -133,6 +133,24 @@ export default function HouseholdAddpage() {
   const [willingToGiveWasteMarket, setWillingToGiveWasteMarket] = useState("");
   const [willingToPayGpMarket, setWillingToPayGpMarket] = useState("");
 
+  //Institution
+  const [typeOfInstitution, setTypeOfInstitution] = useState("");
+  const [nameOfInstitution, setNameOfInstitution] = useState("");
+  const [numberOfStudents, setNumberOfStudents] = useState("");
+  const [numberOfBoys, setNumberOfBoys] = useState("");
+  const [numberOfGirls, setNumberOfGirls] = useState("");
+  const [isMidDayMeal, setIsMidDayMeal] = useState("");
+  const [numberOfDailyWasteGen, setNumberOfDailyWasteGen] = useState("");
+  const [bioDegradableWasteInstitute, setBioDegradableWasteInstitute] = useState("");
+  const [nonBioDegradableWasteInstitute, setNonBioDegradableWasteInstitute] = useState("");
+  const [hazardousWasteInstitute, setHazardousWasteInstitute] = useState("");
+  const [WillingToDoManageWasteInstitute, setWillingToDoManageWasteInstitute] = useState("");
+  const [hasGarden, setHasGarden] = useState("");
+  const [dailyWasteManageInstitute, setDailyWasteManageInstitute] = useState("");
+  const [willingToGiveWasteInstitute, setWillingToGiveWasteInstitute] = useState("");
+  const [willingToPayGpInstitute, setWillingToPayGpInstitute] = useState("");
+
+
 
   //Common Other declarations///
   const loadingHeaderData = {
@@ -198,7 +216,7 @@ export default function HouseholdAddpage() {
     setDateHHSurvey(localStorage.getItem("today"));
     try {
       async function fetchData() {
-        const token = await localStorage.getItem("token");
+        const token = localStorage.getItem("token");
         if (!token) {
           route.push("/home/login");
         } else {
@@ -513,7 +531,9 @@ export default function HouseholdAddpage() {
       val === "Hat" ? settypeofMarket("1") : val === "Market" ? settypeofMarket("2") : val === "MultiComplex" ? settypeofMarket("3") : val === "Others" ? settypeofMarket("4") : ""
     }
 
-    if (id === "sansadNoShop") {
+
+
+    if (id === "sansadNoMarket") {
       val === "Itahar Sansad" ? setSansadNo("1") : val === "Raj Sansad" ? setSansadNo("2") : ""
     }
 
@@ -542,6 +562,12 @@ export default function HouseholdAddpage() {
       if (val === "No") {
         setWillingToPayGpMarket("0");
       }
+    }
+
+    //Institution
+
+    if (id === "sansadNoInstitution") {
+      val === "Itahar Sansad" ? setSansadNo("1") : val === "Raj Sansad" ? setSansadNo("2") : ""
     }
 
 
@@ -680,7 +706,7 @@ export default function HouseholdAddpage() {
               value={WGUtype}
               required={true}
               handleVal={(id, val) => handleVal(id, val)}
-              options={["select", "household", "instituion", "market", "shop"]}
+              options={["select", "household", "institution", "market", "shop"]}
             />
           </div>
 
@@ -1343,7 +1369,7 @@ export default function HouseholdAddpage() {
 
 
                   <SurveyDropdown
-                    id={"sansadNoShop"}
+                    id={"sansadNoMarket"}
                     labelText={translate?.SansadNo_HH_survey}
                     value={sansadNo === "1" ? "Itahar Sansad" : sansadNo === "2" ? "Raj Sansad" : ""}
                     required={true}
@@ -1521,8 +1547,181 @@ export default function HouseholdAddpage() {
 
                 </div>
 
-                :
-                <></>
+                : WGUtype === "institution" ?
+
+                  <div className={styles.institutionInfoContainer}>
+                    <div className={styles.institutionInfoHeading}>
+                      <Textparser text={"Institution Information"} />
+                    </div>
+
+
+                    <SurveyDropdown
+                      id={"typeOfInstitution"}
+                      labelText={translate?.Type_of_instituion_HH_survey}
+                      value={typeOfInstitution === '1' ? "ICDS" : typeofMarket === '2' ? "SSK" : typeOfInstitution === '3' ? "MSK" : typeOfInstitution === '4' ? "Primary School" : typeOfInstitution === '4' ? " Upper Primary School" : typeOfInstitution === '4' ? "High School" : typeOfInstitution === '4' ? "Higher Secondary School" : typeOfInstitution === '4' ? "College" : ""}
+                      required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      options={["Select", "ICDS", "SSK", "MSK", "Primary School", "Upper Primary School", "High School", "Higher Secondary School", "College"]}
+                    />
+
+                    <Surveyques
+                      id={"nameOfInstitution"}
+                      labelText={translate?.NameOFInstitution_HH_survey}
+                      value={nameOfInstitution}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      type={"text"}
+                    />
+
+                    <SurveyDropdown
+                      id={"sansadNoInstitution"}
+                      labelText={translate?.SansadNo_HH_survey}
+                      value={sansadNo === "1" ? "Itahar Sansad" : sansadNo === "2" ? "Raj Sansad" : ""}
+                      required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      options={["Select", "Itahar Sansad", "Raj Sansad"]}
+                    />
+
+
+                    <Surveyques
+                      id={"numberOfStudents"}
+                      labelText={translate?.TotalStudents_Institution_HH_survey}
+                      value={numberOfStudents}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      type={"number"}
+                    />
+
+
+                    <Surveyques
+                      id={"numberOfBoys"}
+                      labelText={translate?.TotalBoys_Institution_HH_survey}
+                      value={numberOfBoys}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      type={"number"}
+                    />
+
+                    <Surveyques
+                      id={"numberOfGirls"}
+                      labelText={translate?.TotalGirls_Institution_HH_survey}
+                      value={numberOfGirls}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      type={"number"}
+                    />
+
+                    <SurveyDropdown
+                      id={"isMidDayMeal"}
+                      labelText={translate?.IsMidDayMeal_Institution_HH_survey}
+                      value={isMidDayMeal === "1" ? "Yes" : isMidDayMeal === "0" ? "No" : ""}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      options={["Select", "Yes", "No"]}
+                    />
+
+                    <Surveyques
+                      id={"numberOfDailyWasteGen"}
+                      labelText={translate?.TotalWasteGeneration_Institution_HH_survey}
+                      value={numberOfDailyWasteGen}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      type={"number"}
+                    />
+
+
+                    <Surveyques
+                      id={"bioDegradableWasteInstitute"}
+                      labelText={translate?.TotalBioDegradableWaste_Institution_HH_survey}
+                      value={bioDegradableWasteInstitute}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      type={"number"}
+                    />
+
+
+                    <Surveyques
+                      id={"nonBioDegradableWasteInstitute"}
+                      labelText={translate?.TotalNonBioDegradableWaste_Institution_HH_survey}
+                      value={nonBioDegradableWasteInstitute}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      type={"number"}
+                    />
+
+
+                    <Surveyques
+                      id={"hazardousWasteInstitute"}
+                      labelText={translate?.TotalHazardousWaste_Institution_HH_survey}
+                      value={hazardousWasteInstitute}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      type={"number"}
+                    />
+
+
+
+                    <SurveyDropdown
+                      id={"WillingToDoManageWasteInstitute"}
+                      labelText={translate?.WillingToManageWaste_Institution_HH_survey}
+                      value={WillingToDoManageWasteInstitute === "1" ? "Yes" : WillingToDoManageWasteInstitute === "0" ? "No" : ""}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      options={["Select", "Yes", "No"]}
+
+                    />
+
+
+                    <SurveyDropdown
+                      id={"hasGarden"}
+                      labelText={translate?.hasGarden_Institution_HH_survey}
+                      value={hasGarden === "1" ? "Yes" : hasGarden === "0" ? "No" : ""}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      options={["Select", "Yes", "No"]}
+
+                    />
+
+
+                    <SurveyDropdown
+                      id={"dailyWasteManageInstitute"}
+                      labelText={translate?.DailyWasteManage_Institution_HH_survey}
+                      value={dailyWasteManageInstitute === "1" ? "Dumping" : dailyWasteManageInstitute === "2" ? "Throwing" : dailyWasteManageInstitute === "3" ? "Burned" : ""}
+                      required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      options={["Select", "Dumping", "Throwing", "Burned"]}
+                    />
+
+
+
+                    <SurveyDropdown
+                      id={"willingToGiveWasteInstitute"}
+                      labelText={translate?.WillingToGiveWasteGP_Institution_HH_survey}
+                      value={willingToGiveWasteInstitute === "1" ? "Yes" : willingToGiveWasteInstitute === "0" ? "No" : ""}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      options={["Select", "Yes", "No"]}
+
+                    />
+
+
+                    <SurveyDropdown
+                      id={"willingToPayGpInstitute"}
+                      labelText={translate?.WillingToPayGp_Institution_HH_survey}
+                      value={willingToPayGpInstitute === "1" ? "Yes" : willingToPayGpInstitute === "0" ? "No" : ""}
+                      // required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                      options={["Select", "Yes", "No"]}
+
+                    />
+
+
+
+                  </div>
+
+                  :
+
+                  <></>
           )}
 
           <div className={styles.btnContainer}>

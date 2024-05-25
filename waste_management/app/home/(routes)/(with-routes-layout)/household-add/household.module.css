@@ -24,7 +24,8 @@
       .wasteInfoContainer,
       .toiletInfoContainer,
       .shopInfoContainer,
-      .marketInfoContainer {
+      .marketInfoContainer,
+      .institutionInfoContainer {
             margin-bottom: 20px;
             width: 100%;
             padding: 20px;
@@ -37,7 +38,8 @@
       .wasteInfoHeading,
       .toiletInfoHeading,
       .shopInfoHeading,
-      .marketInfoHeading {
+      .marketInfoHeading,
+      .institutionInfoContainer {
             font-weight: 500;
       }
 

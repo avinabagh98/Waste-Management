@@ -150,5 +150,20 @@
       "TotalHazardousWaste_Market_HH_survey": "Total Hazardous Waste in Daily (Kg.)",
       "WasteMangement_Market_HH_survey": "How is the daily waste managed here?",
       "willingToGiveWaste_Market_HH_survey": "All the shopkeepers agree to gives the waste if the waste is collected from the Gram Panchayat",
-      "willingToPayGp_Market_HH_survey": "Will you provide to Gram Panchayat for waste collection services charge? "
+      "willingToPayGp_Market_HH_survey": "Will you provide to Gram Panchayat for waste collection services charge? ",
+      "Type_of_instituion_HH_survey": "Type of Institutions",
+      "NameOFInstitution_HH_survey": "Name of Institution",
+      "TotalStudents_Institution_HH_survey": "Total Number of Students",
+      "TotalBoys_Institution_HH_survey": "Total Number of Boys",
+      "TotalGirls_Institution_HH_survey": "Total Number of Girls",
+      "IsMidDayMeal_Institution_HH_survey": "Midday Meal Scheme",
+      "TotalWasteGeneration_Institution_HH_survey": "Total Waste Generate in Daily (Kg.)",
+      "TotalBioDegradableWaste_Institution_HH_survey": "Total Bio Degradable Waste in Daily (Kg.)",
+      "TotalNonBioDegradableWaste_Institution_HH_survey": "Total Non Bio Degradable Waste in Daily (Kg.)",
+      "TotalHazardousWaste_Institution_HH_survey": "Total Hazardous Waste in Daily (Kg.)",
+      "WillingToManageWaste_Institution_HH_survey": "Biodegradable waste Want to manage school authorities? ",
+      "hasGarden_Institution_HH_survey": "Does the school have a garden? ",
+      "DailyWasteManage_Institution_HH_survey": " How is the daily waste managed here? ",
+      "WillingToGiveWasteGP_Institution_HH_survey": "Are you willing to gives the garbage if the Gram Panchayat collects",
+      "WillingToPayGp_Institution_HH_survey": "Will your institute provide to Gram Panchayat for waste collection services charge?"
 }

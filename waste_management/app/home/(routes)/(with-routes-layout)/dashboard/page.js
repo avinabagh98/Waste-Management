@@ -274,7 +274,7 @@ export default function Dashboardpage() {
                 src="/images/waste_collector.png"
                 alt="waste_collection"
               ></img>
-              <p> Weekly Waste Collection</p>
+              <p> Waste Collection</p>
             </div>
             <div
               className={styles.card2}
@@ -303,15 +303,15 @@ export default function Dashboardpage() {
             <div
               className={styles.card4}
               onClick={() => {
-                setSpinner(true);
-                route.push("/home/mohalla-list");
+                // setSpinner(true);
+                // route.push("/home/mohalla-list");
               }}
             >
               <img
                 src="/images/mohalla_commitee.png"
                 alt="mohalla_commitee"
               ></img>
-              <p>Mohalla Commitee</p>
+              <p>Community Meetings</p>
             </div>
           </div>
 
@@ -320,14 +320,14 @@ export default function Dashboardpage() {
             <div
               className={styles.card5}
               onClick={() => {
-                setSpinner(true);
-                route.push("/home/livestock-list");
+                // setSpinner(true);
+                // route.push("/home/livestock-list");
               }}
             >
               <img src="/images/livestock_shed.png" alt="livestock_shed"></img>
-              <p>Livestock Shed</p>
+              <p>Multi Layer Plastic (MLP)</p>
             </div>
-            <div
+            {/* <div
               className={styles.card6}
               onClick={() => {
                 setSpinner(true);
@@ -339,7 +339,7 @@ export default function Dashboardpage() {
                 alt="community_toilet"
               ></img>
               <p>Community Toilet</p>
-            </div>
+            </div> */}
           </div>
         </div>
 
