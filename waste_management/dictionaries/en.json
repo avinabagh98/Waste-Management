@@ -160,10 +160,26 @@
       "TotalWasteGeneration_Institution_HH_survey": "Total Waste Generate in Daily (Kg.)",
       "TotalBioDegradableWaste_Institution_HH_survey": "Total Bio Degradable Waste in Daily (Kg.)",
       "TotalNonBioDegradableWaste_Institution_HH_survey": "Total Non Bio Degradable Waste in Daily (Kg.)",
-      "TotalHazardousWaste_Institution_HH_survey": "Total Hazardous Waste in Daily (Kg.)",
+      "TotalSanataryWaste_Institution_HH_survey": "Total Sanatary Waste in Daily (Kg.)",
       "WillingToManageWaste_Institution_HH_survey": "Biodegradable waste Want to manage school authorities? ",
       "hasGarden_Institution_HH_survey": "Does the school have a garden? ",
       "DailyWasteManage_Institution_HH_survey": " How is the daily waste managed here? ",
       "WillingToGiveWasteGP_Institution_HH_survey": "Are you willing to gives the garbage if the Gram Panchayat collects",
-      "WillingToPayGp_Institution_HH_survey": "Will your institute provide to Gram Panchayat for waste collection services charge?"
+      "WillingToPayGp_Institution_HH_survey": "Will your institute provide to Gram Panchayat for waste collection services charge?",
+      "householdInfoHeading_HH_survey": "Household Information",
+      "personalInfoHeading_HH_survey": "Personal Information",
+      "GeneratedWasteInfoHeading_HH_survey": "Generated Waste Information",
+      "OtherInfoHeading_HH_survey": "Other Information",
+      "natureOfHouseholds_HH_survey": "Nature of Households",
+      "Societyname_HH_survey":"Name of Society",
+      "keyPerson_HH_survey":"Name of Key Person",
+      "addNewSociety_HH_survey":"Add Society",
+      "addNewKeyPerson_HH_survey":"Add New Key Person",
+      "Add_Society_HH_survey":"Add Society",
+      "Caste_HH_survey":"Caste",
+      "Religion_HH_survey":"Religion",
+      "ShopLocated_shop_HH_survey":"Shop Located",
+      "Market_HH_survey":"Market Name"
+
+
 }
