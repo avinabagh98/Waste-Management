@@ -12,12 +12,14 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 export default function HouseholdListPage() {
+
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
   const [ward_id, setWard_id] = useState("");
   const [gp, setGp] = useState("");
   const [api_householdData, setApi_householdData] = useState([]);
+  const [filterSelected, setFilterSelected] = useState("1");
 
   //Loading Header Data States
   const [name, setName] = useState("");
@@ -27,7 +29,7 @@ export default function HouseholdListPage() {
   //loading states
   const [isLoading, setIsLoading] = useState(true);
   const [spinner, setSpinner] = useState(false);
-
+  const [typeOfWGU, setTypeOfWGU] = useState("2")
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
@@ -40,6 +42,7 @@ export default function HouseholdListPage() {
   const householdlistBody = {
     token: token,
     wardId: ward_id,
+    typeOfWGU: "2"
   };
 
   const route = useRouter();
@@ -49,15 +52,15 @@ export default function HouseholdListPage() {
   useEffect(() => {
     localStorage.setItem("previousPath", "/home/dashboard");
     setSupervisor(localStorage.getItem("supervisor"));
-
+    setToken(localStorage.getItem("token"));
     try {
       async function fetchData() {
         const tokeN = localStorage.getItem("token");
+        // setToken(tokeN);
         if (!tokeN) {
           route.push("/home/login");
         } else {
           localStorage.removeItem("id");
-          setToken(tokeN);
           setWard_id(localStorage.getItem("ward_id"));
           setUserRole(localStorage.getItem("role_name"));
 
@@ -67,50 +70,92 @@ export default function HouseholdListPage() {
           setBLockName(localStorage.getItem("block"));
           setGp(localStorage.getItem("gp"));
         }
+
+
+
       }
       fetchData();
+
+      async function fetchLists() {
+        const tokeN = localStorage.getItem("token");
+        const response_householdlist = await sendRequest(
+          "post",
+          `/household/list`,
+          {
+            token: tokeN,
+            wardId: ward_id,
+            typeOfWGU: "2"
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Api-body", householdlistBody);//testing
+        console.log("Api-response", response_householdlist);//testing
+        // if (response_householdlist.status === 1) {
+        //   setIsLoading(false);
+        //   console.log(
+        //     "API_list_ARRAY::",
+        //     response_householdlist.data.data.house_holds
+        //   );
+        //   setApi_householdData(response_householdlist.data.data.house_holds);
+        // }
+
+        // else {
+        //   setIsLoading(false);
+        //   swal("info", "No Data Present", "info");
+        // }
+
+
+      }
+
+      fetchLists();
     } catch (error) {
       swal("Error", error.message, "error");
     }
   }, []);
 
-  //household List Fetching
-  useEffect(() => {
-    async function fetchLists() {
-      const response_householdlist = await sendRequest(
-        "post",
-        `/household/list`,
-        householdlistBody,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  // //household List Fetching
+  // useEffect(() => {
+  //   async function fetchLists() {
+  //     const response_householdlist = await sendRequest(
+  //       "post",
+  //       `/household/list`,
+  //       householdlistBody,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     console.log("Api-body", householdlistBody);//testing
+  //     console.log("Api-response", response_householdlist);//testing
+  //     // if (response_householdlist.status === 1) {
+  //     //   setIsLoading(false);
+  //     //   console.log(
+  //     //     "API_list_ARRAY::",
+  //     //     response_householdlist.data.data.house_holds
+  //     //   );
+  //     //   setApi_householdData(response_householdlist.data.data.house_holds);
+  //     // }
 
-      if (response_householdlist.status === 1) {
-        setIsLoading(false);
-        console.log(
-          "API_list_ARRAY::",
-          response_householdlist.data.data.house_holds
-        );
-        setApi_householdData(response_householdlist.data.data.house_holds);
-      }
-
-      else {
-        setIsLoading(false);
-        swal("info", "No Data Present", "info");
-      }
+  //     // else {
+  //     //   setIsLoading(false);
+  //     //   swal("info", "No Data Present", "info");
+  //     // }
 
 
-    }
+  //   }
 
-    fetchLists();
-  }, [token, ward_id]);
+  //   fetchLists();
+  // }, []);
 
   // Function Declarations
 
   // Handler Functions
+
   const editHandler = (id) => {
     setSpinner(true);
     localStorage.setItem("id", id);
@@ -227,6 +272,13 @@ export default function HouseholdListPage() {
 
         {/* //Lists */}
 
+
+        <div className={styles.filter}>
+          <div onClick={() => setFilterSelected("1")} className={filterSelected === "1" ? styles.householdTypeSelected : styles.householdType}><span>Household</span></div>
+          < div onClick={() => setFilterSelected("2")} className={filterSelected === "2" ? styles.householdTypeSelected : styles.householdType}><span>Shop</span></div>
+          <div onClick={() => setFilterSelected("3")} className={filterSelected === "3" ? styles.householdTypeSelected : styles.householdType}><span>Institution</span></div>
+        </div>
+
         <div className={styles.tableContainer}>
           <table className={styles.table}>
             <thead>
@@ -310,7 +362,7 @@ export default function HouseholdListPage() {
           <Skeleton width={200} height={10} baseColor="#6fd199" />
         </div>
 
-        {/* List Container */}
+        {/* Skeleton Container */}
         <div className={styles.tableContainer}>
           <table className={styles.table}>
             <thead>

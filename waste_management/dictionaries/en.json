@@ -125,6 +125,7 @@
       "Waste_gen_amt_HH_survey": "Amount of Waste Generation(in kg)",
       "Willing_to_do_manage_HH_survey": "Willing to Manage by Own?",
       "Want_to_pay_HH_survey": "Willing to Pay(Rs.)",
+      "ShopName_Shop_HH_survey": "Shop Name",
       "NameOfOwner_Shop_HH_survey": "Name of Provider/Owner",
       "mobile_Shop_HH_survey": "Contact No./ Mobile Number",
       "bioWaste_Shop_HH_survey": "How much Bio Degradable Waste in Daily (Kg.)",
@@ -171,15 +172,14 @@
       "GeneratedWasteInfoHeading_HH_survey": "Generated Waste Information",
       "OtherInfoHeading_HH_survey": "Other Information",
       "natureOfHouseholds_HH_survey": "Nature of Households",
-      "Societyname_HH_survey":"Name of Society",
-      "keyPerson_HH_survey":"Name of Key Person",
-      "addNewSociety_HH_survey":"Add Society",
-      "addNewKeyPerson_HH_survey":"Add New Key Person",
-      "Add_Society_HH_survey":"Add Society",
-      "Caste_HH_survey":"Caste",
-      "Religion_HH_survey":"Religion",
-      "ShopLocated_shop_HH_survey":"Shop Located",
-      "Market_HH_survey":"Market Name"
-
-
+      "Societyname_HH_survey": "Name of Society",
+      "keyPerson_HH_survey": "Name of Key Person",
+      "addNewSociety_HH_survey": "Add Society",
+      "addNewMultiStoried_HH_survey": "Add Multi Storied",
+      "addNewKeyPerson_HH_survey": "Add New Key Person",
+      "Add_Society_HH_survey": "Add Society",
+      "Caste_HH_survey": "Caste",
+      "Religion_HH_survey": "Religion",
+      "ShopLocated_shop_HH_survey": "Shop Located",
+      "Market_HH_survey": "Market Name"
 }
