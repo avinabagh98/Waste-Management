@@ -1,6 +1,6 @@
 "use client";
 import styles from "@/app/home/(routes)/(with-routes-layout)/livestock-list/livestock.module.css";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import LanguageFetcher from "@/components/LanguageFetcher";
 import { sendRequest } from "@/api/sendRequest";
@@ -29,7 +29,7 @@ export default function HouseholdListPage() {
   //loading states
   const [isLoading, setIsLoading] = useState(true);
   const [spinner, setSpinner] = useState(false);
-  const [typeOfWGU, setTypeOfWGU] = useState("2")
+  const [typeOfWGU, setTypeOfWGU] = useState("1")
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
@@ -69,20 +69,27 @@ export default function HouseholdListPage() {
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setGp(localStorage.getItem("gp"));
+
         }
-
-
-
       }
-      fetchData();
 
+      fetchData()
+
+    } catch (error) {
+      swal("Error", error, "error");
+    }
+  }, []);
+
+
+  useEffect(() => {
+
+    try {
       async function fetchLists() {
-        const tokeN = localStorage.getItem("token");
         const response_householdlist = await sendRequest(
           "post",
           `/household/list`,
           {
-            token: tokeN,
+            token: token,
             wardId: ward_id,
             typeOfWGU: "2"
           },
@@ -94,28 +101,33 @@ export default function HouseholdListPage() {
         );
         console.log("Api-body", householdlistBody);//testing
         console.log("Api-response", response_householdlist);//testing
-        // if (response_householdlist.status === 1) {
-        //   setIsLoading(false);
-        //   console.log(
-        //     "API_list_ARRAY::",
-        //     response_householdlist.data.data.house_holds
-        //   );
-        //   setApi_householdData(response_householdlist.data.data.house_holds);
-        // }
+        if (response_householdlist.status === 1) {
+          setIsLoading(false);
+          console.log(
+            "API_HouseholdLists_ARRAY::",
+            response_householdlist.data.data.house_holds
+          );
+          setApi_householdData(response_householdlist.data.data.house_holds);
+        }
 
-        // else {
-        //   setIsLoading(false);
-        //   swal("info", "No Data Present", "info");
-        // }
+        else {
+          setIsLoading(false);
+          swal("info", "No Data Present", "info");
+        }
 
 
       }
 
       fetchLists();
+
     } catch (error) {
-      swal("Error", error.message, "error");
+      console.log(error);
     }
-  }, []);
+
+
+  }, [typeOfWGU])
+
+
 
   // //household List Fetching
   // useEffect(() => {
@@ -274,9 +286,19 @@ export default function HouseholdListPage() {
 
 
         <div className={styles.filter}>
-          <div onClick={() => setFilterSelected("1")} className={filterSelected === "1" ? styles.householdTypeSelected : styles.householdType}><span>Household</span></div>
-          < div onClick={() => setFilterSelected("2")} className={filterSelected === "2" ? styles.householdTypeSelected : styles.householdType}><span>Shop</span></div>
-          <div onClick={() => setFilterSelected("3")} className={filterSelected === "3" ? styles.householdTypeSelected : styles.householdType}><span>Institution</span></div>
+          <div onClick={() => {
+            setFilterSelected("1")
+            setTypeOfWGU("1")
+          }
+          } className={filterSelected === "1" ? styles.householdTypeSelected : styles.householdType}><span>Household</span></div>
+          < div onClick={() => {
+            setFilterSelected("2")
+            setTypeOfWGU("2")
+          }} className={filterSelected === "2" ? styles.householdTypeSelected : styles.householdType}><span>Shop</span></div>
+          <div onClick={() => {
+            setFilterSelected("3")
+            setTypeOfWGU("3")
+          }} className={filterSelected === "3" ? styles.householdTypeSelected : styles.householdType}><span>Institution</span></div>
         </div>
 
         <div className={styles.tableContainer}>
