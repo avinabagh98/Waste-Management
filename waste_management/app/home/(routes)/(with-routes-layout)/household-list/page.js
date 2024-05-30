@@ -42,7 +42,7 @@ export default function HouseholdListPage() {
   const householdlistBody = {
     token: token,
     wardId: ward_id,
-    typeOfWGU: "2"
+    typeOfWGU: typeOfWGU,
   };
 
   const route = useRouter();
@@ -56,7 +56,7 @@ export default function HouseholdListPage() {
     try {
       async function fetchData() {
         const tokeN = localStorage.getItem("token");
-        // setToken(tokeN);
+        setToken(tokeN);
         if (!tokeN) {
           route.push("/home/login");
         } else {
@@ -69,6 +69,11 @@ export default function HouseholdListPage() {
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setGp(localStorage.getItem("gp"));
+
+          //set data to the body initially
+          householdlistBody.token = tokeN;
+          householdlistBody.wardId = localStorage.getItem("ward_id");
+          householdlistBody.typeOfWGU = "1";
 
         }
       }
@@ -88,11 +93,7 @@ export default function HouseholdListPage() {
         const response_householdlist = await sendRequest(
           "post",
           `/household/list`,
-          {
-            token: token,
-            wardId: ward_id,
-            typeOfWGU: "2"
-          },
+          householdlistBody,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -114,8 +115,6 @@ export default function HouseholdListPage() {
           setIsLoading(false);
           swal("info", "No Data Present", "info");
         }
-
-
       }
 
       fetchLists();
