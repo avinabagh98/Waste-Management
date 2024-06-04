@@ -66,6 +66,8 @@ export default function LoginPage() {
         localStorage.setItem("ward", res.data.ward_name);
         localStorage.setItem("supervisor", res.data.supervisor);
         localStorage.setItem("supervisor_id", res.data.supervisor_id);
+        localStorage.setItem("SansadId", res.data.sansad_id);
+        localStorage.setItem("SansadName", res.data.sansad_name);
 
         //message
         swal("Successfully", "logged in", "success");

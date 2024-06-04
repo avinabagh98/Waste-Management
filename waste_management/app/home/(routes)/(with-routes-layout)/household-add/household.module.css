@@ -43,7 +43,8 @@
             font-weight: 500;
       }
 
-      .householdInfoHeading {
+      .householdInfoHeading,
+      .shopInfoHeading {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -100,7 +101,8 @@
 
       }
 
-      .societySubmitBtn {
+      .societySubmitBtn,
+      .marketShopBtn {
             width: 90%;
             margin: 15px auto 0 auto;
             padding: 6px 10px;

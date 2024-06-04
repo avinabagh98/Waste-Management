@@ -12,7 +12,6 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 export default function HouseholdListPage() {
-
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -29,7 +28,7 @@ export default function HouseholdListPage() {
   //loading states
   const [isLoading, setIsLoading] = useState(true);
   const [spinner, setSpinner] = useState(false);
-  const [typeOfWGU, setTypeOfWGU] = useState("1")
+  const [typeOfWGU, setTypeOfWGU] = useState("1");
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
@@ -74,20 +73,16 @@ export default function HouseholdListPage() {
           householdlistBody.token = tokeN;
           householdlistBody.wardId = localStorage.getItem("ward_id");
           householdlistBody.typeOfWGU = "1";
-
         }
       }
 
-      fetchData()
-
+      fetchData();
     } catch (error) {
       swal("Error", error, "error");
     }
   }, []);
 
-
   useEffect(() => {
-
     try {
       async function fetchLists() {
         const response_householdlist = await sendRequest(
@@ -100,8 +95,8 @@ export default function HouseholdListPage() {
             },
           }
         );
-        console.log("Api-body", householdlistBody);//testing
-        console.log("Api-response", response_householdlist);//testing
+        console.log("Api-body", householdlistBody); //testing
+        console.log("Api-response", response_householdlist); //testing
         if (response_householdlist.status === 1) {
           setIsLoading(false);
           console.log(
@@ -109,24 +104,17 @@ export default function HouseholdListPage() {
             response_householdlist.data.data.house_holds
           );
           setApi_householdData(response_householdlist.data.data.house_holds);
-        }
-
-        else {
+        } else {
           setIsLoading(false);
           swal("info", "No Data Present", "info");
         }
       }
 
       fetchLists();
-
     } catch (error) {
       console.log(error);
     }
-
-
-  }, [typeOfWGU])
-
-
+  }, [typeOfWGU]);
 
   // //household List Fetching
   // useEffect(() => {
@@ -157,7 +145,6 @@ export default function HouseholdListPage() {
   //     //   swal("info", "No Data Present", "info");
   //     // }
 
-
   //   }
 
   //   fetchLists();
@@ -179,78 +166,99 @@ export default function HouseholdListPage() {
       html: `<swal-html>
           <div id="livestockDetails">
 
-          <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${arrayData?.date
-        }</p>
-          <p style="text-align:left; color:var(--lic-blue)"><strong>Location:</strong> ${arrayData?.lat
-        }, ${arrayData?.longi}</p>
-          <p style="text-align:left"><strong>Household Id:</strong> ${arrayData?.id
-        }</p>
+          <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${
+            arrayData?.date
+          }</p>
+          <p style="text-align:left; color:var(--lic-blue)"><strong>Location:</strong> ${
+            arrayData?.lat
+          }, ${arrayData?.longi}</p>
+          <p style="text-align:left"><strong>Household Id:</strong> ${
+            arrayData?.id
+          }</p>
           <p style="text-align:left"><strong>Supervisor:</strong> ${supervisor}</p>
           <p style="text-align:left"><strong>Entry By:</strong> ${name}</p>
          
-          <p style="text-align:left"><strong>Number of Family Members:</strong> ${arrayData?.family_members
-        }</p>
-          <p style="text-align:left"><strong>Holding Number:</strong> ${arrayData?.holding_number
-        }</p>
-          <p style="text-align:left"><strong>Household Name:</strong> ${arrayData?.house_hold_name
-        }</p>
-          <p style="text-align:left"><strong>Home Base Manage Rate(Rs.):</strong> ${arrayData?.home_base_manage_rat
-        }</p>
+          <p style="text-align:left"><strong>Number of Family Members:</strong> ${
+            arrayData?.family_members
+          }</p>
+          <p style="text-align:left"><strong>Holding Number:</strong> ${
+            arrayData?.holding_number
+          }</p>
+          <p style="text-align:left"><strong>Household Name:</strong> ${
+            arrayData?.house_hold_name
+          }</p>
+          <p style="text-align:left"><strong>Home Base Manage Rate(Rs.):</strong> ${
+            arrayData?.home_base_manage_rat
+          }</p>
           
-          <p style="text-align:left"><strong>Doing Home Composting:</strong> ${arrayData?.is_composed === "1"
-          ? "Yes"
-          : arrayData?.is_composed === "0"
-            ? "No"
-            : ""
-        }
+          <p style="text-align:left"><strong>Doing Home Composting:</strong> ${
+            arrayData?.is_composed === "1"
+              ? "Yes"
+              : arrayData?.is_composed === "0"
+              ? "No"
+              : ""
+          }
           </p>
-          <p style="text-align:left"><strong>Willing to construct individual soak pit:</strong> ${arrayData?.is_construct_individual === "1"
-          ? "Yes"
-          : arrayData?.is_construct_individual === "0"
-            ? "No"
-            : ""
-        }</p>
+          <p style="text-align:left"><strong>Willing to construct individual soak pit:</strong> ${
+            arrayData?.is_construct_individual === "1"
+              ? "Yes"
+              : arrayData?.is_construct_individual === "0"
+              ? "No"
+              : ""
+          }</p>
        
-          <p style="text-align:left"><strong>Doing Kitchen Garden:</strong> ${arrayData?.is_kitchen_garden === "1"
-          ? "Yes"
-          : arrayData?.is_kitchen_garden === "0"
-            ? "No"
-            : ""
-        }</p>
-          <p style="text-align:left"><strong>Is Grey water managed:</strong> ${arrayData?.is_manage_gray_water === "1"
-          ? "Yes"
-          : arrayData?.is_manage_gray_water === "0"
-            ? "No"
-            : ""
-        }</p>
-          <p style="text-align:left"><strong>Mobile Number:</strong> ${arrayData?.mobile_no
-        }</p>
-          <p style="text-align:left"><strong>Below 18 years child count:</strong> ${arrayData?.number_of_child_below_18_years
-        }</p>
-          <p style="text-align:left"><strong>Occupation:</strong> ${arrayData?.ocupation
-        }</p>
-          <p style="text-align:left"><strong>House Ownership Type:</strong> ${arrayData?.owner_type === "1"
-          ? "Own"
-          : arrayData?.owner_type === "0"
-            ? "Rent"
-            : ""
-        }</p>
-          <p style="text-align:left"><strong>Number of Patients:</strong> ${arrayData?.patients
-        }</p>
-          <p style="text-align:left"><strong>Number of Pets:</strong> ${arrayData?.pets
-        }</p>
-          <p style="text-align:left"><strong>Road:</strong> ${arrayData?.road
-        }</p>
-          <p style="text-align:left"><strong>Has Toilet Inside House:</strong> ${arrayData?.toilet_in_house === "1" ? "Yes" : "No"
-        }</p>
-          <p style="text-align:left"><strong>Segregation Type:</strong> ${arrayData?.type_of_segragation === "0"
-          ? "Not Segregated"
-          : arrayData?.type_of_segragation === "1"
-            ? "Partially Segregated"
-            : "Fully Segregated"
-        }</p>
-          <p style="text-align:left"><strong>User Charge Per Month (Rs.):</strong> ${arrayData?.user_charge_par_month
-        }</p>
+          <p style="text-align:left"><strong>Doing Kitchen Garden:</strong> ${
+            arrayData?.is_kitchen_garden === "1"
+              ? "Yes"
+              : arrayData?.is_kitchen_garden === "0"
+              ? "No"
+              : ""
+          }</p>
+          <p style="text-align:left"><strong>Is Grey water managed:</strong> ${
+            arrayData?.is_manage_gray_water === "1"
+              ? "Yes"
+              : arrayData?.is_manage_gray_water === "0"
+              ? "No"
+              : ""
+          }</p>
+          <p style="text-align:left"><strong>Mobile Number:</strong> ${
+            arrayData?.mobile_no
+          }</p>
+          <p style="text-align:left"><strong>Below 18 years child count:</strong> ${
+            arrayData?.number_of_child_below_18_years
+          }</p>
+          <p style="text-align:left"><strong>Occupation:</strong> ${
+            arrayData?.ocupation
+          }</p>
+          <p style="text-align:left"><strong>House Ownership Type:</strong> ${
+            arrayData?.owner_type === "1"
+              ? "Own"
+              : arrayData?.owner_type === "0"
+              ? "Rent"
+              : ""
+          }</p>
+          <p style="text-align:left"><strong>Number of Patients:</strong> ${
+            arrayData?.patients
+          }</p>
+          <p style="text-align:left"><strong>Number of Pets:</strong> ${
+            arrayData?.pets
+          }</p>
+          <p style="text-align:left"><strong>Road:</strong> ${
+            arrayData?.road
+          }</p>
+          <p style="text-align:left"><strong>Has Toilet Inside House:</strong> ${
+            arrayData?.toilet_in_house === "1" ? "Yes" : "No"
+          }</p>
+          <p style="text-align:left"><strong>Segregation Type:</strong> ${
+            arrayData?.type_of_segragation === "0"
+              ? "Not Segregated"
+              : arrayData?.type_of_segragation === "1"
+              ? "Partially Segregated"
+              : "Fully Segregated"
+          }</p>
+          <p style="text-align:left"><strong>User Charge Per Month (Rs.):</strong> ${
+            arrayData?.user_charge_par_month
+          }</p>
           
           </div>
         </swal-html>`,
@@ -283,79 +291,186 @@ export default function HouseholdListPage() {
 
         {/* //Lists */}
 
-
         <div className={styles.filter}>
-          <div onClick={() => {
-            setFilterSelected("1")
-            setTypeOfWGU("1")
-          }
-          } className={filterSelected === "1" ? styles.householdTypeSelected : styles.householdType}><span>Household</span></div>
-          < div onClick={() => {
-            setFilterSelected("2")
-            setTypeOfWGU("2")
-          }} className={filterSelected === "2" ? styles.householdTypeSelected : styles.householdType}><span>Shop</span></div>
-          <div onClick={() => {
-            setFilterSelected("3")
-            setTypeOfWGU("3")
-          }} className={filterSelected === "3" ? styles.householdTypeSelected : styles.householdType}><span>Institution</span></div>
+          <div
+            onClick={() => {
+              setFilterSelected("1");
+              setTypeOfWGU("1");
+            }}
+            className={
+              filterSelected === "1"
+                ? styles.householdTypeSelected
+                : styles.householdType
+            }
+          >
+            <span>Household</span>
+          </div>
+          <div
+            onClick={() => {
+              setFilterSelected("2");
+              setTypeOfWGU("2");
+            }}
+            className={
+              filterSelected === "2"
+                ? styles.householdTypeSelected
+                : styles.householdType
+            }
+          >
+            <span>Shop</span>
+          </div>
+          <div
+            onClick={() => {
+              setFilterSelected("3");
+              setTypeOfWGU("3");
+            }}
+            className={
+              filterSelected === "3"
+                ? styles.householdTypeSelected
+                : styles.householdType
+            }
+          >
+            <span>Institution</span>
+          </div>
         </div>
 
-        <div className={styles.tableContainer}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Date</th>
-                <th>Household Id</th>
-                <th>Household Name</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody className={styles.table_body}>
-              {api_householdData.map((household, index) => {
-                //Date Formatter
+        {
+          //Institution List
+          typeOfWGU === "1" ? (
+            <>
+              <div className={styles.tableContainer}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Date</th>
+                      <th>Household Id</th>
+                      <th>Household Name</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className={styles.table_body}>
+                    {api_householdData.map((household, index) => {
+                      //Date Formatter
 
-                const formatDate = (dateString) => {
-                  if (
-                    dateString !== null &&
-                    dateString !== "" &&
-                    dateString !== undefined
-                  ) {
-                    const [year, month, day] = dateString?.split("-");
-                    return `${day}/${month}/${year}`;
-                  }
-                };
+                      const formatDate = (dateString) => {
+                        if (
+                          dateString !== null &&
+                          dateString !== "" &&
+                          dateString !== undefined
+                        ) {
+                          const [year, month, day] = dateString?.split("-");
+                          return `${day}/${month}/${year}`;
+                        }
+                      };
 
-                const formattedDate = formatDate(household.date);
+                      const formattedDate = formatDate(household.date);
 
-                return (
-                  <tr key={household.id}>
-                    <td className={styles.td}>{index + 1}</td>
-                    <td className={styles.td}>{formattedDate}</td>
-                    <td className={styles.td}>{household.id}</td>
-                    <td className={styles.td}>{household.house_hold_name}</td>
-                    <td className={styles.actionWaste}>
-                      <img
-                        onClick={() => {
-                          showHandler(household);
-                        }}
-                        src="/svg/eye.svg"
-                        alt="Show_details"
-                      ></img>
-                      <img
-                        onClick={() => {
-                          editHandler(household.id);
-                        }}
-                        src="/svg/edit.svg"
-                        alt="update"
-                      ></img>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                      return (
+                        <tr key={household.id}>
+                          <td className={styles.td}>{index + 1}</td>
+                          <td className={styles.td}>{formattedDate}</td>
+                          <td className={styles.td}>{household.id}</td>
+                          <td className={styles.td}>
+                            {household.house_hold_name}
+                          </td>
+                          <td className={styles.actionWaste}>
+                            <img
+                              onClick={() => {
+                                showHandler(household);
+                              }}
+                              src="/svg/eye.svg"
+                              alt="Show_details"
+                            ></img>
+                            <img
+                              onClick={() => {
+                                editHandler(household.id);
+                              }}
+                              src="/svg/edit.svg"
+                              alt="update"
+                            ></img>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          ) : //Shop List
+          typeOfWGU === "2" ? (
+            <>
+              <div className={styles.tableContainer}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Date</th>
+                      <th>Shop Name</th>
+                      <th>Located At</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className={styles.table_body}>
+                    {api_householdData.map((household, index) => {
+                      //Date Formatter
+
+                      const formatDate = (dateString) => {
+                        if (
+                          dateString !== null &&
+                          dateString !== "" &&
+                          dateString !== undefined
+                        ) {
+                          const [year, month, day] = dateString?.split("-");
+                          return `${day}/${month}/${year}`;
+                        }
+                      };
+
+                      const formattedDate = formatDate(household.date);
+
+                      return (
+                        <tr key={household.id}>
+                          <td className={styles.td}>{index + 1}</td>
+                          <td className={styles.td}>{formattedDate}</td>
+                          <td className={styles.td}>
+                            {household.name_of_shop}
+                          </td>
+                          <td className={styles.td}>
+                            {household.shop_located === "1"
+                              ? "Para"
+                              : household.shop_located === "2"
+                              ? "Market"
+                              : ""}
+                          </td>
+                          <td className={styles.actionWaste}>
+                            <img
+                              onClick={() => {
+                                showHandler(household);
+                              }}
+                              src="/svg/eye.svg"
+                              alt="Show_details"
+                            ></img>
+                            <img
+                              onClick={() => {
+                                editHandler(household.id);
+                              }}
+                              src="/svg/edit.svg"
+                              alt="update"
+                            ></img>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          ) : //Institution List
+          typeOfWGU === 3 ? (
+            <></>
+          ) : (
+            <></>
+          )
+        }
 
         <div className={styles.addNewContainer}>
           <img

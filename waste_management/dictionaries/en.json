@@ -106,7 +106,8 @@
       "Ward_no_GP_HH_survey": "Ward no./GP",
       "Locality_Name_Mohalla_HH_survey": "Locality Name/ Village Name",
       "House_Number_HH_survey": "Holding Number",
-      "Name_of_Resident_HH_survey": "Name of Household Owner",
+      "Name_of_Resident_HH_survey": "Name of Household",
+      "Name_of_ResidentOwner_HH_survey": "Name of Household Owner",
       "Number_of_Family_Members_HH_survey": "Number of Family Members",
       "No_of_Child_below_18_years_HH_survey": "No of Child below 18 years",
       "Occupation_HH_survey": "Occupation",
@@ -173,7 +174,9 @@
       "OtherInfoHeading_HH_survey": "Other Information",
       "natureOfHouseholds_HH_survey": "Nature of Households",
       "Societyname_HH_survey": "Name of Society",
+      "Multistoriedname_HH_survey": "Name of Multi Storied",
       "keyPerson_HH_survey": "Name of Key Person",
+      "keyPersonContact_HH_survey": "Key Person Contact",
       "addNewSociety_HH_survey": "Add Society",
       "addNewMultiStoried_HH_survey": "Add Multi Storied",
       "addNewKeyPerson_HH_survey": "Add New Key Person",
@@ -181,5 +184,6 @@
       "Caste_HH_survey": "Caste",
       "Religion_HH_survey": "Religion",
       "ShopLocated_shop_HH_survey": "Shop Located",
-      "Market_HH_survey": "Market Name"
+      "Market_HH_survey": "Market Name",
+      "Add_MarketShop_HH_survey": "Add Market"
 }
