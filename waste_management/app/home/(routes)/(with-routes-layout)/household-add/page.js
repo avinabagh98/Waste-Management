@@ -19,6 +19,7 @@ import {
 } from "@/api/responseStore";
 
 export default function HouseholdAddpage() {
+
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -185,7 +186,18 @@ export default function HouseholdAddpage() {
   const [religion, setReligion] = useState("");
   const [marketName, setMarketName] = useState("");
 
+  const [liveDataFlag, setLiveDataFlag] = useState("");
+
   //Common Other declarations//
+
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+
+
 
   const loadingHeaderData = {
     name: name,
@@ -552,7 +564,7 @@ export default function HouseholdAddpage() {
     };
 
     fetchSocietyList();
-  }, [natureOfHousehold]);
+  }, [liveDataFlag]);
 
   //Market List Options
   useEffect(() => {
@@ -560,14 +572,14 @@ export default function HouseholdAddpage() {
     const fetchMarketList = async () => {
       try {
         const data = await marketList({ token: tokeN });
-        console.log("checkigng chek chek", data);
+        console.log("checkigng chek chek", data);//testing
         setMarketOptions(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchMarketList(); // Fetch marketList
-  }, []);
+  }, [liveDataFlag]);
 
   // Handler Functions
   const handleAddNewClick = () => {
@@ -984,6 +996,8 @@ export default function HouseholdAddpage() {
         await multiStoriedAddNew({ token: token, commonObj: object1, paramObj: object2 }).then((response) => {
           if (response === "success") {
             handleClosePopup();
+            const randomNumber = getRandomInt(1, 100);
+            setLiveDataFlag(randomNumber);
           }
         })
       }
@@ -993,6 +1007,8 @@ export default function HouseholdAddpage() {
         await marketAdd({ token: token, commonObj: object1, paramObj: object2 }).then((response) => {
           if (response === "success") {
             handleClosePopup();
+            const randomNumber = getRandomInt(1, 100);
+            setLiveDataFlag(randomNumber);
           }
         })
       }

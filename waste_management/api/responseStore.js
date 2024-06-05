@@ -3,67 +3,6 @@ import { sendRequest } from "./sendRequest";
 
 
 
-// const [token, setToken] = useState();
-// const [supervisorId, setSupervisorId] = useState();
-// const [userId, setUserId] = useState();
-// const [gpId, setGpId] = useState();
-// const [blockId, setBlockId] = useState();
-// const [lat, setLat] = useState();
-// const [long, setLong] = useState();
-// const [today, setToday] = useState();
-
-// useEffect(
-//   () => {
-//     //Localstorage Fetching Section
-//     const tokeN = localStorage.getItem("token");
-
-//     const supervisorId = localStorage.getItem("supervisor_id");
-//     const userId = localStorage.getItem("user_id");
-//     const gpId = localStorage.getItem("gp_id");
-//     const blockId = localStorage.getItem("block_id");
-
-//     const lat = localStorage.getItem("lat");
-//     const long = localStorage.getItem("long");
-
-//     const today = localStorage.getItem("today");
-
-//     setToken(tokeN);
-//     setSupervisorId(supervisorId);
-//     setUserId(userId);
-//     setGpId(gpId);
-//     setBlockId(blockId);
-//     setLat(lat);
-//     setLong(long);
-//     setToday(today);
-//   }, []
-// )
-
-
-
-//API Modular Functions
-
-// //Header for sendRequest Function
-// const sendHeader = {
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//   },
-// };
-
-// const commonObj = {
-//   //common section
-//   token: token,
-//   lat: lat,
-//   longi: long,
-//   block: blockId,
-//   gp: gpId,
-//   sansadNumber: "-1",
-//   locality: "-1",
-//   supervisor: supervisorId,
-//   fieldStaff: userId,
-//   entryDate: today,
-
-// };
-
 const formDataFunc = (commonObj, paramObj) => {
   const formData = { ...commonObj, ...paramObj };
   return formData;

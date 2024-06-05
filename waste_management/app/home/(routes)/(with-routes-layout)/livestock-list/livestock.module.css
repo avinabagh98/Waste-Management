@@ -159,6 +159,14 @@
             font-size: 12px;
       }
 
+      .tdApproved {
+            padding: 2px 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 12px;
+            background-color: #d1fabb;
+      }
+
       .table_body tr:nth-child(even) {
             background-color: #f2f2f2;
       }
@@ -193,7 +201,14 @@
             border-bottom: 1px solid #ddd;
       }
 
-      .actionWaste img {
+      .actionWasteApproved {
+            width: 80px;
+            border-bottom: 1px solid #ddd;
+            background-color: #d1fabb;
+      }
+
+      .actionWaste img,
+      .actionWasteApproved img {
             margin: 0 4px;
             cursor: pointer;
       }
@@ -255,6 +270,8 @@
       .householdType span {
             color: black;
       }
+
+
 }
 
 
@@ -400,6 +417,19 @@
             font-size: 12px;
       }
 
+      .tdApproved {
+            padding: 2px 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 12px;
+            background-color: #d1fabb;
+      }
+
+      .approved {
+            background-color: #d1fabb;
+            color: var(--bitan-green);
+      }
+
       .table_body tr:nth-child(even) {
             background-color: #f2f2f2;
       }
@@ -430,7 +460,14 @@
             border-bottom: 1px solid #ddd;
       }
 
-      .actionWaste img {
+      .actionWasteApproved {
+            width: 80px;
+            border-bottom: 1px solid #ddd;
+            background-color: #d1fabb;
+      }
+
+      .actionWaste img,
+      .actionWasteApproved img {
             margin: 0 4px;
             cursor: pointer;
       }
