@@ -1,42 +1,68 @@
 import swal from "sweetalert";
 import { sendRequest } from "./sendRequest";
 
-//Localstorage Fetching Section
-const tokeN = localStorage.getItem("token");
-const userRole = localStorage.getItem("role_name");
-const supervisorId = localStorage.getItem("supervisor_id");
-const userId = localStorage.getItem("user_id");
-const gpId = localStorage.getItem("gp_id");
-const blockId = localStorage.getItem("block_id");
-const wardId = localStorage.getItem("ward_id");
-const lat = localStorage.getItem("lat");
-const long = localStorage.getItem("long");
-const districtId = localStorage.getItem("district_id");
-const today = localStorage.getItem("today");
+
+
+// const [token, setToken] = useState();
+// const [supervisorId, setSupervisorId] = useState();
+// const [userId, setUserId] = useState();
+// const [gpId, setGpId] = useState();
+// const [blockId, setBlockId] = useState();
+// const [lat, setLat] = useState();
+// const [long, setLong] = useState();
+// const [today, setToday] = useState();
+
+// useEffect(
+//   () => {
+//     //Localstorage Fetching Section
+//     const tokeN = localStorage.getItem("token");
+
+//     const supervisorId = localStorage.getItem("supervisor_id");
+//     const userId = localStorage.getItem("user_id");
+//     const gpId = localStorage.getItem("gp_id");
+//     const blockId = localStorage.getItem("block_id");
+
+//     const lat = localStorage.getItem("lat");
+//     const long = localStorage.getItem("long");
+
+//     const today = localStorage.getItem("today");
+
+//     setToken(tokeN);
+//     setSupervisorId(supervisorId);
+//     setUserId(userId);
+//     setGpId(gpId);
+//     setBlockId(blockId);
+//     setLat(lat);
+//     setLong(long);
+//     setToday(today);
+//   }, []
+// )
+
+
 
 //API Modular Functions
 
-//Header for sendRequest Function
-const sendHeader = {
-  headers: {
-    Authorization: `Bearer ${tokeN}`,
-  },
-};
+// //Header for sendRequest Function
+// const sendHeader = {
+//   headers: {
+//     Authorization: `Bearer ${token}`,
+//   },
+// };
 
-const commonObj = {
-  //common section
-  token: tokeN,
-  lat: lat,
-  longi: long,
-  block: blockId,
-  gp: gpId,
-  sansadNumber: "-1",
-  locality: "-1",
-  supervisor: supervisorId,
-  fieldStaff: userId,
-  entryDate: today,
+// const commonObj = {
+//   //common section
+//   token: token,
+//   lat: lat,
+//   longi: long,
+//   block: blockId,
+//   gp: gpId,
+//   sansadNumber: "-1",
+//   locality: "-1",
+//   supervisor: supervisorId,
+//   fieldStaff: userId,
+//   entryDate: today,
 
-};
+// };
 
 const formDataFunc = (commonObj, paramObj) => {
   const formData = { ...commonObj, ...paramObj };
@@ -44,13 +70,13 @@ const formDataFunc = (commonObj, paramObj) => {
 };
 
 //Society and Multi Storied - List
-const societyList = async ({ natureOfHouse }) => {
+const societyList = async ({ token, natureOfHouse }) => {
   try {
     const response = await sendRequest(
       "post",
       "/household/society/list",
       {
-        token: tokeN,
+        token: token,
         natureOfHouse: natureOfHouse,
       },
       {
@@ -77,7 +103,7 @@ const societyList = async ({ natureOfHouse }) => {
   }
 };
 //Multi Storied and Society - Add
-const multiStoriedAddNew = async ({ paramObj }) => {
+const multiStoriedAddNew = async ({ token, commonObj, paramObj }) => {
   const formData = formDataFunc(commonObj, paramObj);
   try {
     console.log("Multi storied Form Data", formData);//testing
@@ -85,7 +111,11 @@ const multiStoriedAddNew = async ({ paramObj }) => {
       "post",
       "/household/society/add",
       formData,
-      sendHeader
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     console.log("Response for Add MultiStoried", response_multistoried);//testing
 
@@ -101,13 +131,17 @@ const multiStoriedAddNew = async ({ paramObj }) => {
 
 
 //Market List
-const marketList = async () => {
+const marketList = async ({ token }) => {
   try {
     const responseMarket = await sendRequest(
       "post",
       "/household/market/list",
-      { token: tokeN },
-      sendHeader
+      { token: token },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
 
     if (responseMarket !== undefined && responseMarket.data.data.lists?.length > 0) {
@@ -129,7 +163,7 @@ const marketList = async () => {
 
 
 //Market Add
-const marketAdd = async ({ paramObj }) => {
+const marketAdd = async ({ token, commonObj, paramObj }) => {
 
   const formDataMarket = formDataFunc(commonObj, paramObj);
   console.log("Market Form Data", formDataMarket);//testing
@@ -139,12 +173,16 @@ const marketAdd = async ({ paramObj }) => {
       "post",
       "/household/market/add",
       formDataMarket,
-      sendHeader
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     )
 
-    if (response_marketAdd !== undefined && response_marketAdd.data.data.status === "success") {
+    if (response_marketAdd !== undefined && response_marketAdd.data.status === "success") {
       swal("Success", "Added Successfully", "success");
-      return response_marketAdd.data.data.status
+      return response_marketAdd.data.status
     }
     console.log("Response for Add Market", response_marketAdd);//testing
 

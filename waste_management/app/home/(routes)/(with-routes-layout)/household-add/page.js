@@ -228,6 +228,21 @@ export default function HouseholdAddpage() {
     //           : "-1",
   };
 
+  const commonOtherObj = {
+    //common section
+    token: token,
+    lat: lat,
+    longi: long,
+    block: blockId,
+    gp: ward_id,
+    sansadNumber: "-1",
+    locality: "-1",
+    supervisor: supervisor_id,
+    fieldStaff: user_id,
+    entryDate: today,
+
+  };
+
   const houseObj = {
     natureOfHouse: natureOfHousehold ?? "-1",
     numberOfChildBelow18Years: numberOfChildBelow18YearsHHSurvey,
@@ -339,30 +354,45 @@ export default function HouseholdAddpage() {
   // LocalStorage Fetching
   useEffect(() => {
     localStorage.setItem("previousPath", "/home/household-list");
-    setToday(localStorage.getItem("today"));
-    setDateHHSurvey(localStorage.getItem("today"));
-    setBlockId(localStorage.getItem("block_id"));
+    const today = localStorage.getItem("today")
+    const blockID = localStorage.getItem("block_id")
+    setToday(today);
+    setDateHHSurvey(today);
+    setBlockId(blockID);
     try {
       async function fetchData() {
         const token = localStorage.getItem("token");
+        const roleName = localStorage.getItem("role_name");
         if (!token) {
           route.push("/home/login");
         } else {
           setToken(token);
-          setUserRole(localStorage.getItem("role_name"));
+          setUserRole(roleName);
 
           //loadingHeaderData from local storage
-          setName(localStorage.getItem("name"));
-          setDistrictName(localStorage.getItem("district"));
-          setDistrictId(localStorage.getItem("district_id"));
-          setBLockName(localStorage.getItem("block"));
-          setSupervisorName(localStorage.getItem("supervisor"));
-          setSupervisor_id(localStorage.getItem("supervisor_id"));
-          setUserName(localStorage.getItem("name"));
-          setUser_id(localStorage.getItem("user_id"));
-          setWardName(localStorage.getItem("ward"));
-          setWard_id(localStorage.getItem("ward_id"));
-          setGp(localStorage.getItem("gp"));
+
+
+          const name = localStorage.getItem("name")
+          const district_name = localStorage.getItem("district")
+          const district_id = localStorage.getItem("district_id")
+          const block_name = localStorage.getItem("block")
+          const supervisorName = localStorage.getItem("supervisor")
+          const supervisorId = localStorage.getItem("supervisor_id")
+          const userId = localStorage.getItem("user_id")
+          const ward = localStorage.getItem("ward")
+          const wardId = localStorage.getItem("ward_id")
+          const gp = localStorage.getItem("gp")
+          setName(name);
+          setDistrictName(district_name);
+          setDistrictId(district_id);
+          setBLockName(block_name);
+          setSupervisorName(supervisorName);
+          setSupervisor_id(supervisorId);
+          setUserName(name);
+          setUser_id(userId);
+          setWardName(ward);
+          setWard_id(wardId);
+          setGp(gp);
         }
       }
       fetchData();
@@ -511,9 +541,10 @@ export default function HouseholdAddpage() {
 
   //Society List Options
   useEffect(() => {
+    const tokeN = localStorage.getItem("token");
     const fetchSocietyList = async () => {
       try {
-        const data = await societyList({ natureOfHouse: natureOfHousehold });
+        const data = await societyList({ token: tokeN, natureOfHouse: natureOfHousehold });
         setSocietyOptions(data);
       } catch (error) {
         console.error("Error fetching society list:", error);
@@ -525,9 +556,11 @@ export default function HouseholdAddpage() {
 
   //Market List Options
   useEffect(() => {
+    const tokeN = localStorage.getItem("token");
     const fetchMarketList = async () => {
       try {
-        const data = await marketList();
+        const data = await marketList({ token: tokeN });
+        console.log("checkigng chek chek", data);
         setMarketOptions(data);
       } catch (error) {
         console.log(error);
@@ -542,6 +575,7 @@ export default function HouseholdAddpage() {
     setNewSociety("");
     setKeyPerson("");
     setKeyPersonContact("");
+    setMarketName("");
   };
 
   const handleClosePopup = () => {
@@ -941,14 +975,13 @@ export default function HouseholdAddpage() {
     }
   };
 
-  const AddNewSubmitHandler = async (e, object) => {
+  const AddNewSubmitHandler = async (e, token, object1, object2) => {
     e.preventDefault();
-
     try {
 
       if (WGUtype === "household") {
 
-        await multiStoriedAddNew({ paramObj: object }).then((response) => {
+        await multiStoriedAddNew({ token: token, commonObj: object1, paramObj: object2 }).then((response) => {
           if (response === "success") {
             handleClosePopup();
           }
@@ -957,7 +990,7 @@ export default function HouseholdAddpage() {
 
       if (WGUtype === "shop") {
 
-        await marketAdd({ paramObj: object }).then((response) => {
+        await marketAdd({ token: token, commonObj: object1, paramObj: object2 }).then((response) => {
           if (response === "success") {
             handleClosePopup();
           }
@@ -1107,7 +1140,7 @@ export default function HouseholdAddpage() {
                                 "multistoried at button",
                                 multiStoriedAddNewObj
                               );
-                              AddNewSubmitHandler(e, multiStoriedAddNewObj);
+                              AddNewSubmitHandler(e, token, commonOtherObj, multiStoriedAddNewObj);
                             }}
                           >
                             {natureOfHousehold === "3"
@@ -1883,7 +1916,7 @@ export default function HouseholdAddpage() {
                         className={styles.marketShopBtn}
                         onClick={(e) => {
                           console.log("MarketObj", marketObj);
-                          AddNewSubmitHandler(e, marketObj)
+                          AddNewSubmitHandler(e, token, commonOtherObj, marketObj)
                         }}
                       >
                         {translate?.Add_MarketShop_HH_survey}
