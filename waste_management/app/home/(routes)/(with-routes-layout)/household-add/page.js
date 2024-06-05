@@ -190,14 +190,6 @@ export default function HouseholdAddpage() {
 
   //Common Other declarations//
 
-  function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-
-
 
   const loadingHeaderData = {
     name: name,
@@ -362,6 +354,8 @@ export default function HouseholdAddpage() {
 
   const route = useRouter();
   const translate = LanguageFetcher();
+
+
 
   // LocalStorage Fetching
   useEffect(() => {
@@ -580,6 +574,15 @@ export default function HouseholdAddpage() {
     };
     fetchMarketList(); // Fetch marketList
   }, [liveDataFlag]);
+
+
+  //Functions
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
 
   // Handler Functions
   const handleAddNewClick = () => {

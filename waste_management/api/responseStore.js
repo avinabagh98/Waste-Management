@@ -130,4 +130,37 @@ const marketAdd = async ({ token, commonObj, paramObj }) => {
   }
 };
 
+//Dummy demo
+
+const func_name = async ({ token, commonObj, paramObj }) => {
+
+  const body_name = formDataFunc(commonObj, paramObj);
+  // console.log("Market Form Data", body_name);//testing
+  try {
+
+    const response_func = await sendRequest(
+      "post",
+      "add_your_url",// changes needed
+      body_name, // changes needed
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+
+    // if (response_marketAdd !== undefined && response_marketAdd.data.status === "success") {
+    //   swal("Success", "Added Successfully", "success");
+    //   return response_marketAdd.data.status
+    // }
+    // console.log("Response for Add Market", response_marketAdd);//testing
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+
 export { societyList, multiStoriedAddNew, marketList, marketAdd };
