@@ -30,6 +30,18 @@
 
       }
 
+      .submitbtnTracker {
+            width: 80%;
+            height: auto;
+            border-radius: 50px;
+            background-color: black;
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            cursor: pointer;
+
+      }
+
       .submitbtn:hover {
             background-color: #0056b3;
             /* Darker blue background color on hover */
@@ -43,6 +55,12 @@
             padding: 10px;
             color: var(--lic-yellow);
             background-color: var(--bitan-green);
+      }
+
+      .ProjectTrackerbreadcrumb {
+            padding: 20px;
+            color: white;
+            background-color: black;
       }
 
 
@@ -304,6 +322,20 @@
             cursor: pointer;
       }
 
+      .submitbtnTracker {
+            width: 80%;
+            height: auto;
+            border-radius: 50px;
+            background-color: black;
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            cursor: pointer;
+
+      }
+
+
+
       .submitbtn:hover {
             background-color: #0056b3;
             /* Darker blue background color on hover */
@@ -317,6 +349,12 @@
             padding: 10px;
             color: var(--lic-yellow);
             background-color: var(--bitan-green);
+      }
+
+      .ProjectTrackerbreadcrumb {
+            padding: 20px;
+            color: white;
+            background-color: black;
       }
 
       .addNewContainer {

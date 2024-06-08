@@ -321,7 +321,7 @@ export default function Dashboardpage() {
               className={styles.card5}
               onClick={() => {
                 // setSpinner(true);
-                // route.push("/home/livestock-list");
+                route.push("/home/livestock-add");
               }}
             >
               <img src="/images/livestock_shed.png" alt="livestock_shed"></img>

@@ -12,6 +12,7 @@ import Textparser from "@/components/Textparser";
 import { sendRequest } from "@/api/sendRequest";
 
 export default function Livestockpage() {
+
   //State variables
   const [userRole, setUserRole] = useState("");
 
@@ -44,7 +45,7 @@ export default function Livestockpage() {
   const [user_id, setUserId] = useState("");
 
   //Loading Header Data States
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   const [wardId, setWardId] = useState("");
   const [district_name, setDistrictName] = useState("");
   const [block_name, setBLockName] = useState("");
@@ -53,16 +54,26 @@ export default function Livestockpage() {
   //Loader States
   const [spinner, setSpinner] = useState(false);
 
+  //testing app scripting
+  const [date, setDate] = useState("");
+  const [project_name, setProjectName] = useState("");
+  const [module, setModule] = useState("");
+  const [funtionality, setFunctionality] = useState("");
+  const [work_status, setWorkStatus] = useState("");
+  const [remarks, setRemarks] = useState("");
+  const [your_opinion_on_module, setYourOpinionOnModule] = useState("");
+  const [name, setName] = useState("");
+
   //Other declarations
   const route = useRouter();
   const translate = LanguageFetcher();
 
   const loadingHeaderData = {
-    name: name,
-    district_name: district_name,
-    ward_id: gp,
-    block_name: block_name,
-    supervisor: supervisor,
+    name: "EBluesys",
+    district_name: "",
+    ward_id: "",
+    block_name: "",
+    supervisor: "",
   };
 
   const dropDownBody = {
@@ -103,14 +114,14 @@ export default function Livestockpage() {
 
           //loadingHeaderData from local storage
           setDateOfReportingLivestock(localStorage.getItem("today"));
-          setName(localStorage.getItem("name"));
+          // setName(localStorage.getItem("name"));
           setUserId(localStorage.getItem("user_id"));
           setDistrictName(localStorage.getItem("district"));
           setBLockName(localStorage.getItem("block"));
           setWardId(localStorage.getItem("ward_id"));
           setSupervisor(localStorage.getItem("supervisor"));
           setSupervisorId(localStorage.getItem("supervisor_id"));
-          setFieldStaffLivestock(localStorage.getItem("name"));
+          // setFieldStaffLivestock(localStorage.getItem("name"));
           setWardNoGPLivestock(localStorage.getItem("ward_id"));
           setGp(localStorage.getItem("gp"));
         }
@@ -210,6 +221,15 @@ export default function Livestockpage() {
     if (id === "typeOfLivestock") {
       setTypeOfLivestock(val);
     }
+    if (id === "id1") { setDate(val); }
+    if (id === "id2") { setProjectName(val); }
+    if (id === "id3") { setModule(val); }
+    if (id === "id4") { setFunctionality(val); }
+    if (id === "id5") { setWorkStatus(val); }
+    if (id === "id6") { setRemarks(val); }
+    if (id === "id7") { setYourOpinionOnModule(val); }
+    if (id === "id8") { setName(val); }
+
   };
 
   const handleValdropdown = (id, val) => {
@@ -259,6 +279,33 @@ export default function Livestockpage() {
     }
   };
 
+  //Scripting Testing Section
+
+  const body = new FormData();
+  body.append("date", date)
+  body.append("project_name", project_name)
+  body.append("module", module)
+  body.append("funtionality", funtionality)
+  body.append("work_status", work_status)
+  body.append("remarks", remarks)
+  body.append("your_opinion_on_module", your_opinion_on_module)
+  body.append("name", name)
+
+  const testSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    fetch("https://script.google.com/macros/s/AKfycbxE5ecBnJFT6dw3uwEnMYTRanmQGqjTckBwwvPK4ME_e7fTv54w9OFahoaky3F79Ry86w/exec", {
+      method: "POST",
+      body: body
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+  }
+
   return (
     <>
       {/* //spinner */}
@@ -272,39 +319,24 @@ export default function Livestockpage() {
 
       {/* //Content */}
       <Header
-        userRole={userRole}
+        // userRole={userRole}
         isOffCanvasVisible={false}
         loadingdata={loadingHeaderData}
       />
 
       <div className={styles.container}>
         {/* //breadcrumb */}
-        <div className={styles.breadcrumb}>
-          <Textparser text={"Livestock Add"} />
+        <div className={styles.ProjectTrackerbreadcrumb}>
+          <Textparser text={"EBS Project Tracker"} />
         </div>
 
         {/* //Form Container */}
 
         <div className={styles.formcontainer}>
-          {/* <Surveyques
-            id={"supervisorLivestock"}
-            disabled={true}
-            labelText={translate?.Supervisor_Livestock}
-            value={supervisorLivestock}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
 
-          />
 
-          <Surveyques
-            id={"fieldStaffLivestock"}
-            labelText={translate?.Field_staff_Livestock}
-            value={fieldStaffLivestock}
-            required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            disabled={true}
-          /> */}
 
+          {/* 
           <Surveyques
             id={"dateOfReportingLivestock"}
             type={"date"}
@@ -314,14 +346,7 @@ export default function Livestockpage() {
             handleVal={(id, val) => handleVal(id, val)}
           />
 
-          {/* <Surveyques
-            id={"wardNoGPLivestock"}
-            labelText={translate?.Ward_No_Livestock}
-            value={wardNoGPLivestock}
-            required={true}
-            handleVal={handleValdropdown}
-            disabled={true}
-          /> */}
+
 
           <SurveyDropdown
             id={"localityNameVillageLivestock"}
@@ -388,9 +413,92 @@ export default function Livestockpage() {
             required={true}
             handleVal={(id, val) => handleVal(id, val)}
             type={"number"}
+          /> */}
+
+          <SurveyDropdown
+            id={"id8"}
+            labelText={"Your Name"}
+            value={name}
+            // required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+            // type={"number"}
+            options={["Avi", "Soumi", "Dipankar", "Koushik", "Suman", "Shuvojit", "Biplab"]}
           />
+
+          <Surveyques
+            id={"id1"}
+            labelText={"Date"}
+            value={date}
+            // required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+            type={"date"}
+          />
+
+          <Surveyques
+            id={"id2"}
+            labelText={"Project Name"}
+            value={project_name}
+            // required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          // type={"number"}
+          />
+
+
+
+          <Surveyques
+            id={"id3"}
+            labelText={"Module Name"}
+            value={module}
+            // required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          // type={"number"}
+          />
+
+
+          <Surveyques
+            id={"id4"}
+            labelText={"Functionality"}
+            value={funtionality}
+            // required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          // type={"number"}
+          />
+
+
+          <SurveyDropdown
+            id={"id5"}
+            labelText={"Work Status"}
+            value={work_status}
+            // required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+            options={["Pending", "Completed"]}
+          // type={"number"}
+          />
+
+
+          <Surveyques
+            id={"id6"}
+            labelText={"Remarks"}
+            value={remarks}
+            // required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          // type={"number"}
+          />
+
+
+          <Surveyques
+            id={"id7"}
+            labelText={"Your Opinion on working module"}
+            value={your_opinion_on_module}
+            // required={true}
+            handleVal={(id, val) => handleVal(id, val)}
+          // type={"number"}
+          />
+
+
+
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtn} onClick={submitHandler}>
+            <button className={styles.submitbtnTracker} onClick={testSubmitHandler}>
               Submit
             </button>
           </div>

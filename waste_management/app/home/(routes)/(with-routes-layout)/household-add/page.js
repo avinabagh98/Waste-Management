@@ -155,6 +155,7 @@ export default function HouseholdAddpage() {
   const [dailyWasteManageMarket, setDailyWasteManageMarket] = useState("");
   const [willingToGiveWasteMarket, setWillingToGiveWasteMarket] = useState("");
   const [willingToPayGpMarket, setWillingToPayGpMarket] = useState("");
+  const [data_marketArr, setData_marketArr] = useState([]);
 
   //Institution
   const [typeOfInstitution, setTypeOfInstitution] = useState("");
@@ -565,9 +566,15 @@ export default function HouseholdAddpage() {
     const tokeN = localStorage.getItem("token");
     const fetchMarketList = async () => {
       try {
-        const data = await marketList({ token: tokeN });
-        console.log("checkigng chek chek", data);//testing
-        setMarketOptions(data);
+        const data_MarketARR = await marketList({ token: tokeN });
+        setData_marketArr(data_MarketARR);
+        let arr = []
+        for (let i of data_MarketARR) {
+          arr.push(i.market_name);
+        }
+
+        setMarketOptions(arr);
+
       } catch (error) {
         console.log(error);
       }
@@ -581,6 +588,14 @@ export default function HouseholdAddpage() {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+
+  function idFetcher({ matchingParam, mainDataArr }) {
+    //Market Id fetcher
+    console.log(mainDataArr, matchingParam);//testing
+    let id = mainDataArr.filter((item) => item.market_name === matchingParam);
+    return id[0].id;
   }
 
 
@@ -777,8 +792,10 @@ export default function HouseholdAddpage() {
           : setShopLocated("");
     }
 
-    if (id === "marketName") {
-      setMarketName(val);
+    if (id === 'marketName') {
+      console.log("at handle val data_arr", data_marketArr);//testing
+      let marketid = idFetcher({ matchingParam: val, mainDataArr: data_marketArr });
+      setMarketName(marketid);
     }
 
     if (id === "sansadNoShop") {
@@ -838,6 +855,12 @@ export default function HouseholdAddpage() {
     }
 
     //Market
+    if (id === 'marketName') {
+      console.log("at handle val data_arr", data_marketArr);//testing
+      let marketid = idFetcher({ matchingParam: val, mainDataArr: data_marketArr });
+      setMarketName(marketid);
+    }
+
     if (id === "typeofMarket") {
       val === "Hat"
         ? settypeofMarket("1")
@@ -2117,6 +2140,14 @@ export default function HouseholdAddpage() {
                 <Textparser text={"Market Information"} />
               </div>
 
+              <SurveyDropdown
+                id={"marketName"}
+                labelText={translate?.Market_HH_survey}
+                value={marketName}
+                required={true}
+                handleVal={(id, val) => handleVal(id, val)}
+                options={marketOptions}
+              />
               <SurveyDropdown
                 id={"typeofMarket"}
                 labelText={translate?.Type_of_market_HH_survey}

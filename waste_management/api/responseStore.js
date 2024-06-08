@@ -85,13 +85,16 @@ const marketList = async ({ token }) => {
 
     if (responseMarket !== undefined && responseMarket.data.data.lists?.length > 0) {
       let resArr2 = responseMarket?.data.data.lists;
-      let marketNameArr = [];
+      let marketArr = [{ market_id: "", market_name: "Select" }];
 
       resArr2.map((item) => {
-        marketNameArr.push(item.market);
+        marketArr.push({
+          market_id: item.id,
+          market_name: item.market,
+        })
       });
 
-      return marketNameArr;
+      return marketArr;
     } else {
       return ["No Data Found"];
     }
