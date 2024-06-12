@@ -54,15 +54,6 @@ export default function Livestockpage() {
   //Loader States
   const [spinner, setSpinner] = useState(false);
 
-  //testing app scripting
-  const [date, setDate] = useState("");
-  const [project_name, setProjectName] = useState("");
-  const [module, setModule] = useState("");
-  const [funtionality, setFunctionality] = useState("");
-  const [work_status, setWorkStatus] = useState("");
-  const [remarks, setRemarks] = useState("");
-  const [your_opinion_on_module, setYourOpinionOnModule] = useState("");
-  const [name, setName] = useState("");
 
   //Other declarations
   const route = useRouter();
@@ -279,32 +270,9 @@ export default function Livestockpage() {
     }
   };
 
-  //Scripting Testing Section
 
-  const body = new FormData();
-  body.append("date", date)
-  body.append("project_name", project_name)
-  body.append("module", module)
-  body.append("funtionality", funtionality)
-  body.append("work_status", work_status)
-  body.append("remarks", remarks)
-  body.append("your_opinion_on_module", your_opinion_on_module)
-  body.append("name", name)
 
-  const testSubmitHandler = async (e) => {
-    e.preventDefault();
 
-    fetch("https://script.google.com/macros/s/AKfycbxE5ecBnJFT6dw3uwEnMYTRanmQGqjTckBwwvPK4ME_e7fTv54w9OFahoaky3F79Ry86w/exec", {
-      method: "POST",
-      body: body
-    })
-      .then(res => res.json())
-      .then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
-  }
 
   return (
     <>
@@ -327,7 +295,7 @@ export default function Livestockpage() {
       <div className={styles.container}>
         {/* //breadcrumb */}
         <div className={styles.ProjectTrackerbreadcrumb}>
-          <Textparser text={"EBS Project Tracker"} />
+          <Textparser text={"livestock-add"} />
         </div>
 
         {/* //Form Container */}
@@ -415,90 +383,9 @@ export default function Livestockpage() {
             type={"number"}
           /> */}
 
-          <SurveyDropdown
-            id={"id8"}
-            labelText={"Your Name"}
-            value={name}
-            // required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            // type={"number"}
-            options={["Avi", "Soumi", "Dipankar", "Koushik", "Suman", "Shuvojit", "Biplab"]}
-          />
-
-          <Surveyques
-            id={"id1"}
-            labelText={"Date"}
-            value={date}
-            // required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            type={"date"}
-          />
-
-          <Surveyques
-            id={"id2"}
-            labelText={"Project Name"}
-            value={project_name}
-            // required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          // type={"number"}
-          />
-
-
-
-          <Surveyques
-            id={"id3"}
-            labelText={"Module Name"}
-            value={module}
-            // required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          // type={"number"}
-          />
-
-
-          <Surveyques
-            id={"id4"}
-            labelText={"Functionality"}
-            value={funtionality}
-            // required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          // type={"number"}
-          />
-
-
-          <SurveyDropdown
-            id={"id5"}
-            labelText={"Work Status"}
-            value={work_status}
-            // required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-            options={["Pending", "Completed"]}
-          // type={"number"}
-          />
-
-
-          <Surveyques
-            id={"id6"}
-            labelText={"Remarks"}
-            value={remarks}
-            // required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          // type={"number"}
-          />
-
-
-          <Surveyques
-            id={"id7"}
-            labelText={"Your Opinion on working module"}
-            value={your_opinion_on_module}
-            // required={true}
-            handleVal={(id, val) => handleVal(id, val)}
-          // type={"number"}
-          />
-
-
 
           <div className={styles.btnContainer}>
-            <button className={styles.submitbtnTracker} onClick={testSubmitHandler}>
+            <button className={styles.submitbtnTracker} onClick={"#"}>
               Submit
             </button>
           </div>

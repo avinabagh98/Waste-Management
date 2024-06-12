@@ -11,17 +11,6 @@ export default function Surveyques({
   defaultValue,
 }) {
 
-
-  // Function to get today's date from localStorage or current date if not available
-  // const getDefaultDate = () => {
-  //   const storedDate = localStorage.getItem("today");
-  //   if (storedDate) {
-  //     return storedDate;
-  //   } else {
-  //     const currentDate = new Date().toISOString().split('T')[0];
-  //     return currentDate;
-  //   }
-  // };
   return (
     <>
       <div className={styles.container}>

@@ -25,12 +25,12 @@ const societyList = async ({ token, natureOfHouse }) => {
       }
     );
     //Api Response
-    if (response !== undefined && response?.data.data.lists?.length > 0) {
+    if (response) {
       let resArr = response?.data.data.lists;
-      let societyNameArr = [];
+      let societyNameArr = [{ society_name: "select", key_person: "select" }];
 
       resArr.map((item) => {
-        societyNameArr.push(item.society_name);
+        societyNameArr.push({ society_name: item.society_name, key_person: item.name_of_key_parson });
       });
 
       return societyNameArr;
@@ -94,7 +94,9 @@ const marketList = async ({ token }) => {
         })
       });
 
+      // localStorage.setItem("allMarkets", JSON.stringify(marketArr));//Production purpose
       return marketArr;
+
     } else {
       return ["No Data Found"];
     }
@@ -104,7 +106,7 @@ const marketList = async ({ token }) => {
 };
 
 
-//Market Add
+// Add New Market - Add
 const marketAdd = async ({ token, commonObj, paramObj }) => {
 
   const formDataMarket = formDataFunc(commonObj, paramObj);
@@ -132,6 +134,43 @@ const marketAdd = async ({ token, commonObj, paramObj }) => {
     console.log(error);
   }
 };
+
+
+//Sansad Name read
+const getSansad = async ({ token, commonObj, paramObj }) => {
+
+  const body_name = formDataFunc(commonObj, paramObj);
+  // console.log("Market Form Data", body_name);//testing
+  try {
+
+    const response_func = await sendRequest(
+      "post",
+      "add_your_url",// changes needed
+      body_name, // changes needed
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+
+    console.log("Response for sansad lists", response_func);//testing
+
+    // if (response_marketAdd !== undefined && response_marketAdd.data.status === "success") {
+    //   swal("Success", "Added Successfully", "success");
+    //   return response_marketAdd.data.status
+    // }
+    // console.log("Response for Add Market", response_marketAdd);//testing
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+
+
+
 
 //Dummy demo
 
@@ -166,4 +205,4 @@ const func_name = async ({ token, commonObj, paramObj }) => {
 
 
 
-export { societyList, multiStoriedAddNew, marketList, marketAdd };
+export { societyList, multiStoriedAddNew, marketList, marketAdd, getSansad };

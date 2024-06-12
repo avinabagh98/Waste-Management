@@ -20,6 +20,7 @@ import {
 
 export default function HouseholdAddpage() {
 
+
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -41,7 +42,7 @@ export default function HouseholdAddpage() {
   const [occupationHHSurvey, setOccupationHHSurvey] = useState("");
   const [ownershipOfHouseHHSurvey, setOwnershipOfHouseHHSurvey] = useState("1");
 
-  const [natureOfHousehold, setNatureOfHousehold] = useState("-1");
+  const [natureOfHousehold, setNatureOfHousehold] = useState("1");
   const [typeOfSegregationHHSurvey, setTypeOfSegregationHHSurvey] =
     useState("");
   const [
@@ -133,6 +134,8 @@ export default function HouseholdAddpage() {
   const [shopName, setShopName] = useState("");
   const [shopOwner, setShopOwner] = useState("");
   const [marketOptions, setMarketOptions] = useState([]);
+  const [societies, setSocieties] = useState([]);
+
 
   //Market
   const [typeofMarket, settypeofMarket] = useState("");
@@ -156,6 +159,8 @@ export default function HouseholdAddpage() {
   const [willingToGiveWasteMarket, setWillingToGiveWasteMarket] = useState("");
   const [willingToPayGpMarket, setWillingToPayGpMarket] = useState("");
   const [data_marketArr, setData_marketArr] = useState([]);
+  const [marketId, setMarketid] = useState("");
+
 
   //Institution
   const [typeOfInstitution, setTypeOfInstitution] = useState("");
@@ -249,10 +254,21 @@ export default function HouseholdAddpage() {
   };
 
   const houseObj = {
+
+    typeOfWGU:
+      WGUtype === "household"
+        ? "1"
+        : WGUtype === "shop"
+          ? "2"
+          : WGUtype === "market"
+            ? "3"
+            : WGUtype === "institution"
+              ? "4"
+              : "",
     natureOfHouse: natureOfHousehold ?? "-1",
     numberOfChildBelow18Years: numberOfChildBelow18YearsHHSurvey,
     ownershipOfHouse: ownershipOfHouseHHSurvey ?? "-1",
-    typeOfToilet: selectToiletTypeHHSurvey ?? "-1",
+    typeOfToilet: toiletId ?? "-1",
     userChargeParMonth: userChargesInRupeesPerMonthHHSurvey ?? "-1",
     addaharNo: "-1", //duplicate
     familyMembers: numberOfFamilyMembersHHSurvey ?? "-1",
@@ -268,14 +284,14 @@ export default function HouseholdAddpage() {
     patients: patients ?? "-1",
     toiletInHouse: doYouHaveToiletInYourHouseHHSurvey ?? "-1",
     typeOfSegragation: typeOfSegregationHHSurvey ?? "-1",
-    nameOfResident: "duplicate Resident", //duplicate
+    nameOfResident: societyName ?? "-1",
     isComposed: areYouDoingHomeCompostingHHSurvey ?? "-1",
     isManageGrayWater: doYouManagingGreyWaterHHSurvey ?? "-1",
     isManagingBlackWater: doYouManagingBlackWaterHHSurvey ?? "-1",
     isKitchenGarden: areYouWillingToDoKitchenGardenInFutureHHSurvey ?? "-1",
     isConstructIndividual:
       areYouWillingToConstructIndividualSoakPitInFutureHHSurvey ?? "-1",
-    road_lane: "3", //duplicate
+    road_lane: "-1", //duplicate
     amountOfWasteGeneration: wasteGenerated ?? "-1",
     willingToManageByOwn: WillingToDoManage ?? "-1",
     willWantToPay: wantTOPay ?? "-1",
@@ -289,6 +305,16 @@ export default function HouseholdAddpage() {
 
   //shop object
   const shopObj = {
+    typeOfWGU:
+      WGUtype === "household"
+        ? "1"
+        : WGUtype === "shop"
+          ? "2"
+          : WGUtype === "market"
+            ? "3"
+            : WGUtype === "institution"
+              ? "4"
+              : "-1",
     shopLocated: shopLocated,
     typeOfShop: typeOfShop,
     sansadNumber: sansadNo,
@@ -303,6 +329,37 @@ export default function HouseholdAddpage() {
     isWasteCollectionServicesCharge: willingToPayGpShop,
   };
 
+  //Institute Obj
+  const instituteObj = {
+    typeOfWGU:
+      WGUtype === "household"
+        ? "1"
+        : WGUtype === "shop"
+          ? "2"
+          : WGUtype === "market"
+            ? "3"
+            : WGUtype === "institution"
+              ? "4"
+              : "-1",
+    typeOfInstitutions: typeOfInstitution,
+    institutionName: nameOfInstitution,
+    sansadNumber: sansadNo,
+    totalStudentsNo: numberOfStudents,
+    totalBoysNo: numberOfBoys,
+    totalGirlsNo: numberOfGirls,
+    middayMealScheme: isMidDayMeal,
+    dailyWasteGenerate: numberOfDailyWasteGen,
+    dailyBioDegradableWaste: bioDegradableWasteInstitute,
+    dailyNonbioDegradableWaste: nonBioDegradableWasteInstitute,
+    dailySanataryWaste: sanatartyWasteInstitute, //500gm
+    isSchoolManageBiodegradable: WillingToDoManageWasteInstitute,
+    // biodegradableWaste: "nan", //
+    dailyHazardousWaste: "-1",
+    isSchoolHaveGarden: hasGarden,
+    dailyWasteManagedHere: dailyWasteManageInstitute,
+    isGramPanchayatGarbageCollects: willingToGiveWasteInstitute,
+    isWasteCollectionServicesCharge: willingToPayGpInstitute
+  }
   //MultiStoried and Society object
   const multiStoriedAddNewObj = {
     natureOfHouse: natureOfHousehold,
@@ -312,10 +369,47 @@ export default function HouseholdAddpage() {
     flatNo: "-1",
   };
 
-  //Market object
-  const marketObj = {
+  //Market Add new object
+  const marketAddNewObj = {
     marketName: marketName,
   }
+
+
+  //MArket Object
+  const marketObj = {
+    typeOfWGU:
+      WGUtype === "household"
+        ? "1"
+        : WGUtype === "shop"
+          ? "2"
+          : WGUtype === "market"
+            ? "3"
+            : WGUtype === "institution"
+              ? "4"
+              : "-1",
+    marketName: marketId,
+    sansadNumber: sansadNo,
+    marketCommitteePresence: ismarketCommitteePresence,
+    totalShopNo: numberOfshops,
+    totalNoGrocerysShop: numberOfGroceries,
+    totalNoFoodsShop: numberOfFoodShops,
+    totalNoVegetablesShop: numberOfVegetables,
+    totalNoRestaurants: numberOfResturants,
+    totalNoHotels: numberOfHotels,
+    totalNoMeatShop: numberOfMeatShop,
+    totalNoFishShop: numberOfFishShops,
+    totalNoOtherShop: numberOfOtherShops,
+    totalWasteGenerateInDaily: wasteGenMarket,
+    totalBioDegradableWasteInDaily: bioDegradableWasteMarket,
+    totalNonbioDegradableWasteInDaily: nonBioDegradableWasteMarket,
+    totalHazardousWasteInDaily: hazardousWasteMarket,
+    dailyWasteManage: dailyWasteManageMarket,
+    allShopkeepersAgree: willingToGiveWasteMarket,
+    wasteCollectionServicesCharge: willingToPayGpMarket
+  }
+
+
+
 
   const formDataFunc = (commonObj, paramObj) => {
     const formData = { ...commonObj, ...paramObj };
@@ -377,8 +471,6 @@ export default function HouseholdAddpage() {
           setUserRole(roleName);
 
           //loadingHeaderData from local storage
-
-
           const name = localStorage.getItem("name")
           const district_name = localStorage.getItem("district")
           const district_id = localStorage.getItem("district_id")
@@ -552,14 +644,20 @@ export default function HouseholdAddpage() {
     const fetchSocietyList = async () => {
       try {
         const data = await societyList({ token: tokeN, natureOfHouse: natureOfHousehold });
-        setSocietyOptions(data);
+        setSocieties(data)
+        let arr = []
+        for (let i of data) {
+          arr.push(i.society_name);
+        }
+        console.log(arr);
+        setSocietyOptions(arr);
       } catch (error) {
         console.error("Error fetching society list:", error);
       }
     };
 
     fetchSocietyList();
-  }, [liveDataFlag]);
+  }, [liveDataFlag, natureOfHousehold]);
 
   //Market List Options
   useEffect(() => {
@@ -591,11 +689,12 @@ export default function HouseholdAddpage() {
   }
 
 
+  //Id Fetcher Function
   function idFetcher({ matchingParam, mainDataArr }) {
     //Market Id fetcher
-    console.log(mainDataArr, matchingParam);//testing
+    // console.log(mainDataArr, matchingParam);//testing
     let id = mainDataArr.filter((item) => item.market_name === matchingParam);
-    return id[0].id;
+    return id[0].market_id;
   }
 
 
@@ -632,6 +731,9 @@ export default function HouseholdAddpage() {
 
     if (id === "nameOfSociety") {
       setSocietyName(val);
+      console.log(societies);
+      let key_person = societies.filter((item) => item.society_name === val);
+      setKeyPerson(key_person[0].key_person);
     }
 
 
@@ -855,11 +957,14 @@ export default function HouseholdAddpage() {
     }
 
     //Market
-    if (id === 'marketName') {
+    if (id === "marketName") {
       console.log("at handle val data_arr", data_marketArr);//testing
       let marketid = idFetcher({ matchingParam: val, mainDataArr: data_marketArr });
-      setMarketName(marketid);
+      setMarketid(marketid);
+      setMarketName(val);
     }
+
+
 
     if (id === "typeofMarket") {
       val === "Hat"
@@ -889,15 +994,7 @@ export default function HouseholdAddpage() {
           : "";
     }
 
-    if (id === "dailyWasteManageMarket") {
-      val === "Dumping"
-        ? setDailyWasteManageMarket("1")
-        : val === "Throwing"
-          ? setDailyWasteManageMarket("2")
-          : val === "Burned"
-            ? setDailyWasteManageMarket("3")
-            : "";
-    }
+
 
     if (id === "willingToGiveWasteMarket") {
       if (val === "Yes") {
@@ -917,6 +1014,45 @@ export default function HouseholdAddpage() {
       }
     }
 
+    if (id === "numberOfshops") {
+      setNumberOfshops(val);
+    }
+
+    if (id === "numberOfGroceries") {
+      setNumberOfGroceries(val);
+    }
+
+
+    if (id === "numberOfFoodShops") {
+      setNumberOfFoodShops(val);
+    } else if (id === "numberOfVegetables") {
+      setNumberOfVegetables(val);
+    } else if (id === "numberOfResturants") {
+      setNumberOfResturants(val);
+    } else if (id === "numberOfHotels") {
+      setNumberOfHotels(val);
+    } else if (id === "numberOfMeatShop") {
+      setNumberOfMeatShop(val);
+    } else if (id === "numberOfFishShops") {
+      setNumberOfFishShops(val);
+    } else if (id === "numberOfOtherShops") {
+      setNumberOfOtherShops(val);
+    } else if (id === "wasteGenMarket") {
+      setWasteGenMarket(val);
+    } else if (id === "bioDegradableWasteMarket") {
+      setBioDegradableWasteMarket(val);
+    } else if (id === "nonBioDegradableWasteMarket") {
+      setNonBioDegradableWasteMarket(val);
+    } else if (id === "hazardousWasteMarket") {
+      setHazardousWasteMarket(val);
+    }
+
+    if (id === "dailyWasteManageMarket") {
+      setDailyWasteManageMarket(val);
+    }
+
+
+
     //Institution
 
     if (id === "sansadNoInstitution") {
@@ -929,6 +1065,104 @@ export default function HouseholdAddpage() {
     if (id === "sanataryWaste") {
       setSanatartyWasteInstitute(val);
     }
+
+    if (id === "typeOfInstitution") {
+      setTypeOfInstitution(val);
+    }
+
+    if (id === "isMidDayMeal") {
+      if (val === "Yes") {
+        setIsMidDayMeal("1");
+      }
+      if (val === "No") {
+        setIsMidDayMeal("0");
+      }
+    }
+
+    if (id === "WillingToDoManageWasteInstitute") {
+      if (val === "Yes") {
+        setWillingToDoManageWasteInstitute("1");
+      }
+      if (val === "No") {
+        setWillingToDoManageWasteInstitute("0");
+      }
+    }
+
+
+    if (id === "hasGarden") {
+      if (val === "Yes") {
+        setHasGarden("1");
+      }
+      if (val === "No") {
+        setHasGarden("0");
+      }
+    }
+
+
+
+    if (id === "willingToPayGpInstitute") {
+      if (val === "Yes") {
+        setWillingToPayGpInstitute("1");
+      }
+      if (val === "No") {
+        setWillingToPayGpInstitute("0");
+      }
+    }
+
+
+    if (id === "dailyWasteManageInstitute") {
+      setDailyWasteManageInstitute(val)
+    }
+
+    if (id === "willingToGiveWasteInstitute") {
+      if (val === "Yes") {
+        setWillingToGiveWasteInstitute("1");
+      }
+      if (val === "No") {
+        setWillingToGiveWasteInstitute("0");
+      }
+    }
+
+    if (id === "willingToPayGpInstitute") {
+      if (val === "Yes") {
+        setWillingToPayGpInstitute("1");
+      }
+      if (val === "No") {
+        setWillingToPayGpInstitute("0");
+      }
+    }
+
+    if (id === "nameOfInstitution") {
+      setNameOfInstitution(val)
+    }
+
+    if (id === "numberOfStudents") {
+      setNumberOfStudents(val)
+    }
+
+    if (id === "numberOfBoys") {
+      setNumberOfBoys(val)
+    }
+
+    if (id === "numberOfGirls") {
+      setNumberOfGirls(val)
+    }
+
+    if (id === "numberOfDailyWasteGen") {
+      setNumberOfDailyWasteGen(val)
+    }
+
+
+    if (id === "bioDegradableWasteInstitute") {
+      setBioDegradableWasteInstitute(val)
+    }
+
+    if (id === "nonBioDegradableWasteInstitute") {
+      setNonBioDegradableWasteInstitute(val)
+    }
+
+
+
   };
 
   const handleRadioChange = (name, value) => {
@@ -940,6 +1174,9 @@ export default function HouseholdAddpage() {
     }
     if (name === "doYouHaveToiletInYourHouseHHSurvey") {
       setDoYouHaveToiletInYourHouseHHSurvey(value);
+      if (value === "0") {
+        setToiletId("-1")
+      }
     }
     if (name === "doYouManagingGreyWaterHHSurvey") {
       setDoYouManagingGreyWaterHHSurvey(value);
@@ -971,20 +1208,37 @@ export default function HouseholdAddpage() {
       }
       if (WGUtype === "shop") {
         formDataObject = formDataFunc(commonObj, shopObj);
+        console.log("Shop Survey Form Submitted :: ", formDataObject);
       }
       if (WGUtype === "institution") {
-        formDataObject = formDataFunc(commonObj, shopObj);
+        formDataObject = formDataFunc(commonObj, instituteObj);
+        console.log("Instituion Survey Form Submitted :: ", formDataObject);
+      }
+
+      if (WGUtype === "market") {
+        formDataObject = formDataFunc(commonObj, marketObj);
+        console.log("Market Survey Form Submitted :: ", formDataObject);
       }
 
       for (const field in formDataObject) {
         if (formDataObject[field] === null || formDataObject[field] === "") {
           // flag = true;
           // break;
+
+          // Household mandatory field
+          // if ((field === "typeOfWGU" || field === "natureOfHouse" || field === "numberOfChildBelow18Years" || field === "ownershipOfHouse" || field === "typeOfToilet" || field === "userChargeParMonth" || field === "familyMembers" || field === "houseHoldName" || field === "mobileNo" || field === "ocupation" || field === "ownerType" || field === "holdingNumber" || field === "roadLane" || field === "road" || field === "pets" || field === "patients" || field === "toiletInHouse" || field === "typeOfSegragation" || field === "isComposed" || field === "isManageGrayWater" || field === "isManagingBlackWater" || field === "isKitchenGarden" || field === "isConstructIndividual" || field === "amountOfWasteGeneration" || field === "willingToManageByOwn" || field === "willWantToPay" || field === "caste" || field === "religion") && WGUtype === "household") {
+          //   flag = true;
+          // }
+
+          // Shop mandatory field
+          // if ((field === "typeOfWGU") && WGUtype === "shop") {
+          //   flag = true;
+          // }
           formDataObject[field] = "-1";
         }
       }
       if (flag) {
-        swal("Error", "Please fill all the fields", "error");
+        swal("Warning", "Please fill all the fields", "warning");
       } else {
         setSpinner(true);
         const household_add_res = await axios.post(
@@ -997,7 +1251,7 @@ export default function HouseholdAddpage() {
           }
         );
 
-        console.log("Household Survey Response", household_add_res); //testing
+        console.log("Household Add Response", household_add_res); //testing
         if (household_add_res.data.data.status === "success") {
           swal("Success", "Data Added Successfully", "success");
           console.log("Household Survey Response", household_add_res);
@@ -1008,7 +1262,7 @@ export default function HouseholdAddpage() {
       setSpinner(false);
       console.log(error);
       if (error.name === "AxiosError") {
-        swal("Error", "Token Expired", "error");
+        swal("Error", "Something went wrong during API call", "error");
       }
     }
   };
@@ -1100,6 +1354,8 @@ export default function HouseholdAddpage() {
             <>
               {/* //Household Information */}
               <div className={styles.householdInfoContainer}>
+
+                {/* //Add New Market and Society */}
                 <div className={styles.householdInfoHeading}>
                   <Textparser
                     text={translate?.householdInfoHeading_HH_survey}
@@ -1339,7 +1595,7 @@ export default function HouseholdAddpage() {
                     <Surveyques
                       id={"keyPerson"}
                       labelText={translate?.keyPerson_HH_survey}
-                      value={keyPerson === "1" ? "Key1" : ""}
+                      value={keyPerson}
                       handleVal={(id, val) => handleVal(id, val)}
                       disabled={true}
                     />
@@ -1351,6 +1607,15 @@ export default function HouseholdAddpage() {
                       handleVal={(id, val) => handleVal(id, val)}
                       options={["Own", "Rent"]}
                     />
+
+                    <Surveyques
+                      id={"nameOfResidentHHSurvey"}
+                      labelText={translate?.Name_of_Resident_HH_survey}
+                      value={nameOfResidentHHSurvey}
+                      required={true}
+                      handleVal={(id, val) => handleVal(id, val)}
+                    />
+
                     <Surveyques
                       id={"houseNumberHHSurvey"}
                       labelText={translate?.House_Number_HH_survey}
@@ -1384,9 +1649,9 @@ export default function HouseholdAddpage() {
                       type={"text"}
                     />
                     <Surveyques
-                      id={"roadLane"}
+                      id={"roadLane2"}
                       labelText={"Address Line 2"}
-                      value={roadLane}
+                      value={roadLane2}
                       handleVal={(id, val) => handleVal(id, val)}
                       type={"text"}
                     />
@@ -1957,8 +2222,8 @@ export default function HouseholdAddpage() {
                       <div
                         className={styles.marketShopBtn}
                         onClick={(e) => {
-                          console.log("MarketObj", marketObj);
-                          AddNewSubmitHandler(e, token, commonOtherObj, marketObj)
+                          console.log("marketAddNewObj", marketAddNewObj);
+                          AddNewSubmitHandler(e, token, commonOtherObj, marketAddNewObj)
                         }}
                       >
                         {translate?.Add_MarketShop_HH_survey}
@@ -2319,22 +2584,14 @@ export default function HouseholdAddpage() {
               <SurveyDropdown
                 id={"dailyWasteManageMarket"}
                 labelText={translate?.WasteMangement_Market_HH_survey}
-                value={
-                  dailyWasteManageMarket === "1"
-                    ? "Dumping"
-                    : dailyWasteManageMarket === "2"
-                      ? "Throwing"
-                      : dailyWasteManageMarket === "3"
-                        ? "Burned"
-                        : ""
-                }
-                required={true}
+                value={dailyWasteManageMarket}
+                // required={true}
                 handleVal={(id, val) => handleVal(id, val)}
                 options={["Select", "Dumping", "Throwing", "Burned"]}
               />
 
               <SurveyDropdown
-                id={"willingToGiveWasteMarket>"}
+                id={"willingToGiveWasteMarket"}
                 labelText={translate?.willingToGiveWaste_Market_HH_survey}
                 value={
                   willingToGiveWasteMarket === "1"
@@ -2373,23 +2630,7 @@ export default function HouseholdAddpage() {
                 id={"typeOfInstitution"}
                 labelText={translate?.Type_of_instituion_HH_survey}
                 value={
-                  typeOfInstitution === "1"
-                    ? "ICDS"
-                    : typeofMarket === "2"
-                      ? "SSK"
-                      : typeOfInstitution === "3"
-                        ? "MSK"
-                        : typeOfInstitution === "4"
-                          ? "Primary School"
-                          : typeOfInstitution === "4"
-                            ? " Upper Primary School"
-                            : typeOfInstitution === "4"
-                              ? "High School"
-                              : typeOfInstitution === "4"
-                                ? "Higher Secondary School"
-                                : typeOfInstitution === "4"
-                                  ? "College"
-                                  : ""
+                  typeOfInstitution
                 }
                 required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2546,13 +2787,7 @@ export default function HouseholdAddpage() {
                 id={"dailyWasteManageInstitute"}
                 labelText={translate?.DailyWasteManage_Institution_HH_survey}
                 value={
-                  dailyWasteManageInstitute === "1"
-                    ? "Dumping"
-                    : dailyWasteManageInstitute === "2"
-                      ? "Throwing"
-                      : dailyWasteManageInstitute === "3"
-                        ? "Burned"
-                        : ""
+                  dailyWasteManageInstitute
                 }
                 required={true}
                 handleVal={(id, val) => handleVal(id, val)}
