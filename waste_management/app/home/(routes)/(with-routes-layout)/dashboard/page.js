@@ -14,6 +14,7 @@ import MyQrScanner from "@/components/MyQrScanner";
 import axios from "axios";
 
 export default function Dashboardpage() {
+
   //State variables
   const [name, setName] = useState("");
   const [userRole, setUserRole] = useState("");

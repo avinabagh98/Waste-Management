@@ -694,7 +694,7 @@ export default function HouseholdAddpage() {
     //Market Id fetcher
     // console.log(mainDataArr, matchingParam);//testing
     let id = mainDataArr.filter((item) => item.market_name === matchingParam);
-    return id[0].market_id;
+    return id[0]?.market_id;
   }
 
 
