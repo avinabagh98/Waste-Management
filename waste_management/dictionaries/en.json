@@ -185,5 +185,9 @@
       "Religion_HH_survey": "Religion",
       "ShopLocated_shop_HH_survey": "Shop Located",
       "Market_HH_survey": "Market Name",
-      "Add_MarketShop_HH_survey": "Add Market"
+      "Add_MarketShop_HH_survey": "Add Market",
+      "date_mlp": "Date of Collection",
+      "mlp_dumped_MLP": "Amount of Multi Layer Plastic dumped(kg)",
+      "mlp_taken_from_MLP": "Multi Layer Plastic Taken From",
+      "mlp_sold_MLP": "Multi Layer Plastic Sold (kg)"
 }

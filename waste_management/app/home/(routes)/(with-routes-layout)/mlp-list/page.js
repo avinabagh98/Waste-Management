@@ -110,9 +110,9 @@ export default function MLPPage() {
 
     // Handler Functions
     const editHandler = (id) => {
-        setSpinner(true);
+        // setSpinner(true);
         localStorage.setItem("id", id);
-        route.push("/home/livestock-update");
+        // route.push("/home/livestock-update");
     };
 
     const showHandler = (arrayData) => {

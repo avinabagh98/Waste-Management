@@ -98,35 +98,35 @@ export default function MLPAddPage() {
 
     };
 
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        let flag = false;
-        for (const field in formDataIncome) {
-            if (formDataIncome[field] === null || formDataIncome[field] === "") {
-                flag = true;
-                break;
-            }
-        }
-        if (flag) {
-            swal("Error", "Please fill all the fields", "error");
-        } else {
-            console.log("Income Added Submitted::", formDataIncome);
-            try {
-                setSpinner(true);
-                const res = await sendRequest("post", "/income/add", formDataIncome, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                if (res.status === 1) {
-                    swal("Successfully", "Income Added", "success");
-                    route.push("/home/income-list");
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    };
+    // const submitHandler = async (e) => {
+    //     e.preventDefault();
+    //     let flag = false;
+    //     for (const field in formDataIncome) {
+    //         if (formDataIncome[field] === null || formDataIncome[field] === "") {
+    //             flag = true;
+    //             break;
+    //         }
+    //     }
+    //     if (flag) {
+    //         swal("Error", "Please fill all the fields", "error");
+    //     } else {
+    //         console.log("Income Added Submitted::", formDataIncome);
+    //         try {
+    //             setSpinner(true);
+    //             const res = await sendRequest("post", "/income/add", formDataIncome, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             });
+    //             if (res.status === 1) {
+    //                 swal("Successfully", "Income Added", "success");
+    //                 route.push("/home/income-list");
+    //             }
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    // };
 
     return (
         <>
@@ -139,7 +139,7 @@ export default function MLPAddPage() {
             <div className={styles.container}>
                 {/* //breadcrumb */}
                 <div className={styles.breadcrumb}>
-                    <Textparser text={"Income Add"} />
+                    <Textparser text={"Multi Layer Plastic Add"} />
                 </div>
 
                 {/* //spinner */}
@@ -154,31 +154,53 @@ export default function MLPAddPage() {
                 {/* //form */}
                 <div className={styles.formcontainer}>
                     <div className={styles.quescontainer}>
+
+
                         <Surveyques
-                            id="textInput"
-                            labelText="Text Input"
+                            id="date_mlp"
+                            labelText={translate?.date_mlp}
+                            value={today}
+                            handleVal={(id, value) => handleVal(id, value)}
+                            type="date"
+
+                        />
+
+
+                        <Surveyques
+                            id="mlp_taking_point"
+                            labelText={translate?.mlp_dumped_MLP}
                             value={mlpAmount}
                             handleVal={(id, value) => handleVal(id, value)}
                             type="text"
 
                         />
+
+
+                        <Surveyques
+                            id="mlp_taking_point"
+                            labelText={translate?.mlp_sold_MLP}
+                            value={mlpAmount}
+                            handleVal={(id, value) => handleVal(id, value)}
+                            type="text"
+
+                        />
+
+
                         <SurveyDropdown
                             id="dropdown1"
-                            labelText="Dropdown 1"
+                            labelText={translate?.mlp_taken_from_MLP}
                             value={"dropdown1"}
                             handleVal={(id, value) => handleVal(id, value)}
                             options={["Select", "Option 1", "Option 2", "Option 3"]}
 
                         />
-                        <SurveyDropdown
-                            id="dropdown2"
-                            labelText="Dropdown 2"
-                            value={"dropdown2"}
-                            handleVal={(id, value) => handleVal(id, value)}
-                            options={["Select", "Option A", "Option B", "Option C"]}
 
+                        <div className={styles.btnContainer}>
+                            <button className={styles.submitbtn} onClick={() => { swal("Success", "MLP Adding Demo", "success") }}>
+                                Submit
+                            </button>
+                        </div>
 
-                        />
                     </div>
                 </div>
             </div>

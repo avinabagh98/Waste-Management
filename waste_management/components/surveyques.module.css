@@ -14,7 +14,7 @@
 
 .surveyInput {
       width: 100%;
-      padding: 0 5px;
+      padding: 5px 8px;
       border: 1px solid var(--border-color);
       background: none;
       border-radius: 5px;

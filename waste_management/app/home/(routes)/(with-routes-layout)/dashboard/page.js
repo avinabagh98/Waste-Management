@@ -325,7 +325,7 @@ export default function Dashboardpage() {
                 route.push("/home/mlp-list");
               }}
             >
-              <img src="/images/livestock_shed.png" alt="livestock_shed"></img>
+              <img src="/images/MLP.jpg" alt="mlp"></img>
               <p>Multi Layer Plastic (MLP)</p>
             </div>
             {/* <div
