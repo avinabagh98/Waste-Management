@@ -97,6 +97,7 @@ export default function HouseholdUpdatepage() {
   const [id, setId] = useState("");
   const [spinner, setSpinner] = useState(false);
 
+  ///////////////////////////////////////////*************************************************/////////////////////////////
   //Common Other declarations///
   const loadingHeaderData = {
     name: name,
@@ -156,6 +157,7 @@ export default function HouseholdUpdatepage() {
   const route = useRouter();
   const translate = LanguageFetcher();
 
+  ///////////////////////////////////////////*************************************************/////////////////////////////
   // LocalStorage Fetching
   useEffect(() => {
     localStorage.setItem("previousPath", "/home/household-list");
@@ -212,11 +214,9 @@ export default function HouseholdUpdatepage() {
 
           //inserting data to the respected fields
           const api_response = res.data.data.list;
-
           setDateHHSurvey(api_response.date);
           setSupervisor_id(api_response.supervisor);
           setSupervisorHHSurvey(api_response.supervisor);
-          //etSupervisorHHSurvey(localStorage.getItem("supervisor")); //supervisor
           setFieldStaffHHSurvey(api_response.user_id);
           setMobileNo(api_response.mobile_no);
           setAadhaar(api_response.addahar_no);
@@ -436,6 +436,7 @@ export default function HouseholdUpdatepage() {
     }
   }, [toilets]);
 
+  ///////////////////////////////////////////*************************************************/////////////////////////////
   // Handler Functions
   const handleVal = (id, val) => {
     if (id === "dateHHSurvey") {
@@ -566,7 +567,7 @@ export default function HouseholdUpdatepage() {
     }
     if (flag) {
       setSpinner(false);
-      swal("Error", "Please fill all the fields", "error");
+      swal("Warning", "Please fill all the fields", "warning");
     } else {
       console.log("HH Survey Update-form Submitted::", formDataHHUpdate);
       //UPDATE API CALLING
@@ -588,6 +589,7 @@ export default function HouseholdUpdatepage() {
     }
   };
 
+  ///////////////////////////////////////////*************************************************/////////////////////////////
   return (
     <>
       {/* //Spinner */}

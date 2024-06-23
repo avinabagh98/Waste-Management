@@ -19,8 +19,6 @@ import {
 } from "@/api/responseStore";
 
 export default function HouseholdAddpage() {
-
-
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -136,7 +134,6 @@ export default function HouseholdAddpage() {
   const [marketOptions, setMarketOptions] = useState([]);
   const [societies, setSocieties] = useState([]);
 
-
   //Market
   const [typeofMarket, settypeofMarket] = useState("");
   const [ismarketCommitteePresence, setIsmarketCommitteePresence] =
@@ -160,7 +157,6 @@ export default function HouseholdAddpage() {
   const [willingToPayGpMarket, setWillingToPayGpMarket] = useState("");
   const [data_marketArr, setData_marketArr] = useState([]);
   const [marketId, setMarketid] = useState("");
-
 
   //Institution
   const [typeOfInstitution, setTypeOfInstitution] = useState("");
@@ -194,8 +190,7 @@ export default function HouseholdAddpage() {
 
   const [liveDataFlag, setLiveDataFlag] = useState("");
 
-  //Common Other declarations//
-
+  ///////////////////////////////////////////*************************************************/////////////////////////////
 
   const loadingHeaderData = {
     name: name,
@@ -226,16 +221,6 @@ export default function HouseholdAddpage() {
     district: districtId,
     state: "-1",
     locality: "-1",
-    // typeOfWGU:
-    //   WGUtype === "household"
-    //     ? "1"
-    //     : WGUtype === "shop"
-    //       ? "2"
-    //       : WGUtype === "market"
-    //         ? "3"
-    //         : WGUtype === "institution"
-    //           ? "4"
-    //           : "-1",
   };
 
   const commonOtherObj = {
@@ -250,21 +235,19 @@ export default function HouseholdAddpage() {
     supervisor: supervisor_id,
     fieldStaff: user_id,
     entryDate: today,
-
   };
 
   const houseObj = {
-
     typeOfWGU:
       WGUtype === "household"
         ? "1"
         : WGUtype === "shop"
-          ? "2"
-          : WGUtype === "market"
-            ? "3"
-            : WGUtype === "institution"
-              ? "4"
-              : "",
+        ? "2"
+        : WGUtype === "market"
+        ? "3"
+        : WGUtype === "institution"
+        ? "4"
+        : "",
     natureOfHouse: natureOfHousehold ?? "-1",
     numberOfChildBelow18Years: numberOfChildBelow18YearsHHSurvey,
     ownershipOfHouse: ownershipOfHouseHHSurvey ?? "-1",
@@ -309,12 +292,12 @@ export default function HouseholdAddpage() {
       WGUtype === "household"
         ? "1"
         : WGUtype === "shop"
-          ? "2"
-          : WGUtype === "market"
-            ? "3"
-            : WGUtype === "institution"
-              ? "4"
-              : "-1",
+        ? "2"
+        : WGUtype === "market"
+        ? "3"
+        : WGUtype === "institution"
+        ? "4"
+        : "-1",
     shopLocated: shopLocated,
     typeOfShop: typeOfShop,
     sansadNumber: sansadNo,
@@ -335,12 +318,12 @@ export default function HouseholdAddpage() {
       WGUtype === "household"
         ? "1"
         : WGUtype === "shop"
-          ? "2"
-          : WGUtype === "market"
-            ? "3"
-            : WGUtype === "institution"
-              ? "4"
-              : "-1",
+        ? "2"
+        : WGUtype === "market"
+        ? "3"
+        : WGUtype === "institution"
+        ? "4"
+        : "-1",
     typeOfInstitutions: typeOfInstitution,
     institutionName: nameOfInstitution,
     sansadNumber: sansadNo,
@@ -358,8 +341,8 @@ export default function HouseholdAddpage() {
     isSchoolHaveGarden: hasGarden,
     dailyWasteManagedHere: dailyWasteManageInstitute,
     isGramPanchayatGarbageCollects: willingToGiveWasteInstitute,
-    isWasteCollectionServicesCharge: willingToPayGpInstitute
-  }
+    isWasteCollectionServicesCharge: willingToPayGpInstitute,
+  };
   //MultiStoried and Society object
   const multiStoriedAddNewObj = {
     natureOfHouse: natureOfHousehold,
@@ -372,8 +355,7 @@ export default function HouseholdAddpage() {
   //Market Add new object
   const marketAddNewObj = {
     marketName: marketName,
-  }
-
+  };
 
   //MArket Object
   const marketObj = {
@@ -381,12 +363,12 @@ export default function HouseholdAddpage() {
       WGUtype === "household"
         ? "1"
         : WGUtype === "shop"
-          ? "2"
-          : WGUtype === "market"
-            ? "3"
-            : WGUtype === "institution"
-              ? "4"
-              : "-1",
+        ? "2"
+        : WGUtype === "market"
+        ? "3"
+        : WGUtype === "institution"
+        ? "4"
+        : "-1",
     marketName: marketId,
     sansadNumber: sansadNo,
     marketCommitteePresence: ismarketCommitteePresence,
@@ -405,11 +387,8 @@ export default function HouseholdAddpage() {
     totalHazardousWasteInDaily: hazardousWasteMarket,
     dailyWasteManage: dailyWasteManageMarket,
     allShopkeepersAgree: willingToGiveWasteMarket,
-    wasteCollectionServicesCharge: willingToPayGpMarket
-  }
-
-
-
+    wasteCollectionServicesCharge: willingToPayGpMarket,
+  };
 
   const formDataFunc = (commonObj, paramObj) => {
     const formData = { ...commonObj, ...paramObj };
@@ -450,13 +429,12 @@ export default function HouseholdAddpage() {
   const route = useRouter();
   const translate = LanguageFetcher();
 
-
-
+  ///////////////////////////////////////////*************************************************/////////////////////////////
   // LocalStorage Fetching
   useEffect(() => {
     localStorage.setItem("previousPath", "/home/household-list");
-    const today = localStorage.getItem("today")
-    const blockID = localStorage.getItem("block_id")
+    const today = localStorage.getItem("today");
+    const blockID = localStorage.getItem("block_id");
     setToday(today);
     setDateHHSurvey(today);
     setBlockId(blockID);
@@ -471,16 +449,16 @@ export default function HouseholdAddpage() {
           setUserRole(roleName);
 
           //loadingHeaderData from local storage
-          const name = localStorage.getItem("name")
-          const district_name = localStorage.getItem("district")
-          const district_id = localStorage.getItem("district_id")
-          const block_name = localStorage.getItem("block")
-          const supervisorName = localStorage.getItem("supervisor")
-          const supervisorId = localStorage.getItem("supervisor_id")
-          const userId = localStorage.getItem("user_id")
-          const ward = localStorage.getItem("ward")
-          const wardId = localStorage.getItem("ward_id")
-          const gp = localStorage.getItem("gp")
+          const name = localStorage.getItem("name");
+          const district_name = localStorage.getItem("district");
+          const district_id = localStorage.getItem("district_id");
+          const block_name = localStorage.getItem("block");
+          const supervisorName = localStorage.getItem("supervisor");
+          const supervisorId = localStorage.getItem("supervisor_id");
+          const userId = localStorage.getItem("user_id");
+          const ward = localStorage.getItem("ward");
+          const wardId = localStorage.getItem("ward_id");
+          const gp = localStorage.getItem("gp");
           setName(name);
           setDistrictName(district_name);
           setDistrictId(district_id);
@@ -643,9 +621,12 @@ export default function HouseholdAddpage() {
     const tokeN = localStorage.getItem("token");
     const fetchSocietyList = async () => {
       try {
-        const data = await societyList({ token: tokeN, natureOfHouse: natureOfHousehold });
-        setSocieties(data)
-        let arr = []
+        const data = await societyList({
+          token: tokeN,
+          natureOfHouse: natureOfHousehold,
+        });
+        setSocieties(data);
+        let arr = [];
         for (let i of data) {
           arr.push(i.society_name);
         }
@@ -666,13 +647,12 @@ export default function HouseholdAddpage() {
       try {
         const data_MarketARR = await marketList({ token: tokeN });
         setData_marketArr(data_MarketARR);
-        let arr = []
+        let arr = [];
         for (let i of data_MarketARR) {
           arr.push(i.market_name);
         }
 
         setMarketOptions(arr);
-
       } catch (error) {
         console.log(error);
       }
@@ -680,6 +660,7 @@ export default function HouseholdAddpage() {
     fetchMarketList(); // Fetch marketList
   }, [liveDataFlag]);
 
+  ///////////////////////////////////////////*************************************************/////////////////////////////
 
   //Functions
   function getRandomInt(min, max) {
@@ -688,7 +669,6 @@ export default function HouseholdAddpage() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-
   //Id Fetcher Function
   function idFetcher({ matchingParam, mainDataArr }) {
     //Market Id fetcher
@@ -696,7 +676,6 @@ export default function HouseholdAddpage() {
     let id = mainDataArr.filter((item) => item.market_name === matchingParam);
     return id[0]?.market_id;
   }
-
 
   // Handler Functions
   const handleAddNewClick = () => {
@@ -723,10 +702,10 @@ export default function HouseholdAddpage() {
       val === "Individual"
         ? setNatureOfHousehold("1")
         : val === "Multi Storied"
-          ? setNatureOfHousehold("2")
-          : val === "Housing Society"
-            ? setNatureOfHousehold("3")
-            : setNatureOfHousehold("");
+        ? setNatureOfHousehold("2")
+        : val === "Housing Society"
+        ? setNatureOfHousehold("3")
+        : setNatureOfHousehold("");
     }
 
     if (id === "nameOfSociety") {
@@ -735,7 +714,6 @@ export default function HouseholdAddpage() {
       let key_person = societies.filter((item) => item.society_name === val);
       setKeyPerson(key_person[0].key_person);
     }
-
 
     if (id === "addNewNameOfSociety") {
       setNewSociety(val);
@@ -874,38 +852,41 @@ export default function HouseholdAddpage() {
       val === "Grocery"
         ? setTypeOfShop("1")
         : val === "Food"
-          ? setTypeOfShop("2")
-          : val === "Vegetables"
-            ? setTypeOfShop("3")
-            : val === "Resturant"
-              ? setTypeOfShop("4")
-              : val === "Fish"
-                ? setTypeOfShop("5")
-                : val === "Meat"
-                  ? setTypeOfShop("6")
-                  : "";
+        ? setTypeOfShop("2")
+        : val === "Vegetables"
+        ? setTypeOfShop("3")
+        : val === "Resturant"
+        ? setTypeOfShop("4")
+        : val === "Fish"
+        ? setTypeOfShop("5")
+        : val === "Meat"
+        ? setTypeOfShop("6")
+        : "";
     }
 
     if (id === "shopLocated") {
       val === "Para"
         ? setShopLocated("1")
         : val === "Market"
-          ? setShopLocated("2")
-          : setShopLocated("");
+        ? setShopLocated("2")
+        : setShopLocated("");
     }
 
-    if (id === 'marketName') {
-      console.log("at handle val data_arr", data_marketArr);//testing
-      let marketid = idFetcher({ matchingParam: val, mainDataArr: data_marketArr });
-      setMarketName(marketid);
-    }
+    // if (id === "marketName") {
+    //   console.log("at handle val data_arr", data_marketArr); //testing
+    //   let marketid = idFetcher({
+    //     matchingParam: val,
+    //     mainDataArr: data_marketArr,
+    //   });
+    //   setMarketName(marketid);
+    // }
 
     if (id === "sansadNoShop") {
       val === "Itahar Sansad"
         ? setSansadNo("1")
         : val === "Raj Sansad"
-          ? setSansadNo("2")
-          : "";
+        ? setSansadNo("2")
+        : "";
     }
 
     if (id === "shopName") {
@@ -924,10 +905,10 @@ export default function HouseholdAddpage() {
       val === "Dumping"
         ? setDailyWasteManage("1")
         : val === "Throwing"
-          ? setDailyWasteManage("2")
-          : val === "Burned"
-            ? setDailyWasteManage("3")
-            : "";
+        ? setDailyWasteManage("2")
+        : val === "Burned"
+        ? setDailyWasteManage("3")
+        : "";
     }
 
     if (id === "willingToGiveWasteShop") {
@@ -958,43 +939,42 @@ export default function HouseholdAddpage() {
 
     //Market
     if (id === "marketName") {
-      console.log("at handle val data_arr", data_marketArr);//testing
-      let marketid = idFetcher({ matchingParam: val, mainDataArr: data_marketArr });
+      console.log("at handle val data_arr", data_marketArr);
+      let marketid = idFetcher({
+        matchingParam: val,
+        mainDataArr: data_marketArr,
+      });
       setMarketid(marketid);
       setMarketName(val);
     }
-
-
 
     if (id === "typeofMarket") {
       val === "Hat"
         ? settypeofMarket("1")
         : val === "Market"
-          ? settypeofMarket("2")
-          : val === "MultiComplex"
-            ? settypeofMarket("3")
-            : val === "Others"
-              ? settypeofMarket("4")
-              : "";
+        ? settypeofMarket("2")
+        : val === "MultiComplex"
+        ? settypeofMarket("3")
+        : val === "Others"
+        ? settypeofMarket("4")
+        : "";
     }
 
     if (id === "sansadNoMarket") {
       val === "Itahar Sansad"
         ? setSansadNo("1")
         : val === "Raj Sansad"
-          ? setSansadNo("2")
-          : "";
+        ? setSansadNo("2")
+        : "";
     }
 
     if (id === "marketCommitteePresence") {
       val === "Yes"
         ? setIsmarketCommitteePresence("1")
         : val === "No"
-          ? setIsmarketCommitteePresence("0")
-          : "";
+        ? setIsmarketCommitteePresence("0")
+        : "";
     }
-
-
 
     if (id === "willingToGiveWasteMarket") {
       if (val === "Yes") {
@@ -1021,7 +1001,6 @@ export default function HouseholdAddpage() {
     if (id === "numberOfGroceries") {
       setNumberOfGroceries(val);
     }
-
 
     if (id === "numberOfFoodShops") {
       setNumberOfFoodShops(val);
@@ -1051,16 +1030,14 @@ export default function HouseholdAddpage() {
       setDailyWasteManageMarket(val);
     }
 
-
-
     //Institution
 
     if (id === "sansadNoInstitution") {
       val === "Itahar Sansad"
         ? setSansadNo("1")
         : val === "Raj Sansad"
-          ? setSansadNo("2")
-          : "";
+        ? setSansadNo("2")
+        : "";
     }
     if (id === "sanataryWaste") {
       setSanatartyWasteInstitute(val);
@@ -1088,7 +1065,6 @@ export default function HouseholdAddpage() {
       }
     }
 
-
     if (id === "hasGarden") {
       if (val === "Yes") {
         setHasGarden("1");
@@ -1097,8 +1073,6 @@ export default function HouseholdAddpage() {
         setHasGarden("0");
       }
     }
-
-
 
     if (id === "willingToPayGpInstitute") {
       if (val === "Yes") {
@@ -1109,9 +1083,8 @@ export default function HouseholdAddpage() {
       }
     }
 
-
     if (id === "dailyWasteManageInstitute") {
-      setDailyWasteManageInstitute(val)
+      setDailyWasteManageInstitute(val);
     }
 
     if (id === "willingToGiveWasteInstitute") {
@@ -1133,36 +1106,32 @@ export default function HouseholdAddpage() {
     }
 
     if (id === "nameOfInstitution") {
-      setNameOfInstitution(val)
+      setNameOfInstitution(val);
     }
 
     if (id === "numberOfStudents") {
-      setNumberOfStudents(val)
+      setNumberOfStudents(val);
     }
 
     if (id === "numberOfBoys") {
-      setNumberOfBoys(val)
+      setNumberOfBoys(val);
     }
 
     if (id === "numberOfGirls") {
-      setNumberOfGirls(val)
+      setNumberOfGirls(val);
     }
 
     if (id === "numberOfDailyWasteGen") {
-      setNumberOfDailyWasteGen(val)
+      setNumberOfDailyWasteGen(val);
     }
 
-
     if (id === "bioDegradableWasteInstitute") {
-      setBioDegradableWasteInstitute(val)
+      setBioDegradableWasteInstitute(val);
     }
 
     if (id === "nonBioDegradableWasteInstitute") {
-      setNonBioDegradableWasteInstitute(val)
+      setNonBioDegradableWasteInstitute(val);
     }
-
-
-
   };
 
   const handleRadioChange = (name, value) => {
@@ -1175,7 +1144,7 @@ export default function HouseholdAddpage() {
     if (name === "doYouHaveToiletInYourHouseHHSurvey") {
       setDoYouHaveToiletInYourHouseHHSurvey(value);
       if (value === "0") {
-        setToiletId("-1")
+        setToiletId("-1");
       }
     }
     if (name === "doYouManagingGreyWaterHHSurvey") {
@@ -1199,7 +1168,6 @@ export default function HouseholdAddpage() {
     try {
       let flag = false;
       let formDataObject;
-      e.preventDefault();
 
       //Creating WGUType wise API Body
       if (WGUtype === "household") {
@@ -1221,6 +1189,7 @@ export default function HouseholdAddpage() {
       }
 
       for (const field in formDataObject) {
+        //Add Mandatory Field from here
         if (formDataObject[field] === null || formDataObject[field] === "") {
           // flag = true;
           // break;
@@ -1270,39 +1239,39 @@ export default function HouseholdAddpage() {
   const AddNewSubmitHandler = async (e, token, object1, object2) => {
     e.preventDefault();
     try {
-
       if (WGUtype === "household") {
-
-        await multiStoriedAddNew({ token: token, commonObj: object1, paramObj: object2 }).then((response) => {
+        await multiStoriedAddNew({
+          token: token,
+          commonObj: object1,
+          paramObj: object2,
+        }).then((response) => {
           if (response === "success") {
             handleClosePopup();
             const randomNumber = getRandomInt(1, 100);
             setLiveDataFlag(randomNumber);
           }
-        })
+        });
       }
 
       if (WGUtype === "shop") {
-
-        await marketAdd({ token: token, commonObj: object1, paramObj: object2 }).then((response) => {
+        await marketAdd({
+          token: token,
+          commonObj: object1,
+          paramObj: object2,
+        }).then((response) => {
           if (response === "success") {
             handleClosePopup();
             const randomNumber = getRandomInt(1, 100);
             setLiveDataFlag(randomNumber);
           }
-        })
+        });
       }
-
     } catch (error) {
       console.log(error);
     }
   };
 
-  const dummySubmit = async (e) => {
-    e.preventDefault();
-    console.log("Testing Api submission ", formDataFunc(commonObj, shopObj));
-  };
-
+  ///////////////////////////////////////////*************************************************/////////////////////////////
   return (
     <>
       {spinner ? (
@@ -1354,7 +1323,6 @@ export default function HouseholdAddpage() {
             <>
               {/* //Household Information */}
               <div className={styles.householdInfoContainer}>
-
                 {/* //Add New Market and Society */}
                 <div className={styles.householdInfoHeading}>
                   <Textparser
@@ -1368,15 +1336,14 @@ export default function HouseholdAddpage() {
                         onClick={() => {
                           // setSpinner(true);
                           handleAddNewClick();
-
                         }}
                       ></img>
                       <p>
                         {natureOfHousehold === "2"
                           ? translate?.addNewMultiStoried_HH_survey
                           : natureOfHousehold === "3"
-                            ? translate?.addNewSociety_HH_survey
-                            : null}
+                          ? translate?.addNewSociety_HH_survey
+                          : null}
                       </p>
                     </div>
                   ) : null}
@@ -1394,8 +1361,8 @@ export default function HouseholdAddpage() {
                           {natureOfHousehold === "3"
                             ? translate?.Add_Society_HH_survey
                             : natureOfHousehold === "2"
-                              ? translate?.addNewMultiStoried_HH_survey
-                              : ""}
+                            ? translate?.addNewMultiStoried_HH_survey
+                            : ""}
                         </h3>
                         <div>
                           <Surveyques
@@ -1405,8 +1372,8 @@ export default function HouseholdAddpage() {
                               natureOfHousehold === "3"
                                 ? translate?.Societyname_HH_survey
                                 : natureOfHousehold === "2"
-                                  ? translate?.Multistoriedname_HH_survey
-                                  : ""
+                                ? translate?.Multistoriedname_HH_survey
+                                : ""
                             }
                             value={newSociety}
                             required={true}
@@ -1438,14 +1405,19 @@ export default function HouseholdAddpage() {
                                 "multistoried at button",
                                 multiStoriedAddNewObj
                               );
-                              AddNewSubmitHandler(e, token, commonOtherObj, multiStoriedAddNewObj);
+                              AddNewSubmitHandler(
+                                e,
+                                token,
+                                commonOtherObj,
+                                multiStoriedAddNewObj
+                              );
                             }}
                           >
                             {natureOfHousehold === "3"
                               ? translate?.addNewSociety_HH_survey
                               : natureOfHousehold === "2"
-                                ? translate?.addNewMultiStoried_HH_survey
-                                : ""}
+                              ? translate?.addNewMultiStoried_HH_survey
+                              : ""}
                           </div>
                         </div>
                       </div>
@@ -1460,10 +1432,10 @@ export default function HouseholdAddpage() {
                     natureOfHousehold === "1"
                       ? "Individual"
                       : natureOfHousehold === "2"
-                        ? "Multi Storied"
-                        : natureOfHousehold === "3"
-                          ? "Housing Society"
-                          : ""
+                      ? "Multi Storied"
+                      : natureOfHousehold === "3"
+                      ? "Housing Society"
+                      : ""
                   }
                   handleVal={(id, val) => handleVal(id, val)}
                   options={[
@@ -1535,8 +1507,8 @@ export default function HouseholdAddpage() {
                         hasPets === "0"
                           ? "no"
                           : hasPets === "1"
-                            ? "yes"
-                            : "select"
+                          ? "yes"
+                          : "select"
                       }
                       handleVal={(id, val) => handleVal(id, val)}
                       options={["select", "yes", "no"]}
@@ -1558,8 +1530,8 @@ export default function HouseholdAddpage() {
                         hasPatients === "0"
                           ? "no"
                           : hasPatients === "1"
-                            ? "yes"
-                            : "select"
+                          ? "yes"
+                          : "select"
                       }
                       handleVal={(id, val) => handleVal(id, val)}
                       options={["select", "yes", "no"]}
@@ -1583,11 +1555,10 @@ export default function HouseholdAddpage() {
                         natureOfHousehold === "3"
                           ? translate?.Societyname_HH_survey
                           : natureOfHousehold === "2"
-                            ? translate?.Multistoriedname_HH_survey
-                            : ""
+                          ? translate?.Multistoriedname_HH_survey
+                          : ""
                       }
-                      value={societyName
-                      }
+                      value={societyName}
                       handleVal={(id, val) => handleVal(id, val)}
                       options={societyOptions}
                     />
@@ -1662,8 +1633,8 @@ export default function HouseholdAddpage() {
                         hasPets === "0"
                           ? "no"
                           : hasPets === "1"
-                            ? "yes"
-                            : "select"
+                          ? "yes"
+                          : "select"
                       }
                       handleVal={(id, val) => handleVal(id, val)}
                       options={["select", "yes", "no"]}
@@ -1685,8 +1656,8 @@ export default function HouseholdAddpage() {
                         hasPatients === "0"
                           ? "no"
                           : hasPatients === "1"
-                            ? "yes"
-                            : "select"
+                          ? "yes"
+                          : "select"
                       }
                       handleVal={(id, val) => handleVal(id, val)}
                       options={["select", "yes", "no"]}
@@ -1809,8 +1780,8 @@ export default function HouseholdAddpage() {
                     WillingToDoManage === "1"
                       ? "yes"
                       : WillingToDoManage === "0"
-                        ? "no"
-                        : "-1"
+                      ? "no"
+                      : "-1"
                   }
                   handleVal={(id, val) => handleVal(id, val)}
                   options={["select", "yes", "no"]}
@@ -2002,8 +1973,8 @@ export default function HouseholdAddpage() {
                         wantTOPay === "1"
                           ? "Yes"
                           : wantTOPay === "0"
-                            ? "No"
-                            : ""
+                          ? "No"
+                          : ""
                       }
                       handleVal={(id, val) => handleVal(id, val)}
                       options={["Yes", "No"]}
@@ -2223,7 +2194,12 @@ export default function HouseholdAddpage() {
                         className={styles.marketShopBtn}
                         onClick={(e) => {
                           console.log("marketAddNewObj", marketAddNewObj);
-                          AddNewSubmitHandler(e, token, commonOtherObj, marketAddNewObj)
+                          AddNewSubmitHandler(
+                            e,
+                            token,
+                            commonOtherObj,
+                            marketAddNewObj
+                          );
                         }}
                       >
                         {translate?.Add_MarketShop_HH_survey}
@@ -2239,8 +2215,8 @@ export default function HouseholdAddpage() {
                   shopLocated === "1"
                     ? "Para"
                     : shopLocated === "2"
-                      ? "Market"
-                      : ""
+                    ? "Market"
+                    : ""
                 }
                 // required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2265,16 +2241,16 @@ export default function HouseholdAddpage() {
                   typeOfShop === "1"
                     ? "Grocery"
                     : typeOfShop === "2"
-                      ? "Food"
-                      : typeOfShop === "3"
-                        ? "Vegetables"
-                        : typeOfShop === "4"
-                          ? "Resturant"
-                          : typeOfShop === "5"
-                            ? "Fish"
-                            : typeOfShop === "6"
-                              ? "Meat"
-                              : ""
+                    ? "Food"
+                    : typeOfShop === "3"
+                    ? "Vegetables"
+                    : typeOfShop === "4"
+                    ? "Resturant"
+                    : typeOfShop === "5"
+                    ? "Fish"
+                    : typeOfShop === "6"
+                    ? "Meat"
+                    : ""
                 }
                 required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2296,8 +2272,8 @@ export default function HouseholdAddpage() {
                   sansadNo === "1"
                     ? "Itahar Sansad"
                     : sansadNo === "2"
-                      ? "Raj Sansad"
-                      : ""
+                    ? "Raj Sansad"
+                    : ""
                 }
                 required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2356,10 +2332,10 @@ export default function HouseholdAddpage() {
                   dailyWasteManage === "1"
                     ? "Dumping"
                     : dailyWasteManage === "2"
-                      ? "Throwing"
-                      : dailyWasteManage === "3"
-                        ? "Burned"
-                        : ""
+                    ? "Throwing"
+                    : dailyWasteManage === "3"
+                    ? "Burned"
+                    : ""
                 }
                 // required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2373,8 +2349,8 @@ export default function HouseholdAddpage() {
                   willingToGiveWasteShop === "1"
                     ? "Yes"
                     : willingToGiveWasteShop === "0"
-                      ? "No"
-                      : ""
+                    ? "No"
+                    : ""
                 }
                 // required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2388,8 +2364,8 @@ export default function HouseholdAddpage() {
                     willingToPayGpShop === "1"
                       ? "Yes"
                       : willingToPayGpShop === "0"
-                        ? "No"
-                        : ""
+                      ? "No"
+                      : ""
                   }
                   // required={true}
                   handleVal={(id, val) => handleVal(id, val)}
@@ -2420,12 +2396,12 @@ export default function HouseholdAddpage() {
                   typeofMarket === "1"
                     ? "Hat"
                     : typeofMarket === "2"
-                      ? "Market"
-                      : typeofMarket === "3"
-                        ? "MultiComplex"
-                        : typeofMarket === "4"
-                          ? "Others"
-                          : ""
+                    ? "Market"
+                    : typeofMarket === "3"
+                    ? "MultiComplex"
+                    : typeofMarket === "4"
+                    ? "Others"
+                    : ""
                 }
                 required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2439,8 +2415,8 @@ export default function HouseholdAddpage() {
                   sansadNo === "1"
                     ? "Itahar Sansad"
                     : sansadNo === "2"
-                      ? "Raj Sansad"
-                      : ""
+                    ? "Raj Sansad"
+                    : ""
                 }
                 required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2454,8 +2430,8 @@ export default function HouseholdAddpage() {
                   ismarketCommitteePresence === "1"
                     ? "Yes"
                     : ismarketCommitteePresence === "0"
-                      ? "No"
-                      : ""
+                    ? "No"
+                    : ""
                 }
                 required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2597,8 +2573,8 @@ export default function HouseholdAddpage() {
                   willingToGiveWasteMarket === "1"
                     ? "Yes"
                     : willingToGiveWasteMarket === "0"
-                      ? "No"
-                      : ""
+                    ? "No"
+                    : ""
                 }
                 // required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2612,8 +2588,8 @@ export default function HouseholdAddpage() {
                   willingToPayGpMarket === "1"
                     ? "Yes"
                     : willingToPayGpMarket === "0"
-                      ? "No"
-                      : ""
+                    ? "No"
+                    : ""
                 }
                 // required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2629,9 +2605,7 @@ export default function HouseholdAddpage() {
               <SurveyDropdown
                 id={"typeOfInstitution"}
                 labelText={translate?.Type_of_instituion_HH_survey}
-                value={
-                  typeOfInstitution
-                }
+                value={typeOfInstitution}
                 required={true}
                 handleVal={(id, val) => handleVal(id, val)}
                 options={[
@@ -2663,8 +2637,8 @@ export default function HouseholdAddpage() {
                   sansadNo === "1"
                     ? "Itahar Sansad"
                     : sansadNo === "2"
-                      ? "Raj Sansad"
-                      : ""
+                    ? "Raj Sansad"
+                    : ""
                 }
                 required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2705,8 +2679,8 @@ export default function HouseholdAddpage() {
                   isMidDayMeal === "1"
                     ? "Yes"
                     : isMidDayMeal === "0"
-                      ? "No"
-                      : ""
+                    ? "No"
+                    : ""
                 }
                 // required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2764,8 +2738,8 @@ export default function HouseholdAddpage() {
                   WillingToDoManageWasteInstitute === "1"
                     ? "Yes"
                     : WillingToDoManageWasteInstitute === "0"
-                      ? "No"
-                      : ""
+                    ? "No"
+                    : ""
                 }
                 // required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2786,9 +2760,7 @@ export default function HouseholdAddpage() {
               <SurveyDropdown
                 id={"dailyWasteManageInstitute"}
                 labelText={translate?.DailyWasteManage_Institution_HH_survey}
-                value={
-                  dailyWasteManageInstitute
-                }
+                value={dailyWasteManageInstitute}
                 required={true}
                 handleVal={(id, val) => handleVal(id, val)}
                 options={["Select", "Dumping", "Throwing", "Burned"]}
@@ -2803,8 +2775,8 @@ export default function HouseholdAddpage() {
                   willingToGiveWasteInstitute === "1"
                     ? "Yes"
                     : willingToGiveWasteInstitute === "0"
-                      ? "No"
-                      : ""
+                    ? "No"
+                    : ""
                 }
                 // required={true}
                 handleVal={(id, val) => handleVal(id, val)}
@@ -2818,8 +2790,8 @@ export default function HouseholdAddpage() {
                   willingToPayGpInstitute === "1"
                     ? "Yes"
                     : willingToPayGpInstitute === "0"
-                      ? "No"
-                      : ""
+                    ? "No"
+                    : ""
                 }
                 // required={true}
                 handleVal={(id, val) => handleVal(id, val)}
