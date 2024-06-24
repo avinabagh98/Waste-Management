@@ -13,6 +13,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { marketList } from "@/api/responseStore";
 
 export default function HouseholdListPage() {
+
+
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -32,6 +34,9 @@ export default function HouseholdListPage() {
   const [typeOfWGU, setTypeOfWGU] = useState("1");
   const [allMarkets, setAllMarkets] = useState("");
   const [marketName, setMarketName] = useState("");
+  const [locality, setLocality] = useState([]);
+
+
 
   // ////////////////////////////////******************************************///////////////////////////////// /
   //Common Other declarations///
@@ -166,6 +171,11 @@ export default function HouseholdListPage() {
     return filteredObj;
   };
 
+  const dropDownBody = {
+    token: token,
+    wardId: ward_id,
+  };
+
   const route = useRouter();
   const translate = LanguageFetcher();
 
@@ -175,6 +185,9 @@ export default function HouseholdListPage() {
     localStorage.setItem("previousPath", "/home/dashboard");
     setSupervisor(localStorage.getItem("supervisor"));
     setToken(localStorage.getItem("token"));
+    const tokeN = localStorage.getItem("token");
+    const ward_id = localStorage.getItem("ward_id");
+
     try {
       async function fetchData() {
         const tokeN = localStorage.getItem("token");
@@ -204,7 +217,34 @@ export default function HouseholdListPage() {
         }
       }
 
+      //Locality Fetching
+      async function fetchLocality() {
+        const response = await sendRequest(
+          "post",
+          `/localitylist/List`,
+          {
+            token: tokeN,
+            wardId: ward_id
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${tokeN}`,
+            },
+          }
+        );
+        console.log("Api-response locality ###", response);
+        if (response.status === 1) {
+          console.log(
+            `Locality lists in ward ${ward_id} from API ::`,
+            response.data.data.incomeList
+          );
+          setLocality(response.data.data.incomeList);
+          localStorage.setItem("LocalityList", JSON.stringify(response.data.data.incomeList));
+        }
+      }
+
       fetchData();
+      fetchLocality();
     } catch (error) {
       swal("Error", error, "error");
     }
@@ -255,15 +295,14 @@ export default function HouseholdListPage() {
 
   // ////////////////////////////////******************************************///////////////////////////////// /
   const editHandler = (id) => {
-    setSpinner(true);
+    // setSpinner(true);
     localStorage.setItem("id", id);
-    route.push("/home/household-update");
+    // route.push("/home/household-update");
   };
 
   const showHandler = (arrayData) => {
     const generateSurveyDetailsHTML = (arrayData, SpecialObj) => {
       let keYY = null;
-      let yesNoVar = null;
       let detailsHTML = `
         <div id="survey_Details">
           <p style="text-align:left; color:var(--lic-blue)"><strong>Entry Date:</strong> ${arrayData?.date}</p>
@@ -313,25 +352,34 @@ export default function HouseholdListPage() {
           "toilet_in_house",
         ];
 
+        //Locality name
+        let locality_name = NameFetcher({
+          useFor: "locality",
+          matchingParam: arrayData?.locality,
+          mainDataArr: locality
+        })
+
+        console.log("locality_name", locality_name);
+
         //Name change as per the Object Array
         if (key in ApiResponse_keyDescriptions) {
           keYY = ApiResponse_keyDescriptions[key];
         }
 
         detailsHTML += `
-          <p style="text-align:left"><strong>${keYY ?? key}:</strong> ${
-          specificKeysForYesNo.includes(key)
+          <p style="text-align:left"><strong>${keYY ?? key}:</strong> ${specificKeysForYesNo.includes(key)
             ? value === "1"
               ? "Yes"
               : value === "0"
-              ? "No"
-              : ""
+                ? "No"
+                : ""
             : key == "ownership_of_house" || key == "owner_type"
-            ? value === "1"
-              ? "Own"
-              : "Rent"
-            : value
-        }</p>
+              ? value === "1"
+                ? "Own"
+                : "Rent"
+              : key == "locality" ? locality_name
+                : value
+          }</p>
         `;
       }
 
@@ -348,12 +396,27 @@ export default function HouseholdListPage() {
 
     console.log("arrayData", arrayData);
   };
+
+
+
+
+
+
+
   // ////////////////////////////////******************************************///////////////////////////////// /
 
   //Market Name Fetcher from Id
-  function NameFetcher({ matchingParam, mainDataArr }) {
-    let name = mainDataArr?.filter((item) => item.market_id === matchingParam);
-    return name[0]?.market_name;
+  function NameFetcher({ matchingParam, mainDataArr, useFor }) {
+
+    if (useFor == "market") {
+      let name = mainDataArr?.filter((item) => item.market_id === matchingParam);
+      return name[0]?.market_name;
+    }
+
+    if (useFor == "locality") {
+      let locality = mainDataArr?.filter((item) => item.id == matchingParam);
+      return locality[0]?.village_name;
+    }
   }
 
   // ////////////////////////////////******************************************///////////////////////////////// /
@@ -529,245 +592,246 @@ export default function HouseholdListPage() {
               </div>
             </>
           ) : //Shop List
-          typeOfWGU === "2" ? (
-            <>
-              <div className={styles.tableContainer}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Date</th>
-                      <th>Shop Name</th>
-                      <th>Located At</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className={styles.table_body}>
-                    {api_householdData.map((household, index) => {
-                      let approved = household.status === "1" ? true : false;
-                      //Date Formatter
-                      const formatDate = (dateString) => {
-                        if (
-                          dateString !== null &&
-                          dateString !== "" &&
-                          dateString !== undefined
-                        ) {
-                          const [year, month, day] = dateString?.split("-");
-                          return `${day}/${month}/${year}`;
-                        }
-                      };
+            typeOfWGU === "2" ? (
+              <>
+                <div className={styles.tableContainer}>
+                  <table className={styles.table}>
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Date</th>
+                        <th>Shop Name</th>
+                        <th>Located At</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className={styles.table_body}>
+                      {api_householdData.map((household, index) => {
+                        let approved = household.status === "1" ? true : false;
+                        //Date Formatter
+                        const formatDate = (dateString) => {
+                          if (
+                            dateString !== null &&
+                            dateString !== "" &&
+                            dateString !== undefined
+                          ) {
+                            const [year, month, day] = dateString?.split("-");
+                            return `${day}/${month}/${year}`;
+                          }
+                        };
 
-                      const formattedDate = formatDate(household.date);
+                        const formattedDate = formatDate(household.date);
 
-                      return (
-                        <tr key={household.id}>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {index + 1}
-                          </td>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {formattedDate}
-                          </td>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {household.name_of_shop}
-                          </td>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {household.shop_located === "1"
-                              ? "Para"
-                              : household.shop_located === "2"
-                              ? "Market"
-                              : ""}
-                          </td>
-                          <td className={styles.actionWaste}>
-                            <img
-                              onClick={() => {
-                                showHandler(household);
-                              }}
-                              src="/svg/eye.svg"
-                              alt="Show_details"
-                            ></img>
-                            <img
-                              onClick={() => {
-                                editHandler(household.id);
-                              }}
-                              src="/svg/edit.svg"
-                              alt="update"
-                            ></img>
-                          </td>
+                        return (
+                          <tr key={household.id}>
+                            <td
+                              className={approved ? styles.tdAprroved : styles.td}
+                            >
+                              {index + 1}
+                            </td>
+                            <td
+                              className={approved ? styles.tdAprroved : styles.td}
+                            >
+                              {formattedDate}
+                            </td>
+                            <td
+                              className={approved ? styles.tdAprroved : styles.td}
+                            >
+                              {household.name_of_shop}
+                            </td>
+                            <td
+                              className={approved ? styles.tdAprroved : styles.td}
+                            >
+                              {household.shop_located === "1"
+                                ? "Para"
+                                : household.shop_located === "2"
+                                  ? "Market"
+                                  : ""}
+                            </td>
+                            <td className={styles.actionWaste}>
+                              <img
+                                onClick={() => {
+                                  showHandler(household);
+                                }}
+                                src="/svg/eye.svg"
+                                alt="Show_details"
+                              ></img>
+                              <img
+                                onClick={() => {
+                                  editHandler(household.id);
+                                }}
+                                src="/svg/edit.svg"
+                                alt="update"
+                              ></img>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            ) : //Market List
+              typeOfWGU === "3" ? (
+                <>
+                  <div className={styles.tableContainer}>
+                    <table className={styles.table}>
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Date</th>
+                          <th>Market Name</th>
+                          <th>Sansad Number</th>
+                          <th>Action</th>
                         </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          ) : //Market List
-          typeOfWGU === "3" ? (
-            <>
-              <div className={styles.tableContainer}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Date</th>
-                      <th>Market Name</th>
-                      <th>Sansad Number</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className={styles.table_body}>
-                    {api_householdData.map((household, index) => {
-                      let approved = household.status === "1" ? true : false;
-                      //Date Formatter
-                      const formatDate = (dateString) => {
-                        if (
-                          dateString !== null &&
-                          dateString !== "" &&
-                          dateString !== undefined
-                        ) {
-                          const [year, month, day] = dateString?.split("-");
-                          return `${day}/${month}/${year}`;
-                        }
-                      };
+                      </thead>
+                      <tbody className={styles.table_body}>
+                        {api_householdData.map((household, index) => {
+                          let approved = household.status === "1" ? true : false;
+                          //Date Formatter
+                          const formatDate = (dateString) => {
+                            if (
+                              dateString !== null &&
+                              dateString !== "" &&
+                              dateString !== undefined
+                            ) {
+                              const [year, month, day] = dateString?.split("-");
+                              return `${day}/${month}/${year}`;
+                            }
+                          };
 
-                      const formattedDate = formatDate(household.date);
+                          const formattedDate = formatDate(household.date);
 
-                      let market_namee = NameFetcher({
-                        matchingParam: household.market_name,
-                        mainDataArr: marketName,
-                      });
+                          let market_namee = NameFetcher({
+                            useFor: "market",
+                            matchingParam: household.market_name,
+                            mainDataArr: marketName,
+                          });
 
-                      return (
-                        <tr key={household.id}>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {index + 1}
-                          </td>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {formattedDate}
-                          </td>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {market_namee}
-                          </td>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {household.sansad_no}
-                          </td>
-                          <td className={styles.actionWaste}>
-                            <img
-                              onClick={() => {
-                                showHandler(household);
-                              }}
-                              src="/svg/eye.svg"
-                              alt="Show_details"
-                            ></img>
-                            <img
-                              onClick={() => {
-                                editHandler(household.id);
-                              }}
-                              src="/svg/edit.svg"
-                              alt="update"
-                            ></img>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          ) : //Institution List
-          typeOfWGU === "4" ? (
-            <>
-              <div className={styles.tableContainer}>
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Date</th>
-                      <th>Institute Name</th>
-                      <th>Sansad Number</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className={styles.table_body}>
-                    {api_householdData.map((household, index) => {
-                      let approved = household.status === "1" ? true : false;
-                      //Date Formatter
-                      const formatDate = (dateString) => {
-                        if (
-                          dateString !== null &&
-                          dateString !== "" &&
-                          dateString !== undefined
-                        ) {
-                          const [year, month, day] = dateString?.split("-");
-                          return `${day}/${month}/${year}`;
-                        }
-                      };
+                          return (
+                            <tr key={household.id}>
+                              <td
+                                className={approved ? styles.tdAprroved : styles.td}
+                              >
+                                {index + 1}
+                              </td>
+                              <td
+                                className={approved ? styles.tdAprroved : styles.td}
+                              >
+                                {formattedDate}
+                              </td>
+                              <td
+                                className={approved ? styles.tdAprroved : styles.td}
+                              >
+                                {market_namee}
+                              </td>
+                              <td
+                                className={approved ? styles.tdAprroved : styles.td}
+                              >
+                                {household.sansad_no}
+                              </td>
+                              <td className={styles.actionWaste}>
+                                <img
+                                  onClick={() => {
+                                    showHandler(household);
+                                  }}
+                                  src="/svg/eye.svg"
+                                  alt="Show_details"
+                                ></img>
+                                <img
+                                  onClick={() => {
+                                    editHandler(household.id);
+                                  }}
+                                  src="/svg/edit.svg"
+                                  alt="update"
+                                ></img>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              ) : //Institution List
+                typeOfWGU === "4" ? (
+                  <>
+                    <div className={styles.tableContainer}>
+                      <table className={styles.table}>
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Date</th>
+                            <th>Institute Name</th>
+                            <th>Sansad Number</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className={styles.table_body}>
+                          {api_householdData.map((household, index) => {
+                            let approved = household.status === "1" ? true : false;
+                            //Date Formatter
+                            const formatDate = (dateString) => {
+                              if (
+                                dateString !== null &&
+                                dateString !== "" &&
+                                dateString !== undefined
+                              ) {
+                                const [year, month, day] = dateString?.split("-");
+                                return `${day}/${month}/${year}`;
+                              }
+                            };
 
-                      const formattedDate = formatDate(household.date);
+                            const formattedDate = formatDate(household.date);
 
-                      return (
-                        <tr key={household.id}>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {index + 1}
-                          </td>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {formattedDate}
-                          </td>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {household.institution_name}
-                          </td>
-                          <td
-                            className={approved ? styles.tdAprroved : styles.td}
-                          >
-                            {household.sansad_no}
-                          </td>
-                          <td className={styles.actionWaste}>
-                            <img
-                              onClick={() => {
-                                showHandler(household);
-                              }}
-                              src="/svg/eye.svg"
-                              alt="Show_details"
-                            ></img>
-                            <img
-                              onClick={() => {
-                                editHandler(household.id);
-                              }}
-                              src="/svg/edit.svg"
-                              alt="update"
-                            ></img>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          ) : (
-            <></>
-          )
+                            return (
+                              <tr key={household.id}>
+                                <td
+                                  className={approved ? styles.tdAprroved : styles.td}
+                                >
+                                  {index + 1}
+                                </td>
+                                <td
+                                  className={approved ? styles.tdAprroved : styles.td}
+                                >
+                                  {formattedDate}
+                                </td>
+                                <td
+                                  className={approved ? styles.tdAprroved : styles.td}
+                                >
+                                  {household.institution_name}
+                                </td>
+                                <td
+                                  className={approved ? styles.tdAprroved : styles.td}
+                                >
+                                  {household.sansad_no}
+                                </td>
+                                <td className={styles.actionWaste}>
+                                  <img
+                                    onClick={() => {
+                                      showHandler(household);
+                                    }}
+                                    src="/svg/eye.svg"
+                                    alt="Show_details"
+                                  ></img>
+                                  <img
+                                    onClick={() => {
+                                      editHandler(household.id);
+                                    }}
+                                    src="/svg/edit.svg"
+                                    alt="update"
+                                  ></img>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )
         }
 
         <div className={styles.addNewContainer}>

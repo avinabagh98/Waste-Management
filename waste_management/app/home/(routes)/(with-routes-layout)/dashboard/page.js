@@ -267,8 +267,8 @@ export default function Dashboardpage() {
             <div
               className={styles.card1}
               onClick={() => {
-                setSpinner(true);
-                route.push("/home/waste-collection-list");
+                // setSpinner(true);
+                // route.push("/home/waste-collection-list");
               }}
             >
               <img
@@ -280,8 +280,8 @@ export default function Dashboardpage() {
             <div
               className={styles.card2}
               onClick={() => {
-                setSpinner(true);
-                route.push("/home/income-list");
+                // setSpinner(true);
+                // route.push("/home/income-list");
               }}
             >
               <img src="/images/income.png" alt="income"></img>
@@ -322,7 +322,8 @@ export default function Dashboardpage() {
               className={styles.card5}
               onClick={() => {
                 // setSpinner(true);
-                route.push("/home/mlp-list");
+                // route.push("/home/mlp-list");
+
               }}
             >
               <img src="/images/MLP.jpg" alt="mlp"></img>
