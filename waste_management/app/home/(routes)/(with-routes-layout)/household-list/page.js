@@ -15,6 +15,9 @@ import { marketList } from "@/api/responseStore";
 export default function HouseholdListPage() {
 
 
+
+
+
   //Common States///
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -156,7 +159,7 @@ export default function HouseholdListPage() {
     which_word: "Word",
     will_want_to_pay: "Will Want to Pay",
     willing_to_manage_by_own: "Willing to Manage by Own",
-    your_daily_waste: "Your Daily Waste(Kg)",
+    your_daily_waste: "How you manage daily waste",
   };
 
   const filterObject = (obj) => {
@@ -297,7 +300,7 @@ export default function HouseholdListPage() {
   const editHandler = (id) => {
     // setSpinner(true);
     localStorage.setItem("id", id);
-    // route.push("/home/household-update");
+    route.push("/home/household-update");
   };
 
   const showHandler = (arrayData) => {
@@ -329,7 +332,8 @@ export default function HouseholdListPage() {
           key === "which_district" ||
           key === "which_municipalty" ||
           key === "which_word" ||
-          key === "owner_type"
+          key === "owner_type" ||
+          key === "is_delete"
         ) {
           continue;
         }
@@ -625,22 +629,22 @@ export default function HouseholdListPage() {
                         return (
                           <tr key={household.id}>
                             <td
-                              className={approved ? styles.tdAprroved : styles.td}
+                              className={approved ? styles.tdApproved : styles.td}
                             >
                               {index + 1}
                             </td>
                             <td
-                              className={approved ? styles.tdAprroved : styles.td}
+                              className={approved ? styles.tdApproved : styles.td}
                             >
                               {formattedDate}
                             </td>
                             <td
-                              className={approved ? styles.tdAprroved : styles.td}
+                              className={approved ? styles.tdApproved : styles.td}
                             >
                               {household.name_of_shop}
                             </td>
                             <td
-                              className={approved ? styles.tdAprroved : styles.td}
+                              className={approved ? styles.tdApproved : styles.td}
                             >
                               {household.shop_located === "1"
                                 ? "Para"
@@ -648,7 +652,9 @@ export default function HouseholdListPage() {
                                   ? "Market"
                                   : ""}
                             </td>
-                            <td className={styles.actionWaste}>
+                            <td className={approved
+                              ? styles.actionWasteApproved
+                              : styles.actionWaste}>
                               <img
                                 onClick={() => {
                                   showHandler(household);
@@ -711,26 +717,28 @@ export default function HouseholdListPage() {
                           return (
                             <tr key={household.id}>
                               <td
-                                className={approved ? styles.tdAprroved : styles.td}
+                                className={approved ? styles.tdApproved : styles.td}
                               >
                                 {index + 1}
                               </td>
                               <td
-                                className={approved ? styles.tdAprroved : styles.td}
+                                className={approved ? styles.tdApproved : styles.td}
                               >
                                 {formattedDate}
                               </td>
                               <td
-                                className={approved ? styles.tdAprroved : styles.td}
+                                className={approved ? styles.tdApproved : styles.td}
                               >
                                 {market_namee}
                               </td>
                               <td
-                                className={approved ? styles.tdAprroved : styles.td}
+                                className={approved ? styles.tdApproved : styles.td}
                               >
                                 {household.sansad_no}
                               </td>
-                              <td className={styles.actionWaste}>
+                              <td className={approved
+                                ? styles.actionWasteApproved
+                                : styles.actionWaste}>
                                 <img
                                   onClick={() => {
                                     showHandler(household);
@@ -787,26 +795,28 @@ export default function HouseholdListPage() {
                             return (
                               <tr key={household.id}>
                                 <td
-                                  className={approved ? styles.tdAprroved : styles.td}
+                                  className={approved ? styles.tdApproved : styles.td}
                                 >
                                   {index + 1}
                                 </td>
                                 <td
-                                  className={approved ? styles.tdAprroved : styles.td}
+                                  className={approved ? styles.tdApproved : styles.td}
                                 >
                                   {formattedDate}
                                 </td>
                                 <td
-                                  className={approved ? styles.tdAprroved : styles.td}
+                                  className={approved ? styles.tdApproved : styles.td}
                                 >
                                   {household.institution_name}
                                 </td>
                                 <td
-                                  className={approved ? styles.tdAprroved : styles.td}
+                                  className={approved ? styles.tdApproved : styles.td}
                                 >
                                   {household.sansad_no}
                                 </td>
-                                <td className={styles.actionWaste}>
+                                <td className={approved
+                                  ? styles.actionWasteApproved
+                                  : styles.actionWaste}>
                                   <img
                                     onClick={() => {
                                       showHandler(household);

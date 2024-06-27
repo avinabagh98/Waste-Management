@@ -395,3 +395,194 @@
 
 
 }
+
+
+@media screen and (min-width: 601px) and (max-width: 800px) {
+      .bodyContainer {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2vh;
+      }
+
+      .firstRow,
+      .secondRow,
+      .thirdRow {
+            width: 90%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+            margin: 10px 0;
+      }
+
+      .card1,
+      .card2,
+      .card3,
+      .card4,
+      .card5,
+      .card6,
+      .scannercard1 {
+            width: 140px;
+            height: 140px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            background-color: var(--lic-blue);
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .card1 img,
+      .card2 img,
+      .card3 img,
+      .card4 img,
+      .card5 img,
+      .card6 img,
+      .scannercard1 img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+      }
+
+      .card1 p,
+      .card2 p,
+      .card3 p,
+      .card4 p,
+      .card5 p,
+      .card6 p {
+            margin: 0;
+            padding: 0;
+            color: white;
+            text-align: center;
+            font-size: 15px;
+      }
+
+      .scannercard1 p {
+            margin: 0;
+            padding: 0;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+      }
+
+      .spinnerContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+      }
+
+      .scannerArea {
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+      }
+
+      /* scan.module.css */
+      .closeScanner {
+            background-color: #dc3545;
+            /* Red color */
+            color: #ffffff;
+            /* White text color */
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+      }
+
+      .closeScanner:hover {
+            background-color: #c82333;
+            /* Darker shade of red on hover */
+      }
+
+      .damagedQr {
+            width: 60%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+      }
+
+      .qrCodeManual {
+            width: 100%;
+            height: 50px;
+            padding: 8px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            /* justify-content: space-around; */
+      }
+
+      .dropdownContainer {
+            width: 100%;
+            height: 50px;
+            padding: 8px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            /* justify-content: space-around; */
+      }
+
+      .dropdownContainer label,
+      .qrCodeManual label {
+            width: 50%;
+            margin-left: 10px;
+      }
+
+      .qrCodeManual input {
+            margin: 2px 10px;
+            width: 150px;
+            border: none;
+            border-bottom: 1px solid #aaaaaa;
+            outline: none;
+      }
+
+      .dropdownContainer select {
+            margin: 2px 10px;
+            padding: 4px;
+            width: 150px;
+            border-radius: 8px;
+            background-color: var(--lic-blue);
+            color: var(--lic-yellow);
+      }
+
+      .submitQRButton {
+            width: 70%;
+            height: 35px;
+            padding: 8px;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 50px;
+            background-color: var(--bitan-green);
+            color: var(--lic-yellow);
+            font-size: 16px;
+            cursor: pointer;
+      }
+
+      .submitQRButton:hover {
+            background-color: var(--lic-yellow);
+            color: var(--bitan-green);
+      }
+}

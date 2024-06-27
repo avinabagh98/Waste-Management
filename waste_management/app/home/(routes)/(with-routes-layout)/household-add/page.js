@@ -20,6 +20,9 @@ import {
 
 export default function HouseholdAddpage() {
 
+
+
+
   //State variables
   const [userRole, setUserRole] = useState("");
   const [token, setToken] = useState("");
@@ -260,9 +263,10 @@ export default function HouseholdAddpage() {
     mobileNo: mobileNo ?? "-1",
     ocupation: occupationHHSurvey ?? "-1",
     ownerType: ownershipOfHouseHHSurvey ?? "-1", //duplicate
+    nameOfOwner: houseOwner,
     holdingNumber: houseNumberHHSurvey ?? "-1",
-    roadLane: roadLane ?? "-1",
-    road: roadLane2 ?? "-1",
+    road_lane: roadLane2 ?? "-1",
+    road: roadLane ?? "-1",
     homeBaseManageRat: "-1", //need to omit
     pets: pets ?? "-1",
     patients: patients ?? "-1",
@@ -304,7 +308,7 @@ export default function HouseholdAddpage() {
     sansadNumber: sansadNo,
     nameOfOwner: shopOwner, //
     nameOfShop: shopName, //
-    marketName: marketName,
+    marketName: marketId,
     contactOfShop: mobileShop,
     bioDegradableWasteInDay: bioWasteShop,
     nonbioDegradableWasteInDay: nonBioWasteShop,
@@ -396,36 +400,36 @@ export default function HouseholdAddpage() {
     return formData;
   };
 
-  const formDataHH = {
-    //Institution
-    numberOfChildBelow18Years: numberOfChildBelow18YearsHHSurvey,
-    ownershipOfHouse: ownershipOfHouseHHSurvey,
-    typeOfToilet: toiletId,
-    userChargeParMonth: userChargesInRupeesPerMonthHHSurvey,
+  // const formDataHH = {
+  //   //Institution
+  //   numberOfChildBelow18Years: numberOfChildBelow18YearsHHSurvey,
+  //   ownershipOfHouse: ownershipOfHouseHHSurvey,
+  //   typeOfToilet: toiletId,
+  //   userChargeParMonth: userChargesInRupeesPerMonthHHSurvey,
 
-    addaharNo: idCardNumber,
-    familyMembers: numberOfFamilyMembersHHSurvey,
-    houseHoldName: nameOfResidentHHSurvey,
-    mobileNo: mobileNo,
-    ocupation: occupationId,
-    ownerType: ownershipOfHouseHHSurvey,
-    holdingNumber: houseNumberHHSurvey,
-    roadLane: roadLane,
-    homeBaseManageRat: homeBaseManageRat,
-    road: roadLane,
+  //   addaharNo: idCardNumber,
+  //   familyMembers: numberOfFamilyMembersHHSurvey,
+  //   houseHoldName: nameOfResidentHHSurvey,
+  //   mobileNo: mobileNo,
+  //   ocupation: occupationId,
+  //   ownerType: ownershipOfHouseHHSurvey,
+  //   holdingNumber: houseNumberHHSurvey,
+  //   roadLane: roadLane,
+  //   homeBaseManageRat: homeBaseManageRat,
+  //   road: roadLane,
 
-    pets: pets,
-    patients: patients,
-    toiletInHouse: doYouHaveToiletInYourHouseHHSurvey,
-    typeOfSegragation: typeOfSegregationHHSurvey,
+  //   pets: pets,
+  //   patients: patients,
+  //   toiletInHouse: doYouHaveToiletInYourHouseHHSurvey,
+  //   typeOfSegragation: typeOfSegregationHHSurvey,
 
-    nameOfResident: nameOfResidentHHSurvey,
-    isComposed: areYouDoingHomeCompostingHHSurvey,
-    isManageGrayWater: doYouManagingGreyWaterHHSurvey,
-    isKitchenGarden: areYouWillingToDoKitchenGardenInFutureHHSurvey,
-    isConstructIndividual:
-      areYouWillingToConstructIndividualSoakPitInFutureHHSurvey,
-  };
+  //   nameOfResident: nameOfResidentHHSurvey,
+  //   isComposed: areYouDoingHomeCompostingHHSurvey,
+  //   isManageGrayWater: doYouManagingGreyWaterHHSurvey,
+  //   isKitchenGarden: areYouWillingToDoKitchenGardenInFutureHHSurvey,
+  //   isConstructIndividual:
+  //     areYouWillingToConstructIndividualSoakPitInFutureHHSurvey,
+  // };
 
   const route = useRouter();
   const translate = LanguageFetcher();
@@ -461,6 +465,7 @@ export default function HouseholdAddpage() {
           const ward = localStorage.getItem("ward");
           const wardId = localStorage.getItem("ward_id");
           const gp = localStorage.getItem("gp");
+          const sansadId = localStorage.getItem("SansadId");
           setName(name);
           setDistrictName(district_name);
           setDistrictId(district_id);
@@ -697,6 +702,9 @@ export default function HouseholdAddpage() {
 
   const handleVal = (id, val) => {
     //Household
+    if (id == "wasteGenerated") {
+      setWasteGenerated(val);
+    }
     if (id === "casteHHSurvey") {
       setCaste(val);
     }

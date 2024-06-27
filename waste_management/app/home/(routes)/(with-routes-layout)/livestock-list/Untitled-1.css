@@ -1,0 +1,256 @@
+@media only screen and (min-width: 401px) and (max-width: 600px) {
+      /* livestock.module.css */
+
+      .container {
+            width: 100%;
+      }
+
+      .formcontainer {
+            width: 100%;
+            padding: 15px;
+      }
+
+      .btnContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+      }
+
+      .submitbtn {
+            width: 80%;
+            height: auto;
+            border-radius: 50px;
+            background-color: var(--green);
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            cursor: pointer;
+      }
+
+      .submitbtnTracker {
+            width: 80%;
+            height: auto;
+            border-radius: 50px;
+            background-color: black;
+            color: white;
+            padding: 6px 14px;
+            border: none;
+            cursor: pointer;
+
+      }
+
+
+
+      .submitbtn:hover {
+            background-color: #0056b3;
+            /* Darker blue background color on hover */
+      }
+
+      .bodyContainer {
+            position: relative;
+      }
+
+      .breadcrumb {
+            padding: 10px;
+            color: var(--lic-yellow);
+            background-color: var(--bitan-green);
+      }
+
+      .ProjectTrackerbreadcrumb {
+            padding: 20px;
+            color: white;
+            background-color: black;
+      }
+
+      .addNewContainer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+      }
+
+      .addNewContainer img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+      }
+
+      .addNewContainer img:hover {
+            transform: scale(1.1);
+            /* Scale up the icon on hover */
+      }
+
+      /* // comunity clean toilet -list table css */
+      /* // Mohalla Committee List CSS */
+
+      .tableContainer {
+            width: 100%;
+            padding: 0 10px;
+            margin-top: 10px;
+            overflow-x: auto;
+      }
+
+      .table_filter {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+      }
+
+      .table_filter_all,
+      .table_filter_pending {
+            width: 80px;
+            height: auto;
+            margin: 10px 10px 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            font-size: 12px;
+      }
+
+      .table_filter_all {
+            color: white;
+            background-color: var(--lic-blue);
+      }
+
+      .table_filter_all:hover {
+            color: var(--bitan-green);
+            background-color: var(--lic-yellow);
+      }
+
+      .table_filter_pending {
+            color: white;
+            background-color: var(--lic-blue);
+      }
+
+      .table_filter_pending:hover {
+            color: var(--bitan-green);
+            background-color: var(--lic-yellow);
+      }
+
+      .table {
+            width: 100%;
+            border-collapse: collapse;
+      }
+
+      .table thead {
+            background-color: var(--lic-blue);
+      }
+
+      .table thead th {
+            padding: 10px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--lic-blue);
+            font-size: 12px;
+            color: white;
+      }
+
+      .table_body {
+            width: 100%;
+            padding: 0 10px;
+      }
+
+      .td {
+            padding: 2px 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 12px;
+      }
+
+      .tdApproved {
+            padding: 2px 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 12px;
+            background-color: #d1fabb;
+      }
+
+      .approved {
+            background-color: #d1fabb;
+            color: var(--bitan-green);
+      }
+
+      .table_body tr:nth-child(even) {
+            background-color: #f2f2f2;
+      }
+
+      .table_body tr:hover {
+            background-color: var(--lic-yellow);
+            color: var(--bitan-green);
+      }
+
+      /* // Weekly waste collection CSS */
+
+      .ListContainerWasteCollection {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+      }
+
+      .ListContainerWasteCollection .textParser {
+            margin-top: 10px;
+            padding: 0 10px;
+            color: var(--bitan-green);
+            background-color: var(--lic-yellow);
+      }
+
+      .actionWaste {
+            width: 80px;
+            border-bottom: 1px solid #ddd;
+      }
+
+      .actionWasteApproved {
+            width: 80px;
+            border-bottom: 1px solid #ddd;
+            background-color: #d1fabb;
+      }
+
+      .actionWaste img,
+      .actionWasteApproved img {
+            margin: 0 4px;
+            cursor: pointer;
+      }
+
+      .spinner,
+      .spinnerContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+      }
+
+      /* ////Skeleyton CSS */
+
+      .skeletonCard {
+            margin: 20px auto;
+            width: 90%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .skeletoncardContent {
+            padding: 10px;
+      }
+
+      .skeletoncardTitle {
+            font-weight: bold;
+
+      }
+
+      .skeletoncardDescription {
+            line-height: 1.5;
+      }
+
+}

@@ -293,6 +293,8 @@
 }
 
 
+
+
 @media only screen and (min-width: 401px) and (max-width: 600px) {
       /* livestock.module.css */
 
@@ -331,10 +333,7 @@
             padding: 6px 14px;
             border: none;
             cursor: pointer;
-
       }
-
-
 
       .submitbtn:hover {
             background-color: #0056b3;
@@ -463,11 +462,6 @@
             background-color: #d1fabb;
       }
 
-      .approved {
-            background-color: #d1fabb;
-            color: var(--bitan-green);
-      }
-
       .table_body tr:nth-child(even) {
             background-color: #f2f2f2;
       }
@@ -524,28 +518,44 @@
             z-index: 999;
       }
 
-      /* ////Skeleyton CSS */
-
-      .skeletonCard {
-            margin: 20px auto;
-            width: 90%;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      .filter {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            /* gap: 10px; */
       }
 
-      .skeletoncardContent {
-            padding: 10px;
+      .householdTypeSelected,
+      .householdType {
+            width: 110px;
+            height: 30px;
+            padding: 5px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
       }
 
-      .skeletoncardTitle {
-            font-weight: bold;
-
+      .householdType span,
+      .householdTypeSelected span {
+            font-size: 13px;
       }
 
-      .skeletoncardDescription {
-            line-height: 1.5;
+      .householdType {
+            background-color: #bbb;
       }
 
+      .householdTypeSelected {
+            background-color: var(--lic-yellow);
+      }
+
+      .householdTypeSelected span {
+            color: white;
+      }
+
+      .householdType span {
+            color: black;
+      }
 }
